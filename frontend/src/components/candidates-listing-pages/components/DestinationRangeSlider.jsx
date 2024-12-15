@@ -1,8 +1,53 @@
 
 
 
+// import { useEffect, useState } from "react";
+// import Range from "rc-slider";
+// import { useDispatch, useSelector } from "react-redux";
+// import { addDestination } from "../../../features/filter/candidateFilterSlice";
+
+// const DestinationRangeSlider = () => {
+//     const { destination } = useSelector((state) => state.candidateFilter);
+//     const [getDestination, setDestination] = useState({
+//         min: destination.min,
+//         max: destination.max,
+//     });
+
+//     const dispatch = useDispatch();
+
+//     // destination handler
+//     const handleOnChange = (value) => {
+//         dispatch(addDestination(value));
+//     };
+
+//     // destination dispatch
+//     useEffect(() => {
+//         setDestination(destination);
+//     });
+
+//     return (
+//         <div className="range-slider-one">
+//             <Range
+//                 formatLabel={(value) => ``}
+//                 minValue={0}
+//                 maxValue={100}
+//                 value={getDestination}
+//                 onChange={(value) => handleOnChange(value)}
+//             />
+//             <div className="input-outer">
+//                 <div className="amount-outer">
+//                     <span className="area-amount">{getDestination.max}</span>
+//                     km
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default DestinationRangeSlider;
+
 import { useEffect, useState } from "react";
-import InputRange from "react-input-range";
+import Range from "rc-slider";
 import { useDispatch, useSelector } from "react-redux";
 import { addDestination } from "../../../features/filter/candidateFilterSlice";
 
@@ -15,29 +60,28 @@ const DestinationRangeSlider = () => {
 
     const dispatch = useDispatch();
 
-    // destination handler
+    // Destination handler
     const handleOnChange = (value) => {
-        dispatch(addDestination(value));
+        dispatch(addDestination({ min: value[0], max: value[1] }));
     };
 
-    // destination dispatch
+    // Update local state when destination changes
     useEffect(() => {
         setDestination(destination);
-    });
+    }, [destination]);
 
     return (
         <div className="range-slider-one">
-            <InputRange
-                formatLabel={(value) => ``}
-                minValue={0}
-                maxValue={100}
-                value={getDestination}
-                onChange={(value) => handleOnChange(value)}
+            <Range
+                range
+                min={0}
+                max={100}
+                value={[getDestination.min, getDestination.max]}
+                onChange={handleOnChange}
             />
             <div className="input-outer">
                 <div className="amount-outer">
-                    <span className="area-amount">{getDestination.max}</span>
-                    km
+                    <span className="area-amount">{getDestination.max}</span> km
                 </div>
             </div>
         </div>

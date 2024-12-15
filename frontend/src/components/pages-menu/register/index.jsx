@@ -1,4 +1,5 @@
-import Register2 from "../../common/form/register/Register2";
+//import FormContent from "@/components/common/form/register/FormContent";
+import Register from "../../common/form/register/Register";
 import MobileMenu from "../../header/MobileMenu";
 import Header from "./Header";
 
@@ -19,7 +20,8 @@ const index = () => {
         <div className="outer-box">
           {/* <!-- Login Form --> */}
           <div className="login-form default-form">
-            <Register2 />
+            <Register/>
+            {/* <FormContent /> */}
           </div>
           {/* <!--End Login Form --> */}
         </div>

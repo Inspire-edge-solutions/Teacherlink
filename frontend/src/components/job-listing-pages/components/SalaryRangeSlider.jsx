@@ -2,7 +2,7 @@
 
 
 import { useEffect, useState } from "react";
-import InputRange from "react-input-range";
+import Range from "rc-slider";
 import { useDispatch, useSelector } from "react-redux";
 import { addSalary } from "../../../features/filter/filterSlice";
 
@@ -28,7 +28,7 @@ const SalaryRangeSlider = () => {
 
     return (
         <div className="range-slider-one salary-range">
-            <InputRange
+            <Range
                 formatLabel={(value) => ``}
                 minValue={0}
                 maxValue={20000}
