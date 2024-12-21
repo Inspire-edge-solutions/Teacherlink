@@ -1,0 +1,65 @@
+/*** 
+
+====================================================================
+App Section
+====================================================================
+
+***/
+.app-section {
+  padding: 100px 0 50px;
+}
+
+.app-section .image-column {
+  position: relative;
+  margin-bottom: 50px;
+}
+
+.app-section .image-column .bg-shape {
+  position: absolute;
+  left: -30px;
+  top: 0;
+  right: -10px;
+  height: 100%;
+  background-image: url(/images/icons/shape-1.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.app-section .image-column .image {
+  position: relative;
+  padding-top: 55px;
+  margin-bottom: 0;
+}
+
+.app-section .content-column {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.app-section .content-column .inner-column {
+  position: relative;
+  padding: 100px 0;
+  padding-left: 30px;
+}
+
+.app-section .sec-title {
+  margin-bottom: 30px;
+}
+
+.app-section .sec-title h2 {
+  font-size: 46px;
+  line-height: 54px;
+}
+
+.app-section .download-btn {
+  position: relative;
+  display: flex;
+}
+
+.app-section .download-btn a {
+  margin-right: 20px;
+  margin-bottom: 20px;
+}/*# sourceMappingURL=app.css.map */

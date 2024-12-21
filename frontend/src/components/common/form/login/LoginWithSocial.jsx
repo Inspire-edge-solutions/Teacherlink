@@ -56,7 +56,7 @@ const LoginWithSocial = () => {
   return (
     <div className="btn-box row">
       <div className="col-lg-6 col-md-12">
-        <button
+        <button style={{display:"flex",justifyContent:"center",alignItems:"center"}}
           className="theme-btn social-btn-two google-btn"
           onClick={handleGoogleSignIn}
         >

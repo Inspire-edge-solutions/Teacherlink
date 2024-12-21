@@ -251,7 +251,8 @@ Login Section
   display: flex;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
@@ -365,6 +366,8 @@ Login Section
 
 .login-form .bottom-box .btn-box {
   position: relative;
+  display: flex;
+  justify-content: center;
 }
 
 .social-btn-two {
@@ -401,12 +404,13 @@ Login Section
 }
 
 .social-btn-two.google-btn {
-  border-color: #dc4d28;
-  color: #dc4d28;
+  border-color: #0a52ec;
+  color: #3b5998;
+  text-align: center;
 }
 
 .social-btn-two.google-btn:hover {
-  background-color: #dc4d28;
+  background-color: #3b5998;
   color: #ffffff;
 }
 

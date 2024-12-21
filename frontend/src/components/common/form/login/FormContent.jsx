@@ -110,7 +110,7 @@ const FormContent = () => {
           <label>Email</label>
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Enter Email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -121,7 +121,7 @@ const FormContent = () => {
           <label>Password</label>
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Enter Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required

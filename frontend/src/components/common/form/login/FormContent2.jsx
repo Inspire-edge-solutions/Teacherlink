@@ -71,6 +71,7 @@
 
 // export default FormContent2;
 
+
 import { useState } from "react";
 import { auth } from "../../../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -88,6 +89,7 @@ const FormContent2 = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       alert("Login successful!");
+
       navigate("/");
     } catch (error) {
       alert(error.message);
@@ -102,7 +104,7 @@ const FormContent2 = () => {
           <label>Email</label>
           <input
             type="email"
-            placeholder="Enter Email address"
+            placeholder="Enter your registered email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -113,7 +115,7 @@ const FormContent2 = () => {
           <label>Password</label>
           <input
             type="password"
-            placeholder="Enter Password"
+            placeholder="Enter your Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required

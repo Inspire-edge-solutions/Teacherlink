@@ -15,7 +15,10 @@ const index = () => {
         <div
           className="image-layer"
           style={{ backgroundImage: "url(/images/background/12.jpg)" }}
-        ></div>
+        >
+          <h2>Connect with Schools/Institutions, <br/>Inspire Students !!<br/> Login to  
+          <strong> TeacherLink</strong> - <br/> Gateway to Teaching Opportunities and Talent!</h2>
+        </div>
         <div className="outer-box">
           {/* <!-- Login Form --> */}
           <div className="login-form default-form">

@@ -3,11 +3,12 @@
 
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import "./register.css";
 
 const Header = () => {
   const [navbar, setNavbar] = useState(false);
   const changeBackground = () => {
-    if (window.scrollY >= 10) {
+    if (window.scrollY >= 150) {
       setNavbar(true);
     } else {
       setNavbar(false);
@@ -29,42 +30,45 @@ const Header = () => {
         <div className="main-box">
           {/* <!--Nav Outer --> */}
           <div className="nav-outer">
+          <Link to="/" className="isSticky">
+                  <img
+                    src="/images/teacherlink-logo.png"
+                    alt="logo"
+                    title="brand"
+                    height={150}
+                    width={150}
+                  />
+                </Link>
+               
+          </div>
+          {/* End nav-outer */}
+          
+          {/* <div className="outer-box"> */}
+            {/* <!-- Login/Register --> */}
             <div className="logo-box">
               <div className="logo">
                 <Link to="/" className="noSticky">
                   <img
-                   
                     src="/images/teacherlink-logo.png"
                     alt="logo"
                     title="brand"
-                  />
-                </Link>
-                <Link to="/" className="isSticky">
-                  <img
-                  
-                    src="/images/teacherlink-logo.png"
-                    alt="logo"
-                    title="brand"
+                    height={150}
+                    width={150}
                   />
                 </Link>
               </div>
             </div>
-          </div>
-          {/* End nav-outer */}
-
-          <div className="outer-box">
-            {/* <!-- Login/Register --> */}
-            <div className="btn-box">
+            {/* <div className="btn-box">
               <Link
                 to="/employers-dashboard/post-jobs"
                 className="theme-btn btn-style-one"
               >
                 <span className="btn-title">Job Post</span>
               </Link>
-            </div>
+            </div> */}
           </div>
           {/* End outer-box */}
-        </div>
+        {/* </div> */}
       </div>
     </header>
   );

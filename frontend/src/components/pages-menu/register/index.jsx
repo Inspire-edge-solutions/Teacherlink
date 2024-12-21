@@ -2,6 +2,7 @@
 import Register from "../../common/form/register/Register";
 import MobileMenu from "../../header/MobileMenu";
 import Header from "./Header";
+import "./register.css";
 
 const index = () => {
   return (
@@ -16,7 +17,11 @@ const index = () => {
         <div
           className="image-layer"
           style={{ backgroundImage: "url(/images/background/12.jpg)" }}
-        ></div>
+          
+        >
+          <h2>Connect with Schools/Institutions, <br/>Inspire Students !!<br/> Start your journey by registering to  
+          <strong> TeacherLink</strong> - <br/> Gateway to Teaching Opportunities and Talent!</h2>
+        </div>
         <div className="outer-box">
           {/* <!-- Login Form --> */}
           <div className="login-form default-form">

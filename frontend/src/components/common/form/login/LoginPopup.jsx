@@ -25,7 +25,7 @@ const LoginPopup = () => {
               </div>
               {/* <!-- End Login Module --> */}
             </div>
-            {/* En modal-body */}
+            {/* End modal-body */}
           </div>
           {/* End modal-content */}
         </div>

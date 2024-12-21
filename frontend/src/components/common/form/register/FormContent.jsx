@@ -81,7 +81,7 @@ const FormContent = () => {
         <input
           type="number"
           placeholder="Enter your mobile number, Ex: 9987665432"
-          value={password}
+          value={number}
           onChange={(e) => setNumber(e.target.value)}
           required
         />
