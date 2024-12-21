@@ -89,7 +89,6 @@ const FormContent2 = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       alert("Login successful!");
-
       navigate("/");
     } catch (error) {
       alert(error.message);
@@ -99,6 +98,7 @@ const FormContent2 = () => {
   return (
     <div className="form-inner">
       <h3>Login to TeacherLink</h3>
+                
       <form onSubmit={handleLogin}>
         <div className="form-group">
           <label>Email</label>
