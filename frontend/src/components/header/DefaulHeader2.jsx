@@ -58,10 +58,10 @@ const DefaulHeader2 = () => {
           {/* <!-- Login/Register --> */}
           <div className="btn-box">
             <a
-              href="#"
+              href="/register"
               className="theme-btn btn-style-three call-modal"
               data-bs-toggle="modal"
-              data-bs-target="#loginPopupModal"
+              data-bs-target="/register"
             >
               Login / Register
             </a>
