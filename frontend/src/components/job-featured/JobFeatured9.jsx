@@ -11,9 +11,10 @@ import { addLatestJob } from "../../features/job/jobSlice";
 const JobFeatured9 = () => {
   const { latestJob } = useSelector((state) => state.job);
   const [jobSlider, setJobSlider] = useState([
-    { id: 1, name: "Freelancer", value: "freelancer", isChecked: false },
-    { id: 2, name: "Full Time", value: "full-time", isChecked: true },
-    { id: 3, name: "Internship", value: "internship", isChecked: false },
+    { id: 1, name: "Full time", value: "fulltime", isChecked: false },
+    { id: 2, name: "Part Time (weekdays)", value: "weekdays", isChecked: true },
+    { id: 3, name: "Part Time (weekends)", value: "weekends", isChecked: false },
+    { id: 4, name: "Part Time (vacations)", value: "vacations", isChecked: false },
   ]);
 
   const dispatch = useDispatch();

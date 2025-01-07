@@ -6,8 +6,7 @@ const RegBanner2 = () => {
     {
       id: 1,
       name: "Employers",
-      text: ` Sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt. Labore et dolore nostrud exercitation.`,
+      text: ` Welcome to Teacherlink - Job portal for teachers. Register yourself to find the right opportunity.`,
       avatar: "/images/resource/employ.png",
       bannerClass: "banner-style-one",
       width: "221",
@@ -16,8 +15,7 @@ const RegBanner2 = () => {
     {
       id: 2,
       name: "Candidate",
-      text: ` Sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt. Labore et dolore nostrud exercitation.`,
+      text: ` Welcome to Teacherlink - Job portal for teachers. Register yourself to find the right opportunity.`,
       avatar: "/images/resource/candidate.png",
       bannerClass: "banner-style-two",
       width: "207",

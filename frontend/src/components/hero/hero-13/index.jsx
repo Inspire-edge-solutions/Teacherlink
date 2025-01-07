@@ -17,12 +17,12 @@ const index = () => {
             >
               <div className="title-box">
                 <h3>
-                  There Are 93,178 Postings Here
-                  <br /> For you!
+                <strong>TeacherLink</strong> - Where Great Teachers Meet
+                <br /> Great Institutions
                 </h3>
                 <div className="text">
-                  Find Jobs, Employment & Career Opportunities
-                </div>
+                Building stronger educational communities by matching qualified teachers with institutions that value excellence.
+              </div>
               </div>
 
               {/* <!-- Job Search Form --> */}

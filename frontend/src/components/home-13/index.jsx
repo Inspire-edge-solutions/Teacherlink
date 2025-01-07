@@ -28,14 +28,23 @@ const index = () => {
       <Hero13 />
       {/* End Hero Section */}
 
-      <section className="layout-pt-120 layout-pb-60">
+      <section className="layout-pt-60 layout-pb-60">
+        <div className="auto-container">
+          <div className="row" data-aos="fade-up">
+            <RegBanner />
+          </div>
+        </div>
+      </section>
+      {/* <!-- End Registeration Banners --> */}
+
+      <section className="layout-pt-10 layout-pb-40">
         <div className="auto-container">
           <div className="row justify-content-between align-items-end">
             <div className="col-lg-6">
               <div className="sect-title">
                 <h2 className="fw-700">Jobs by category</h2>
                 <div className="text mt-9">
-                  2020 jobs live - 293 added today.
+                  Browse for active jobs, new jobs added recently.
                 </div>
               </div>
             </div>
@@ -64,8 +73,7 @@ const index = () => {
               <div className="sec-title text-center">
                 <h2>How It Works?</h2>
                 <div className="text">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna
+                  Follow some simple steps given below to find your dream job using our teacherlink platform.
                 </div>
               </div>
             </div>
@@ -106,14 +114,7 @@ const index = () => {
       </section>
       {/* <!-- End Job Section --> */}
 
-      <section className="layout-pt-60 layout-pb-60">
-        <div className="auto-container">
-          <div className="row" data-aos="fade-up">
-            <RegBanner />
-          </div>
-        </div>
-      </section>
-      {/* <!-- End Registeration Banners --> */}
+     
 
       <section className="ayout-pt-60 layout-pb-60">
         <div className="auto-container">

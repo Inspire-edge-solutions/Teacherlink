@@ -1,5 +1,6 @@
 .banner-section.-type-13 {
-  background-image: url("/images/index-13/header/test.png");
+  //background-image: url("/images/index-13/header/test.png");
+  background-image: url("images/herosection.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -21,10 +22,13 @@
 
   .title-box {
     h3 {
-      color: white;
+      color: black;
+      font-family: Georgia, 'Times New Roman', Times, serif;
     }
     .text {
-      color: white;
+      color: black;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 20px;
     }
   }
 

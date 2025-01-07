@@ -19,7 +19,7 @@ const index = () => {
           style={{ backgroundImage: "url(/images/background/12.jpg)" }}
           
         >
-          <h2>Connect with Schools/Institutions, <br/>Inspire Students !!<br/> Start your journey by registering to  
+          <h2>Connect with Colleges/Institutions, <br/>Inspire Students !!<br/> Start your journey by registering to  
           <strong> TeacherLink</strong> - <br/> Gateway to Teaching Opportunities and Talent!</h2>
         </div>
         <div className="outer-box">

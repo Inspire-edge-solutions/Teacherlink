@@ -13,24 +13,7 @@ if (typeof window !== "undefined") {
   import("bootstrap");
 }
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages";
-import HomePage1 from "./pages/home/home-1";
-import HomePage2 from "./pages/home/home-2";
-import HomePage3 from "./pages/home/home-3";
-import HomePage4 from "./pages/home/home-4";
-import HomePage5 from "./pages/home/home-5";
-import HomePage6 from "./pages/home/home-6";
-import HomePage7 from "./pages/home/home-7";
-import HomePage8 from "./pages/home/home-8";
-import HomePage9 from "./pages/home/home-9";
-import HomePage10 from "./pages/home/home-10";
-import HomePage11 from "./pages/home/home-11";
-import HomePage12 from "./pages/home/home-12";
 import HomePage13 from "./pages/home/home-13";
-import HomePage14 from "./pages/home/home-14";
-import HomePage15 from "./pages/home/home-15";
-import HomePage16 from "./pages/home/home-16";
-import HomePage17 from "./pages/home/home-17";
 import JobListPage1 from "./pages/job-list/job-list-v1";
 import JobListPage2 from "./pages/job-list/job-list-v2";
 import JobListPage3 from "./pages/job-list/job-list-v3";
@@ -120,24 +103,10 @@ function App() {
             <BrowserRouter>
               <Routes>
                 <Route path="/">
-                  <Route index element={<Home />} />
-                  <Route path="home-1" element={<HomePage1 />} />
-                  <Route path="home-2" element={<HomePage2 />} />
-                  <Route path="home-3" element={<HomePage3 />} />
-                  <Route path="home-4" element={<HomePage4 />} />
-                  <Route path="home-5" element={<HomePage5 />} />
-                  <Route path="home-6" element={<HomePage6 />} />
-                  <Route path="home-7" element={<HomePage7 />} />
-                  <Route path="home-8" element={<HomePage8 />} />
-                  <Route path="home-9" element={<HomePage9 />} />
-                  <Route path="home-10" element={<HomePage10 />} />
-                  <Route path="home-11" element={<HomePage11 />} />
-                  <Route path="home-12" element={<HomePage12 />} />
+                  <Route index element={<HomePage13 />} />
+                  
                   <Route path="home-13" element={<HomePage13 />} />
-                  <Route path="home-14" element={<HomePage14 />} />
-                  <Route path="home-15" element={<HomePage15 />} />
-                  <Route path="home-16" element={<HomePage16 />} />
-                  <Route path="home-17" element={<HomePage17 />} />
+                 
 
                   <Route path="job-list-v1" element={<JobListPage1 />} />
                   <Route path="job-list-v2" element={<JobListPage2 />} />

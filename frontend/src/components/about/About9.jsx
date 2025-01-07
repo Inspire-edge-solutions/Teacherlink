@@ -16,11 +16,12 @@ const About9 = () => {
                   data-aos-delay="500"
                   data-aos="fade-in"
                 >
-                  <img
+                  {/* <img
                     
                     src="/images/index-13/images/1.png"
                     alt="resource"
-                  />
+                  /> */}
+                  <img src="https://plus.unsplash.com/premium_photo-1661335260175-5735a1d487e1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="institution"/>
                 </figure>
 
                 {/* <!-- Info BLock One --> */}
@@ -42,7 +43,7 @@ const About9 = () => {
                   data-aos-delay="1100"
                   data-aos="fade-in"
                 >
-                  <p>10k+ Candidates</p>
+                  <p>Many more Candidates</p>
                   <div className="image">
                     <img
                      
@@ -78,10 +79,7 @@ const About9 = () => {
                     Professional CV is your ticket to the dream job
                   </h2>
                   <div className="text mt-30">
-                    To start searching for jobs, you can attend job fairs online
-                    or in person, use job boards and career websites or reach
-                    out directly to recruiters in a targeted company to broaden
-                    your network.
+                  A professional CV is your stepping stone to the teaching career you’ve always envisioned. It highlights your passion, skills, and impact as an educator, connecting you with institutions that value your ability to inspire and nurture the leaders of tomorrow.
                   </div>
                 </div>
                 <Link
