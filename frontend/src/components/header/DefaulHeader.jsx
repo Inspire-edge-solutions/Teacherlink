@@ -7,26 +7,26 @@ import HeaderNavContent from "./HeaderNavContent";
 
 
 const DefaulHeader = () => {
-  const [navbar, setNavbar] = useState(false);
+  //const [navbar, setNavbar] = useState(false);
 
-  const changeBackground = () => {
-    if (window.scrollY >= 10) {
-      setNavbar(true);
-    } else {
-      setNavbar(false);
-    }
-  };
+  // const changeBackground = () => {
+  //   if (window.scrollY >= 10) {
+  //     setNavbar(true);
+  //   } else {
+  //     setNavbar(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    window.addEventListener("scroll", changeBackground);
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", changeBackground);
+  // }, []);
 
   return (
     // <!-- Main Header-->
     <header
-      className={`main-header  ${
-        navbar ? "fixed-header animated slideInDown" : ""
-      }`}
+      // className={`main-header  ${
+      //   navbar ? "fixed-header animated slideInDown" : ""
+      // }`}
     >
       {/* <!-- Main box --> */}
       <div className="main-box">
@@ -60,12 +60,12 @@ const DefaulHeader = () => {
             >
               Login / Register
             </a>
-            <Link
+            {/* <Link
               to="/employers-dashboard/post-jobs"
               className="theme-btn btn-style-one"
             >
               Job Post
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

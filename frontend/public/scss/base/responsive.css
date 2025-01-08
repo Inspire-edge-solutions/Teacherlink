@@ -187,10 +187,10 @@
     max-width: 1200px;
   }
   .banner-section .content-column .inner-column {
-    padding: 220px 0 50px;
+    padding: 180px 0 50px;
   }
   .banner-section-two .content-column .inner-column {
-    padding-top: 220px;
+    padding-top: 180px;
     padding-bottom: 40px;
   }
   .banner-section-three .content-column .inner-column {
@@ -561,6 +561,8 @@
   }
   .main-header .nav-outer .main-menu {
     display: none;
+    padding: 0;
+    margin: 0;
   }
   .header-style-four .nav-outer,
   .header-style-two .nav-outer {

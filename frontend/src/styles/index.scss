@@ -2,3 +2,33 @@
 @import "slick-carousel/slick/slick-theme.scss";
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "public/scss/main.scss";
+
+// Header color overrides - add after all imports to ensure highest precedence
+.main-header {
+  a, span, 
+  .navigation li > a,
+  .navigation li > span {
+    color: rgb(0, 0, 0) !important;
+    
+    &:hover {
+      color: var(--primary-color) !important;
+    }
+  }
+
+  .nav-outer .main-menu .navigation {
+    > li {
+      &, 
+      > span,
+      > a,
+      &.dropdown > span,
+      &.dropdown > a {
+        color: rgb(0, 0, 0) !important;
+      }
+
+      &.current > a,
+      &:hover > a {
+        color: var(--primary-color) !important;
+      }
+    }
+  }
+}

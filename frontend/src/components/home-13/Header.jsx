@@ -7,27 +7,28 @@ import HeaderNavContent from "../header/HeaderNavContent";
 
 
 const Header = () => {
-  const [navbar, setNavbar] = useState(false);
+  // const [navbar, setNavbar] = useState(false);
 
-  const changeBackground = () => {
-    if (window.scrollY >= 10) {
-      setNavbar(true);
-    } else {
-      setNavbar(false);
-    }
-  };
+  // const changeBackground = () => {
+  //   if (window.scrollY >= 10) {
+  //     setNavbar(true);
+  //   } else {
+  //     setNavbar(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    window.addEventListener("scroll", changeBackground);
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", changeBackground);
+  // }, []);
 
   return (
     // <!-- Main Header-->
-    <header
-      className={`main-header -type-11  ${
-        navbar ? "fixed-header animated slideInDown" : ""
-      }`}
-    >
+    // <header
+    //   // className={`main-header -type-11  ${
+    //   //   navbar ? "fixed-header animated slideInDown" : ""
+    //   // }`}
+    // >
+    <header className="main-header">
       {/* <!-- Main box --> */}
       <div className="main-box">
         {/* <!--Nav Outer --> */}
@@ -39,6 +40,8 @@ const Header = () => {
                  
                   src="/images/teacherlink-logo.png"
                   alt="brand"
+                  height={150}
+                  width={150}
                 />
               </Link>
             </div>
@@ -54,19 +57,19 @@ const Header = () => {
           {/* <!-- Login/Register --> */}
           <div className="btn-box">
             <a
-              href="/register"
-              className="theme-btn btn-style-three btn-white-10 call-modal"
+              href="/login"
+              className="theme-btn btn-style-three btn-blue"
               // data-bs-toggle="modal"
               // data-bs-target="#register"
             >
-              Login / Register
+              Login
             </a>
-            <Link
+            {/* <Link
               to="/employers-dashboard/post-jobs"
               className="theme-btn btn-style-one btn-white"
             >
               Job Post
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

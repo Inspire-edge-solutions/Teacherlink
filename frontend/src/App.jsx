@@ -14,20 +14,12 @@ if (typeof window !== "undefined") {
 }
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage13 from "./pages/home/home-13";
-import JobListPage1 from "./pages/job-list/job-list-v1";
-import JobListPage2 from "./pages/job-list/job-list-v2";
 import JobListPage3 from "./pages/job-list/job-list-v3";
 import JobListPage4 from "./pages/job-list/job-list-v4";
 import JobListPage5 from "./pages/job-list/job-list-v5";
 import JobListPage6 from "./pages/job-list/job-list-v6";
 import JobListPage7 from "./pages/job-list/job-list-v7";
-import JobListPage8 from "./pages/job-list/job-list-v8";
-import JobListPage9 from "./pages/job-list/job-list-v9";
-import JobListPage10 from "./pages/job-list/job-list-v10";
-import JobListPage11 from "./pages/job-list/job-list-v11";
-import JobListPage12 from "./pages/job-list/job-list-v12";
-import JobListPage13 from "./pages/job-list/job-list-v13";
-import JobListPage14 from "./pages/job-list/job-list-v14";
+
 import JobSingleDynamicV1 from "./pages/job-single/job-single-v1";
 import JobSingleDynamicV2 from "./pages/job-single/job-single-v2";
 import JobSingleDynamicV3 from "./pages/job-single/job-single-v3";
@@ -104,24 +96,14 @@ function App() {
               <Routes>
                 <Route path="/">
                   <Route index element={<HomePage13 />} />
-                  
                   <Route path="home-13" element={<HomePage13 />} />
                  
-
-                  <Route path="job-list-v1" element={<JobListPage1 />} />
-                  <Route path="job-list-v2" element={<JobListPage2 />} />
                   <Route path="job-list-v3" element={<JobListPage3 />} />
                   <Route path="job-list-v4" element={<JobListPage4 />} />
                   <Route path="job-list-v5" element={<JobListPage5 />} />
                   <Route path="job-list-v6" element={<JobListPage6 />} />
                   <Route path="job-list-v7" element={<JobListPage7 />} />
-                  <Route path="job-list-v8" element={<JobListPage8 />} />
-                  <Route path="job-list-v9" element={<JobListPage9 />} />
-                  <Route path="job-list-v10" element={<JobListPage10 />} />
-                  <Route path="job-list-v11" element={<JobListPage11 />} />
-                  <Route path="job-list-v12" element={<JobListPage12 />} />
-                  <Route path="job-list-v13" element={<JobListPage13 />} />
-                  <Route path="job-list-v14" element={<JobListPage14 />} />
+                  
                   <Route path="job-single-v1/:id" element={<JobSingleDynamicV1 />} />
                   <Route path="job-single-v2/:id" element={<JobSingleDynamicV2 />} />
                   <Route path="job-single-v3/:id" element={<JobSingleDynamicV3 />} />

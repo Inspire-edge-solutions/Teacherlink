@@ -5,14 +5,28 @@ Main Header
 ====================================================================
 
 ***/
-.main-header {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: auto;
-  z-index: 99;
-  transition: all 300ms ease;
+.main-header,
+.main-header .nav-outer,
+.main-header .main-menu,
+.main-header .main-box {
+  color: rgb(0, 0, 0);
+}
+
+/* Target navigation items with maximum specificity */
+.main-header .nav-outer .main-menu .navigation > li,
+.main-header .nav-outer .main-menu .navigation > li > span,
+.main-header .nav-outer .main-menu .navigation > li > a,
+.main-header .nav-outer .main-menu .navigation > li.dropdown > span,
+.main-header .nav-outer .main-menu .navigation > li.dropdown > a {
+  color: rgb(0, 0, 0) !important;
+}
+
+/* Keep hover and active states */
+.main-menu .navigation > li.current > a,
+.main-menu .navigation > li:hover > a,
+.main-menu .navigation > li > ul > li > a:hover,
+.main-menu .navigation > li.current > span {
+  color: var(--primary-color) !important;
 }
 
 .header-span {
@@ -645,4 +659,24 @@ Mobile Header
 .mobile-header .login-box a {
   color: #202124;
   font-size: 20px;
-}/*# sourceMappingURL=header.css.map */
+}
+
+/* Dropdown items */
+.main-menu .navigation > li > ul > li > a,
+.main-menu .navigation > li > ul > li > span {
+  color: rgb(0, 0, 0) !important;
+}
+
+/* Override any existing link colors */
+.main-header a,
+.main-header span,
+.main-header .navigation li > a,
+.main-header .navigation li > span {
+  color: rgb(0, 0, 0) !important;
+}
+
+/* Keep hover states */
+.main-header a:hover,
+.main-header .navigation li > a:hover {
+  color: var(--primary-color) !important;
+}

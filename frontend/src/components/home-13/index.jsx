@@ -90,7 +90,7 @@ const index = () => {
       <About9 />
       {/* <!-- End About Section --> */}
 
-      <section className="layout-pt-60 layout-pb-60">
+      {/* <section className="layout-pt-60 layout-pb-60">
         <div className="auto-container">
           <div className="featured-column">
             <div className="sec-title text-center">
@@ -98,25 +98,25 @@ const index = () => {
               <div className="text">
                 Know your worth and find the job that qualify your life
               </div>
-            </div>
+            </div> */}
             {/* End .sec-title */}
-          </div>
+          {/* </div> */}
           {/* End .featured-column */}
 
-          <div
+          {/* <div
             className="outer-box job-block-five-separated"
             data-aos="fade-up"
           >
             <JobFeatured9 />
-          </div>
+          </div> */}
           {/* End outer-box */}
-        </div>
-      </section>
+        {/* </div>
+      </section> */}
       {/* <!-- End Job Section --> */}
 
      
 
-      <section className="ayout-pt-60 layout-pb-60">
+      {/* <section className="ayout-pt-60 layout-pb-60">
         <div className="auto-container">
           <div className="row justify-content-between align-items-end">
             <div className="col-lg-6">
@@ -129,28 +129,28 @@ const index = () => {
                   applicants over the years.
                 </div>
               </div>
-            </div>
-            {/* End .col */}
+            </div> */}
+            
 
-            <div className="col-auto">
+            {/* <div className="col-auto">
               <a href="#" className="button -arrow text-dark-blue">
                 Browse
                 <span className="fa fa-angle-right ms-1"></span>
               </a>
             </div>
-          </div>
+          </div> */}
           {/* End .row */}
 
-          <div className="carousel-outer pt-50" data-aos="fade-up">
+          {/* <div className="carousel-outer pt-50" data-aos="fade-up">
             <div className="companies-carousel">
               <TopCompany />
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       {/* <!-- End Top Companies --> */}
 
-      <section className="layout-pt-60 layout-pb-120">
+      {/* <section className="layout-pt-60 layout-pb-120">
         <div className="auto-container">
           <div className="row justify-content-center">
             <div className="col-lg-6">
@@ -163,20 +163,20 @@ const index = () => {
               </div>
             </div>
           </div>
-          {/* End .row */}
+        
 
           <div className="row grid-base pricing3_hover" data-aos="fade-up">
             <Pricing3 />
           </div>
-          {/* End .row */}
+          
         </div>
-      </section>
+      </section> */}
       {/* <!-- End Pricing Section --> */}
 
-      <AppSection3 />
+      {/* <AppSection3 /> */}
       {/* <!-- End App Section --> */}
 
-      <section className="clients-section-two alternate layout-pt-120 layout-pb-60">
+      {/* <section className="clients-section-two alternate layout-pt-120 layout-pb-60">
         <div className="auto-container">
           <div className="sponsors-outer wow fadeInUp">
             <div className="sponsors-carousel">
@@ -184,7 +184,7 @@ const index = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       {/* <!-- End Clients Section --> */}
 
       <FooterDefault footerStyle="-type-13 alternate3" />

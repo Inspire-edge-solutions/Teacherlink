@@ -44,11 +44,11 @@ Main Header
   display: flex;
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
-  justify-content: flex-end;
+  justify-content: flex-start;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  // padding: 0 60px;
+  padding: 0 60px;
   max-width: 1920px;
   margin: 0 auto;
 }
