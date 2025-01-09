@@ -29,8 +29,8 @@ const index = ({ footerStyle = "" }) => {
                   <br /> Bengaluru, Karnataka, India 560005 <br />
                   <label>Email : </label>
                   <strong>
-                  <a href="mailto:info@inspireedgesolutions.com" className="email"> 
-                    info@inspireedgesolutions.com
+                  <a href="mailto:info@Inspire Edge Solutions.com" className="email"> 
+                    info@Inspire Edge Solutions.com
                   </a>
                   </strong>
                 </p>

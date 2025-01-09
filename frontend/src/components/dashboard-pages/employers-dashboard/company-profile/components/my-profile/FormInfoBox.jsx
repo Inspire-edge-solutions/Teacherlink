@@ -35,7 +35,7 @@ const FormInfoBox = () => {
                     <input
                         type="text"
                         name="name"
-                        placeholder="ib-themes"
+                        placeholder="Inspire Edge Solutions"
                         required
                     />
                 </div>

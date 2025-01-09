@@ -1,0 +1,66 @@
+.radio-group {
+  display: flex;
+  gap: 20px;
+  height: 60px;
+  width: 100%;
+  padding: 0 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #f0f5f7;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+input[type="date"] {
+  height: 60px;
+  width: 100%;
+  padding: 0 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #f0f5f7;
+}
+
+.education-entry {
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  position: relative;
+}
+
+.education-entry .bg-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  margin-top: 10px;
+}
+
+.education-entry .bg-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+.media-type-selector {
+    margin-bottom: 15px;
+}
+
+.media-type-selector label {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.media-type-selector input[type="radio"] {
+    margin-right: 5px;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+    
+}
+.mt-4 label {
+    padding: 10px;
+}

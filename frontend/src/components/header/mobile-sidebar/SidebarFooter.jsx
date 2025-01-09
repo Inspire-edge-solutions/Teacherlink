@@ -23,8 +23,8 @@ const SidebarFooter = () => {
             13/2, Standage road, Pulikeshi nagar, <br />
             Bengaluru, Karnataka, India 560005
           </span>
-          <a href="mailto:info@inspireedgesolutions.com" className="email">
-            info@inspireedgesolutions.com
+          <a href="mailto:info@Inspire Edge Solutions.com" className="email">
+            info@Inspire Edge Solutions.com
           </a>
         </div>
         {/* End .contact-info */}

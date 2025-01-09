@@ -94,14 +94,14 @@ export const findJobItems = [
     id: 1,
     title: "Jobs Listing",
     items: [
-      {
-        name: "Job List V1",
-        routePath: "/job-list-v1",
-      },
-      {
-        name: "Job List V2",
-        routePath: "/job-list-v2",
-      },
+      // {
+      //   name: "Job List V1",
+      //   routePath: "/job-list-v1",
+      // },
+      // {
+      //   name: "Job List V2",
+      //   routePath: "/job-list-v2",
+      // },
       {
         name: "Job List V3",
         routePath: "/job-list-v3",
@@ -128,41 +128,41 @@ export const findJobItems = [
         name: "Job List V7",
         routePath: "/job-list-v7",
       },
-      {
-        name: "Job List V8",
-        routePath: "/job-list-v8",
-      },
-      {
-        name: "Job List V9",
-        routePath: "/job-list-v9",
-      },
-      {
-        name: "Job List V10",
-        routePath: "/job-list-v10",
-      },
-    ],
-  },
-  {
-    id: 3,
-    title: "Jobs Listing",
-    items: [
-      {
-        name: "Job List V11",
-        routePath: "/job-list-v11",
-      },
-      {
-        name: "Job List V12",
-        routePath: "/job-list-v12",
-      },
-      {
-        name: "Job List V13",
-        routePath: "/job-list-v13",
-      },
-      {
-        name: "Job List V14",
-        routePath: "/job-list-v14",
-      },
-    ],
+  //     {
+  //       name: "Job List V8",
+  //       routePath: "/job-list-v8",
+  //     },
+  //     {
+  //       name: "Job List V9",
+  //       routePath: "/job-list-v9",
+  //     },
+  //     {
+  //       name: "Job List V10",
+  //       routePath: "/job-list-v10",
+  //     },
+  //   ],
+  // },
+  // {
+  //   id: 3,
+  //   title: "Jobs Listing",
+  //   items: [
+  //     {
+  //       name: "Job List V11",
+  //       routePath: "/job-list-v11",
+  //     },
+  //     {
+  //       name: "Job List V12",
+  //       routePath: "/job-list-v12",
+  //     },
+  //     {
+  //       name: "Job List V13",
+  //       routePath: "/job-list-v13",
+  //     },
+  //     {
+  //       name: "Job List V14",
+  //       routePath: "/job-list-v14",
+  //     },
+   ],
   },
   {
     id: 4,
