@@ -223,3 +223,67 @@ h4 {
 .remove-btn:hover {
   background-color: #cc0000;
 }
+
+.preference-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.preference-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.preference-table th,
+.preference-table td {
+  padding: 10px;
+  border: 1px solid #ecedf2;
+}
+
+.preference-table th {
+  background-color: #f5f5f5;
+  font-weight: 500;
+  text-align: center;
+}
+
+.preference-table td:first-child {
+  width: 40%;
+}
+
+.preference-table td {
+  vertical-align: middle;
+}
+
+.preference-table .form-select {
+  width: 100%;
+  min-width: 100px;
+  height: 50px !important;
+  line-height: 1.5 !important;
+  font-size: 0.875rem !important;
+  padding: 8px 12px;
+}
+
+.preference-table td.disabled {
+  background-color: #f5f5f5;
+  text-align: center;
+  color: #999;
+}
+
+.form-box {
+  background: #ffffff;
+  border: 1px solid #ecedf2;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.form-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #202124;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ecedf2;
+}
+
+

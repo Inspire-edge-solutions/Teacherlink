@@ -4,7 +4,9 @@ import Address from "./address";
 import Education from "./Education";
 import Experience from "./experience";
 import Languages from "./languages";
+import JobPreferences from "./jobPreferences";
 import ContactInfoBox from "../ContactInfoBox";
+import AdditionalInfo from "./additionalInfo";
 import "./profile-styles.css";
 
 const FormInfoBox = () => {
@@ -164,6 +166,9 @@ const FormInfoBox = () => {
 
         <Languages/>
 
+        <JobPreferences/>
+        
+
         <h3>Social Networks</h3><br/>
         <div className="form-group col-lg-6 col-md-12">
           <input
@@ -189,6 +194,9 @@ const FormInfoBox = () => {
           <textarea placeholder="Profile Summary - Write brief description about yourself (max 100 words)"></textarea>
         </div>
        <ContactInfoBox/>
+
+        <AdditionalInfo/>
+       
         {/* <!-- Input --> */}
         <div className="form-group col-lg-12 col-md-12 text-center">
           <button type="submit" className="theme-btn btn-style-one">

@@ -31,7 +31,6 @@ const Languages = () => {
     'Magahi',
     'Nepali',
     'Odia',
-    'Punjabi',
     'Sindhi',
     'Tulu',
     'Kashmiri',
