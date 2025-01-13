@@ -158,6 +158,7 @@ const AdditionalInfo = () => {
             <option value="Married">Married</option>
             <option value="Un married">Un married</option>
           </select>
+          
         </div>
 
         {/* Spouse Need Job */}

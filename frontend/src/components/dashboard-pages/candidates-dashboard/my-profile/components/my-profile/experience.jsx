@@ -6,6 +6,11 @@ const Experience = () => {
     currentlyWorking: null,
   }]);
 
+  const [workExperience, setWorkExperience] = useState({
+    totalExperience: { years: '0', months: '0' },
+    teachingExperience: { years: '0', months: '0' }
+  });
+
   // New separate state for teaching experience
   const [teachingExperience, setTeachingExperience] = useState({
     edTechCompany: null,
@@ -37,6 +42,71 @@ const Experience = () => {
   return (
     <div className="form-group">
       <h3>Experience Details</h3>
+<div className="work-experience-section">
+  <div className="row">
+    {/* Total Experience */}
+    <div className="form-group col-lg-6 col-md-12">
+      <label>Total Experience (Full time + Part Time)</label>
+      <div className="experience-inputs">
+        <select 
+          value={workExperience.totalExperience.years}
+          onChange={(e) => setWorkExperience(prev => ({
+            ...prev,
+            totalExperience: { ...prev.totalExperience, years: e.target.value }
+          }))}
+        >
+          {Array.from({ length: 32 }, (_, i) => (
+            <option key={i} value={i}>{i} {i === 1 ? 'Year' : 'Years'}</option>
+          ))}
+          <option value="31">{'>'}30 Years</option>
+        </select>
+
+        <select 
+          value={workExperience.totalExperience.months}
+          onChange={(e) => setWorkExperience(prev => ({
+            ...prev,
+            totalExperience: { ...prev.totalExperience, months: e.target.value }
+          }))}
+        >
+          {Array.from({ length: 12 }, (_, i) => (
+            <option key={i} value={i}>{i} {i === 1 ? 'Month' : 'Months'}</option>
+          ))}
+        </select>
+      </div>
+    </div>
+
+    {/* Teaching Experience */}
+    <div className="form-group col-lg-6 col-md-12">
+      <label>Teaching Experience (Full time + Part Time)</label>
+      <div className="experience-inputs">
+        <select 
+          value={workExperience.teachingExperience.years}
+          onChange={(e) => setWorkExperience(prev => ({
+            ...prev,
+            teachingExperience: { ...prev.teachingExperience, years: e.target.value }
+          }))}
+        >
+          {Array.from({ length: 32 }, (_, i) => (
+            <option key={i} value={i}>{i} {i === 1 ? 'Year' : 'Years'}</option>
+          ))}
+          <option value="31">{'>'}30 Years</option>
+        </select>
+
+        <select 
+          value={workExperience.teachingExperience.months}
+          onChange={(e) => setWorkExperience(prev => ({
+            ...prev,
+            teachingExperience: { ...prev.teachingExperience, months: e.target.value }
+          }))}
+        >
+          {Array.from({ length: 12 }, (_, i) => (
+            <option key={i} value={i}>{i} {i === 1 ? 'Month' : 'Months'}</option>
+          ))}
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
       
       {experiences.map((experience, index) => (
         <div key={index} className="experience-entry">

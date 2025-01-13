@@ -8,7 +8,7 @@ const index = () => {
       {/* End logo and cover photo components */}
 
       <FormInfoBox />
-      {/* compnay info box */}
+      {/* company info box */}
     </div>
   );
 };

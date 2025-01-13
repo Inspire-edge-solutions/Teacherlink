@@ -286,4 +286,96 @@ h4 {
   border-bottom: 1px solid #ecedf2;
 }
 
+.radio-group {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 10px 0;
+  flex-wrap: wrap;
+}
 
+.radio-group label {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: #696969;
+  font-size: 14px;
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 8px;
+  cursor: pointer;
+}
+.radio-group.single-line {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 5px; /* For scroll bar spacing if needed */
+}
+
+.radio-group.single-line label {
+  flex-shrink: 0;  /* Prevents labels from shrinking */
+}
+
+/* Hide scrollbar but keep functionality */
+.radio-group.single-line::-webkit-scrollbar {
+  display: none;
+}
+.work-experience-section {
+  margin-bottom: 30px;
+}
+
+.experience-inputs {
+  display: flex;
+  gap: 15px;
+}
+
+.experience-inputs select {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  background-color: #f5f7fc;
+}
+
+.experience-inputs select:focus {
+  outline: none;
+  border-color: #1967d2;
+}
+
+.additional-details-section {
+  margin: 30px 0;
+}
+
+.experience-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.experience-table th,
+.experience-table td {
+  padding: 12px;
+  border: 1px solid #e6e6e6;
+  text-align: left;
+}
+
+.experience-table th {
+  background-color: #f5f7fc;
+  font-weight: 500;
+}
+
+.experience-selects {
+  display: flex;
+  gap: 10px;
+}
+
+.experience-selects select {
+  padding: 6px;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.experience-selects select:focus {
+  outline: none;
+  border-color: #1967d2;
+}
