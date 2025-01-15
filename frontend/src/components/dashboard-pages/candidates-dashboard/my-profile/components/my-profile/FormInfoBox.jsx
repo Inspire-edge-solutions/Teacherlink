@@ -14,17 +14,6 @@ import "./profile-styles.css";
 
 const FormInfoBox = () => {
 
-  const catOptions = [
-    { value: "Primary teacher", label: "Primary teacher" },
-    { value: "High school teacher", label: "High school teacher" },
-    { value: "Puc faculty", label: "Puc faculty" },
-    { value: "NEET faculty", label: "NEET faculty" },
-    { value: "CET faculty", label: "CET faculty" },
-    { value: "JEE faculty", label: "JEE faculty" },
-    { value: "Montessori teacher", label: "Montessori teacher" },
-  ];
-
-  
   return (
     <form action="#" className="default-form">
      

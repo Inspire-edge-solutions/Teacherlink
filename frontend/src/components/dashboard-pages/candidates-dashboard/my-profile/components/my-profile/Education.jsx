@@ -413,7 +413,6 @@ const Education = () => {
         return (
           <div className="row">
             <div className="form-group col-lg-6 col-md-12">
-              <label>Syllabus</label>
               <div className="radio-group">
                 {syllabusOptions.map(option => (
                   <label key={option.value}>
@@ -432,12 +431,11 @@ const Education = () => {
             </div>
 
             <div className="form-group col-lg-6 col-md-12">
-              <label>School Name</label>
               <input
                 type="text"
                 value={data.schoolName}
                 onChange={(e) => handleEducationDataChange(index, 'schoolName', e.target.value)}
-                placeholder="School name"
+                placeholder="School Name"
                 pattern="[a-zA-Z0-9 ]*"
                 maxLength={20}
                 required
@@ -445,13 +443,12 @@ const Education = () => {
             </div>
 
             <div className="form-group col-lg-6 col-md-12">
-              <label>Year of Passing</label>
               <select
                 value={data.yearOfPassing}
                 onChange={(e) => handleEducationDataChange(index, 'yearOfPassing', e.target.value)}
                 required
               >
-                <option value="">Select Year</option>
+                <option value="">Select Year of Passing</option>
                 {(() => {
                   const currentYear = new Date().getFullYear();
                   const years = [];
@@ -474,7 +471,6 @@ const Education = () => {
             </div>
 
             <div className="form-group col-lg-6 col-md-12">
-              <label>Core Subjects</label>
               <Select
                 isMulti
                 value={data.coreSubjects}
@@ -486,7 +482,6 @@ const Education = () => {
             </div>
 
             <div className="form-group col-lg-6 col-md-12">
-              <label>Grade / Percentage</label>
               <input
                 type="text"
                 value={data.percentage}
@@ -499,7 +494,6 @@ const Education = () => {
             </div>
 
             <div className="form-group col-12">
-              <label>Mode</label>
               <div className="radio-group single-line">
                 {educationModeOptions.map(option => (
                   <label key={option.value}>
@@ -524,8 +518,9 @@ const Education = () => {
           <div className="degree-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <label>Course Duration</label>
+                
                 <div className="radio-group">
+                <label>Course Duration</label>
                   <label>
                     <input
                       type="radio"
@@ -558,7 +553,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Course Name</label>
                 <Select
                   value={
                     data.duration === "3" 
@@ -573,12 +567,11 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>College Name</label>
                 <input
                   type="text"
                   value={data.collegeName}
                   onChange={(e) => handleEducationDataChange(index, 'collegeName', e.target.value)}
-                  placeholder="College name"
+                  placeholder="College Name"
                   pattern="[a-zA-Z0-9 ]*"
                   maxLength={20}
                   required
@@ -586,7 +579,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Place of Study</label>
                 <input
                   type="text"
                   value={data.placeOfStudy}
@@ -599,25 +591,23 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>University Name</label>
                 <input
                   type="text"
                   value={data.universityName}
                   onChange={(e) => handleEducationDataChange(index, 'universityName', e.target.value)}
-                  placeholder="University name"
+                  placeholder="University Name"
                   maxLength={20}
                   required
                 />
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Year of Passing</label>
                 <select
                   value={data.yearOfPassing}
                   onChange={(e) => handleEducationDataChange(index, 'yearOfPassing', e.target.value)}
                   required
                 >
-                  <option value="">Select Year</option>
+                  <option value="">Select Year of Passing</option>
                   {(() => {
                     const currentYear = new Date().getFullYear();
                     const years = [];
@@ -633,7 +623,6 @@ const Education = () => {
 
               {data.duration === "3" && (
                 <div className="form-group col-lg-6 col-md-12">
-                  <label>Core Subjects</label>
                   <Select
                     isMulti
                     value={data.coreSubjects}
@@ -647,7 +636,7 @@ const Education = () => {
 
               {data.duration === "4" && (
                 <div className="form-group col-lg-6 col-md-12">
-                  <label>Specialization</label>
+                
                   <Select
                     isMulti
                     value={data.specialization}
@@ -660,7 +649,6 @@ const Education = () => {
               )}
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Grade / Percentage</label>
                 <input
                   type="text"
                   value={data.percentage}
@@ -673,7 +661,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-12 mode-section">
-                <label>Mode</label>
                 <div className="radio-group">
                   {educationModeOptions.map(option => (
                     <label key={option.value}>
@@ -695,7 +682,7 @@ const Education = () => {
             <div className="add-degree-btn-wrapper text-right">
               <button
                 type="button"
-                className="theme-btn btn-style-one"
+                className="theme-btn btn-style-three"
                 onClick={handleAddAnotherDegree}
               >
                 <span className="btn-title">+ Add Another Degree</span>
@@ -711,7 +698,6 @@ const Education = () => {
           <div className="master-degree-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <label>Course Name</label>
                 <Select
                   value={masterDegreeOptions.find(option => option.value === data.courseName)}
                   onChange={(selected) => handleEducationDataChange(index, 'courseName', selected.value)}
@@ -722,19 +708,17 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>College Name</label>
                 <input
                   type="text"
                   value={data.collegeName}
                   onChange={(e) => handleEducationDataChange(index, 'collegeName', e.target.value)}
-                  placeholder="College name"
+                  placeholder="College Name"
                   maxLength={20}
                   required
                 />
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Place of Study</label>
                 <input
                   type="text"
                   value={data.placeOfStudy}
@@ -746,22 +730,21 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>University Name</label>
                 <input
                   type="text"
                   value={data.universityName}
                   onChange={(e) => handleEducationDataChange(index, 'universityName', e.target.value)}
-                  placeholder="University name"
+                  placeholder="University Name"
                   maxLength={20}
                   required
                 />
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Year of Passing</label>
                 <input
                   type="number"
                   value={data.yearOfPassing}
+                  placeholder="Year of Passing"
                   onChange={(e) => handleEducationDataChange(index, 'yearOfPassing', e.target.value)}
                   min={new Date().getFullYear() - 4}
                   max={data.courseStatus === 'Pursuing' ? new Date().getFullYear() + 2 : new Date().getFullYear()}
@@ -770,7 +753,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Core Subjects</label>
                 <Select
                   isMulti
                   value={data.coreSubjects}
@@ -782,7 +764,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Specialization</label>
                 <Select
                   isMulti
                   value={data.specialization}
@@ -794,7 +775,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Grade / Percentage</label>
                 <input
                   type="text"
                   value={data.percentage}
@@ -807,7 +787,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-12 mode-section">
-                <label>Mode</label>
                 <div className="radio-group">
                   {educationModeOptions.map(option => (
                     <label key={option.value}>
@@ -829,7 +808,7 @@ const Education = () => {
             <div className="add-degree-btn-wrapper text-right">
               <button
                 type="button"
-                className="theme-btn btn-style-one"
+                className="theme-btn btn-style-three"
                 onClick={handleAddAnotherMasterDegree}
               >
                 <span className="btn-title">+ Add Another Master Degree</span>
@@ -845,7 +824,6 @@ const Education = () => {
           <div className="doctorate-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <label>Place of Study</label>
                 <input
                   type="text"
                   value={data.placeOfStudy}
@@ -857,25 +835,23 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>University Name</label>
                 <input
                   type="text"
                   value={data.universityName}
                   onChange={(e) => handleEducationDataChange(index, 'universityName', e.target.value)}
-                  placeholder="University name"
+                  placeholder="University Name"
                   maxLength={20}
                   required
                 />
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Year of Completion</label>
                 <select
                   value={data.yearOfCompletion}
                   onChange={(e) => handleEducationDataChange(index, 'yearOfCompletion', e.target.value)}
                   required
                 >
-                  <option value="">Select Year</option>
+                  <option value="">Select Year of Completion</option>
                   {(() => {
                     const currentYear = new Date().getFullYear();
                     const years = [];
@@ -898,7 +874,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Core Subjects/ Specialization</label>
                 <Select
                   isMulti
                   value={data.specialization}
@@ -910,7 +885,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-12 mode-section">
-                <label>Mode</label>
                 <div className="radio-group">
                   {educationModeOptions.map(option => (
                     <label key={option.value}>
@@ -936,12 +910,11 @@ const Education = () => {
           <div className="ntt-mtt-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <label>Institute Name</label>
                 <input
                   type="text"
                   value={data.instituteName}
                   onChange={(e) => handleEducationDataChange(index, 'instituteName', e.target.value)}
-                  placeholder="Institute name"
+                  placeholder="Institute Name"
                   maxLength={20}
                   pattern="[a-zA-Z0-9 ]*"
                   required
@@ -949,7 +922,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Place of Study</label>
                 <input
                   type="text"
                   value={data.placeOfStudy}
@@ -961,7 +933,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Affiliated to/ recognized by</label>
                 <input
                   type="text"
                   value={data.affiliatedTo}
@@ -974,7 +945,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Course Duration</label>
                 <Select
                   value={courseDurationOptions.find(option => option.value === data.courseDuration)}
                   onChange={(selected) => handleEducationDataChange(index, 'courseDuration', selected.value)}
@@ -985,13 +955,12 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Year of Passing</label>
                 <select
                   value={data.yearOfPassing}
                   onChange={(e) => handleEducationDataChange(index, 'yearOfPassing', e.target.value)}
                   required
                 >
-                  <option value="">Select Year</option>
+                  <option value="">Select Year of Passing</option>
                   {(() => {
                     const currentYear = new Date().getFullYear();
                     const years = [];
@@ -1014,7 +983,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Grade / Percentage</label>
                 <input
                   type="text"
                   value={data.percentage}
@@ -1027,7 +995,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-12 mode-section">
-                <label>Mode</label>
                 <div className="radio-group">
                   {educationModeOptions.map(option => (
                     <label key={option.value}>
@@ -1118,7 +1085,6 @@ const Education = () => {
               />
             </div>
             <div className="form-group col-12 mode-section">
-              <label>Mode</label>
               <div className="radio-group">
                 {educationModeOptions.map(option => (
                   <label key={option.value}>
@@ -1143,7 +1109,6 @@ const Education = () => {
           <div className="bed-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <label>Institute / College name</label>
                 <input
                   type="text"
                   value={data.instituteName}
@@ -1156,7 +1121,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Place of Study</label>
                 <input
                   type="text"
                   value={data.placeOfStudy}
@@ -1168,7 +1132,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Affiliated to/ recognized by</label>
                 <input
                   type="text"
                   value={data.affiliatedTo}
@@ -1181,7 +1144,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Course duration</label>
                 <Select
                   value={bEdCourseDurationOptions.find(option => option.value === data.courseDuration)}
                   onChange={(selected) => handleEducationDataChange(index, 'courseDuration', selected.value)}
@@ -1192,7 +1154,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Year of Passing</label>
                 <Select
                   value={data.yearOfPassing}
                   onChange={(selected) => handleEducationDataChange(index, 'yearOfPassing', selected.value)}
@@ -1216,7 +1177,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Specialized Subjects</label>
                 <Select
                   isMulti
                   value={specializedSubjectsOptions.filter(option => 
@@ -1232,7 +1192,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Grade / Percentage</label>
                 <input
                   type="text"
                   value={data.percentage}
@@ -1245,7 +1204,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-12 mode-section">
-                <label>Mode</label>
                 <div className="radio-group">
                   {educationModeOptions.map(option => (
                     <label key={option.value}>
@@ -1271,12 +1229,11 @@ const Education = () => {
           <div className="certificate-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <label>Course name</label>
                 <input
                   type="text"
                   value={data.courseName}
                   onChange={(e) => handleEducationDataChange(index, 'courseName', e.target.value)}
-                  placeholder="Course name"
+                  placeholder="Course Name"
                   maxLength={20}
                   pattern="[a-zA-Z0-9 ]*"
                   required
@@ -1284,7 +1241,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Place of Study</label>
                 <input
                   type="text"
                   value={data.placeOfStudy}
@@ -1296,7 +1252,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Course duration</label>
                 <Select
                   value={certificateCourseDurationOptions.find(option => option.value === data.courseDuration)}
                   onChange={(selected) => handleEducationDataChange(index, 'courseDuration', selected.value)}
@@ -1307,7 +1262,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Year of Passing</label>
                 <Select
                   value={data.yearOfPassing}
                   onChange={(selected) => handleEducationDataChange(index, 'yearOfPassing', selected.value)}
@@ -1331,7 +1285,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Specialization</label>
                 <input
                   type="text"
                   value={data.specialization}
@@ -1344,7 +1297,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-12 mode-section">
-                <label>Mode</label>
                 <div className="radio-group">
                   {educationModeOptions.map(option => (
                     <label key={option.value}>
@@ -1370,7 +1322,6 @@ const Education = () => {
           <div className="ded-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <label>Institute / College name</label>
                 <input
                   type="text"
                   value={data.instituteName}
@@ -1383,7 +1334,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Place of Study</label>
                 <input
                   type="text"
                   value={data.placeOfStudy}
@@ -1396,7 +1346,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Affiliated to/ recognized by</label>
                 <input
                   type="text"
                   value={data.affiliatedTo}
@@ -1409,7 +1358,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Course duration</label>
                 <Select
                   value={dEdCourseDurationOptions.find(option => option.value === data.courseDuration)}
                   onChange={(selected) => handleEducationDataChange(index, 'courseDuration', selected.value)}
@@ -1420,7 +1368,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Year of Passing</label>
                 <Select
                   value={data.yearOfPassing}
                   onChange={(selected) => handleEducationDataChange(index, 'yearOfPassing', selected.value)}
@@ -1444,7 +1391,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Subjects</label>
                 <input
                   type="text"
                   value={data.subjects}
@@ -1457,7 +1403,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <label>Grade / Percentage</label>
                 <input
                   type="text"
                   value={data.percentage}
@@ -1470,7 +1415,6 @@ const Education = () => {
               </div>
 
               <div className="form-group col-12 mode-section">
-                <label>Mode</label>
                 <div className="radio-group">
                   {educationModeOptions.map(option => (
                     <label key={option.value}>
@@ -1502,10 +1446,9 @@ const Education = () => {
 
       {/* Grade 10 Section (Mandatory) */}
       <div className="education-section">
-        <h4>Grade 10 (Mandatory)</h4>
+        <h4>Grade 10</h4>
         <div className="row">
           <div className="form-group col-lg-6 col-md-12">
-            <label>Syllabus</label>
             <div className="radio-group">
               {syllabusOptions.map(option => (
                 <label key={option.value}>
@@ -1524,12 +1467,11 @@ const Education = () => {
           </div>
           
           <div className="form-group col-lg-6 col-md-12">
-            <label>School Name</label>
             <input
               type="text"
               value={grade10Data.schoolName}
               onChange={(e) => handleGrade10Change('schoolName', e.target.value)}
-              placeholder="School name"
+              placeholder="School Name"
               pattern="[a-zA-Z0-9 ]*"
               maxLength={20}
               required
@@ -1537,7 +1479,6 @@ const Education = () => {
           </div>
 
           <div className="form-group col-lg-6 col-md-12">
-            <label>Year of Passing</label>
             <select
               value={grade10Data.yearOfPassing}
               onChange={(e) => handleGrade10Change('yearOfPassing', e.target.value)}
@@ -1556,7 +1497,6 @@ const Education = () => {
           </div>
 
           <div className="form-group col-lg-6 col-md-12">
-            <label>Grade / Percentage</label>
             <input
               type="text"
               value={grade10Data.percentage}
@@ -1569,7 +1509,6 @@ const Education = () => {
           </div>
 
           <div className="form-group col-12">
-            <label>Mode</label>
             <div className="radio-group single-line">
               {educationModeOptions.map(option => (
                 <label key={option.value}>
@@ -1594,7 +1533,6 @@ const Education = () => {
         <h4>Add More Education</h4>
         <div className="row">
           <div className="form-group col-lg-6 col-md-12">
-            <label>Course</label>
             <select
               value={selectedEducationType?.value || ''}
               onChange={(e) => {
@@ -1614,10 +1552,14 @@ const Education = () => {
             </select>
           </div>
 
-          {selectedEducationType && (
+         
+        </div>
+      </div>
+
+      {selectedEducationType && (
             <div className="form-group col-lg-6 col-md-12">
-              <label>Course Status</label>
               <div className="radio-group">
+              <label>Course Status : </label>
                 {courseStatusOptions.map(option => (
                   <label key={option.value}>
                     <input
@@ -1642,24 +1584,24 @@ const Education = () => {
               </div>
             </div>
           )}
-        </div>
-      </div>
 
       {/* Display Added Education Sections */}
       {additionalEducation.map((education, index) => (
         <div key={index} className="education-section">
           <div className="section-header">
-            <h4>{educationTypes.find(type => type.value === education.type)?.label}</h4>
-            <div className="course-status">
-              Status: {education.data.courseStatus}
-            </div>
-            <button 
+            <div>
+          <button 
               type="button" 
               onClick={() => handleRemoveEducation(index)}
               className="remove-btn"
             >
               Remove
             </button>
+            </div>
+            <h4>{educationTypes.find(type => type.value === education.type)?.label}</h4>
+            <div className="course-status">
+              Status: {education.data.courseStatus}
+            </div>
           </div>
           {renderEducationFields(education.type, education.data, index)}
         </div>

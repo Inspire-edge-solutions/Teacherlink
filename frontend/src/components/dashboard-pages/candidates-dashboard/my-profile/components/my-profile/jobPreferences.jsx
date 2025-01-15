@@ -289,17 +289,7 @@ const JobPreference = () => {
                         <option value="false">No</option>
                       </select>
                     </td>
-                    <td>
-                      <select 
-                        className="form-select"
-                        value={preferences.parentGuardian.homeTuitionsOffline.online === null ? '' : preferences.parentGuardian.homeTuitionsOffline.online}
-                        onChange={(e) => handlePreferenceChange('parentGuardian', 'homeTuitionsOffline', 'online', e.target.value === '' ? null : e.target.value === 'true')}
-                      >
-                        <option value="">Select</option>
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                      </select>
-                    </td>
+                    <td className="disabled">-</td>
                   </tr>
                   <tr>
                     <td>Private Tutor (One-to-One at Tutor's Place)</td>
@@ -314,17 +304,7 @@ const JobPreference = () => {
                         <option value="false">No</option>
                       </select>
                     </td>
-                    <td>
-                      <select 
-                        className="form-select"
-                        value={preferences.parentGuardian.privateTuitionsOffline.online === null ? '' : preferences.parentGuardian.privateTuitionsOffline.online}
-                        onChange={(e) => handlePreferenceChange('parentGuardian', 'privateTuitionsOffline', 'online', e.target.value === '' ? null : e.target.value === 'true')}
-                      >
-                        <option value="">Select</option>
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                      </select>
-                    </td>
+                    <td className="disabled">-</td>
                   </tr>
                   <tr>
                     <td>Group Tuitions Offline (at teachers home)
@@ -340,17 +320,7 @@ const JobPreference = () => {
                         <option value="false">No</option>
                       </select>
                     </td>
-                    <td>
-                      <select 
-                        className="form-select"
-                        value={preferences.parentGuardian.groupTuitionsOffline.online === null ? '' : preferences.parentGuardian.groupTuitionsOffline.online}
-                        onChange={(e) => handlePreferenceChange('parentGuardian', 'groupTuitionsOffline', 'online', e.target.value === '' ? null : e.target.value === 'true')}
-                      >
-                        <option value="">Select</option>
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                      </select>
-                    </td>
+                    <td className="disabled">-</td>
                   </tr>
                   <tr>
                     <td>Private Tuitions Online (One-One)</td>

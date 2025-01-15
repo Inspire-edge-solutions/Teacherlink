@@ -52,11 +52,11 @@ const AdditionalInfo = () => {
         <h3>Additional Information</h3>
         {/* Computer Skills */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Computer Skills</label>
           <Select
             isMulti
             name="computerSkills"
             options={skillOptions}
+            placeholder="Select Computer Skills"
             className="basic-multi-select"
             classNamePrefix="select"
             value={skillOptions.filter(option => 
@@ -73,13 +73,12 @@ const AdditionalInfo = () => {
 
         {/* Knowledge of Accounting */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Knowledge of Accounting Process</label>
           <select 
             className="chosen-single form-select"
             value={formData.accountingKnowledge}
             onChange={(e) => handleChange('accountingKnowledge', e.target.value)}
           >
-            <option value="">Select</option>
+            <option value="">Knowledge of Accounting Process</option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>
@@ -147,14 +146,13 @@ const AdditionalInfo = () => {
 
         {/* Marital Status */}
         <div className="form-group col-lg-6 col-md-12">
-            <label>Marital Status</label>
           <select 
             className="chosen-single form-select"
             placeholder='Marital Status'
             value={formData.maritalStatus}
             onChange={(e) => handleChange('maritalStatus', e.target.value)}
           >
-            <option value="">Select</option>
+            <option value="">Select Marital Status</option>
             <option value="Married">Married</option>
             <option value="Un married">Un married</option>
           </select>
@@ -163,14 +161,13 @@ const AdditionalInfo = () => {
 
         {/* Spouse Need Job */}
         <div className="form-group col-lg-6 col-md-12">
-            <label>Spouse need job in same organization</label>
           <select 
             className="chosen-single form-select"
             placeholder='Spouse need job in same organization'
             value={formData.spouseNeedJob}
             onChange={(e) => handleChange('spouseNeedJob', e.target.value)}
           >
-            <option value="">Select</option>
+            <option value="">Spouse need job in same organization</option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>
@@ -202,14 +199,13 @@ const AdditionalInfo = () => {
             </div>
 
             <div className="form-group col-lg-6 col-md-12">
-                <label>Spouse Work Experience</label>
               <select 
                 className="chosen-single form-select"
                 placeholder='Spouse Work Experience'
                 value={formData.spouseWorkExperience}
                 onChange={(e) => handleChange('spouseWorkExperience', e.target.value)}
               >
-                <option value="">Select</option>
+                <option value="">Spouse Work Experience</option>
                 {Array.from({ length: 21 }, (_, i) => (
                   <option key={i} value={i}>{i}</option>
                 ))}
@@ -232,14 +228,13 @@ const AdditionalInfo = () => {
 
         {/* Accommodation */}
         <div className="form-group col-lg-6 col-md-12">
-            <label>Accommodation Required</label>
           <select 
             className="chosen-single form-select"
             placeholder='Accommodation Required'
             value={formData.accommodation}
             onChange={(e) => handleChange('accommodation', e.target.value)}
           >
-            <option value="">Select</option>
+            <option value="">Accommodation Required</option>
             <option value="Yes - Bachelor">Yes - Bachelor</option>
             <option value="Yes - Family">Yes - Family</option>
             <option value="No">No</option>
@@ -248,14 +243,13 @@ const AdditionalInfo = () => {
 
         {/* Religion */}
         <div className="form-group col-lg-6 col-md-12">
-            <label>Religion</label>
           <select 
             className="chosen-single form-select"
             placeholder='Religion'
             value={formData.religion}
             onChange={(e) => handleChange('religion', e.target.value)}
           >
-            <option value="">Select</option>
+            <option value="">Select Religion</option>
             {["Hinduism", "Islam", "Christianity", "Sikhism"].map(religion => (
               <option key={religion} value={religion}>{religion}</option>
             ))}
@@ -325,14 +319,13 @@ const AdditionalInfo = () => {
 
         {/* Passport */}
         <div className="form-group col-lg-6 col-md-12">
-            <label>Passport Available</label>
           <select 
             className="chosen-single form-select"
             placeholder='Passport Available'
             value={formData.passportAvailable}
             onChange={(e) => handleChange('passportAvailable', e.target.value)}
           >
-            <option value="">Select</option>
+            <option value="">Passport Available ?</option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>

@@ -218,6 +218,9 @@ h4 {
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
+  float: right;  /* Add this */
+  margin-left: auto;  /* Add this */
+  display: block;  /* Add this */
 }
 
 .remove-btn:hover {
@@ -320,62 +323,248 @@ h4 {
 .radio-group.single-line::-webkit-scrollbar {
   display: none;
 }
+
 .work-experience-section {
+  padding: 20px;
+}
+
+.experience-row {
+  display: flex;
+  gap: 40px;
   margin-bottom: 30px;
 }
 
-.experience-inputs {
+.experience-col {
+  flex: 1;
+}
+
+.experience-col h4 {
+  font-size: 18px;
+  color: #202124;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.duration-selector {
   display: flex;
   gap: 15px;
 }
 
-.experience-inputs select {
+.duration-selector select {
   flex: 1;
-  padding: 8px;
-  border: 1px solid #e6e6e6;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  background-color: #f5f7fc;
+  background-color: #fff;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
 }
 
-.experience-inputs select:focus {
-  outline: none;
-  border-color: #1967d2;
-}
-
-.additional-details-section {
-  margin: 30px 0;
+/* Additional Details Section */
+.experience-details h4 {
+  font-size: 20px;
+  color: #202124;
+  margin-bottom: 20px;
+  font-weight: 500;
 }
 
 .experience-table {
   width: 100%;
-  border-collapse: collapse;
-}
-
-.experience-table th,
-.experience-table td {
-  padding: 12px;
-  border: 1px solid #e6e6e6;
-  text-align: left;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .experience-table th {
-  background-color: #f5f7fc;
+  background-color: #f8f9fa;
+  padding: 12px 20px;
+  text-align: left;
+  font-weight: 500;
+  color: #202124;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.experience-table td {
+  padding: 12px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #fff;
+}
+
+.experience-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* First column styling */
+.experience-table td:first-child {
+  font-weight: 500;
+  color: #202124;
+}
+
+/* Remove default select styling */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 30px !important;
+}
+
+/* Hover states */
+select:hover {
+  border-color: #1967d2;
+}
+
+/* Focus states */
+select:focus {
+  outline: none;
+  border-color: #1967d2;
+  box-shadow: 0 0 0 2px rgba(25, 103, 210, 0.2);
+}
+
+/* Experience Form Styling */
+.experience-details-form {
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  margin-top: 20px;
+}
+
+.experience-details-form h4 {
+  font-size: 18px;
+  color: #202124;
+  margin-bottom: 20px;
   font-weight: 500;
 }
 
-.experience-selects {
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #202124;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.form-control, .form-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #1967d2;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(25, 103, 210, 0.1);
+}
+
+/* Radio Group */
+.radio-group {
+  display: flex;
+  gap: 20px;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+/* Multi-select styling */
+select[multiple] {
+  min-height: 120px;
+  padding: 8px;
+}
+
+/* Input groups (for salary) */
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+.input-group-text {
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  color: #666;
+}
+
+.input-group .form-control {
+  border-radius: 0 8px 8px 0;
+}
+
+.input-group-text:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+/* File upload styling */
+input[type="file"] {
+  padding: 6px;
+}
+
+/* Small helper text */
+.form-group small {
+  display: block;
+  margin-top: 4px;
+  color: #666;
+  font-size: 12px;
+}
+
+/* Date selector group */
+.date-selector {
   display: flex;
   gap: 10px;
 }
 
-.experience-selects select {
-  padding: 6px;
-  border: 1px solid #e6e6e6;
-  border-radius: 4px;
-  background-color: #fff;
+.date-selector select {
+  flex: 1;
 }
 
-.experience-selects select:focus {
-  outline: none;
-  border-color: #1967d2;
+/* Submit button */
+.theme-btn.btn-style-one {
+  background: #1967d2;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.theme-btn.btn-style-one:hover {
+  background: #1557b0;
+}
+
+/* Add Experience button */
+.add-experience-btn-wrapper {
+  margin-bottom: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .date-selector {
+    flex-direction: column;
+  }
+  
+  .radio-group {
+    flex-direction: column;
+    gap: 10px;
+  }
 }

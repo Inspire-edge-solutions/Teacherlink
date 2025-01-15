@@ -33,18 +33,11 @@ const Address = () => {
     <div className="row">
       <div className="form-group col-lg-6 col-md-12">
         <h3>Permanent address</h3>
-        <div className="form-group">
-        <input
-          type="text"
-          name="street"
-          placeholder="House no. & street"
-          required
-        />
-      </div>
+
 
       <div className="form-group">
-      <label>Country:</label>
       <Select
+      placeholder="Select Country"
         options={countries}
         value={selectedCountry}
         onChange={(option) => {
@@ -55,8 +48,8 @@ const Address = () => {
       />
     </div>
     <div className="form-group">
-      <label>State:</label>
       <Select
+      placeholder="Select State/UT"
         options={states}
         value={selectedState}
         onChange={(option) => {
@@ -66,30 +59,31 @@ const Address = () => {
       />
     </div>
     <div className="form-group">
-      <label>City:</label>
       <Select
+      placeholder="Select City"
         options={cities}
         value={selectedCity}
         onChange={(option) => setSelectedCity(option)}
       />
     </div>
+    <div className="form-group">
+        <input
+          type="text"
+          name="street"
+          placeholder="House no. & street"
+          required
+        />
+      </div>
       </div>
 
       <div className="form-group col-lg-6 col-md-12">
         <h3>Present address</h3>
-        <div className="form-group">
-        <input
-          type="text"
-          name="street"
-          placeholder="House no. & street"
-          required
-        />
-      </div>
+       
 
       <div className="form-group">
-      <label>Country:</label>
       <Select
         options={countries}
+        placeholder="Select Country"
         value={selectedCountry}
         onChange={(option) => {
           setSelectedCountry(option);
@@ -99,8 +93,8 @@ const Address = () => {
       />
     </div>
     <div className="form-group">
-      <label>State:</label>
       <Select
+      placeholder="Select State/UT"
         options={states}
         value={selectedState}
         onChange={(option) => {
@@ -110,13 +104,21 @@ const Address = () => {
       />
     </div>
     <div className="form-group">
-      <label>City:</label>
       <Select
+      placeholder="Select City"
         options={cities}
         value={selectedCity}
         onChange={(option) => setSelectedCity(option)}
       />
     </div>
+    <div className="form-group">
+        <input
+          type="text"
+          name="street"
+          placeholder="House no. & street"
+          required
+        />
+      </div>
       </div>
     </div>
   );

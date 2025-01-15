@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React from "react";
 
 const PersonalDetails = () => {
   return <div>
@@ -19,8 +19,8 @@ const PersonalDetails = () => {
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Gender</label>
           <div className="radio-group ">
+            <h5>Gender</h5>
             <div className="radio-option">
               <input 
                 type="radio" 
@@ -53,13 +53,14 @@ const PersonalDetails = () => {
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
-          <label>Date of Birth</label>
           <input 
             type="date" 
             name="dateOfBirth"
+            placeholder="Date of Birth - dd/mm/yyyy"
             max={new Date().toISOString().split('T')[0]} // Prevents future dates
             required 
           />
+          <label>Date of Birth</label>
         </div>
         
         <div className="form-group col-lg-6 col-md-12">
