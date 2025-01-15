@@ -3,7 +3,7 @@
   gap: 20px;
   height: 60px;
   width: 100%;
-  padding: 0 20px;
+  padding: 10px 20px;
   border-radius: 8px;
   font-size: 15px;
   background-color: #f0f5f7;
@@ -475,6 +475,7 @@ select:focus {
 .radio-group {
   display: flex;
   gap: 20px;
+  padding: 10px;
 }
 
 .radio-group label {
@@ -568,3 +569,40 @@ input[type="file"] {
     gap: 10px;
   }
 }
+
+.salary-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.salary-input input {
+  flex: 0 0 150px;
+}
+
+.salary-input span {
+  white-space: nowrap;
+}
+
+.add-experience-section {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f5f7fc;
+  border-radius: 8px;
+}
+
+.experience-section {
+  margin-top: 20px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
