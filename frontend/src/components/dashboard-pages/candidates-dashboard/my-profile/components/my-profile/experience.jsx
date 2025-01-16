@@ -125,6 +125,20 @@ const adminDesignationOptions = [
   { value: 'dean', label: 'Dean' }
 ];
 
+const teachingAdminDesignationOptions = [
+  { value: 'principal', label: 'Principal' },
+  { value: 'vicePrincipal', label: 'Vice Principal' },
+  { value: 'director', label: 'Director' },
+  { value: 'academicCoordinator', label: 'Academic Coordinator' },
+  { value: 'disciplineCoordinator', label: 'Discipline Coordinator' },
+  { value: 'dean', label: 'Dean' },
+  { value: 'nurseryTeacher', label: 'Nursery Teacher' },
+  { value: 'montessoriTeacher', label: 'Montessori Teacher' },
+  { value: 'neetFaculty', label: 'NEET faculty' },
+  { value: 'jeeFaculty', label: 'JEE faculty' },
+  { value: 'cetFaculty', label: 'CET faculty' }
+];
+
 const Experience = () => {
   const [workExperience, setWorkExperience] = useState({
     total: { years: '0', months: '0' },
@@ -477,7 +491,7 @@ const Experience = () => {
                 <option value="">Select Job Type</option>
                 <option value="teaching">Education - Teaching</option>
                 <option value="administration">Education - Administration</option>
-                <option value="teachingAndAdmin">Education - Teaching + Administration</option>
+                <option value="teachingAndAdministration">Education - Teaching + Administration</option>
                 <option value="nonEducation">Non-Education (Any Role)</option>
               </select>
             </div>
@@ -910,6 +924,123 @@ const Experience = () => {
                       }}
                       styles={customStyles}
                       placeholder="Select curriculum/board/university"
+                      isClearable
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            
+            {experience.jobType === 'teachingAndAdministration' && (
+              <div className="row">
+                {/* Teaching Designation and Curriculum in first row */}
+                <div className="col-lg-6 col-md-12">
+                  <div className="mb-4">
+                    <Select
+                      options={teachingAdminDesignationOptions}
+                      value={teachingAdminDesignationOptions.find(option => option.value === experience.teachingAdminDesignation) || ''}
+                      onChange={(selected) => {
+                        const newEntries = [...experienceEntries];
+                        newEntries[index] = {
+                          ...newEntries[index],
+                          teachingDesignation: selected?.value || ''
+                        };
+                        setExperienceEntries(newEntries);
+                      }}
+                      styles={customStyles}
+                      placeholder="Select designation"
+                      isClearable
+                    />
+                  </div>
+                </div>
+
+                <div className="col-lg-6 col-md-12">
+                  <div className="mb-4">
+                    <Select
+                      options={curriculumOptions}
+                      value={curriculumOptions.find(option => option.value === experience.curriculum) || ''}
+                      onChange={(selected) => {
+                        const newEntries = [...experienceEntries];
+                        newEntries[index] = {
+                          ...newEntries[index],
+                          curriculum: selected?.value || ''
+                        };
+                        setExperienceEntries(newEntries);
+                      }}
+                      styles={customStyles}
+                      placeholder="Select curriculum"
+                      isClearable
+                    />
+                  </div>
+                </div>
+
+                {/* Subjects and Grades in second row */}
+                <div className="col-lg-6 col-md-12">
+                  <div className="mb-4">
+                    <Select
+                      isMulti
+                      options={subjectsOptions}
+                      value={subjectsOptions.filter(option => 
+                        experience.subjectsHandled.includes(option.value)
+                      )}
+                      onChange={(selected) => {
+                        const newEntries = [...experienceEntries];
+                        newEntries[index] = {
+                          ...newEntries[index],
+                          subjectsHandled: selected ? selected.map(item => item.value) : []
+                        };
+                        setExperienceEntries(newEntries);
+                      }}
+                      styles={customStyles}
+                      placeholder="Select subjects you handled"
+                      isClearable
+                    />
+                  </div>
+                </div>
+
+                <div className="col-lg-6 col-md-12">
+                  <div className="mb-4">
+                    <Select
+                      isMulti
+                      options={gradesOptions}
+                      value={gradesOptions.filter(option => 
+                        experience.gradesHandled.includes(option.value)
+                      )}
+                      onChange={(selected) => {
+                        const newEntries = [...experienceEntries];
+                        newEntries[index] = {
+                          ...newEntries[index],
+                          gradesHandled: selected ? selected.map(item => item.value) : []
+                        };
+                        setExperienceEntries(newEntries);
+                      }}
+                      styles={customStyles}
+                      placeholder="Select grades you handled"
+                      isClearable
+                    />
+                  </div>
+                </div>
+
+                {/* Core Expertise in third row */}
+                <div className="col-lg-12 col-md-12">
+                  <div className="mb-4">
+                    <Select
+                      isMulti
+                      options={expertiseOptions}
+                      value={expertiseOptions.filter(option => 
+                        experience.coreExpertise.includes(option.value)
+                      )}
+                      onChange={(selected) => {
+                        const newEntries = [...experienceEntries];
+                        newEntries[index] = {
+                          ...newEntries[index],
+                          coreExpertise: selected ? selected.map(item => item.value) : []
+                        };
+                        setExperienceEntries(newEntries);
+                      }}
+                      styles={customStyles}
+                      placeholder="Select core expertise"
                       isClearable
                     />
                   </div>
