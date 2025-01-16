@@ -43,11 +43,6 @@ const Education = () => {
     { value: 'hybrid', label: 'Hybrid' }
   ];
 
-  const courseStatusOptions = [
-    { value: 'Pursuing', label: 'Pursuing' },
-    { value: 'Completed', label: 'Completed' }
-  ];
-
   const coreSubjectsOptions = [
     { value: 'physics', label: 'Physics' },
     { value: 'chemistry', label: 'Chemistry' },
@@ -222,6 +217,12 @@ const Education = () => {
     label: `${i + 1} months`
   }));
 
+  // Add this constant at the top with other options
+  const courseStatusOptions = [
+    { value: 'Pursuing', label: 'Pursuing' },
+    { value: 'Completed', label: 'Completed' }
+  ];
+
   // Handlers
   const handleGrade10Change = (field, value) => {
     let validatedValue = value;
@@ -260,7 +261,8 @@ const Education = () => {
           yearOfPassing: '',
           coreSubjects: [],
           percentage: '',
-          mode: ''
+          mode: '',
+          courseStatus: 'Completed'
         };
       case 'degree':
         return {
@@ -414,6 +416,25 @@ const Education = () => {
           <div className="row">
             <div className="form-group col-lg-6 col-md-12">
               <div className="radio-group">
+                <label>Course Status:</label>
+                {courseStatusOptions.map(option => (
+                  <label key={option.value}>
+                    <input
+                      type="radio"
+                      name={`courseStatus_${type}_${index}`}
+                      value={option.value}
+                      checked={data.courseStatus === option.value}
+                      onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
+                      required
+                    />
+                    {option.label}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="form-group col-lg-6 col-md-12">
+              <div className="radio-group">
                 {syllabusOptions.map(option => (
                   <label key={option.value}>
                     <input
@@ -518,9 +539,27 @@ const Education = () => {
           <div className="degree-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                
                 <div className="radio-group">
-                <label>Course Duration</label>
+                  <label>Course Status:</label>
+                  {courseStatusOptions.map(option => (
+                    <label key={option.value}>
+                      <input
+                        type="radio"
+                        name={`courseStatus_${type}_${index}`}
+                        value={option.value}
+                        checked={data.courseStatus === option.value}
+                        onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
+                        required
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="form-group col-lg-6 col-md-12">
+                <div className="radio-group">
+                  <label>Course Duration</label>
                   <label>
                     <input
                       type="radio"
@@ -529,7 +568,7 @@ const Education = () => {
                       checked={data.duration === "3"}
                       onChange={(e) => {
                         handleEducationDataChange(index, 'duration', e.target.value);
-                        handleEducationDataChange(index, 'courseName', ''); // Reset course selection
+                        handleEducationDataChange(index, 'courseName', '');
                       }}
                       required
                     />
@@ -543,7 +582,7 @@ const Education = () => {
                       checked={data.duration === "4"}
                       onChange={(e) => {
                         handleEducationDataChange(index, 'duration', e.target.value);
-                        handleEducationDataChange(index, 'courseName', ''); // Reset course selection
+                        handleEducationDataChange(index, 'courseName', '');
                       }}
                       required
                     />
@@ -698,6 +737,25 @@ const Education = () => {
           <div className="master-degree-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
+                <div className="radio-group">
+                  <label>Course Status:</label>
+                  {courseStatusOptions.map(option => (
+                    <label key={option.value}>
+                      <input
+                        type="radio"
+                        name={`courseStatus_${type}_${index}`}
+                        value={option.value}
+                        checked={data.courseStatus === option.value}
+                        onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
+                        required
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="form-group col-lg-6 col-md-12">
                 <Select
                   value={masterDegreeOptions.find(option => option.value === data.courseName)}
                   onChange={(selected) => handleEducationDataChange(index, 'courseName', selected.value)}
@@ -824,6 +882,25 @@ const Education = () => {
           <div className="doctorate-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
+                <div className="radio-group">
+                  <label>Course Status:</label>
+                  {courseStatusOptions.map(option => (
+                    <label key={option.value}>
+                      <input
+                        type="radio"
+                        name={`courseStatus_${type}_${index}`}
+                        value={option.value}
+                        checked={data.courseStatus === option.value}
+                        onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
+                        required
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
                   value={data.placeOfStudy}
@@ -909,6 +986,25 @@ const Education = () => {
         return (
           <div className="ntt-mtt-section">
             <div className="row">
+              <div className="form-group col-lg-6 col-md-12">
+                <div className="radio-group">
+                  <label>Course Status:</label>
+                  {courseStatusOptions.map(option => (
+                    <label key={option.value}>
+                      <input
+                        type="radio"
+                        name={`courseStatus_${type}_${index}`}
+                        value={option.value}
+                        checked={data.courseStatus === option.value}
+                        onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
+                        required
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -1019,6 +1115,25 @@ const Education = () => {
         return (
           <div className="row">
             <div className="form-group col-lg-6 col-md-12">
+              <div className="radio-group">
+                <label>Course Status:</label>
+                {courseStatusOptions.map(option => (
+                  <label key={option.value}>
+                    <input
+                      type="radio"
+                      name={`courseStatus_${type}_${index}`}
+                      value={option.value}
+                      checked={data.courseStatus === option.value}
+                      onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
+                      required
+                    />
+                    {option.label}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="form-group col-lg-6 col-md-12">
               <input
                 type="text"
                 value={data.instituteName}
@@ -1084,16 +1199,17 @@ const Education = () => {
                 maxLength={5}
               />
             </div>
-            <div className="form-group col-12 mode-section">
+            <div className="form-group col-12">
               <div className="radio-group">
-                {educationModeOptions.map(option => (
+                <label>Course Status:</label>
+                {courseStatusOptions.map(option => (
                   <label key={option.value}>
                     <input
                       type="radio"
-                      name={`dEdMode_${index}`}
+                      name={`courseStatus_${type}_${index}`}
                       value={option.value}
-                      checked={data.mode === option.value}
-                      onChange={(e) => handleEducationDataChange(index, 'mode', e.target.value)}
+                      checked={data.courseStatus === option.value}
+                      onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
                       required
                     />
                     {option.label}
@@ -1108,6 +1224,25 @@ const Education = () => {
         return (
           <div className="bed-section">
             <div className="row">
+              <div className="form-group col-lg-6 col-md-12">
+                <div className="radio-group">
+                  <label>Course Status:</label>
+                  {courseStatusOptions.map(option => (
+                    <label key={option.value}>
+                      <input
+                        type="radio"
+                        name={`courseStatus_${type}_${index}`}
+                        value={option.value}
+                        checked={data.courseStatus === option.value}
+                        onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
+                        required
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -1203,6 +1338,25 @@ const Education = () => {
                 />
               </div>
 
+              <div className="form-group col-12">
+                <div className="radio-group">
+                  <label>Course Status:</label>
+                  {courseStatusOptions.map(option => (
+                    <label key={option.value}>
+                      <input
+                        type="radio"
+                        name={`courseStatus_${type}_${index}`}
+                        value={option.value}
+                        checked={data.courseStatus === option.value}
+                        onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
+                        required
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               <div className="form-group col-12 mode-section">
                 <div className="radio-group">
                   {educationModeOptions.map(option => (
@@ -1228,6 +1382,25 @@ const Education = () => {
         return (
           <div className="certificate-section">
             <div className="row">
+              <div className="form-group col-lg-6 col-md-12">
+                <div className="radio-group">
+                  <label>Course Status:</label>
+                  {courseStatusOptions.map(option => (
+                    <label key={option.value}>
+                      <input
+                        type="radio"
+                        name={`courseStatus_${type}_${index}`}
+                        value={option.value}
+                        checked={data.courseStatus === option.value}
+                        onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
+                        required
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -1296,6 +1469,25 @@ const Education = () => {
                 />
               </div>
 
+              <div className="form-group col-12">
+                <div className="radio-group">
+                  <label>Course Status:</label>
+                  {courseStatusOptions.map(option => (
+                    <label key={option.value}>
+                      <input
+                        type="radio"
+                        name={`courseStatus_${type}_${index}`}
+                        value={option.value}
+                        checked={data.courseStatus === option.value}
+                        onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
+                        required
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               <div className="form-group col-12 mode-section">
                 <div className="radio-group">
                   {educationModeOptions.map(option => (
@@ -1321,6 +1513,25 @@ const Education = () => {
         return (
           <div className="ded-section">
             <div className="row">
+              <div className="form-group col-lg-6 col-md-12">
+                <div className="radio-group">
+                  <label>Course Status:</label>
+                  {courseStatusOptions.map(option => (
+                    <label key={option.value}>
+                      <input
+                        type="radio"
+                        name={`courseStatus_${type}_${index}`}
+                        value={option.value}
+                        checked={data.courseStatus === option.value}
+                        onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
+                        required
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -1407,11 +1618,29 @@ const Education = () => {
                   type="text"
                   value={data.percentage}
                   onChange={(e) => handleEducationDataChange(index, 'percentage', e.target.value)}
-                  placeholder="Grade / Percentage"
-                  pattern="[a-zA-Z0-9+%]*"
+                  placeholder="Percentage"
                   maxLength={5}
                   required
                 />
+              </div>
+
+              <div className="form-group col-12">
+                <div className="radio-group">
+                  <label>Course Status:</label>
+                  {courseStatusOptions.map(option => (
+                    <label key={option.value}>
+                      <input
+                        type="radio"
+                        name={`courseStatus_${type}_${index}`}
+                        value={option.value}
+                        checked={data.courseStatus === option.value}
+                        onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
+                        required
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
               </div>
 
               <div className="form-group col-12 mode-section">
@@ -1448,6 +1677,25 @@ const Education = () => {
       <div className="education-section">
         <h4>Grade 10</h4>
         <div className="row">
+          <div className="form-group col-lg-6 col-md-12">
+            <div className="radio-group">
+              <label>Course Status:</label>
+              {courseStatusOptions.map(option => (
+                <label key={option.value}>
+                  <input
+                    type="radio"
+                    name="grade10Mode"
+                    value={option.value}
+                    checked={grade10Data.mode === option.value}
+                    onChange={(e) => handleGrade10Change('mode', e.target.value)}
+                    required
+                  />
+                  {option.label}
+                </label>
+              ))}
+            </div>
+          </div>
+
           <div className="form-group col-lg-6 col-md-12">
             <div className="radio-group">
               {syllabusOptions.map(option => (
@@ -1537,7 +1785,14 @@ const Education = () => {
               value={selectedEducationType?.value || ''}
               onChange={(e) => {
                 const selected = educationTypes.find(type => type.value === e.target.value);
-                setSelectedEducationType(selected);
+                if (selected) {
+                  const newEducation = {
+                    type: selected.value,
+                    data: getInitialDataForType(selected.value)
+                  };
+                  setAdditionalEducation(prev => [...prev, newEducation]);
+                  setSelectedEducationType(null);
+                }
               }}
             >
               <option value="">Select Course</option>
@@ -1551,56 +1806,23 @@ const Education = () => {
               }
             </select>
           </div>
-
-         
         </div>
       </div>
-
-      {selectedEducationType && (
-            <div className="form-group col-lg-6 col-md-12">
-              <div className="radio-group">
-              <label>Course Status : </label>
-                {courseStatusOptions.map(option => (
-                  <label key={option.value}>
-                    <input
-                      type="radio"
-                      name="courseStatus"
-                      value={option.value}
-                      onChange={(e) => {
-                        const newEducation = {
-                          type: selectedEducationType.value,
-                          data: {
-                            ...getInitialDataForType(selectedEducationType.value),
-                            courseStatus: e.target.value
-                          }
-                        };
-                        setAdditionalEducation(prev => [...prev, newEducation]);
-                        setSelectedEducationType(null);
-                      }}
-                    />
-                    {option.label}
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
 
       {/* Display Added Education Sections */}
       {additionalEducation.map((education, index) => (
         <div key={index} className="education-section">
           <div className="section-header">
-            <div>
-          <button 
-              type="button" 
-              onClick={() => handleRemoveEducation(index)}
-              className="remove-btn"
-            >
-              Remove
-            </button>
-            </div>
+           
             <h4>{educationTypes.find(type => type.value === education.type)?.label}</h4>
-            <div className="course-status">
-              Status: {education.data.courseStatus}
+            <div>
+              <button 
+                type="button" 
+                onClick={() => handleRemoveEducation(index)}
+                className="remove-btn"
+              >
+                Remove
+              </button>
             </div>
           </div>
           {renderEducationFields(education.type, education.data, index)}
