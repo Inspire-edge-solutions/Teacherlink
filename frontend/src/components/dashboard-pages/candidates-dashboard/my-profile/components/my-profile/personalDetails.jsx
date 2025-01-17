@@ -1,6 +1,14 @@
-import React from "react";
+import React ,{useState} from "react";
 
 const PersonalDetails = () => {
+
+  const [date, setDate] = useState('text');
+
+  const handleFocus = () => setDate('date');
+  const handleBlur = (event) => {
+    if (!event.target.value) setDate('text');
+  };
+
   return <div>
      <div className="row">
         <h3>Personal Details</h3>
@@ -53,14 +61,18 @@ const PersonalDetails = () => {
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
-          <input 
-            type="date" 
-            name="dateOfBirth"
-            placeholder="Date of Birth - dd/mm/yyyy"
-            max={new Date().toISOString().split('T')[0]} // Prevents future dates
-            required 
-          />
-          <label>Date of Birth</label>
+        <input
+        type={date}
+        name="dateOfBirth"
+        id="dateOfBirth"
+        placeholder="Date of Birth - dd/mm/yyyy"
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        max={new Date().toISOString().split('T')[0]} // Prevent future dates
+        required
+      />
+      
+
         </div>
         
         <div className="form-group col-lg-6 col-md-12">

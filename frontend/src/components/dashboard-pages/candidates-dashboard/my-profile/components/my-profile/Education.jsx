@@ -1679,25 +1679,6 @@ const Education = () => {
         <div className="row">
           <div className="form-group col-lg-6 col-md-12">
             <div className="radio-group">
-              <label>Course Status:</label>
-              {courseStatusOptions.map(option => (
-                <label key={option.value}>
-                  <input
-                    type="radio"
-                    name="grade10Mode"
-                    value={option.value}
-                    checked={grade10Data.mode === option.value}
-                    onChange={(e) => handleGrade10Change('mode', e.target.value)}
-                    required
-                  />
-                  {option.label}
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="form-group col-lg-6 col-md-12">
-            <div className="radio-group">
               {syllabusOptions.map(option => (
                 <label key={option.value}>
                   <input
