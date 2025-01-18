@@ -1,10 +1,9 @@
 import { React, useState } from "react";
-import Select from "react-select";
 import PersonalDetails from "./personalDetails";
 import Address from "./address";
 import Education from "./Education";
 import Experience from "./experience";
-import Salary from "./salary";
+//import Salary from "./salary";
 import Languages from "./languages";
 import JobPreferences from "./jobPreferences";
 import Social from "./social";
@@ -27,7 +26,7 @@ const FormInfoBox = () => {
 
         <Languages/>
 
-        <Salary/>
+        {/* <Salary/> */}
 
         <JobPreferences/>
         

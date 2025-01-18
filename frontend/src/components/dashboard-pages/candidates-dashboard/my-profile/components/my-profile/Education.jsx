@@ -18,14 +18,14 @@ const Education = () => {
 
   // All Options
   const educationTypes = [
-    { value: 'grade12', label: 'Grade 12' },
-    { value: 'degree', label: 'Degree' },
-    { value: 'masterDegree', label: 'Master Degree' },
-    { value: 'doctorate', label: 'Doctorate' },
-    { value: 'nttMtt', label: 'NTT/MTT' },
-    { value: 'dEd', label: 'D.Ed/D.EID' },
-    { value: 'bEd', label: 'B.Ed' },
-    { value: 'certificate', label: 'Certificate/Other Course' }
+    { value: 'grade12', label: 'Grade 12', allowMultiple: false },
+    { value: 'degree', label: 'Degree', allowMultiple: true },
+    { value: 'masterDegree', label: 'Master Degree', allowMultiple: true },
+    { value: 'doctorate', label: 'Doctorate', allowMultiple: false },
+    { value: 'nttMtt', label: 'NTT/MTT', allowMultiple: false },
+    { value: 'dEd', label: 'D.Ed/D.EID', allowMultiple: false },
+    { value: 'bEd', label: 'B.Ed', allowMultiple: false },
+    { value: 'certificate', label: 'Certificate/Other Course', allowMultiple: true }
   ];
 
   const syllabusOptions = [
@@ -368,47 +368,6 @@ const Education = () => {
     setAdditionalEducation(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleAddAnotherDegree = () => {
-    const newDegree = {
-      type: 'degree',
-      data: {
-        duration: '',
-        courseName: '',
-        collegeName: '',
-        placeOfStudy: '',
-        universityName: '',
-        yearOfPassing: '',
-        coreSubjects: [],
-        specialization: [],
-        percentage: '',
-        mode: '',
-        courseStatus: 'Completed'
-      }
-    };
-
-    setAdditionalEducation(prev => [...prev, newDegree]);
-  };
-
-  const handleAddAnotherMasterDegree = () => {
-    const newMasterDegree = {
-      type: 'masterDegree',
-      data: {
-        courseName: '',
-        collegeName: '',
-        placeOfStudy: '',
-        universityName: '',
-        yearOfPassing: '',
-        coreSubjects: [],
-        specialization: [],
-        percentage: '',
-        mode: '',
-        courseStatus: 'Completed'
-      }
-    };
-
-    setAdditionalEducation(prev => [...prev, newMasterDegree]);
-  };
-
   const renderEducationFields = (type, data, index) => {
     switch(type) {
       case 'grade12':
@@ -719,18 +678,6 @@ const Education = () => {
                 </div>
               </div>
             </div>
-
-            <div className="add-degree-btn-wrapper text-right">
-              <button
-                type="button"
-                className="theme-btn btn-style-three"
-                onClick={handleAddAnotherDegree}
-              >
-                <span className="btn-title">+ Add Another Degree</span>
-              </button>
-            </div>
-
-            <hr className="degree-divider" />
           </div>
         );
 
@@ -865,18 +812,6 @@ const Education = () => {
                 </div>
               </div>
             </div>
-
-            <div className="add-degree-btn-wrapper text-right">
-              <button
-                type="button"
-                className="theme-btn btn-style-three"
-                onClick={handleAddAnotherMasterDegree}
-              >
-                <span className="btn-title">+ Add Another Master Degree</span>
-              </button>
-            </div>
-
-            <hr className="degree-divider" />
           </div>
         );
 
@@ -1717,7 +1652,7 @@ const Education = () => {
         <div className="row">
           <div className="form-group col-lg-6 col-md-12">
             <select
-              value={selectedEducationType?.value || ''}
+              value=""
               onChange={(e) => {
                 const selected = educationTypes.find(type => type.value === e.target.value);
                 if (selected) {
@@ -1726,19 +1661,23 @@ const Education = () => {
                     data: getInitialDataForType(selected.value)
                   };
                   setAdditionalEducation(prev => [...prev, newEducation]);
-                  setSelectedEducationType(null);
                 }
               }}
             >
               <option value="">Select Course</option>
-              {educationTypes
-                .filter(type => !additionalEducation.some(edu => edu.type === type.value))
-                .map(type => (
-                  <option key={type.value} value={type.value}>
-                    {type.label}
-                  </option>
-                ))
-              }
+              {educationTypes.map(type => {
+                // For non-multiple types, only show if not already selected
+                // For multiple types (degree and masterDegree), always show
+                const alreadySelected = additionalEducation.some(edu => edu.type === type.value);
+                if (type.allowMultiple || !alreadySelected) {
+                  return (
+                    <option key={type.value} value={type.value}>
+                      {type.label}
+                    </option>
+                  );
+                }
+                return null;
+              })}
             </select>
           </div>
         </div>
