@@ -56,7 +56,7 @@ const AdditionalInfo = () => {
             isMulti
             name="computerSkills"
             options={skillOptions}
-            placeholder="Select Computer Skills"
+            placeholder="Computer Skills"
             className="basic-multi-select"
             classNamePrefix="select"
             value={skillOptions.filter(option => 

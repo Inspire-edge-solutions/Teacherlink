@@ -28,7 +28,7 @@ const PersonalDetails = () => {
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <div className="radio-group ">
-            <h5>Gender</h5>
+            <h6>Gender</h6>
             <div className="radio-option">
               <input 
                 type="radio" 
@@ -90,6 +90,7 @@ const PersonalDetails = () => {
           placeholder="Mobile Number (WhatsApp)"
           required
         />
+        <span>Mobile number for calling and whatsapp can be same</span>
       </div>
   </div>
   </div>

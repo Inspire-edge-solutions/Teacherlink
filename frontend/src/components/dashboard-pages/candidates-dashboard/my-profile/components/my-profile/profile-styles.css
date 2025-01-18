@@ -444,7 +444,7 @@ select:focus {
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 2px;
 }
 
 .form-group label {
@@ -464,6 +464,9 @@ select:focus {
   color: #333;
   background-color: #fff;
 }
+.form-select{
+  padding: 0px !important;
+}
 
 .form-control:focus, .form-select:focus {
   border-color: #1967d2;
@@ -475,7 +478,7 @@ select:focus {
 .radio-group {
   display: flex;
   gap: 20px;
-  padding: 10px;
+  padding: 2px;
 }
 
 .radio-group label {
@@ -606,3 +609,31 @@ input[type="file"] {
   margin-bottom: 20px;
 }
 
+.other-teaching-experience {
+  background: #fff;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+}
+
+.other-teaching-experience table {
+  margin-bottom: 0;
+}
+
+.other-teaching-experience th,
+.other-teaching-experience td {
+  padding: 2px 4px;
+  vertical-align: middle;
+}
+
+.other-teaching-experience .radio-group {
+  display: flex;
+  gap: 20px;
+}
+
+.other-teaching-experience .radio-group label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  cursor: pointer;
+}

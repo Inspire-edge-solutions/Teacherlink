@@ -178,7 +178,8 @@ const Experience = () => {
       to: { month: '', year: '' }
     },
     salary: '',
-    paySlip: null
+    paySlip: null,
+    teachingAdminDesignations: []
   };
 
   const [experienceEntries, setExperienceEntries] = useState([{
@@ -237,6 +238,15 @@ const Experience = () => {
   const removeExperience = (indexToRemove) => {
     setExperienceEntries(prev => prev.filter((_, index) => index !== indexToRemove));
   };
+
+  const [otherTeachingExp, setOtherTeachingExp] = useState({
+    edTechCompany: "",
+    online: "",
+    coachingTuition: "",
+    groupTuitions: "",
+    privateTuitions: "",
+    homeTuitions: ""
+  });
 
   return (
     <div className="work-experience-section">
@@ -430,7 +440,7 @@ const Experience = () => {
                   };
                   setExperienceEntries(newEntries);
                 }}
-                placeholder="Enter organization name"
+                placeholder="Name of the organization"
               />
             </div>
 
@@ -488,7 +498,7 @@ const Experience = () => {
                   setExperienceEntries(newEntries);
                 }}
               >
-                <option value="">Select Job Type</option>
+                <option value="">Job Type</option>
                 <option value="teaching">Education - Teaching</option>
                 <option value="administration">Education - Administration</option>
                 <option value="teachingAndAdministration">Education - Teaching + Administration</option>
@@ -657,7 +667,7 @@ const Experience = () => {
                     };
                     setExperienceEntries(newEntries);
                   }}
-                  placeholder="Enter salary"
+                  placeholder="Salary"
                   style={{ maxWidth: '200px' }}
                 />
               
@@ -707,7 +717,7 @@ const Experience = () => {
                           setExperienceEntries(newEntries);
                         }}
                         styles={customStyles}
-                        placeholder="Select designation"
+                        placeholder="Designation"
                         isClearable
                       />
                     </div>
@@ -728,7 +738,7 @@ const Experience = () => {
                           setExperienceEntries(newEntries);
                         }}
                         styles={customStyles}
-                        placeholder="Select industry type"
+                        placeholder="Industry type"
                         isClearable
                       />
                       <span className="text-muted small">Alpha numeric, max 20 characters</span>
@@ -754,7 +764,7 @@ const Experience = () => {
                         setExperienceEntries(newEntries);
                       }}
                       styles={customStyles}
-                      placeholder="Select work profile"
+                      placeholder="Work profile"
                       isClearable
                     />
                     <span className="text-muted small">Alpha numeric, max 40 characters</span>
@@ -781,7 +791,7 @@ const Experience = () => {
                         setExperienceEntries(newEntries);
                       }}
                       styles={customStyles}
-                      placeholder="Select teaching designation"
+                      placeholder="Teaching designation"
                       isClearable
                     />
                   </div>
@@ -801,7 +811,7 @@ const Experience = () => {
                         setExperienceEntries(newEntries);
                       }}
                       styles={customStyles}
-                      placeholder="Select curriculum"
+                      placeholder="Curriculum"
                       isClearable
                     />
                   </div>
@@ -825,7 +835,7 @@ const Experience = () => {
                         setExperienceEntries(newEntries);
                       }}
                       styles={customStyles}
-                      placeholder="Select subjects you handled"
+                      placeholder="Subjects you handled"
                       isClearable
                     />
                   </div>
@@ -848,7 +858,7 @@ const Experience = () => {
                         setExperienceEntries(newEntries);
                       }}
                       styles={customStyles}
-                      placeholder="Select grades you handled"
+                      placeholder="Grades you handled"
                       isClearable
                     />
                   </div>
@@ -872,7 +882,7 @@ const Experience = () => {
                         setExperienceEntries(newEntries);
                       }}
                       styles={customStyles}
-                      placeholder="Select core expertise"
+                      placeholder="Core expertise"
                       isClearable
                     />
                   </div>
@@ -900,7 +910,7 @@ const Experience = () => {
                         setExperienceEntries(newEntries);
                       }}
                       styles={customStyles}
-                      placeholder="Select designation"
+                      placeholder="Designation"
                       isClearable
                     />
                   </div>
@@ -923,7 +933,7 @@ const Experience = () => {
                         setExperienceEntries(newEntries);
                       }}
                       styles={customStyles}
-                      placeholder="Select curriculum/board/university"
+                      placeholder="Curriculum/Board/University"
                       isClearable
                     />
                   </div>
@@ -934,22 +944,25 @@ const Experience = () => {
             
             {experience.jobType === 'teachingAndAdministration' && (
               <div className="row">
-                {/* Teaching Designation and Curriculum in first row */}
+                {/* Teaching and Admin Designation with multi-select */}
                 <div className="col-lg-6 col-md-12">
                   <div className="mb-4">
                     <Select
+                      isMulti
                       options={teachingAdminDesignationOptions}
-                      value={teachingAdminDesignationOptions.find(option => option.value === experience.teachingAdminDesignation) || ''}
+                      value={teachingAdminDesignationOptions.filter(option => 
+                        experience.teachingAdminDesignations?.includes(option.value)
+                      )}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
                           ...newEntries[index],
-                          teachingDesignation: selected?.value || ''
+                          teachingAdminDesignations: selected ? selected.map(item => item.value) : []
                         };
                         setExperienceEntries(newEntries);
                       }}
                       styles={customStyles}
-                      placeholder="Select designation"
+                      placeholder="Designation"
                       isClearable
                     />
                   </div>
@@ -969,7 +982,7 @@ const Experience = () => {
                         setExperienceEntries(newEntries);
                       }}
                       styles={customStyles}
-                      placeholder="Select curriculum"
+                      placeholder="Curriculum"
                       isClearable
                     />
                   </div>
@@ -993,7 +1006,7 @@ const Experience = () => {
                         setExperienceEntries(newEntries);
                       }}
                       styles={customStyles}
-                      placeholder="Select subjects you handled"
+                      placeholder="Subjects you handled"
                       isClearable
                     />
                   </div>
@@ -1016,7 +1029,7 @@ const Experience = () => {
                         setExperienceEntries(newEntries);
                       }}
                       styles={customStyles}
-                      placeholder="Select grades you handled"
+                      placeholder="Grades you handled"
                       isClearable
                     />
                   </div>
@@ -1040,7 +1053,7 @@ const Experience = () => {
                         setExperienceEntries(newEntries);
                       }}
                       styles={customStyles}
-                      placeholder="Select core expertise"
+                      placeholder="Core expertise"
                       isClearable
                     />
                   </div>
@@ -1109,24 +1122,6 @@ const Experience = () => {
             </div>
             )}
 
-            {/* City */}
-            <div className="form-group col-lg-6 col-md-12">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="City"
-                value={experience.city}
-                onChange={(e) => {
-                  const newEntries = [...experienceEntries];
-                  newEntries[index] = {
-                    ...newEntries[index],
-                    city: e.target.value
-                  };
-                  setExperienceEntries(newEntries);
-                }}
-              />
-            </div>
-
             {/* Country */}
             <div className="form-group col-lg-6 col-md-12">
               <input
@@ -1139,6 +1134,23 @@ const Experience = () => {
                   newEntries[index] = {
                     ...newEntries[index],
                     country: e.target.value
+                  };
+                  setExperienceEntries(newEntries);
+                }}
+              />
+            </div>
+            {/* City */}
+            <div className="form-group col-lg-6 col-md-12">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="City"
+                value={experience.city}
+                onChange={(e) => {
+                  const newEntries = [...experienceEntries];
+                  newEntries[index] = {
+                    ...newEntries[index],
+                    city: e.target.value
                   };
                   setExperienceEntries(newEntries);
                 }}
@@ -1159,7 +1171,7 @@ const Experience = () => {
                   setExperienceEntries(newEntries);
                 }}
               >
-                <option value="">Select Job Process</option>
+                <option value="">Job Process</option>
                 <option value="regular">Regular (Offline)</option>
                 <option value="online">Online</option>
                 <option value="hybrid">Hybrid</option>
@@ -1178,6 +1190,65 @@ const Experience = () => {
         >
           Add Experience Details +
         </button>
+      </div>
+
+      {/* Other Teaching Experience Section */}
+      <div className="other-teaching-experience mt-4">
+        <h4>Other Teaching Experiences</h4>
+        <div className="table-responsive">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Experience</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { key: 'edTechCompany', label: 'Ed. Tech company' },
+                { key: 'online', label: 'Online' },
+                { key: 'coachingTuition', label: 'Coaching / Tuition Centers' },
+                { key: 'groupTuitions', label: 'Group Tuitions' },
+                { key: 'privateTuitions', label: 'Private Tuitions' },
+                { key: 'homeTuitions', label: 'Home Tuitions' }
+              ].map(({ key, label }) => (
+                <tr key={key}>
+                  <td>{label}</td>
+                  <td>
+                    <div className="radio-group">
+                      <label className="me-3">
+                        <input
+                          type="radio"
+                          name={key}
+                          value="yes"
+                          checked={otherTeachingExp[key] === true}
+                          onChange={() => setOtherTeachingExp(prev => ({
+                            ...prev,
+                            [key]: true
+                          }))}
+                        />
+                        <span className="ms-1">Yes</span>
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          name={key}
+                          value="no"
+                          checked={otherTeachingExp[key] === false}
+                          onChange={() => setOtherTeachingExp(prev => ({
+                            ...prev,
+                            [key]: false
+                          }))}
+                        />
+                        <span className="ms-1">No</span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

@@ -62,7 +62,7 @@ const Salary = () => {
                 currentSalary: e.target.value
               }))}
             >
-              <option value="">Select current salary(INR)</option>
+              <option value="">Current salary(INR)</option>
               {salaryRanges.map(range => (
                 <option key={range.value} value={range.value}>
                   {range.label}
@@ -82,7 +82,7 @@ const Salary = () => {
                 expectedSalary: e.target.value
               }))}
             >
-              <option value="">Select expected salary(INR)</option>
+              <option value="">Expected salary(INR)</option>
               {salaryRanges.map(range => (
                 <option key={range.value} value={range.value}>
                   {range.label}
@@ -95,7 +95,7 @@ const Salary = () => {
           <div className="form-group col-lg-6 col-md-12">
             <select 
               className="chosen-single form-select" 
-              placeholder="Select Experience"
+              placeholder="Experience"
               required
               value={salaryDetails.experience}
               onChange={(e) => setSalaryDetails(prev => ({
@@ -103,7 +103,7 @@ const Salary = () => {
                 experience: e.target.value
               }))}
             >
-              <option value="">Select experience</option>
+              <option value="">Experience</option>
               {experienceOptions.map(exp => (
                 <option key={exp.value} value={exp.value}>
                   {exp.label}
@@ -119,7 +119,7 @@ const Salary = () => {
               isMulti
               name="jobPreferences"
               options={jobPreferenceOptions}
-              placeholder="Select job preferences"
+              placeholder="Job preferences"
               className="basic-multi-select"
               classNamePrefix="select"
               value={salaryDetails.jobPreferences}

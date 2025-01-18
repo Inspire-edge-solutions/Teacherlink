@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Select from 'react-select';
 
 const JobPreference = () => {
   const [preferences, setPreferences] = useState({
@@ -23,6 +24,120 @@ const JobPreference = () => {
     }
   });
 
+  const [jobSearchStatus, setJobSearchStatus] = useState({
+    offline: '',
+    online: ''
+  });
+
+  const [salaryDetails, setSalaryDetails] = useState({
+    expectedSalary: "",
+   
+  });
+
+  const [jobDetails, setJobDetails] = useState({
+    jobType: '',
+    teachingDesignations: [],
+    curriculum: [],
+    subjects: [],
+    grades: [],
+    coreExpertise: [],
+    adminDesignations: [],
+    adminCurriculum: [],
+    teachingAndAdminDesignation: [],
+    expectedSalary: '',
+    preferredLocations: [],
+    preferredCountries: [],
+    noticePeriod: '',
+    location: '',
+    country: '',
+  });
+
+  const jobTypeOptions = [
+    { value: 'teaching', label: 'Education - Teaching' },
+    { value: 'administration', label: 'Education - Administration' },
+    { value: 'teachingAndAdmin', label: 'Education - Teaching + Administration' }
+  ];
+
+  const teachingDesignations = [
+    { value: 'nurseryTeacher', label: 'Nursery Teacher' },
+    { value: 'montessoriTeacher', label: 'Montessori Teacher' },
+    { value: 'neetFaculty', label: 'NEET faculty' },
+    { value: 'jeeFaculty', label: 'JEE faculty' },
+    { value: 'cetFaculty', label: 'CET faculty' }
+  ];
+
+  const curriculumOptions = [
+    { value: 'stateBoard', label: 'State Board' },
+    { value: 'cbse', label: 'CBSE' },
+    { value: 'icse', label: 'ICSE' },
+    { value: 'others', label: 'Others' },
+    { value: 'affiliatedUniversity', label: 'Affiliated University' },
+    { value: 'deemedUniversity', label: 'Deemed University' }
+  ];
+
+  const subjectOptions = [
+    { value: 'physics', label: 'Physics' },
+    { value: 'chemistry', label: 'Chemistry' },
+    { value: 'others', label: 'Others' }
+  ];
+
+  const gradeOptions = [
+    { value: 'prePrimary', label: 'Pre-Primary' },
+    { value: 'primary', label: 'Primary' },
+    { value: 'middleSchool', label: 'Middle School' },
+    { value: 'highSchool', label: 'High School' },
+    { value: 'grade1', label: 'Grade 1' },
+    { value: 'grade2', label: 'Grade 2' },
+    { value: 'grade12', label: 'Grade 12' },
+    { value: 'degree', label: 'Degree' },
+    { value: 'masterDegree', label: 'Master Degree' },
+    { value: 'phd', label: 'PhD' },
+    { value: 'mphil', label: 'MPhil' },
+    { value: 'bed', label: 'B.Ed' },
+    { value: 'ded', label: 'D.Ed' }
+  ];
+
+  const coreExpertiseOptions = [
+    { value: 'neet', label: 'NEET' },
+    { value: 'jeeMains', label: 'JEE(Mains)' },
+    { value: 'jeeAdvanced', label: 'JEE (Advanced)' },
+    { value: 'cet', label: 'CET (state level entrance)' },
+    { value: 'foundation', label: 'Foundation' },
+    { value: 'spokenEnglish', label: 'Spoken English' },
+    { value: 'roboticsLab', label: 'Robotics Lab' },
+    { value: 'juniorIAS', label: 'Junior IAS' },
+    { value: 'practicalClasses', label: 'Practical classes' }
+  ];
+
+  const adminDesignationOptions = [
+    { value: 'principal', label: 'Principal' },
+    { value: 'vicePrincipal', label: 'Vice Principal' },
+    { value: 'director', label: 'Director' },
+    { value: 'academicCoordinator', label: 'Academic Coordinator' },
+    { value: 'disciplineCoordinator', label: 'Discipline Coordinator' },
+    { value: 'dean', label: 'Dean' }
+  ];
+
+  const teachingAndAdminDesignationOptions = [
+    ...teachingDesignations.map(option => ({
+      ...option,
+      group: 'Teaching'
+    })),
+    ...adminDesignationOptions.map(option => ({
+      ...option,
+      group: 'Administration'
+    }))
+  ];
+
+  const salaryRanges = [
+    { value: "less_than_40k", label: "Less than 40K" },
+    { value: "40k_70k", label: "40-70 K" },
+    { value: "50k_80k", label: "50-80 K" },
+    { value: "60k_90k", label: "60-90 K" },
+    { value: "70k_100k", label: "70-100 K" },
+    { value: "more_than_100k", label: "More than 100K" }
+  ];
+
   const handlePreferenceChange = (category, field, mode, value) => {
     setPreferences(prev => ({
       ...prev,
@@ -36,8 +151,216 @@ const JobPreference = () => {
     }));
   };
 
+  const shouldShowJobSearchStatus = () => {
+    const { fullTime, partTimeWeekdays } = preferences.jobShift;
+    return (
+      fullTime.offline === true || 
+      fullTime.online === true || 
+      partTimeWeekdays.offline === true || 
+      partTimeWeekdays.online === true
+    );
+  };
+
+  const renderJobDetailsSection = () => (
+    <div className="form-group col-lg-12">
+      <div className="form-box">
+        <h3 className="form-title">Expected Job preferences</h3>
+        <div className="row">
+          {/* Job Type */}
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              placeholder="Job Type"
+              options={jobTypeOptions}
+              value={jobTypeOptions.find(option => option.value === jobDetails.jobType)}
+              onChange={(selected) => {
+                console.log('Selected job type:', selected?.value);
+                setJobDetails(prev => ({
+                  ...prev,
+                  jobType: selected?.value
+                }));
+              }}
+            />
+          </div>
+          <div className="form-group col-lg-6 col-md-12">
+            <select 
+              className="chosen-single form-select" 
+              required
+              value={salaryDetails.expectedSalary}
+              onChange={(e) => setSalaryDetails(prev => ({
+                ...prev,
+                expectedSalary: e.target.value
+              }))}
+            >
+              <option value="">Expected salary(INR)</option>
+              {salaryRanges.map(range => (
+                <option key={range.value} value={range.value}>
+                  {range.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+
+              {/* Notice Period */}
+              <div className="form-group col-lg-6">
+                <Select
+                  placeholder="Notice Period"
+                  options={[
+                    { value: '', label: 'Notice Period' },
+                    { value: 'immediateJoiner', label: 'Immediate Joiner' },
+                    { value: 'lessThan7', label: '< 7 days' },
+                    { value: 'lessThan15', label: '< 15 days' },
+                    { value: 'lessThan1Month', label: '< 1 month' },
+                    { value: 'moreThan1Month', label: '> 1 Month' }
+                  ]}
+                  value={jobDetails.noticePeriod}
+                  onChange={(selected) => setJobDetails(prev => ({
+                    ...prev,
+                    noticePeriod: selected
+                  }))}
+                />
+              </div>
+              <div className="form-group col-lg-6">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Preferred Location"
+                  maxLength="20"
+                  value={jobDetails.location}
+                  onChange={(e) => setJobDetails(prev => ({
+                    ...prev,
+                    location: e.target.value
+                  }))}
+                />
+              </div>
+              <div className="form-group col-lg-6">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Preferred country"
+                  maxLength="20"
+                  value={jobDetails.country}
+                  onChange={(e) => setJobDetails(prev => ({
+                    ...prev,
+                    country: e.target.value
+                  }))}
+                />
+              </div>
+
+          {jobDetails.jobType && (
+            <>
+              {/* Teaching and Administration Combined Fields */}
+              {jobDetails.jobType === 'teachingAndAdmin' && (
+                <div className='row'>
+                  {/* Teaching and Admin Designation */}
+                  <div className="form-group col-lg-6 col-md-12">
+                    <Select
+                      isMulti
+                      placeholder="Select Teaching & Administrative Designation(s)"
+                      options={[
+                        {
+                          label: 'Teaching Designations',
+                          options: teachingDesignations
+                        },
+                        {
+                          label: 'Administrative Designations',
+                          options: adminDesignationOptions
+                        }
+                      ]}
+                      value={jobDetails.teachingAndAdminDesignation.map(value => {
+                        const option = teachingAndAdminDesignationOptions.find(opt => opt.value === value);
+                        return option ? {
+                          value: option.value,
+                          label: option.label
+                        } : null;
+                      }).filter(Boolean)}
+                      onChange={(selected) => setJobDetails(prev => ({
+                        ...prev,
+                        teachingAndAdminDesignation: selected ? selected.map(item => item.value) : []
+                      }))}
+                    />
+                  </div>
+
+                  {/* Curriculum/Board/University */}
+                  <div className="form-group col-lg-6 col-md-12">
+                    <Select
+                      isMulti
+                      placeholder="Select Curriculum/Board/University"
+                      options={curriculumOptions}
+                      value={jobDetails.curriculum.map(value => ({
+                        value,
+                        label: curriculumOptions.find(opt => opt.value === value)?.label
+                      }))}
+                      onChange={(selected) => setJobDetails(prev => ({
+                        ...prev,
+                        curriculum: selected ? selected.map(item => item.value) : []
+                      }))}
+                    />
+                  </div>
+
+                  {/* Subjects */}
+                  <div className="form-group col-lg-6 col-md-12">
+                    <Select
+                      isMulti
+                      placeholder="Select Subjects"
+                      options={subjectOptions}
+                      value={jobDetails.subjects.map(value => ({
+                        value,
+                        label: subjectOptions.find(opt => opt.value === value)?.label
+                      }))}
+                      onChange={(selected) => setJobDetails(prev => ({
+                        ...prev,
+                        subjects: selected ? selected.map(item => item.value) : []
+                      }))}
+                    />
+                  </div>
+
+                  {/* Grades */}
+                  <div className="form-group col-lg-6 col-md-12">
+                    <Select
+                      isMulti
+                      placeholder="Select Grades"
+                      options={gradeOptions}
+                      value={jobDetails.grades.map(value => ({
+                        value,
+                        label: gradeOptions.find(opt => opt.value === value)?.label
+                      }))}
+                      onChange={(selected) => setJobDetails(prev => ({
+                        ...prev,
+                        grades: selected ? selected.map(item => item.value) : []
+                      }))}
+                    />
+                  </div>
+
+                  {/* Core Expertise */}
+                  <div className="form-group col-lg-6 col-md-12">
+                    <Select
+                      isMulti
+                      placeholder="Select Core Expertise"
+                      options={coreExpertiseOptions}
+                      value={jobDetails.coreExpertise.map(value => ({
+                        value,
+                        label: coreExpertiseOptions.find(opt => opt.value === value)?.label
+                      }))}
+                      onChange={(selected) => setJobDetails(prev => ({
+                        ...prev,
+                        coreExpertise: selected ? selected.map(item => item.value) : []
+                      }))}
+                    />
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <form className="default-form">
+      
+      
       <div className="row">
         {/* Job Shift & Job Category Section */}
         <div className="form-group col-md-6 col-lg-12">
@@ -358,6 +681,318 @@ const JobPreference = () => {
           </div>
         </div>
       </div>
+
+      {/* Job Search Status Section */}
+      {shouldShowJobSearchStatus() && (
+        <div className="form-group col-lg-6 col-md-12">
+          <div className="form-box">
+            <h3 className="form-title">Job Search Status</h3>
+            <div className="preference-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Mode</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* Offline Status */}
+                  {(preferences.jobShift.fullTime.offline === true || 
+                    preferences.jobShift.partTimeWeekdays.offline === true) && (
+                    <tr>
+                      <td>Offline</td>
+                      <td>
+                        <select
+                          className="form-select"
+                          value={jobSearchStatus.offline}
+                          onChange={(e) => setJobSearchStatus(prev => ({
+                            ...prev,
+                            offline: e.target.value
+                          }))}
+                        >
+                          <option value="">Select Status</option>
+                          <option value="activelySearching">Actively Searching Jobs</option>
+                          <option value="casuallyExploring">Casually Exploring Jobs</option>
+                          <option value="notLooking">Not looking for Jobs</option>
+                        </select>
+                      </td>
+                    </tr>
+                  )}
+                  
+                  {/* Online Status */}
+                  {(preferences.jobShift.fullTime.online === true || 
+                    preferences.jobShift.partTimeWeekdays.online === true) && (
+                    <tr>
+                      <td>Online</td>
+                      <td>
+                        <select
+                          className="form-select"
+                          value={jobSearchStatus.online}
+                          onChange={(e) => setJobSearchStatus(prev => ({
+                            ...prev,
+                            online: e.target.value
+                          }))}
+                        >
+                          <option value="">Select Status</option>
+                          <option value="activelySearching">Actively Searching Jobs</option>
+                          <option value="casuallyExploring">Casually Exploring Jobs</option>
+                          <option value="notLooking">Not looking for Jobs</option>
+                        </select>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+      {renderJobDetailsSection()}
+
+      {/* Teaching Related Fields */}
+      {jobDetails.jobType === 'teaching' && (
+        <>
+          {/* Teaching Designation */}
+          <div className='row'>
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Teaching Designation(s)"
+              options={teachingDesignations}
+              value={jobDetails.teachingDesignations.map(value => ({
+                value,
+                label: teachingDesignations.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                teachingDesignations: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+
+          {/* Curriculum/Board/University */}
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Curriculum/Board/University"
+              options={curriculumOptions}
+              value={jobDetails.curriculum.map(value => ({
+                value,
+                label: curriculumOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                curriculum: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+
+          {/* Subjects */}
+          <div className="form-group col-lg-6 col-md- 12">
+            <Select
+              isMulti
+              placeholder="Subjects"
+              options={subjectOptions}
+              value={jobDetails.subjects.map(value => ({
+                value,
+                label: subjectOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                subjects: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+
+          {/* Grades */}
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Grades"
+              options={gradeOptions}
+              value={jobDetails.grades.map(value => ({
+                value,
+                label: gradeOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                grades: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+
+          {/* Core Expertise */}
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Core Expertise"
+              options={coreExpertiseOptions}
+              value={jobDetails.coreExpertise.map(value => ({
+                value,
+                label: coreExpertiseOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                coreExpertise: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+          </div>
+        </>
+      )}
+
+      {/* Administration Related Fields */}
+      {jobDetails.jobType === 'administration' && (
+        <>
+          {/* Administrative Designation */}
+          <div className='row'>
+          <div className="form form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Administrative Designation(s)"
+              options={adminDesignationOptions}
+              value={jobDetails.adminDesignations.map(value => ({
+                value,
+                label: adminDesignationOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                adminDesignations: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+
+          {/* Administrative Curriculum/Board/University */}
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Curriculum/Board/University"
+              options={curriculumOptions}  // Using the same curriculum options as teaching
+              value={jobDetails.adminCurriculum.map(value => ({
+                value,
+                label: curriculumOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                adminCurriculum: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+          </div>
+
+          {jobDetails.jobType === 'teachingAndAdmin' && (
+            <div className='row'>
+              <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Teaching & Administrative Designation(s)"
+              options={[
+                {
+                  label: 'Teaching Designations',
+                  options: teachingDesignations
+                },
+                {
+                  label: 'Administrative Designations',
+                  options: adminDesignationOptions
+                }
+              ]}
+              value={jobDetails.teachingAndAdminDesignation.map(value => {
+                const option = teachingAndAdminDesignationOptions.find(opt => opt.value === value);
+                return option ? {
+                  value: option.value,
+                  label: option.label
+                } : null;
+              }).filter(Boolean)}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                teachingAndAdminDesignation: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+
+          {/* Curriculum/Board/University */}
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Curriculum/Board/University"
+              options={curriculumOptions}
+              value={jobDetails.curriculum.map(value => ({
+                value,
+                label: curriculumOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                curriculum: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+
+          {/* Subjects */}
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Subjects"
+              options={subjectOptions}
+              value={jobDetails.subjects.map(value => ({
+                value,
+                label: subjectOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                subjects: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+
+          {/* Grades */}
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Grades"
+              options={gradeOptions}
+              value={jobDetails.grades.map(value => ({
+                value,
+                label: gradeOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                grades: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+
+          {/* Core Expertise */}
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Core Expertise"
+              options={coreExpertiseOptions}
+              value={jobDetails.coreExpertise.map(value => ({
+                value,
+                label: coreExpertiseOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                coreExpertise: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+          </div>
+          )}
+        </>
+      )}
     </form>
   );
 };

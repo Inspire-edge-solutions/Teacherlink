@@ -23,11 +23,11 @@ const FormInfoBox = () => {
 
         <Education />
 
-        <Salary/>
-
         <Experience/>
 
         <Languages/>
+
+        <Salary/>
 
         <JobPreferences/>
         
