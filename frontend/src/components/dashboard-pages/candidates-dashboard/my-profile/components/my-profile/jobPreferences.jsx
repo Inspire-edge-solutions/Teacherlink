@@ -286,7 +286,7 @@ const JobPreference = () => {
                   <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
-                      placeholder="Select Teaching & Administrative Designation(s)"
+                      placeholder="Teaching & Administrative Designation(s)"
                       options={[
                         {
                           label: 'Teaching Designations',
@@ -315,7 +315,7 @@ const JobPreference = () => {
                   <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
-                      placeholder="Select Curriculum/Board/University"
+                      placeholder="Curriculum/Board/University"
                       options={curriculumOptions}
                       value={jobDetails.curriculum.map(value => ({
                         value,
@@ -332,7 +332,7 @@ const JobPreference = () => {
                   <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
-                      placeholder="Select Subjects"
+                      placeholder="Subjects"
                       options={subjectOptions}
                       value={jobDetails.subjects.map(value => ({
                         value,
@@ -349,7 +349,7 @@ const JobPreference = () => {
                   <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
-                      placeholder="Select Grades"
+                      placeholder="Grades"
                       options={gradeOptions}
                       value={jobDetails.grades.map(value => ({
                         value,
@@ -366,7 +366,7 @@ const JobPreference = () => {
                   <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
-                      placeholder="Select Core Expertise"
+                      placeholder="Core Expertise"
                       options={coreExpertiseOptions}
                       value={jobDetails.coreExpertise.map(value => ({
                         value,
@@ -382,6 +382,147 @@ const JobPreference = () => {
               )}
             </>
           )}
+
+ {/* Teaching Related Fields */}
+ {jobDetails.jobType === 'teaching' && (
+        <>
+          {/* Teaching Designation */}
+          <div className='row'>
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Teaching Designation(s)"
+              options={teachingDesignations}
+              value={jobDetails.teachingDesignations.map(value => ({
+                value,
+                label: teachingDesignations.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                teachingDesignations: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+
+          {/* Curriculum/Board/University */}
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Curriculum/Board/University"
+              options={curriculumOptions}
+              value={jobDetails.curriculum.map(value => ({
+                value,
+                label: curriculumOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                curriculum: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+
+          {/* Subjects */}
+          <div className="form-group col-lg-6 col-md- 12">
+            <Select
+              isMulti
+              placeholder="Subjects"
+              options={subjectOptions}
+              value={jobDetails.subjects.map(value => ({
+                value,
+                label: subjectOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                subjects: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+
+          {/* Grades */}
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Grades"
+              options={gradeOptions}
+              value={jobDetails.grades.map(value => ({
+                value,
+                label: gradeOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                grades: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+
+          {/* Core Expertise */}
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Core Expertise"
+              options={coreExpertiseOptions}
+              value={jobDetails.coreExpertise.map(value => ({
+                value,
+                label: coreExpertiseOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                coreExpertise: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+          </div>
+        </>
+      )}
+
+{/* Administration Related Fields */}
+{jobDetails.jobType === 'administration' && (
+        <>
+          {/* Administrative Designation */}
+          <div className='row'>
+          <div className="form form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Administrative Designation(s)"
+              options={adminDesignationOptions}
+              value={jobDetails.adminDesignations.map(value => ({
+                value,
+                label: adminDesignationOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                adminDesignations: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+
+          {/* Administrative Curriculum/Board/University */}
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="Curriculum/Board/University"
+              options={curriculumOptions}  // Using the same curriculum options as teaching
+              value={jobDetails.adminCurriculum.map(value => ({
+                value,
+                label: curriculumOptions.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                adminCurriculum: selected ? selected.map(item => item.value) : []
+              }))}
+              className="form-select"
+            />
+          </div>
+          </div>
+        </>
+      )}
+
         </div>
       </div>
     </div>
@@ -787,251 +928,7 @@ const JobPreference = () => {
         </div>
       )}
       {renderJobDetailsSection()}
-
-      {/* Teaching Related Fields */}
-      {jobDetails.jobType === 'teaching' && (
-        <>
-          {/* Teaching Designation */}
-          <div className='row'>
-          <div className="form-group col-lg-6 col-md-12">
-            <Select
-              isMulti
-              placeholder="Teaching Designation(s)"
-              options={teachingDesignations}
-              value={jobDetails.teachingDesignations.map(value => ({
-                value,
-                label: teachingDesignations.find(opt => opt.value === value)?.label
-              }))}
-              onChange={(selected) => setJobDetails(prev => ({
-                ...prev,
-                teachingDesignations: selected ? selected.map(item => item.value) : []
-              }))}
-              className="form-select"
-            />
-          </div>
-
-          {/* Curriculum/Board/University */}
-          <div className="form-group col-lg-6 col-md-12">
-            <Select
-              isMulti
-              placeholder="Curriculum/Board/University"
-              options={curriculumOptions}
-              value={jobDetails.curriculum.map(value => ({
-                value,
-                label: curriculumOptions.find(opt => opt.value === value)?.label
-              }))}
-              onChange={(selected) => setJobDetails(prev => ({
-                ...prev,
-                curriculum: selected ? selected.map(item => item.value) : []
-              }))}
-              className="form-select"
-            />
-          </div>
-
-          {/* Subjects */}
-          <div className="form-group col-lg-6 col-md- 12">
-            <Select
-              isMulti
-              placeholder="Subjects"
-              options={subjectOptions}
-              value={jobDetails.subjects.map(value => ({
-                value,
-                label: subjectOptions.find(opt => opt.value === value)?.label
-              }))}
-              onChange={(selected) => setJobDetails(prev => ({
-                ...prev,
-                subjects: selected ? selected.map(item => item.value) : []
-              }))}
-              className="form-select"
-            />
-          </div>
-
-          {/* Grades */}
-          <div className="form-group col-lg-6 col-md-12">
-            <Select
-              isMulti
-              placeholder="Grades"
-              options={gradeOptions}
-              value={jobDetails.grades.map(value => ({
-                value,
-                label: gradeOptions.find(opt => opt.value === value)?.label
-              }))}
-              onChange={(selected) => setJobDetails(prev => ({
-                ...prev,
-                grades: selected ? selected.map(item => item.value) : []
-              }))}
-              className="form-select"
-            />
-          </div>
-
-          {/* Core Expertise */}
-          <div className="form-group col-lg-6 col-md-12">
-            <Select
-              isMulti
-              placeholder="Core Expertise"
-              options={coreExpertiseOptions}
-              value={jobDetails.coreExpertise.map(value => ({
-                value,
-                label: coreExpertiseOptions.find(opt => opt.value === value)?.label
-              }))}
-              onChange={(selected) => setJobDetails(prev => ({
-                ...prev,
-                coreExpertise: selected ? selected.map(item => item.value) : []
-              }))}
-              className="form-select"
-            />
-          </div>
-          </div>
-        </>
-      )}
-
-      {/* Administration Related Fields */}
-      {jobDetails.jobType === 'administration' && (
-        <>
-          {/* Administrative Designation */}
-          <div className='row'>
-          <div className="form form-group col-lg-6 col-md-12">
-            <Select
-              isMulti
-              placeholder="Administrative Designation(s)"
-              options={adminDesignationOptions}
-              value={jobDetails.adminDesignations.map(value => ({
-                value,
-                label: adminDesignationOptions.find(opt => opt.value === value)?.label
-              }))}
-              onChange={(selected) => setJobDetails(prev => ({
-                ...prev,
-                adminDesignations: selected ? selected.map(item => item.value) : []
-              }))}
-              className="form-select"
-            />
-          </div>
-
-          {/* Administrative Curriculum/Board/University */}
-          <div className="form-group col-lg-6 col-md-12">
-            <Select
-              isMulti
-              placeholder="Curriculum/Board/University"
-              options={curriculumOptions}  // Using the same curriculum options as teaching
-              value={jobDetails.adminCurriculum.map(value => ({
-                value,
-                label: curriculumOptions.find(opt => opt.value === value)?.label
-              }))}
-              onChange={(selected) => setJobDetails(prev => ({
-                ...prev,
-                adminCurriculum: selected ? selected.map(item => item.value) : []
-              }))}
-              className="form-select"
-            />
-          </div>
-          </div>
-
-          {jobDetails.jobType === 'teachingAndAdmin' && (
-            <div className='row'>
-              <div className="form-group col-lg-6 col-md-12">
-            <Select
-              isMulti
-              placeholder="Teaching & Administrative Designation(s)"
-              options={[
-                {
-                  label: 'Teaching Designations',
-                  options: teachingDesignations
-                },
-                {
-                  label: 'Administrative Designations',
-                  options: adminDesignationOptions
-                }
-              ]}
-              value={jobDetails.teachingAndAdminDesignation.map(value => {
-                const option = teachingAndAdminDesignationOptions.find(opt => opt.value === value);
-                return option ? {
-                  value: option.value,
-                  label: option.label
-                } : null;
-              }).filter(Boolean)}
-              onChange={(selected) => setJobDetails(prev => ({
-                ...prev,
-                teachingAndAdminDesignation: selected ? selected.map(item => item.value) : []
-              }))}
-              className="form-select"
-            />
-          </div>
-
-          {/* Curriculum/Board/University */}
-          <div className="form-group col-lg-6 col-md-12">
-            <Select
-              isMulti
-              placeholder="Curriculum/Board/University"
-              options={curriculumOptions}
-              value={jobDetails.curriculum.map(value => ({
-                value,
-                label: curriculumOptions.find(opt => opt.value === value)?.label
-              }))}
-              onChange={(selected) => setJobDetails(prev => ({
-                ...prev,
-                curriculum: selected ? selected.map(item => item.value) : []
-              }))}
-              className="form-select"
-            />
-          </div>
-
-          {/* Subjects */}
-          <div className="form-group col-lg-6 col-md-12">
-            <Select
-              isMulti
-              placeholder="Subjects"
-              options={subjectOptions}
-              value={jobDetails.subjects.map(value => ({
-                value,
-                label: subjectOptions.find(opt => opt.value === value)?.label
-              }))}
-              onChange={(selected) => setJobDetails(prev => ({
-                ...prev,
-                subjects: selected ? selected.map(item => item.value) : []
-              }))}
-              className="form-select"
-            />
-          </div>
-
-          {/* Grades */}
-          <div className="form-group col-lg-6 col-md-12">
-            <Select
-              isMulti
-              placeholder="Grades"
-              options={gradeOptions}
-              value={jobDetails.grades.map(value => ({
-                value,
-                label: gradeOptions.find(opt => opt.value === value)?.label
-              }))}
-              onChange={(selected) => setJobDetails(prev => ({
-                ...prev,
-                grades: selected ? selected.map(item => item.value) : []
-              }))}
-              className="form-select"
-            />
-          </div>
-
-          {/* Core Expertise */}
-          <div className="form-group col-lg-6 col-md-12">
-            <Select
-              isMulti
-              placeholder="Core Expertise"
-              options={coreExpertiseOptions}
-              value={jobDetails.coreExpertise.map(value => ({
-                value,
-                label: coreExpertiseOptions.find(opt => opt.value === value)?.label
-              }))}
-              onChange={(selected) => setJobDetails(prev => ({
-                ...prev,
-                coreExpertise: selected ? selected.map(item => item.value) : []
-              }))}
-              className="form-select"
-            />
-          </div>
-          </div>
-          )}
-        </>
-      )}
+      
     </form>
   );
 };

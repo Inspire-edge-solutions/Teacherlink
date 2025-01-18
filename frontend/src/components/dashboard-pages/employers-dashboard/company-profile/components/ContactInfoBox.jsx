@@ -4,70 +4,33 @@ const ContactInfoBox = () => {
     return (
         <form className="default-form">
             <div className="row">
-                {/* <!-- Input --> */}
-                <div className="form-group col-lg-6 col-md-12">
-                    <label>Country</label>
-                    <select className="chosen-single form-select" required>
-                        <option>Australia</option>
-                        <option>Pakistan</option>
-                        <option>Chaina</option>
-                        <option>Japan</option>
-                        <option>India</option>
-                    </select>
-                </div>
 
                 {/* <!-- Input --> */}
                 <div className="form-group col-lg-6 col-md-12">
-                    <label>City</label>
-                    <select className="chosen-single form-select" required>
-                        <option>Melbourne</option>
-                        <option>Pakistan</option>
-                        <option>Chaina</option>
-                        <option>Japan</option>
-                        <option>India</option>
-                    </select>
-                </div>
-
-                {/* <!-- Input --> */}
-                <div className="form-group col-lg-12 col-md-12">
-                    <label>Complete Address</label>
                     <input
                         type="text"
                         name="name"
-                        placeholder="13/2, Standage road, Pulikeshi nagar, Bengaluru, Karnataka, India 560005"
-                        required
-                    />
-                </div>
-
-                {/* <!-- Input --> */}
-                <div className="form-group col-lg-6 col-md-12">
-                    <label>Find On Map</label>
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="13/2, Standage road, Pulikeshi nagar, Bengaluru, Karnataka, India 560005"
+                        placeholder="Find on Map"
                         required
                     />
                 </div>
 
                 {/* <!-- Input --> */}
                 <div className="form-group col-lg-3 col-md-12">
-                    <label>Latitude</label>
                     <input
                         type="text"
                         name="name"
-                        placeholder="Melbourne"
+                        placeholder="Latitude"
                         required
                     />
                 </div>
 
                 {/* <!-- Input --> */}
                 <div className="form-group col-lg-3 col-md-12">
-                    <label>Longitude</label>
                     <input
                         type="text"
                         name="name"
-                        placeholder="Melbourne"
+                        placeholder="Longitude"
                         required
                     />
                 </div>
@@ -90,8 +53,8 @@ const ContactInfoBox = () => {
 
                 {/* <!-- Input --> */}
                 <div className="form-group col-lg-12 col-md-12">
-                    <button type="submit" className="theme-btn btn-style-one">
-                        Save
+                    <button type="submit" className="theme-btn btn-style-three">
+                        Save Location
                     </button>
                 </div>
             </div>

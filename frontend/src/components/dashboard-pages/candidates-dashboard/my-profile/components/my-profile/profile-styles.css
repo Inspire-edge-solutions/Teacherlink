@@ -465,7 +465,7 @@ select:focus {
   background-color: #fff;
 }
 .form-select{
-  padding: 0px !important;
+  padding: 10px !important;
 }
 
 .form-control:focus, .form-select:focus {
