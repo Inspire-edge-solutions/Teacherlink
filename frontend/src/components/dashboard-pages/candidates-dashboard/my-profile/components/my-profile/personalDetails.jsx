@@ -9,6 +9,22 @@ const PersonalDetails = () => {
     if (!event.target.value) setDate('text');
   };
 
+  const [whatsappType, setWhatsappType] = useState('text');
+  const [whatsappNumber, setWhatsappNumber] = useState('');
+  const [showWhatsappHint, setShowWhatsappHint] = useState(false);
+
+  const handleFocusWhatsapp = () => {
+    setWhatsappType('number');
+    setShowWhatsappHint(true);
+  };
+
+  const handleBlurWhatsapp = (event) => {
+    if (!event.target.value) {
+      setWhatsappType('text');
+    }
+    setShowWhatsappHint(false);
+  };
+
   return <div>
      <div className="row">
         <h3>Personal Details</h3>
@@ -85,12 +101,22 @@ const PersonalDetails = () => {
       </div>
       <div className="form-group col-lg-6 col-md-12">
         <input
-          type="number"
+          type={whatsappType}
           name="whatsapp"
+          id="whatsapp"
+          value={whatsappNumber}
+          onChange={(e) => setWhatsappNumber(e.target.value)}
+          onFocus={handleFocusWhatsapp}
+          onBlur={handleBlurWhatsapp}
           placeholder="Mobile Number (WhatsApp)"
+          maxLength="10"
           required
         />
-        <span>Mobile number for calling and whatsapp can be same</span>
+        {showWhatsappHint && (
+          <small>
+            Mobile number for calling and WhatsApp can be same
+          </small>
+        )}
       </div>
   </div>
   </div>
