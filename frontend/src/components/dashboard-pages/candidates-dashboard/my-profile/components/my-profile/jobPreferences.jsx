@@ -851,115 +851,103 @@ const JobPreference = () => {
       </div>
       {renderJobDetailsSection()}
       {/* Job Search Status Section */}
-              <div className="row">
-        <div className="form-group col-lg-12 col-md-12">
-          <div className="form-box">
-            <h3 className="form-title">Job Search Status</h3>
-            <div className="preference-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Mode</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* Full Time Row */}
-                  <tr>
-                    <td>Full Time</td>
-                    <td>
-                      <div className="d-flex gap-2">
-                        {/* Offline Status */}
-                          <select
-                            className="form-select"
-                            value={jobSearchStatus.fullTime.offline}
-                            onChange={(e) => setJobSearchStatus(prev => ({
-                              ...prev,
-                              fullTime: {
-                                ...prev.fullTime,
-                                offline: e.target.value
-                              }
-                            }))}
-                          >
-                            <option value="">Offline Status</option>
-                            <option value="activelySearching">Actively Searching Jobs</option>
-                            <option value="casuallyExploring">Casually Exploring Jobs</option>
-                            <option value="notLooking">Not looking for Jobs</option>
-                          </select>
-                    
-                        {/* Online Status */}
-                          <select
-                            className="form-select"
-                            value={jobSearchStatus.fullTime.online}
-                            onChange={(e) => setJobSearchStatus(prev => ({
-                              ...prev,
-                              fullTime: {
-                                ...prev.fullTime,
-                                online: e.target.value
-                              }
-                            }))}
-                          >
-                            <option value="">Online Status</option>
-                            <option value="activelySearching">Actively Searching Jobs</option>
-                            <option value="casuallyExploring">Casually Exploring Jobs</option>
-                            <option value="notLooking">Not looking for Jobs</option>
-                          </select>
-                      </div>
-                    </td>
-                  </tr>
+      <div className="job-search-status">
+        <h3>Job Search Status</h3>
+        <div className="preference-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Mode</th>
+                <th>Offline</th>
+                <th>Online</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Full Time Row */}
+              <tr>
+                <td>Full Time</td>
+                <td>
+                  <select
+                    className="form-select"
+                    value={jobSearchStatus.fullTime.offline}
+                    onChange={(e) => setJobSearchStatus(prev => ({
+                      ...prev,
+                      fullTime: {
+                        ...prev.fullTime,
+                        offline: e.target.value
+                      }
+                    }))}
+                  >
+                    <option value="">Status</option>
+                    <option value="activelySearching">Actively Searching Jobs</option>
+                    <option value="casuallyExploring">Casually Exploring Jobs</option>
+                    <option value="notLooking">Not looking for Jobs</option>
+                  </select>
+                </td>
+                <td>
+                  <select
+                    className="form-select"
+                    value={jobSearchStatus.fullTime.online}
+                    onChange={(e) => setJobSearchStatus(prev => ({
+                      ...prev,
+                      fullTime: {
+                        ...prev.fullTime,
+                        online: e.target.value
+                      }
+                    }))}
+                  >
+                    <option value="">Status</option>
+                    <option value="activelySearching">Actively Searching Jobs</option>
+                    <option value="casuallyExploring">Casually Exploring Jobs</option>
+                    <option value="notLooking">Not looking for Jobs</option>
+                  </select>
+                </td>
+              </tr>
 
-                  {/* Part Time Weekdays Row */}
-                  <tr>
-                    <td>Part Time(Weekdays)</td>
-                    <td>
-                      <div className="d-flex gap-2">
-                        {/* Offline Status */}
-                          <select
-                            className="form-select"
-                            value={jobSearchStatus.partTimeWeekdays.offline}
-                            onChange={(e) => setJobSearchStatus(prev => ({
-                              ...prev,
-                              partTimeWeekdays: {
-                                ...prev.partTimeWeekdays,
-                                offline: e.target.value
-                              }
-                            }))}
-                          >
-                            <option value="">Offline Status</option>
-                            <option value="activelySearching">Actively Searching Jobs</option>
-                            <option value="casuallyExploring">Casually Exploring Jobs</option>
-                            <option value="notLooking">Not looking for Jobs</option>
-                          </select>
-                    
-                        {/* Online Status */}
-                          <select
-                            className="form-select"
-                            value={jobSearchStatus.partTimeWeekdays.online}
-                            onChange={(e) => setJobSearchStatus(prev => ({
-                              ...prev,
-                              partTimeWeekdays: {
-                                ...prev.partTimeWeekdays,
-                                online: e.target.value
-                              }
-                            }))}
-                          >
-                            <option value="">Online Status</option>
-                            <option value="activelySearching">Actively Searching Jobs</option>
-                            <option value="casuallyExploring">Casually Exploring Jobs</option>
-                            <option value="notLooking">Not looking for Jobs</option>
-                          </select>
-                      </div>
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
-          </div>
+              {/* Part Time Weekdays Row */}
+              <tr>
+                <td>Part Time(Weekdays)</td>
+                <td>
+                  <select
+                    className="form-select"
+                    value={jobSearchStatus.partTimeWeekdays.offline}
+                    onChange={(e) => setJobSearchStatus(prev => ({
+                      ...prev,
+                      partTimeWeekdays: {
+                        ...prev.partTimeWeekdays,
+                        offline: e.target.value
+                      }
+                    }))}
+                  >
+                    <option value="">Status</option>
+                    <option value="activelySearching">Actively Searching Jobs</option>
+                    <option value="casuallyExploring">Casually Exploring Jobs</option>
+                    <option value="notLooking">Not looking for Jobs</option>
+                  </select>
+                </td>
+                <td>
+                  <select
+                    className="form-select"
+                    value={jobSearchStatus.partTimeWeekdays.online}
+                    onChange={(e) => setJobSearchStatus(prev => ({
+                      ...prev,
+                      partTimeWeekdays: {
+                        ...prev.partTimeWeekdays,
+                        online: e.target.value
+                      }
+                    }))}
+                  >
+                    <option value="">Status</option>
+                    <option value="activelySearching">Actively Searching Jobs</option>
+                    <option value="casuallyExploring">Casually Exploring Jobs</option>
+                    <option value="notLooking">Not looking for Jobs</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        </div>
-     
-      
+      </div>
     </form>
   );
 };

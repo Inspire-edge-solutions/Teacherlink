@@ -1,7 +1,7 @@
 import React from "react";
 
 const Social = () => {
-  return <div className="row">
+  return <div className="row mt-3">
 
 <h3>Social Networks</h3><br/>
 <div className="form-group col-lg-6 col-md-12">

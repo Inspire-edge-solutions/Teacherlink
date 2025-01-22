@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Country, State, City } from 'country-state-city';
 import './profileStyles.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const OrgDetails = () => {
   const [selectedType, setSelectedType] = useState('');
@@ -151,6 +153,83 @@ const OrgDetails = () => {
     }));
   };
 
+  const handleSubmit = async () => {
+    if (selectedType === 'School / College/ University') {
+      try {
+        // Show loading notification
+        const loadingToast = toast.loading("Submitting organization details...");
+
+        const payload = {
+          organizationType: selectedType,
+          name: orgDetails.name,
+          websiteUrl: orgDetails.websiteUrl,
+          photos: orgDetails.photos,
+          video: orgDetails.video,
+          panNumber: orgDetails.panNumber,
+          panName: orgDetails.panName,
+          gstin: orgDetails.gstin,
+          contactPerson: orgDetails.contactPerson,
+          address: {
+            country: orgDetails.country,
+            state: orgDetails.state,
+            city: orgDetails.city,
+            street: orgDetails.address,
+            pincode: orgDetails.pincode
+          },
+          isOwner: isOwner === 'yes',
+          reportingAuthority: isOwner === 'no' ? reportingAuthority : null
+        };
+
+        const response = await fetch('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/organization', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload)
+        });
+
+        // Update loading toast based on response
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Failed to submit organization details');
+        }
+
+        const data = await response.json();
+        console.log('Success:', data);
+        
+        // Update toast to show success
+        toast.update(loadingToast, {
+          render: "Organization details submitted successfully!",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+          closeButton: true
+        });
+
+        // Optional: Reset form or redirect user
+        // setOrgDetails(initialOrgDetailsState);
+        
+      } catch (error) {
+        console.error('Error:', error);
+        
+        // Show error notification
+        toast.error(error.message || "Failed to submit organization details. Please try again.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true
+        });
+      }
+    } else {
+      toast.warn("Please select 'School / College/ University' as organization type.", {
+        position: "top-right",
+        autoClose: 3000
+      });
+    }
+  };
+
   return (
     <>
     <div className="row">
@@ -248,8 +327,131 @@ const OrgDetails = () => {
               onChange={handleInputChange}
             />
           </div>
+
+          <div>
+            <h4>Account operated by (Contact Person) </h4>
           </div>
-     
+
+          <div className="form-group col-lg-6 col-md-12">
+            <input
+              type="text"
+              className="form-control"
+              name="name"
+              value={orgDetails.contactPerson.name}
+              onChange={handleContactPersonChange}
+              maxLength="20"
+              placeholder="Name"
+            />
+          </div>
+
+          <div className="form-group col-lg-6 col-md-12">
+        <div className="radio-group ">
+          <h6>Gender</h6>
+          <div className="radio-option">
+            <input 
+              type="radio" 
+              id="male" 
+              name="gender" 
+              value="male" 
+              required 
+            />
+            <label htmlFor="male">Male</label>
+          </div>
+          <div className="radio-option">
+            <input 
+              type="radio" 
+              id="female" 
+              name="gender" 
+              value="female" 
+            />
+            <label htmlFor="female">Female</label>
+          </div>
+          <div className="radio-option">
+            <input 
+              type="radio" 
+              id="transgender" 
+              name="gender" 
+              value="transgender" 
+            />
+            <label htmlFor="transgender">Transgender</label>
+          </div>
+        </div>
+      </div>
+      <div className="form-group col-lg-6 col-md-12">
+            <div className="custom-multiselect">
+              <div 
+                className="select-header form-control"
+                onClick={() => setShowDesignationDropdown(!showDesignationDropdown)}
+              >
+                {reportingAuthority.designation.length > 0 
+                  ? reportingAuthority.designation.join(', ')
+                  : 'Select Designation(s)'}
+              </div>
+              {showDesignationDropdown && (
+                <div className="select-options">
+                  {designationOptions.map((designation, index) => (
+                    <div 
+                      key={index}
+                      className="select-option"
+                      onClick={() => handleReportingAuthorityDesignationSelect(designation)}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={reportingAuthority.designation.includes(designation)}
+                        readOnly
+                      />
+                      <span>{designation}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="form-group col-lg-6 col-md-12">
+            <input
+              type="tel"
+              className="form-control"
+              name="phone1"
+              value={reportingAuthority.phone1}
+              onChange={handleReportingAuthorityChange}
+              placeholder="Contact Number-1 (Calling)"
+              pattern="[0-9]{10}"
+              maxLength="10"
+              title="Please enter exactly 10 digits"
+            />
+            <small className="text-muted">Verification by OTP at the time of registration</small>
+          </div>
+
+          <div className="form-group col-lg-6 col-md-12">
+            <input
+              type="tel"
+              className="form-control"
+              name="phone2"
+              value={reportingAuthority.phone2}
+              onChange={handleReportingAuthorityChange}
+              placeholder="Contact Number-2 (WhatsApp)"
+              pattern="[0-9]{10}"
+              maxLength="10"
+              title="Please enter exactly 10 digits"
+            />
+            <small className="text-muted">Verification by OTP at the time of registration</small>
+          </div>
+
+          <div className="form-group col-lg-6 col-md-12">
+            <input
+              type="email"
+              className="form-control"
+              name="email"
+              value={reportingAuthority.email}
+              onChange={handleReportingAuthorityChange}
+              placeholder="Email"
+            />
+            <small className="text-muted">Email verification will be done by OTP</small>
+          </div>
+
+
+          </div>
 
       <div className="form-group col-lg-6 col-md-12">
         <h6>Are you the owner or the main head of the organization?</h6>
@@ -408,6 +610,79 @@ const OrgDetails = () => {
               placeholder="Email"
             />
             <small className="text-muted">Email verification will be done by OTP</small>
+          </div>
+          <div className="row">
+          <div className="form-group col-lg-6 col-md-12">
+            <select
+              className="form-control"
+              name="country"
+              value={orgDetails.country || ''}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Country</option>
+              {countries && countries.map((country) => (
+                <option key={country.isoCode} value={country.isoCode}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group col-lg-6 col-md-12">
+            <select
+              className="form-control"
+              name="state"
+              value={orgDetails.state || ''}
+              onChange={handleInputChange}
+              disabled={!orgDetails.country}
+            >
+              <option value="">Select State</option>
+              {states && states.map((state) => (
+                <option key={state.isoCode} value={state.isoCode}>
+                  {state.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group col-lg-6 col-md-12">
+            <select
+              className="form-control"
+              name="city"
+              value={orgDetails.city || ''}
+              onChange={handleInputChange}
+              disabled={!orgDetails.state}
+            >
+              <option value="">Select City</option>
+              {cities && cities.map((city) => (
+                <option key={city.name} value={city.name}>
+                  {city.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group col-lg-6 col-md-12">
+            <input
+              type="text"
+              className="form-control"
+              name="address"
+              value={orgDetails.address}
+              onChange={handleInputChange}
+              placeholder="Address:No./ Lane / Area"
+            />
+          </div>
+          <div className="form-group col-lg-6 col-md-12">
+            <input
+              type="text"
+              className="form-control"
+              name="pincode"
+              value={orgDetails.pincode}
+              onChange={handleInputChange}
+              placeholder="Pin code"
+              pattern="[0-9]*"
+              maxLength="6"
+            />
+          </div>
           </div>
         </div>
       )}
@@ -607,6 +882,17 @@ const OrgDetails = () => {
         </div>
       )}
     </div>
+
+    {shouldShowAdditionalFields() && (
+      <div className="form-group col-12">
+        <button 
+          className="theme-btn btn-style-one" 
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
+      </div>
+    )}
     </>
   );
 };
