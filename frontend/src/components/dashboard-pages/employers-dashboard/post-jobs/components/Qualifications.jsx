@@ -1,160 +1,121 @@
-import React, { useState } from 'react';
-import Select from 'react-select';
+import { useState } from "react";
+import Select from "react-select";
 
-const Qualifications = () => {
+const Qualifications = ({ onChange }) => {
+  const [selectedQualification, setSelectedQualification] = useState(null);
+  const [selectedOptionalQualification, setSelectedOptionalQualification] = useState(null);
+
   const qualificationOptions = [
-    { value: 'grade12', label: 'Grade 12' },
-    { value: 'degree', label: 'Degree' },
-    { value: 'masterDegree', label: 'Master Degree' },
-    { value: 'doctorate', label: 'Doctorate' },
-    { value: 'bed', label: 'B.Ed' }
+    { value: "grade12", label: "Grade 12" },
+    { value: "degree", label: "Degree" },
+    { value: "masters", label: "Master's Degree" },
+    { value: "doctorate", label: "Doctorate" },
+    { value: "bed", label: "B.Ed" },
   ];
 
-  const [selectedQualifications, setSelectedQualifications] = useState({
-    compulsory: [],
-    optional: []
-  });
-
-  const handleCompulsoryChange = (selected) => {
-    setSelectedQualifications(prev => ({
-      ...prev,
-      compulsory: selected || []
-    }));
+  const subjectOptions = {
+    grade12: [{ value: "core_subjects", label: "Core Subjects" }],
+    degree: [
+      { value: "core_subjects_3year", label: "Core Subjects (3 year degree)" },
+      { value: "specialization_4year", label: "Specialization (4 year degree)" },
+    ],
+    masters: [
+      { value: "core_subjects", label: "Core Subjects" },
+      { value: "specialization", label: "Specialization" },
+    ],
+    doctorate: [
+      { value: "core_specialization", label: "Core Subjects/Specialization" },
+    ],
+    bed: [{ value: "specialized_subjects", label: "Specialized Subjects" }],
   };
 
-  const handleOptionalChange = (selected) => {
-    setSelectedQualifications(prev => ({
-      ...prev,
-      optional: selected || []
-    }));
+  const handleQualificationChange = (option) => {
+    setSelectedQualification(option);
+    onChange?.({ qualification: option?.value, subjects: [] });
+  };
+
+  const handleSubjectsChange = (options) => {
+    onChange?.({ 
+      qualification: selectedQualification?.value, 
+      subjects: options.map(option => option.value) 
+    });
+  };
+
+  const handleOptionalQualificationChange = (option) => {
+    setSelectedOptionalQualification(option);
+    onChange?.({ 
+      required: { qualification: selectedQualification?.value, subjects: [] },
+      optional: { qualification: option?.value, subjects: [] }
+    });
+  };
+
+  const handleOptionalSubjectsChange = (options) => {
+    onChange?.({ 
+      required: {
+        qualification: selectedQualification?.value,
+        subjects: selectedSubjects
+      },
+      optional: {
+        qualification: selectedOptionalQualification?.value,
+        subjects: options.map(option => option.value)
+      }
+    });
   };
 
   return (
-    <>
-    <div className="row">
-    <div className="form-group col-lg-6 col-md-12">
-        <label>Qualification</label>
-        <Select
-          isMulti
-          name="compulsoryQualifications"
-          options={qualificationOptions}
-          value={selectedQualifications.compulsory}
-          onChange={handleCompulsoryChange}
-          className="basic-multi-select"
-          classNamePrefix="select"
-          placeholder="Qualifications"
-        />
-      </div>
-     
-
-      {/* Conditional Rendering for Grade 12 */}
-      {selectedQualifications.compulsory.some(qual => qual.value === 'grade12') && (
-        <div className="form-group col-lg-12 col-md-12">
-          <label>Core Subjects (Grade 12)</label>
+    <div className="form-group">
+      <div className="row">
+        <div className="form-group col-lg-6 col-md-12">
           <Select
-            isMulti
-            name="grade12Subjects"
-            options={[
-              { value: 'math', label: 'Mathematics' },
-              { value: 'physics', label: 'Physics' },
-              { value: 'chemistry', label: 'Chemistry' },
-              // Add more subjects as needed
-            ]}
-            className="basic-multi-select"
+            placeholder="Qualification"
+            options={qualificationOptions}
+            onChange={handleQualificationChange}
+            value={selectedQualification}
+            className="basic-single"
             classNamePrefix="select"
-            placeholder="Core Subjects"
           />
         </div>
-      )}
 
-      {/* Conditional Rendering for Degree */}
-      {selectedQualifications.compulsory.some(qual => qual.value === 'degree') && (
-        <>
+        {selectedQualification && (
           <div className="form-group col-lg-6 col-md-12">
-            <label>Core Subjects (3 year degree)</label>
             <Select
               isMulti
-              name="degreeSubjects3Year"
-              options={[
-                { value: 'cs', label: 'Computer Science' },
-                { value: 'it', label: 'Information Technology' },
-                // Add more subjects
-              ]}
-              className="basic-multi-select"
-              classNamePrefix="select"
-              placeholder="Select Core Subjects"
-            />
-          </div>
-          <div className="form-group col-lg-6 col-md-12">
-            <label>Specialization (4 year degree)</label>
-            <Select
-              isMulti
-              name="degreeSpecialization4Year"
-              options={[
-                { value: 'ai', label: 'Artificial Intelligence' },
-                { value: 'networking', label: 'Networking' },
-                // Add more specializations
-              ]}
-              className="basic-multi-select"
-              classNamePrefix="select"
-              placeholder="Specialization"
-            />
-          </div>
-        </>
-      )}
-
-      {/* Similar conditional blocks for Master's, Doctorate, and B.Ed */}
-      {selectedQualifications.compulsory.some(qual => qual.value === 'masterDegree') && (
-        <>
-          <div className="form-group col-lg-6 col-md-12">
-            <label>Core Subjects (Master's)</label>
-            <Select
-              isMulti
-              name="masterSubjects"
-              options={[
-                // Add master's subjects
-              ]}
-              className="basic-multi-select"
-              classNamePrefix="select"
               placeholder="Core Subjects"
-            />
-          </div>
-          <div className="form-group col-lg-6 col-md-12">
-            <label>Specialization</label>
-            <Select
-              isMulti
-              name="masterSpecialization"
-              options={[
-                // Add specializations
-              ]}
+              options={subjectOptions[selectedQualification.value]}
+              onChange={handleSubjectsChange}
               className="basic-multi-select"
               classNamePrefix="select"
-              placeholder="Specialization"
             />
           </div>
-        </>
-         
-      )}
-      {/* Repeat similar blocks for Optional qualifications */}
+        )}
       </div>
 
+      <div className="row mt-3">
+        <div className="form-group col-lg-6 col-md-12">
+          <Select
+            placeholder="Optional Qualification"
+            options={qualificationOptions}
+            onChange={handleOptionalQualificationChange}
+            value={selectedOptionalQualification}
+            className="basic-single"
+            classNamePrefix="select"
+          />
+        </div>
 
-    <div className="row">
-    <div className="form-group col-lg-6 col-md-12">
-        <label>Qualification (Optional)</label>
-        <Select
-          isMulti
-          name="optionalQualifications"
-          options={qualificationOptions}
-          value={selectedQualifications.optional}
-          onChange={handleOptionalChange}
-          className="basic-multi-select"
-          classNamePrefix="select"
-          placeholder="Qualifications"
-        />
+        {selectedOptionalQualification && (
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="core Subjects"
+              options={subjectOptions[selectedOptionalQualification.value]}
+              onChange={handleOptionalSubjectsChange}
+              className="basic-multi-select"
+              classNamePrefix="select"
+            />
+          </div>
+        )}
       </div>
-      </div>
-    </>
+    </div>
   );
 };
 

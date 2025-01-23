@@ -1,6 +1,7 @@
 import Location from "./Location";
 import Category from "./Category";
 import Qualifications from "./Qualifications";
+import Experience from "./Experience";
 import Select from "react-select";
 
 const PostBoxForm = () => {
@@ -13,6 +14,8 @@ const PostBoxForm = () => {
         <Category/>
 
         <Qualifications/>
+
+        <Experience/>
 
         <Location/>
         

@@ -1,0 +1,13 @@
+.experience-wrapper .select__control {
+  min-height: 45px;
+}
+
+.experience-wrapper .select__placeholder {
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .experience-wrapper .d-flex {
+    gap: 10px !important;
+  }
+}
