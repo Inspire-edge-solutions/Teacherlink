@@ -2,7 +2,7 @@ import Location from "./Location";
 import Category from "./Category";
 import Qualifications from "./Qualifications";
 import Experience from "./Experience";
-import Select from "react-select";
+import Details from "./Details";
 
 const PostBoxForm = () => {
  
@@ -16,6 +16,8 @@ const PostBoxForm = () => {
         <Qualifications/>
 
         <Experience/>
+
+        <Details/>
 
         <Location/>
         

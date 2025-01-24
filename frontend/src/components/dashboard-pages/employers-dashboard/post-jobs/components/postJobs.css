@@ -99,3 +99,43 @@
     gap: 10px;
   }
 }
+
+.selected-locations .badge {
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.btn-close {
+  padding: 0.25rem;
+  border: none;
+  background: transparent;
+  opacity: 0.8;
+}
+
+.btn-close:hover {
+  opacity: 1;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.form-check-inline {
+  margin-right: 15px;
+}
+
+.form-check-label {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.form-check-input {
+  cursor: pointer;
+}
+
+.radio-group {
+  margin-top: 10px;
+}
