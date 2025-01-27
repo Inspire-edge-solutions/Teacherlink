@@ -217,11 +217,13 @@ const Details = () => {
   return (
     <div>
       <div className="form-group">
-        <h3>Salary Range  <small className="form-text text-muted">
-          Enter salary in LPA with one decimal if Job Type is Full Time, or per hour if Job Type is Part Time
-        </small></h3>
+       
         <div className="row">
+        <small className="form-text text-muted mt-3">
+          Enter salary in LPA with one decimal if Job Type is Full Time, or per hour if Job Type is Part Time
+        </small>
           <div className="col-md-6">
+         
             <input
               type="number"
               name="minSalary"

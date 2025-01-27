@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import { React,useState } from "react";
 import axios from 'axios';
 
 const PersonalDetails = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    gender: '',
+    dateOfBirth: '',
+    callingNumber: '',
+    whatsappNumber: ''
+  });
 
   const [date, setDate] = useState('text');
-
   const handleFocus = () => setDate('date');
   const handleBlur = (event) => {
     if (!event.target.value) setDate('text');
@@ -26,58 +33,49 @@ const PersonalDetails = () => {
     setShowWhatsappHint(false);
   };
 
-  // Add form data state
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    gender: '',
-    dateOfBirth: '',
-    callingNumber: '',
-    whatsappNumber: ''
-  });
-
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData({
+        ...formData,
+        [name]: value
+    });
   };
 
-  // Handle form submission with Axios
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Data being sent:', formData); // Debug log
-    
+
+    // Validate phone numbers
+    if (formData.callingNumber.length !== 10 || formData.whatsappNumber.length !== 10) {
+        alert('Phone numbers must be 10 digits');
+        return;
+    }
     try {
-      const token = localStorage.getItem('token'); // Get token if you're using one
-      console.log('Token:', token); // Debug log
+        const response = await axios.post(
+            'https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/personal',
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            }
+        );
 
-      const response = await axios.post(
-        'https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/personal', 
-        formData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` // Add token if required
-          }
+        //console.log('API Response:', response.data); // Log the actual response data
+
+        if (response.status === 200 || response.status === 201) {
+            alert('Personal details saved successfully!');
+        } else {
+            throw new Error(response.data?.message || 'Failed to save details');
         }
-      );
-
-      console.log('Response:', response); // Debug log
-
-      if (response.status === 200) {
-        alert('Personal details updated successfully');
-        console.log('Success:', response.data);
-      }
     } catch (error) {
-      alert(error.response?.data?.message || 'Error updating personal details');
-      console.error('Error details:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status
-      });
+        console.error('Error details:', {
+            message: error.message,
+            response: error.response?.data,
+            status: error.response?.status,
+            stack: error.stack
+        });
+        alert(`Error: ${error.response?.data?.message || error.message || 'Something went wrong'}`);
     }
   };
 
@@ -85,14 +83,15 @@ const PersonalDetails = () => {
     <form onSubmit={handleSubmit}>
       <div className="row">
         <h3>Personal Details</h3>
+
         <div className="form-group col-lg-6 col-md-12">
-          <input 
-            type="text" 
-            name="fullName" 
+          <input
+            type="text"
+            name="fullName"
             value={formData.fullName}
             onChange={handleInputChange}
-            placeholder="Full Name" 
-            required 
+            placeholder="Full Name"
+            required
           />
         </div>
 
@@ -107,27 +106,27 @@ const PersonalDetails = () => {
           />
         </div>
 
-        {/* <!-- Input --> */}
+        {/* Gender Radio Buttons */}
         <div className="form-group col-lg-6 col-md-12">
-          <div className="radio-group ">
-            <h6>Gender</h6>
+          <div className="radio-group">
+            <h6>Gender:</h6>
             <div className="radio-option">
-              <input 
-                type="radio" 
-                id="male" 
-                name="gender" 
+              <input
+                type="radio"
+                id="male"
+                name="gender"
                 value="male"
                 checked={formData.gender === 'male'}
                 onChange={handleInputChange}
-                required 
+                required
               />
               <label htmlFor="male">Male</label>
             </div>
             <div className="radio-option">
-              <input 
-                type="radio" 
-                id="female" 
-                name="gender" 
+              <input
+                type="radio"
+                id="female"
+                name="gender"
                 value="female"
                 checked={formData.gender === 'female'}
                 onChange={handleInputChange}
@@ -135,10 +134,10 @@ const PersonalDetails = () => {
               <label htmlFor="female">Female</label>
             </div>
             <div className="radio-option">
-              <input 
-                type="radio" 
-                id="transgender" 
-                name="gender" 
+              <input
+                type="radio"
+                id="transgender"
+                name="gender"
                 value="transgender"
                 checked={formData.gender === 'transgender'}
                 onChange={handleInputChange}
@@ -148,6 +147,7 @@ const PersonalDetails = () => {
           </div>
         </div>
 
+        {/* Date of Birth Input */}
         <div className="form-group col-lg-6 col-md-12">
           <input
             type={date}
@@ -161,10 +161,11 @@ const PersonalDetails = () => {
             required
           />
         </div>
-        
+
+        {/* Calling Number */}
         <div className="form-group col-lg-6 col-md-12">
           <input
-            type="number"
+            type="text"
             name="callingNumber"
             value={formData.callingNumber}
             onChange={handleInputChange}
@@ -173,6 +174,8 @@ const PersonalDetails = () => {
             required
           />
         </div>
+
+        {/* WhatsApp Number */}
         <div className="form-group col-lg-6 col-md-12">
           <input
             type={whatsappType}
@@ -192,6 +195,7 @@ const PersonalDetails = () => {
           )}
         </div>
 
+        {/* Submit Button */}
         <div className="form-group col-12">
           <button type="submit" className="theme-btn btn-style-one">
             Save details

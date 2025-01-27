@@ -3,6 +3,7 @@ import Category from "./Category";
 import Qualifications from "./Qualifications";
 import Experience from "./Experience";
 import Details from "./Details";
+import Preferences from "./Preferences";
 
 const PostBoxForm = () => {
  
@@ -18,6 +19,8 @@ const PostBoxForm = () => {
         <Experience/>
 
         <Details/>
+
+        <Preferences/>
 
         <Location/>
         
