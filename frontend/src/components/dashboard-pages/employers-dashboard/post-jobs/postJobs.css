@@ -5,7 +5,9 @@
 .experience-wrapper .select__placeholder {
   font-size: 14px;
 }
-
+.select__control {
+  width: 100%;
+}
 @media (max-width: 768px) {
   .experience-wrapper .d-flex {
     gap: 10px !important;

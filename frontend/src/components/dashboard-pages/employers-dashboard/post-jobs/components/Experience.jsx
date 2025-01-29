@@ -37,49 +37,61 @@ const Experience = ({ onChange }) => {
   };
 
   const ExperienceRow = ({ label, field }) => (
-    <div className="experience-row">
-      <div className="category-cell">{label}</div>
-      <div className="inputs-cell">
-        <div className="min-max-container">
-          <div className="year-month-group">
-            <Select
-              placeholder="0 Years"
-              options={yearOptions}
-              onChange={(option) => handleExperienceChange(field, 'min', {
-                ...experienceData[field].min,
-                years: option?.value
-              })}
-              classNamePrefix="select"
-            />
-            <Select
-              placeholder="0 Months"
-              options={monthOptions}
-              onChange={(option) => handleExperienceChange(field, 'min', {
-                ...experienceData[field].min,
-                months: option?.value
-              })}
-              classNamePrefix="select"
-            />
+    <div className="row align-items-center mb-3 py-2 border-bottom">
+      <div className="col-md-4 mb-2 mb-md-0">
+        <div className="fw-500">{label}</div>
+      </div>
+      <div className="col-md-8">
+        <div className="row">
+          {/* Minimum Experience */}
+          <div className="col-md-6 mb-2 mb-md-0">
+            <div className="row g-2">
+              <div className="col-6">
+                <Select
+                  placeholder="Years"
+                  options={yearOptions}
+                  onChange={(option) => handleExperienceChange(field, 'min', {
+                    ...experienceData[field].min,
+                    years: option?.value
+                  })}
+                />
+              </div>
+              <div className="col-6">
+                <Select
+                  placeholder="Months"
+                  options={monthOptions}
+                  onChange={(option) => handleExperienceChange(field, 'min', {
+                    ...experienceData[field].min,
+                    months: option?.value
+                  })}
+                />
+              </div>
+            </div>
           </div>
-          <div className="year-month-group">
-            <Select
-              placeholder="0 Years"
-              options={yearOptions}
-              onChange={(option) => handleExperienceChange(field, 'max', {
-                ...experienceData[field].max,
-                years: option?.value
-              })}
-              classNamePrefix="select"
-            />
-            <Select
-              placeholder="0 Months"
-              options={monthOptions}
-              onChange={(option) => handleExperienceChange(field, 'max', {
-                ...experienceData[field].max,
-                months: option?.value
-              })}
-              classNamePrefix="select"
-            />
+          {/* Maximum Experience */}
+          <div className="col-md-6">
+            <div className="row g-2">
+              <div className="col-6">
+                <Select
+                  placeholder="Years"
+                  options={yearOptions}
+                  onChange={(option) => handleExperienceChange(field, 'max', {
+                    ...experienceData[field].max,
+                    years: option?.value
+                  })}
+                />
+              </div>
+              <div className="col-6">
+                <Select
+                  placeholder="Months"
+                  options={monthOptions}
+                  onChange={(option) => handleExperienceChange(field, 'max', {
+                    ...experienceData[field].max,
+                    months: option?.value
+                  })}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -87,16 +99,22 @@ const Experience = ({ onChange }) => {
   );
 
   return (
-    <div className="experience-table">
-      <div className="table-header">
-        <div className="category-header">Experience Category</div>
-        <div className="min-max-header">
-          <div>Min</div>
-          <div>Max</div>
+    <div className="card">
+      <div className="card-header bg-light">
+        <div className="row">
+          <div className="col-md-4">
+            <strong>Experience Category</strong>
+          </div>
+          <div className="col-md-8">
+            <div className="row text-center">
+              <div className="col-md-6">Minimum</div>
+              <div className="col-md-6">Maximum</div>
+            </div>
+          </div>
         </div>
       </div>
       
-      <div className="table-body">
+      <div className="card-body">
         <ExperienceRow 
           label="All Experience (Full Time + Part Time)" 
           field="totalExperience"

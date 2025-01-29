@@ -133,6 +133,13 @@ const Details = () => {
     { value: 'Hybrid', label: 'Hybrid' }
   ];
 
+  const [date, setDate] = useState('text');
+  const handleFocus = () => setDate('date');
+  const handleBlur = (event) => {
+    if (!event.target.value) setDate('text');
+  };
+
+
   const customStyles = {
     control: (base) => ({
       ...base,
@@ -212,6 +219,7 @@ const Details = () => {
         ? prev[name].filter(item => item !== value)
         : [...prev[name], value]
     }));
+
   };
 
   return (
@@ -415,15 +423,16 @@ const Details = () => {
     </div>
 
     <div className="form-group col-lg-6 col-md-12">
-      <h3>Joining Date</h3>
-      <div className="d-flex gap-3">
+      
         <input
-          type="date"
-          className="form-control"
+          type={date}
+          placeholder="Joining date - dd/mm/yyyy"
           value={additionalData.joiningDate}
-          onChange={(e) => setAdditionalData(prev => ({ ...prev, joiningDate: e.target.value }))}
+          onChange={(e)=>setAdditionalData(prev=> ({...prev, joiningDate:e.target.value}))}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
         />
-      </div>
+    
     </div>
 
     <div className="form-group col-lg-6 col-md-12">

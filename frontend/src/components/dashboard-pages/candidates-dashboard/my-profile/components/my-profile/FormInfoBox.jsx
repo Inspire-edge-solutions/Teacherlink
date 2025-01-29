@@ -12,23 +12,50 @@ import "./profile-styles.css";
 import LogoUpload from "./LogoUpload";
 
 const FormInfoBox = () => {
+  const [viewMode, setViewMode] = useState('full'); // default to full view
 
-  const [isEasyView, setIsEasyView] = useState(false);
-
-  const toggleView = () => {
-    setIsEasyView(!isEasyView);
+  const handleViewChange = (e) => {
+    setViewMode(e.target.value);
   };
 
   return (
     <div>
-      <div className="view-toggle">
-        <button className="btn btn-style-three mb-3" onClick={toggleView}>
-          {isEasyView ? "Switch to Full View" : "Switch to Easy View"}
-        </button>
+      
+      <div className="view-toggle m-4">
+      <h3>My profile</h3>
+        <div className="radio-group d-flex align-items-flex-start gap-6">
+        
+        <h4>Select how you want to fill your details : </h4>
+        <label className="radio-label">
+            <input
+              type="radio"
+              name="viewMode"
+              value="easy"
+              checked={viewMode === 'easy'}
+              onChange={handleViewChange}
+              className="me-2"
+            />
+            Easy Mode
+          </label>
+
+          <label className="radio-label m-3">
+            <input
+              type="radio"
+              name="viewMode"
+              value="full"
+              checked={viewMode === 'full'}
+              onChange={handleViewChange}
+              className="me-2"
+            />
+            Full Mode
+          </label>
+          
+         
+        </div>
       </div>
 
       <div className="default-form">
-        {isEasyView ? (
+        {viewMode === 'easy' ? (
           <>
             <PersonalDetails />
             <Address />
@@ -38,7 +65,7 @@ const FormInfoBox = () => {
           </>
         ) : (
           <>
-          <LogoUpload />
+            <LogoUpload />
             <PersonalDetails />
             <Address />
             <Education />
@@ -53,41 +80,6 @@ const FormInfoBox = () => {
       </div>
     </div>
   );
-
-
-
-//   return (
-//     // <form action="#" className="default-form">
-//      <>
-//      <div className="default-form">
-//       <PersonalDetails/>
-
-//         <Address />
-
-//         <Education />
-
-//         <Experience/>
-
-//         <Languages/>
-
-//         <JobPreferences/>
-        
-//         <Social/>
-       
-//        <ContactInfoBox/>
-
-//         <AdditionalInfo/>
-//         </div>
-
-//         </>
-       
-//     //     <div className="form-group col-lg-12 col-md-12 text-center">
-//     //       <button type="submit" className="theme-btn btn-style-one">
-//     //         Save Profile
-//     //       </button>
-//     //     </div>
-//     // </form>
-//   );
 };
 
 export default FormInfoBox;
