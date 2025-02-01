@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
+import './postJobs.css';
+import Fulltime from './Fulltime';
+import Parttime from './Parttime';
+import Tutions from './Tutions';
 
 const Category = () => {
   const [jobPreferences, setJobPreferences] = useState({
@@ -10,16 +14,10 @@ const Category = () => {
     tuitionMode: []
   });
 
-  // Options for dropdowns
-  const categoryOptions = [
-    { value: 'category1', label: 'Category 1' },
-    { value: 'category2', label: 'Category 2' },
-    { value: 'category3', label: 'Category 3' }
-    // Add more categories as needed
-  ];
 
   const jobCategoryOptions = [
     { value: 'fullTime', label: 'Full Time' },
+    { value: 'fullPart', label: 'Full Time / Part Time' },
     { value: 'partTime', label: 'Part Time' },
     { value: 'tuitions', label: 'Tuitions' }
   ];
@@ -38,14 +36,19 @@ const Category = () => {
     { value: 'groupTuitionsOnline', label: 'Group Tuitions Online (from teacher as tuitions)' }
   ];
 
-  const handleJobCategoryChange = (selected) => {
+  const handleJobCategoryChange = (value) => {
     setJobPreferences(prev => ({
       ...prev,
-      jobCategory: selected,
+      jobCategory: { value, label: jobCategoryOptions.find(opt => opt.value === value).label },
       // Reset related fields when employment type changes
       partTimeSchedule: [],
       tuitionMode: []
     }));
+  };
+
+  // Helper function to check if full time options are selected
+  const isFullTimeOption = (value) => {
+    return value === 'fullTime' || value === 'fullPart';
   };
 
   return (
@@ -65,49 +68,36 @@ const Category = () => {
         />
       </div>
 
-      {/* Employment Type */}
-      <div className="form-group col-lg-6 col-md-12">
-        <Select
-          name="jobCategory"
-          options={jobCategoryOptions}
-          value={jobPreferences.jobCategory}
-          onChange={handleJobCategoryChange}
-          placeholder="Job Category"
-        />
+      {/* Employment Type - Radio Buttons */}
+      <div className="form-group col-lg-12">
+        <label className="mb-3">Job Category:</label>
+        <div className="radio-group">
+          {jobCategoryOptions.map((option) => (
+            <div key={option.value} className="radio-option">
+              <input
+                type="radio"
+                id={option.value}
+                name="jobCategory"
+                value={option.value}
+                checked={jobPreferences.jobCategory?.value === option.value}
+                onChange={(e) => handleJobCategoryChange(e.target.value)}
+                className="radio-input"
+              />
+              <label htmlFor={option.value} className="radio-label">
+                {option.label}
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Part Time Schedule - Shows only if Part Time is selected */}
-      {jobPreferences.jobCategory?.value === 'partTime' && (
-        <div className="form-group col-lg-6 col-md-12">
-          <Select
-            isMulti
-            name="partTimeSchedule"
-            options={partTimeOptions}
-            value={jobPreferences.partTimeSchedule}
-            onChange={(selected) => setJobPreferences(prev => ({
-              ...prev,
-              partTimeSchedule: selected
-            }))}
-            placeholder="Select Schedule"
-          />
-        </div>
-      )}
-
-      {/* Tuition Modes - Shows only if Tuitions is selected */}
-      {jobPreferences.jobCategory?.value === 'tuitions' && (
-        <div className="form-group col-lg-6 col-md-12">
-          <Select
-            isMulti
-            name="tuitionMode"
-            options={tuitionOptions}
-            value={jobPreferences.tuitionMode}
-            onChange={(selected) => setJobPreferences(prev => ({
-              ...prev,
-              tuitionMode: selected
-            }))}
-            placeholder="Select Tuition Mode"
-          />
-        </div>
+      {/* Show appropriate component based on selection */}
+      {jobPreferences.jobCategory && (
+        <>
+          {isFullTimeOption(jobPreferences.jobCategory.value) && <Fulltime />}
+          {jobPreferences.jobCategory.value === 'partTime' && <Parttime />}
+          {jobPreferences.jobCategory.value === 'tuitions' && <Tutions />}
+        </>
       )}
     </div>
   );

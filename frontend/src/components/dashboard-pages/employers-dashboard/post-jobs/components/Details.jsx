@@ -2,17 +2,9 @@ import React, { useState } from 'react';
 import './postJobs.css';
 import Select from 'react-select';
 
-const Details = () => {
-  const [salaryRange, setSalaryRange] = useState({
-    minSalary: '',
-    maxSalary: ''
-  });
+const Details = ({ excludeJobSubCategory, excludeJobType }) => {
   const [locations, setLocations] = useState([]);
-  const [errors, setErrors] = useState({
-    minSalary: '',
-    maxSalary: '',
-    locations: ''
-  });
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     jobType: null,
@@ -124,10 +116,7 @@ const Details = () => {
     { value: 'Personal Interview', label: 'Personal Interview' },
     { value: 'Subject Interview', label: 'Subject Interview' },
     { value: 'HR interview', label: 'HR interview' },
-    { value: 'Management Interview', label: 'Management Interview' }
-  ];
-
-  const interviewModeOptions = [
+    { value: 'Management Interview', label: 'Management Interview' },
     { value: 'Online', label: 'Online' },
     { value: 'Offline', label: 'Offline' },
     { value: 'Hybrid', label: 'Hybrid' }
@@ -165,18 +154,7 @@ const Details = () => {
     }),
   };
 
-  const validateInput = (name, value) => {
-    if (!value) {
-      return `${name === 'minSalary' ? 'Minimum' : 'Maximum'} salary is required`;
-    }
-    if (value <= 0) {
-      return 'Salary must be greater than 0';
-    }
-    if (name === 'maxSalary' && parseFloat(value) <= parseFloat(salaryRange.minSalary)) {
-      return 'Maximum salary must be greater than minimum salary';
-    }
-    return '';
-  };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -185,19 +163,13 @@ const Details = () => {
       [name]: value
     }));
 
-    const error = validateInput(name, value);
-    setErrors(prev => ({
-      ...prev,
-      [name]: error
-    }));
-  };
 
   const handleLocationChange = (e) => {
     const value = e.target.value;
     if (value.trim()) {
       setLocations(prev => [...prev, value.trim()]);
       e.target.value = ''; // Clear input after adding
-      setErrors(prev => ({ ...prev, locations: '' }));
+      setErrors(prev => ({ ...prev, locations: '' })); // Clear error for locations
     }
   };
 
@@ -205,60 +177,9 @@ const Details = () => {
     setLocations(prev => prev.filter((_, index) => index !== indexToRemove));
   };
 
-  const handleJobTypeChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      jobType: e.target.value
-    }));
-  };
-
-  const handleMultiSelect = (name, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [name]: prev[name].includes(value)
-        ? prev[name].filter(item => item !== value)
-        : [...prev[name], value]
-    }));
-
-  };
-
+  }
   return (
     <div>
-      <div className="form-group">
-       
-        <div className="row">
-        <small className="form-text text-muted mt-3">
-          Enter salary in LPA with one decimal if Job Type is Full Time, or per hour if Job Type is Part Time
-        </small>
-          <div className="col-md-6">
-         
-            <input
-              type="number"
-              name="minSalary"
-              placeholder="Minimum Salary"
-              className={`form-control ${errors.minSalary ? 'is-invalid' : ''}`}
-              value={salaryRange.minSalary}
-              onChange={handleChange}
-            />
-            {errors.minSalary && (
-              <div className="invalid-feedback">{errors.minSalary}</div>
-            )}
-          </div>
-          <div className="col-md-6">
-            <input
-              type="number"
-              name="maxSalary"
-              placeholder="Maximum Salary"
-              className={`form-control ${errors.maxSalary ? 'is-invalid' : ''}`}
-              value={salaryRange.maxSalary}
-              onChange={handleChange}
-            />
-            {errors.maxSalary && (
-              <div className="invalid-feedback">{errors.maxSalary}</div>
-            )}
-          </div>
-        </div>
-      </div>
 
       <div className="row">
       <div className="form-group col-lg-6 col-md-12">
@@ -302,15 +223,17 @@ const Details = () => {
         )}
       </div>
 
-      <div className="form-group col-lg-6 col-md-12">
-        <Select
-          value={formData.jobType}
-          onChange={(option) => setFormData(prev => ({ ...prev, jobType: option }))}
-          options={jobTypeOptions}
-          styles={customStyles}
-          placeholder="Job Type"
-        />
-      </div>
+      {!excludeJobType && (
+        <div className="form-group col-lg-6 col-md-12">
+          <Select
+            value={formData.jobType}
+            onChange={(option) => setFormData(prev => ({ ...prev, jobType: option }))}
+            options={jobTypeOptions}
+            styles={customStyles}
+            placeholder="Job Type"
+          />
+        </div>
+      )}
 
         <div className="form-group col-lg-6 col-md-12">
         <Select
@@ -390,16 +313,18 @@ const Details = () => {
       />
     </div>
 
-    <div className="form-group col-lg-6 col-md-12">
-      <Select
-        isMulti
-        value={additionalData.jobSubCategory}
-        onChange={(options) => setAdditionalData(prev => ({ ...prev, jobSubCategory: options }))}
-        options={subCategoryOptions}
-        styles={customStyles}
-        placeholder="Job Sub Category"
-      />
-    </div>
+    {!excludeJobSubCategory && (
+      <div className="form-group col-lg-6 col-md-12">
+        <Select
+          isMulti
+          value={additionalData.jobSubCategory}
+          onChange={(options) => setAdditionalData(prev => ({ ...prev, jobSubCategory: options }))}
+          options={subCategoryOptions}
+          styles={customStyles}
+          placeholder="Job Sub Category"
+        />
+      </div>
+    )}
 
     <div className="form-group col-lg-6 col-md-12">
       <input
@@ -443,17 +368,6 @@ const Details = () => {
         options={selectionProcessOptions}
         styles={customStyles}
         placeholder="Selection Process"
-      />
-    </div>
-
-    <div className="form-group col-lg-6 col-md-12">
-      <Select
-        isMulti
-        value={additionalData.interviewMode}
-        onChange={(options) => setAdditionalData(prev => ({ ...prev, interviewMode: options }))}
-        options={interviewModeOptions}
-        styles={customStyles}
-        placeholder="Interview Mode"
       />
     </div>
     </div>
