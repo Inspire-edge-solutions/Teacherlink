@@ -99,6 +99,8 @@ const Category = () => {
           {jobPreferences.jobCategory.value === 'tuitions' && <Tutions />}
         </>
       )}
+
+      
     </div>
   );
 };

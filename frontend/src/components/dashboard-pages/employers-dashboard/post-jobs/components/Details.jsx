@@ -154,74 +154,10 @@ const Details = ({ excludeJobSubCategory, excludeJobType }) => {
     }),
   };
 
-  
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setSalaryRange(prev => ({
-      ...prev,
-      [name]: value
-    }));
-
-
-  const handleLocationChange = (e) => {
-    const value = e.target.value;
-    if (value.trim()) {
-      setLocations(prev => [...prev, value.trim()]);
-      e.target.value = ''; // Clear input after adding
-      setErrors(prev => ({ ...prev, locations: '' })); // Clear error for locations
-    }
-  };
-
-  const removeLocation = (indexToRemove) => {
-    setLocations(prev => prev.filter((_, index) => index !== indexToRemove));
-  };
-
-  }
   return (
     <div>
 
       <div className="row">
-      <div className="form-group col-lg-6 col-md-12">
-        <div className="location-input-wrapper">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Location (Area, City, State)"
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                handleLocationChange(e);
-              }
-            }}
-          />
-        </div>
-        {locations.length > 0 && (
-          <div className="selected-locations mt-2">
-            {locations.map((location, index) => (
-              <span key={index} className="badge btn-style-one me-2 mb-2">
-                {location}
-                <button
-                  type="button"
-                  className="btn-close btn-close-white ms-2"
-                  onClick={() => removeLocation(index)}
-                  aria-label="Remove location"
-                  style={{ 
-                    fontSize: '0.75rem',
-                    opacity: '1',
-                    textShadow: 'none',
-                    fontWeight: 'bold',
-                    padding: '2px',
-                  }}
-                >×</button>
-              </span>
-            ))}
-          </div>
-        )}
-        {errors.locations && (
-          <div className="invalid-feedback d-block">{errors.locations}</div>
-        )}
-      </div>
 
       {!excludeJobType && (
         <div className="form-group col-lg-6 col-md-12">

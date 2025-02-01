@@ -30,7 +30,8 @@ const Languages = () => {
           }
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error.response ? error.response.data : error.message);
+        alert('Failed to fetch languages. Please try again later.');
       }
     };
 

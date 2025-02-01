@@ -1,9 +1,10 @@
 import {React, useState} from 'react';
 import Qualifications from './Qualifications';
 import Experience from './Experience';
+import Location from './Location';
 import Details from './Details';
 import Preferences from './Preferences';
-import Location from './Location';
+import LocationMap from './LocationMap';
 
 const Fulltime = () => {
     const [salaryRange, setSalaryRange] = useState({
@@ -75,11 +76,13 @@ const Fulltime = () => {
        </div>
      </div>
 
+     <Location/>
+
         <Details/>
 
         <Preferences/>
 
-        <Location/>
+        <LocationMap/>
 
     </div>
   )
