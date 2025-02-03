@@ -948,6 +948,9 @@ const JobPreference = () => {
           </table>
         </div>
       </div>
+      <div>
+      <button type="submit" className="theme-btn btn-style-three">Save Job Preferences</button>
+      </div>
     </form>
   );
 };

@@ -3,8 +3,7 @@ import './postJobs.css';
 import Select from 'react-select';
 
 const Details = ({ excludeJobSubCategory, excludeJobType }) => {
-  const [locations, setLocations] = useState([]);
-  const [errors, setErrors] = useState({});
+
 
   const [formData, setFormData] = useState({
     jobType: null,

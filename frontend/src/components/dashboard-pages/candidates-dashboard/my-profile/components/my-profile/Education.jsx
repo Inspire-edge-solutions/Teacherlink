@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Select from "react-select";
 import "./profile-styles.css";
 
-const Education = () => {
+const Education = ({ isEasyMode }) => {
   // Base education data for Grade 10 (mandatory)
   const [grade10Data, setGrade10Data] = useState({
     syllabus: '',
@@ -1051,96 +1051,6 @@ const Education = () => {
           </div>
         );
 
-      case 'dEdDEld':
-        return (
-          <div className="row">
-            <div className="form-group col-lg-6 col-md-12">
-              <div className="radio-group">
-                <label>Course Status:</label>
-                {courseStatusOptions.map(option => (
-                  <label key={option.value}>
-                    <input
-                      type="radio"
-                      name={`courseStatus_${type}_${index}`}
-                      value={option.value}
-                      checked={data.courseStatus === option.value}
-                      onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
-                      required
-                    />
-                    {option.label}
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div className="form-group col-lg-6 col-md-12">
-              <input
-                type="text"
-                value={data.instituteName}
-                onChange={(e) => handleEducationDataChange(index, 'instituteName', e.target.value)}
-                placeholder="Institute name"
-                maxLength={20}
-              />
-            </div>
-            <div className="form-group col-lg-6 col-md-12">
-              <input
-                type="text"
-                value={data.placeOfStudy}
-                onChange={(e) => handleEducationDataChange(index, 'placeOfStudy', e.target.value)}
-                placeholder="Place of Study"
-                maxLength={20}
-              />
-            </div>
-            <div className="form-group col-lg-6 col-md-12">
-              <input
-                type="text"
-                value={data.affiliatedTo}
-                onChange={(e) => handleEducationDataChange(index, 'affiliatedTo', e.target.value)}
-                placeholder="Affiliated to / recognized by"
-                maxLength={20}
-              />
-            </div>
-            <div className="form-group col-lg-6 col-md-12">
-              <Select
-                value={{ value: data.courseDuration, label: `${data.courseDuration} years` }}
-                onChange={(option) => handleEducationDataChange(index, 'courseDuration', option.value)}
-                options={[1,2].map(num => ({
-                  value: num.toString(),
-                  label: `${num} years`
-                }))}
-                placeholder="Course Duration"
-              />
-            </div>
-            <div className="form-group col-lg-6 col-md-12">
-              <input
-                type="number"
-                value={data.yearOfPassing}
-                onChange={(e) => handleEducationDataChange(index, 'yearOfPassing', e.target.value)}
-                placeholder="Year of Passing"
-                min={new Date().getFullYear() - 14}
-                max={new Date().getFullYear()}
-              />
-            </div>
-            <div className="form-group col-lg-6 col-md-12">
-              <input
-                type="text"
-                value={data.subjects}
-                onChange={(e) => handleEducationDataChange(index, 'subjects', e.target.value)}
-                placeholder="CoreSubjects"
-                maxLength={40}
-              />
-            </div>
-            <div className="form-group col-lg-6 col-md-12">
-              <input
-                type="text"
-                value={data.percentage}
-                onChange={(e) => handleEducationDataChange(index, 'percentage', e.target.value)}
-                placeholder="Percentage"
-                maxLength={5}
-              />
-            </div>
-          </div>
-        );
 
       case 'bEd':
         return (
@@ -1544,90 +1454,114 @@ const Education = () => {
       {/* Grade 10 Section (Mandatory) */}
       <div className="education-section">
         <h4>Grade 10</h4>
-        <div className="row">
-          <div className="form-group col-lg-6 col-md-12">
-            <div className="radio-group">
-              {syllabusOptions.map(option => (
-                <label key={option.value}>
-                  <input
-                    type="radio"
-                    name="grade10Syllabus"
-                    value={option.value}
-                    checked={grade10Data.syllabus === option.value}
-                    onChange={(e) => handleGrade10Change('syllabus', e.target.value)}
-                    required
-                  />
-                  {option.label}
-                </label>
-              ))}
+        {isEasyMode ? (
+          <>
+             <div className="form-group col-lg-6 col-md-12">
+                <select
+                  value={grade10Data.yearOfPassing}
+                  onChange={(e) => handleGrade10Change('yearOfPassing', e.target.value)}
+                  required
+                >
+                  <option value="">Select Year of Passing</option>
+                  {Array.from({ length: 15 }, (_, i) => {
+                    const year = new Date().getFullYear() - i;
+                    return (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+          </>
+        ) : (
+          <>
+            <div className="row">
+              <div className="form-group col-lg-6 col-md-12">
+                <div className="radio-group">
+                  {syllabusOptions.map(option => (
+                    <label key={option.value}>
+                      <input
+                        type="radio"
+                        name="grade10Syllabus"
+                        value={option.value}
+                        checked={grade10Data.syllabus === option.value}
+                        onChange={(e) => handleGrade10Change('syllabus', e.target.value)}
+                        required
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="form-group col-lg-6 col-md-12">
+                <input
+                  type="text"
+                  value={grade10Data.schoolName}
+                  onChange={(e) => handleGrade10Change('schoolName', e.target.value)}
+                  placeholder="School Name"
+                  pattern="[a-zA-Z0-9 ]*"
+                  maxLength={20}
+                  required
+                />
+              </div>
+
+              <div className="form-group col-lg-6 col-md-12">
+                <select
+                  value={grade10Data.yearOfPassing}
+                  onChange={(e) => handleGrade10Change('yearOfPassing', e.target.value)}
+                  required
+                >
+                  <option value="">Select Year of Passing</option>
+                  {Array.from({ length: 15 }, (_, i) => {
+                    const year = new Date().getFullYear() - i;
+                    return (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+
+              <div className="form-group col-lg-6 col-md-12">
+                <input
+                  type="text"
+                  value={grade10Data.percentage}
+                  onChange={(e) => handleGrade10Change('percentage', e.target.value)}
+                  placeholder="Grade / Percentage"
+                  pattern="[a-zA-Z0-9+%]*"
+                  maxLength={5}
+                  required
+                />
+              </div>
+
+              <div className="form-group col-12">
+                <div className="radio-group single-line">
+                  <label>Mode of Study:</label>
+                  {educationModeOptions.map(option => (
+                    <label key={option.value}>
+                      <input
+                        type="radio"
+                        name="grade10Mode"
+                        value={option.value}
+                        checked={grade10Data.mode === option.value}
+                        onChange={(e) => handleGrade10Change('mode', e.target.value)}
+                        required
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-          
-          <div className="form-group col-lg-6 col-md-12">
-            <input
-              type="text"
-              value={grade10Data.schoolName}
-              onChange={(e) => handleGrade10Change('schoolName', e.target.value)}
-              placeholder="School Name"
-              pattern="[a-zA-Z0-9 ]*"
-              maxLength={20}
-              required
-            />
-          </div>
-
-          <div className="form-group col-lg-6 col-md-12">
-            <select
-              value={grade10Data.yearOfPassing}
-              onChange={(e) => handleGrade10Change('yearOfPassing', e.target.value)}
-              required
-            >
-              <option value="">Select Year of Passing</option>
-              {Array.from({ length: 15 }, (_, i) => {
-                const year = new Date().getFullYear() - i;
-                return (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-
-          <div className="form-group col-lg-6 col-md-12">
-            <input
-              type="text"
-              value={grade10Data.percentage}
-              onChange={(e) => handleGrade10Change('percentage', e.target.value)}
-              placeholder="Grade / Percentage"
-              pattern="[a-zA-Z0-9+%]*"
-              maxLength={5}
-              required
-            />
-          </div>
-
-          <div className="form-group col-12">
-            <div className="radio-group single-line">
-              <label>Mode of Study:</label>
-              {educationModeOptions.map(option => (
-                <label key={option.value}>
-                  <input
-                    type="radio"
-                    name="grade10Mode"
-                    value={option.value}
-                    checked={grade10Data.mode === option.value}
-                    onChange={(e) => handleGrade10Change('mode', e.target.value)}
-                    required
-                  />
-                  {option.label}
-                </label>
-              ))}
-            </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
 
-{/* Display Added Education Sections */}
-{additionalEducation.map((education, index) => (
+      {/* Display Added Education Sections */}
+      {additionalEducation.map((education, index) => (
         <div key={index} className="education-section">
           <div className="section-header">
            
@@ -1682,8 +1616,6 @@ const Education = () => {
           </div>
         </div>
       </div>
-
-      
     </div>
   );
 };

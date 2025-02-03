@@ -1,7 +1,7 @@
 import { React,useState } from "react";
 import axios from 'axios';
 
-const PersonalDetails = () => {
+const PersonalDetails = ({dateOfBirth}) => {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -18,7 +18,6 @@ const PersonalDetails = () => {
   };
 
   const [whatsappType, setWhatsappType] = useState('text');
-  const [whatsappNumber, setWhatsappNumber] = useState('');
   const [showWhatsappHint, setShowWhatsappHint] = useState(false);
 
   const handleFocusWhatsapp = () => {
@@ -80,7 +79,7 @@ const PersonalDetails = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="default-form">
       <div className="row">
         <h3>Personal Details</h3>
 
@@ -147,7 +146,7 @@ const PersonalDetails = () => {
           </div>
         </div>
 
-        {/* Date of Birth Input */}
+        {dateOfBirth && (
         <div className="form-group col-lg-6 col-md-12">
           <input
             type={date}
@@ -161,6 +160,7 @@ const PersonalDetails = () => {
             required
           />
         </div>
+        )}
 
         {/* Calling Number */}
         <div className="form-group col-lg-6 col-md-12">
@@ -202,7 +202,7 @@ const PersonalDetails = () => {
           </button>
         </div>
       </div>
-    </form>
+    </div>
   );
 };
 

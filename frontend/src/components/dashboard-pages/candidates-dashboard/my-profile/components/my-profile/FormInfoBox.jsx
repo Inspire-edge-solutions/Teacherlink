@@ -24,7 +24,6 @@ const FormInfoBox = () => {
       <div className="view-toggle m-4">
       <h3>My profile</h3>
         <div className="radio-group d-flex align-items-flex-start gap-6">
-        
         <h4>Select how you want to fill your details : </h4>
         <label className="radio-label">
             <input
@@ -57,18 +56,18 @@ const FormInfoBox = () => {
       <div className="default-form">
         {viewMode === 'easy' ? (
           <>
-            <PersonalDetails />
-            <Address />
-            <Education />
+            <PersonalDetails dateOfBirth={false} />
+            <Address city={false} houseNo={false} street={false}/>
+            <Education isEasyMode={true} />
             <Experience/>
             <JobPreferences />
           </>
         ) : (
           <>
             <LogoUpload />
-            <PersonalDetails />
-            <Address />
-            <Education />
+            <PersonalDetails dateOfBirth={true} />
+            <Address city={true} houseNo={true} street={true}/>
+            <Education isEasyMode={false} />
             <Experience />
             <Languages />
             <JobPreferences />
