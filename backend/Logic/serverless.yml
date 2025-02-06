@@ -1,0 +1,178 @@
+service: teacher-link
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'staging'}
+  region: ap-south-1
+  deploymentBucket:
+    name: teacherlink-deployments-ap-south-1  # Your S3 bucket for deployments
+  environment:
+    DB_HOST: inspire-edge-db.cnawwwkeyq7q.ap-south-1.rds.amazonaws.com
+    DB_USER: teacherlink_user
+    DB_PASSWORD: Inspireedge2024
+    DB_NAME: teacherlink
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    DYNAMODB_TABLE: Inspire-dynamic-data
+    S3_BUCKET: teacherlink-deployments-ap-south-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:GetItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:Scan
+        - dynamodb:Query
+        - s3:PutObject
+        - s3:GetObject
+        - s3:DeleteObject
+      Resource:
+        - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}
+        - arn:aws:s3:::${self:provider.environment.S3_BUCKET}/*
+
+  iam:
+    role:
+      statements:
+        # Allow Secrets Manager access
+        - Effect: Allow
+          Action:
+            - secretsmanager:GetSecretValue
+          Resource: arn:aws:secretsmanager:ap-south-1:*:secret:teacherlink-*
+
+        # Allow S3 access
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+            - s3:PutObject
+            - s3:ListBucket
+          Resource:
+            - arn:aws:s3:::teacherlink
+            - arn:aws:s3:::teacherlink/*
+
+        # Allow SES access
+        - Effect: Allow
+          Action:
+            - ses:SendEmail
+            - ses:SendRawEmail
+          Resource: "*"
+
+        # Allow RDS connection
+        - Effect: Allow
+          Action:
+            - rds-db:connect
+          Resource: arn:aws:rds-db:ap-south-1:*:dbuser:*/teacherlink_user
+
+        # Allow CloudFormation, API Gateway, Lambda, and Logs
+        - Effect: Allow
+          Action:
+            - cloudformation:*
+            - apigateway:*
+            - lambda:*
+            - logs:*
+          Resource: "*"
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+    noPrependStageInUrl: true
+    useChildProcesses: true
+
+functions:
+  users:
+    handler: src/handlers/users.handler
+    environment: ${file(src/env/${self:provider.stage}.yml)}
+    events:
+      - http:
+          path: users
+          method: any
+    timeout: 30
+
+  institutions:
+    handler: src/handlers/Institution.handler
+    environment: ${file(src/env/${self:provider.stage}.yml)}
+    events:
+      - http:
+          path: institutions
+          method: any
+    timeout: 30
+
+  login:
+    handler: src/handlers/login.handler
+    environment: ${file(src/env/${self:provider.stage}.yml)}
+    events:
+      - http:
+          path: login
+          method: any
+    timeout: 30
+    
+  
+  createOrganization:
+    handler: src/handlers/organization.handler
+    environment: ${file(src/env/${self:provider.stage}.yml)}
+    events:
+      - http:
+          path: organization
+          method: post
+          cors: true
+          
+      - http:
+          path: organization/{id}
+          method: get
+          cors: true
+      - http:
+          path: organization/{id}
+          method: put
+          cors: true
+      - http:
+          path: organization/{id}
+          method: delete
+          cors: true
+    timeout: 90
+
+
+  Designationdata:
+    handler: src/handlers/Designation.handler
+    events:
+      - http:
+          path: constants
+          method: get
+          cors: true
+
+  Educationdata:
+    handler: src/handlers/Education.handler
+    events:
+      - http:
+          path: education-data
+          method: get
+      
+  Languagesdata:
+    handler: src/handlers/languages.handler
+    events:
+      - http:
+          path: languages
+          method: get
+
+  socialmedia:
+    handler: src/handlers/socialmedia.handler
+    events:
+      - http:
+          path: create
+          method: post
+          cors: true
+      - http:
+          path: read
+          method: get
+          cors: true
+      - http:
+          path: update
+          method: put
+          cors: true
+      - http:
+          path: delete
+          method: delete
+          cors: true
+    timeout: 90
