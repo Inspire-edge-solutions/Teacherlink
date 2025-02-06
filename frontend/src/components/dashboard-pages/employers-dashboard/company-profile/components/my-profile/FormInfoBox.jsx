@@ -1,26 +1,17 @@
-
-
 import OrgDetails from "./OrgDetails";
+import LogoCoverUploader from "./LogoCoverUploader";
+import ContactInfoBox from "../ContactInfoBox";
 import SocialNetworkBox from "../SocialNetworkBox";
-import Select from "react-select";
 
 const FormInfoBox = () => {
-    const catOptions = [
-        { value: "Banking", label: "Banking" },
-        { value: "Digital & Creative", label: "Digital & Creative" },
-        { value: "Retail", label: "Retail" },
-        { value: "Human Resources", label: "Human Resources" },
-        { value: "Managemnet", label: "Managemnet" },
-        { value: "Accounting & Finance", label: "Accounting & Finance" },
-        { value: "Digital", label: "Digital" },
-        { value: "Creative Art", label: "Creative Art" },
-    ];
 
     return (
         <form className="default-form">
             <div className="row">
-                
+                <LogoCoverUploader />
                 <OrgDetails />
+                <SocialNetworkBox />
+                <ContactInfoBox />
                
                 <div className="form-group col-lg-6 col-md-12">
                     <button className="theme-btn btn-style-one">Save</button>

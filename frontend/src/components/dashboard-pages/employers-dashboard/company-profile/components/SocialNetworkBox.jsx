@@ -3,6 +3,7 @@ const SocialNetworkBox = () => {
     <form className="default-form">
       <div className="row">
         {/* <!-- Input --> */}
+        <h3>Social Networks</h3>
         <div className="form-group col-lg-6 col-md-12">
           <input
             type="text"

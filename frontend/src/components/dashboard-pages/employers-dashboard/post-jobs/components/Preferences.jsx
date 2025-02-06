@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
+import csc from "countries-states-cities";
 
 const Preferences = () => {
+  const [country, setCountry] = useState(null); // Define country state
+  const [state, setState] = useState(null); // Define state
+
   const [preferences, setPreferences] = useState({
     gender: '',
     ageMin: '',
@@ -39,6 +43,23 @@ const Preferences = () => {
     { value: 'erp', label: 'ERP' },
     { value: 'tally', label: 'Tally' },
   ];
+
+ 
+ 
+
+  const countries = csc.getAllCountries().map(country => ({
+    value: country.id,
+    label: country.name
+  }));
+
+  const getStates = countryId => {
+    return countryId
+      ? csc.getStatesOfCountry(countryId).map(state => ({
+          value: state.id,
+          label: state.name
+        }))
+      : [];
+  };
 
   const handleInputChange = (name, value) => {
     setPreferences(prev => ({
@@ -121,29 +142,63 @@ const Preferences = () => {
           />
         </div>
 
-        {/* Domicile State */}
+        {/* Domicile State and Country */}
         <div className="form-group col-lg-6 col-md-12">
-          <Select
-            isMulti
-            options={stateOptions}
-            value={preferences.domicileState}
-            onChange={(value) => handleInputChange('domicileState', value)}
-            className="basic-multi-select"
-            placeholder="Domicile State"
-          />
-        </div>
+            <Select
+              id="DomicileCountry"
+              name="DomicileCountry"
+              placeholder="Domicile Country"
+              options={countries}
+              value={country} // Use country state here
+              onChange={option => {
+                setCountry(option); // Set selected country
+                setState(null); // Reset state and city when country changes
+                setCity(null);
+              }}
+            />
+          </div>
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              id="DomicileState"
+              name="DomicileState"
+              placeholder="Domicile State/UT"
+              options={getStates(country?.value)} // Use country state here
+              value={state}
+              onChange={option => {
+                setState(option); // Set selected state
+                setCity(null); // Reset city when state changes
+              }}
+            />
+          </div>
 
         {/* Present Residing State */}
         <div className="form-group col-lg-6 col-md-12">
-          <Select
-            isMulti
-            options={stateOptions}
-            value={preferences.presentResidingState}
-            onChange={(value) => handleInputChange('presentResidingState', value)}
-            className="basic-multi-select"
-            placeholder="Present Residing State"
-          />
-        </div>
+            <Select
+              id="PresentResidingCountry"
+              name="PresentResidingCountry"
+              placeholder="Present Residing Country"
+              options={countries}
+              value={country} // Use country state here
+              onChange={option => {
+                setCountry(option); // Set selected country
+                setState(null); // Reset state and city when country changes
+                setCity(null);
+              }}
+            />
+          </div>
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              id="PresentResidingState"
+              name="PresentResidingState"
+              placeholder="Present Residing State/UT"
+              options={getStates(country?.value)} // Use country state here
+              value={state}
+              onChange={option => {
+                setState(option); // Set selected state
+                setCity(null); // Reset city when state changes
+              }}
+            />
+          </div>
 
         {/* Languages */}
         <div className="form-group col-lg-4 col-md-12">

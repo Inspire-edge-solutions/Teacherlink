@@ -15,8 +15,8 @@ const Experience = ({ onChange }) => {
   });
 
   const yearOptions = Array.from({ length: 32 }, (_, i) => ({
-    value: i === 31 ? '>30' : i,
-    label: `${i} Years`
+    value: i === 31 ? '>30 years' : i,
+    label: i === 31 ? '>30 years' : `${i} Years`
   }));
 
   const monthOptions = Array.from({ length: 12 }, (_, i) => ({

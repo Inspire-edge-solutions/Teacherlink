@@ -139,7 +139,7 @@ const teachingAdminDesignationOptions = [
   { value: 'cetFaculty', label: 'CET faculty' }
 ];
 
-const Experience = () => {
+const Experience = ({ excludeAdditionalDetails }) => {
   const [workExperience, setWorkExperience] = useState({
     total: { years: '0', months: '0' },
     teaching: { years: '0', months: '0' },
@@ -308,6 +308,7 @@ const Experience = () => {
       </div>
 
       {/* Additional Details Table */}
+      {excludeAdditionalDetails && (
       <div className="experience-details">
         <h4>Additional Details</h4>
         <table className="experience-table">
@@ -403,7 +404,7 @@ const Experience = () => {
           </tbody>
         </table>
       </div>
-
+      )}
      
 
       {/* Experience Details Forms */}
