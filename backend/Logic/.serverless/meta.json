@@ -1,7 +1,7 @@
 {
-  "C:\\Users\\DELL\\Desktop\\backend\\backend\\serverless.yml": {
+  "C:\\Users\\DELL\\Desktop\\Teacherlink\\backend\\Logic\\serverless.yml": {
     "versionFramework": "4.6.1",
-    "servicePath": "C:\\Users\\DELL\\Desktop\\backend\\backend\\serverless.yml",
+    "servicePath": "C:\\Users\\DELL\\Desktop\\Teacherlink\\backend\\Logic\\serverless.yml",
     "serviceConfigFileName": "serverless.yml",
     "service": {
       "service": "teacher-link",
@@ -273,7 +273,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "teacherlink-deployments-ap-south-1",
-                  "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                  "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
                 },
                 "Handler": "src/handlers/users.handler",
                 "Runtime": "nodejs18.x",
@@ -307,7 +307,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "teacherlink-deployments-ap-south-1",
-                  "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                  "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
                 },
                 "Handler": "src/handlers/Institution.handler",
                 "Runtime": "nodejs18.x",
@@ -341,7 +341,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "teacherlink-deployments-ap-south-1",
-                  "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                  "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
                 },
                 "Handler": "src/handlers/login.handler",
                 "Runtime": "nodejs18.x",
@@ -375,7 +375,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "teacherlink-deployments-ap-south-1",
-                  "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                  "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
                 },
                 "Handler": "src/handlers/organization.handler",
                 "Runtime": "nodejs18.x",
@@ -409,7 +409,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "teacherlink-deployments-ap-south-1",
-                  "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                  "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
                 },
                 "Handler": "src/handlers/Designation.handler",
                 "Runtime": "nodejs18.x",
@@ -443,7 +443,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "teacherlink-deployments-ap-south-1",
-                  "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                  "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
                 },
                 "Handler": "src/handlers/Education.handler",
                 "Runtime": "nodejs18.x",
@@ -477,7 +477,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "teacherlink-deployments-ap-south-1",
-                  "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                  "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
                 },
                 "Handler": "src/handlers/languages.handler",
                 "Runtime": "nodejs18.x",
@@ -511,13 +511,13 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "teacherlink-deployments-ap-south-1",
-                  "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                  "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
                 },
                 "Handler": "src/handlers/socialmedia.handler",
                 "Runtime": "nodejs18.x",
                 "FunctionName": "teacher-link-staging-socialmedia",
                 "MemorySize": 1024,
-                "Timeout": 6,
+                "Timeout": 90,
                 "Environment": {
                   "Variables": {
                     "DB_HOST": "inspire-edge-db.cnawwwkeyq7q.ap-south-1.rds.amazonaws.com",
@@ -540,84 +540,84 @@
                 "SocialmediaLogGroup"
               ]
             },
-            "UsersLambdaVersion6yQYmGvCf3jIwHvnVLn38K8fbRVr5oEeN3HtFFRnqFs": {
+            "UsersLambdaVersionk3nYNFQ1U65qCUwVeLoIHbWmRMgeatsvB0AYkveVo": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "UsersLambdaFunction"
                 },
-                "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+                "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
               }
             },
-            "InstitutionsLambdaVersionH5VCkm6Z3Q45AtD7ARGssqWU0ackaoCcToAPhiCbSik": {
+            "InstitutionsLambdaVersionMvfrmv4bWW96G1ClkWwrMwAtYaHZ3lDZd6Amm7UVe4": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "InstitutionsLambdaFunction"
                 },
-                "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+                "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
               }
             },
-            "LoginLambdaVersionYPa9HDwYQALUDLDVffZJEWxR775wTxfNAhrq6tkmFEw": {
+            "LoginLambdaVersion7D33cfjmWqJJTkdDKG7qxJT1ZAu3DQu97xhycyevRY": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "LoginLambdaFunction"
                 },
-                "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+                "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
               }
             },
-            "CreateOrganizationLambdaVersion35oph2VINYfeoyhbhCOIafa1Tz7NoDLiCawiFSq0t8": {
+            "CreateOrganizationLambdaVersion4s1cN7YReTzIPDNpmRBz8eyWyCYQhdFl9STMT8Www": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "CreateOrganizationLambdaFunction"
                 },
-                "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+                "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
               }
             },
-            "DesignationdataLambdaVersionMMafzdWKYj9rkYUSLcP9rtPENz0hGOvo29k2jqJa2a8": {
+            "DesignationdataLambdaVersionahlNkB6KJnwOkLtu3FKKK7h2m8m7nCifZPBsEKHZAzg": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "DesignationdataLambdaFunction"
                 },
-                "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+                "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
               }
             },
-            "EducationdataLambdaVersiongHJHfpvHpcuzsdmESHoMALTzqVZO2VP0SxUFVtL4Nw": {
+            "EducationdataLambdaVersionx4VP3I3pAgxYFgs7OvGaHYKNbnezCJZ32AMBxlyJ0U": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "EducationdataLambdaFunction"
                 },
-                "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+                "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
               }
             },
-            "LanguagesdataLambdaVersions4i8yVOFI5ZeAW0eI9cYK7iu2OYtVlFBPolXgoAmKn0": {
+            "LanguagesdataLambdaVersion1sFR7EDCncSUoBYWqdWLfNzl91k9EuG5D3ncCNcn3s": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "LanguagesdataLambdaFunction"
                 },
-                "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+                "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
               }
             },
-            "SocialmediaLambdaVersionDszEKMmgcCvTPDpv7a5f4y3dXLFhndajhNOhqTKYME": {
+            "SocialmediaLambdaVersionc0ep7jIjO0EKlZTAKqtyi9U7kobhXobX2tfGKpMTco": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "SocialmediaLambdaFunction"
                 },
-                "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+                "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
               }
             },
             "ApiGatewayRestApi": {
@@ -749,7 +749,7 @@
                 }
               }
             },
-            "ApiGatewayResourceCreate": {
+            "ApiGatewayResourceSocialmedia": {
               "Type": "AWS::ApiGateway::Resource",
               "Properties": {
                 "ParentId": {
@@ -758,52 +758,19 @@
                     "RootResourceId"
                   ]
                 },
-                "PathPart": "create",
+                "PathPart": "socialmedia",
                 "RestApiId": {
                   "Ref": "ApiGatewayRestApi"
                 }
               }
             },
-            "ApiGatewayResourceRead": {
+            "ApiGatewayResourceSocialmediaIdVar": {
               "Type": "AWS::ApiGateway::Resource",
               "Properties": {
                 "ParentId": {
-                  "Fn::GetAtt": [
-                    "ApiGatewayRestApi",
-                    "RootResourceId"
-                  ]
+                  "Ref": "ApiGatewayResourceSocialmedia"
                 },
-                "PathPart": "read",
-                "RestApiId": {
-                  "Ref": "ApiGatewayRestApi"
-                }
-              }
-            },
-            "ApiGatewayResourceUpdate": {
-              "Type": "AWS::ApiGateway::Resource",
-              "Properties": {
-                "ParentId": {
-                  "Fn::GetAtt": [
-                    "ApiGatewayRestApi",
-                    "RootResourceId"
-                  ]
-                },
-                "PathPart": "update",
-                "RestApiId": {
-                  "Ref": "ApiGatewayRestApi"
-                }
-              }
-            },
-            "ApiGatewayResourceDelete": {
-              "Type": "AWS::ApiGateway::Resource",
-              "Properties": {
-                "ParentId": {
-                  "Fn::GetAtt": [
-                    "ApiGatewayRestApi",
-                    "RootResourceId"
-                  ]
-                },
-                "PathPart": "delete",
+                "PathPart": "{id}",
                 "RestApiId": {
                   "Ref": "ApiGatewayRestApi"
                 }
@@ -938,6 +905,96 @@
                 },
                 "ResourceId": {
                   "Ref": "ApiGatewayResourceConstants"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodSocialmediaOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceSocialmedia"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodSocialmediaIdVarOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,PUT,GET'"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceSocialmediaIdVar"
                 },
                 "RestApiId": {
                   "Ref": "ApiGatewayRestApi"
@@ -1404,13 +1461,13 @@
                 "LanguagesdataLambdaPermissionApiGateway"
               ]
             },
-            "ApiGatewayMethodCreatePost": {
+            "ApiGatewayMethodSocialmediaPost": {
               "Type": "AWS::ApiGateway::Method",
               "Properties": {
                 "HttpMethod": "POST",
                 "RequestParameters": {},
                 "ResourceId": {
-                  "Ref": "ApiGatewayResourceCreate"
+                  "Ref": "ApiGatewayResourceSocialmedia"
                 },
                 "RestApiId": {
                   "Ref": "ApiGatewayRestApi"
@@ -1450,13 +1507,13 @@
                 "SocialmediaLambdaPermissionApiGateway"
               ]
             },
-            "ApiGatewayMethodReadGet": {
+            "ApiGatewayMethodSocialmediaIdVarGet": {
               "Type": "AWS::ApiGateway::Method",
               "Properties": {
                 "HttpMethod": "GET",
                 "RequestParameters": {},
                 "ResourceId": {
-                  "Ref": "ApiGatewayResourceRead"
+                  "Ref": "ApiGatewayResourceSocialmediaIdVar"
                 },
                 "RestApiId": {
                   "Ref": "ApiGatewayRestApi"
@@ -1496,13 +1553,13 @@
                 "SocialmediaLambdaPermissionApiGateway"
               ]
             },
-            "ApiGatewayMethodUpdatePut": {
+            "ApiGatewayMethodSocialmediaIdVarPut": {
               "Type": "AWS::ApiGateway::Method",
               "Properties": {
                 "HttpMethod": "PUT",
                 "RequestParameters": {},
                 "ResourceId": {
-                  "Ref": "ApiGatewayResourceUpdate"
+                  "Ref": "ApiGatewayResourceSocialmediaIdVar"
                 },
                 "RestApiId": {
                   "Ref": "ApiGatewayRestApi"
@@ -1542,13 +1599,13 @@
                 "SocialmediaLambdaPermissionApiGateway"
               ]
             },
-            "ApiGatewayMethodDeleteDelete": {
+            "ApiGatewayMethodSocialmediaIdVarDelete": {
               "Type": "AWS::ApiGateway::Method",
               "Properties": {
                 "HttpMethod": "DELETE",
                 "RequestParameters": {},
                 "ResourceId": {
-                  "Ref": "ApiGatewayResourceDelete"
+                  "Ref": "ApiGatewayResourceSocialmediaIdVar"
                 },
                 "RestApiId": {
                   "Ref": "ApiGatewayRestApi"
@@ -1588,7 +1645,7 @@
                 "SocialmediaLambdaPermissionApiGateway"
               ]
             },
-            "ApiGatewayDeployment1738754352164": {
+            "ApiGatewayDeployment1738841159470": {
               "Type": "AWS::ApiGateway::Deployment",
               "Properties": {
                 "RestApiId": {
@@ -1600,6 +1657,8 @@
                 "ApiGatewayMethodOrganizationOptions",
                 "ApiGatewayMethodOrganizationIdVarOptions",
                 "ApiGatewayMethodConstantsOptions",
+                "ApiGatewayMethodSocialmediaOptions",
+                "ApiGatewayMethodSocialmediaIdVarOptions",
                 "ApiGatewayMethodUsersAny",
                 "ApiGatewayMethodInstitutionsAny",
                 "ApiGatewayMethodLoginAny",
@@ -1610,10 +1669,10 @@
                 "ApiGatewayMethodConstantsGet",
                 "ApiGatewayMethodEducationDashdataGet",
                 "ApiGatewayMethodLanguagesGet",
-                "ApiGatewayMethodCreatePost",
-                "ApiGatewayMethodReadGet",
-                "ApiGatewayMethodUpdatePut",
-                "ApiGatewayMethodDeleteDelete"
+                "ApiGatewayMethodSocialmediaPost",
+                "ApiGatewayMethodSocialmediaIdVarGet",
+                "ApiGatewayMethodSocialmediaIdVarPut",
+                "ApiGatewayMethodSocialmediaIdVarDelete"
               ]
             },
             "UsersLambdaPermissionApiGateway": {
@@ -1923,7 +1982,7 @@
             "UsersLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "UsersLambdaVersion6yQYmGvCf3jIwHvnVLn38K8fbRVr5oEeN3HtFFRnqFs"
+                "Ref": "UsersLambdaVersionk3nYNFQ1U65qCUwVeLoIHbWmRMgeatsvB0AYkveVo"
               },
               "Export": {
                 "Name": "sls-teacher-link-staging-UsersLambdaFunctionQualifiedArn"
@@ -1932,7 +1991,7 @@
             "InstitutionsLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "InstitutionsLambdaVersionH5VCkm6Z3Q45AtD7ARGssqWU0ackaoCcToAPhiCbSik"
+                "Ref": "InstitutionsLambdaVersionMvfrmv4bWW96G1ClkWwrMwAtYaHZ3lDZd6Amm7UVe4"
               },
               "Export": {
                 "Name": "sls-teacher-link-staging-InstitutionsLambdaFunctionQualifiedArn"
@@ -1941,7 +2000,7 @@
             "LoginLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "LoginLambdaVersionYPa9HDwYQALUDLDVffZJEWxR775wTxfNAhrq6tkmFEw"
+                "Ref": "LoginLambdaVersion7D33cfjmWqJJTkdDKG7qxJT1ZAu3DQu97xhycyevRY"
               },
               "Export": {
                 "Name": "sls-teacher-link-staging-LoginLambdaFunctionQualifiedArn"
@@ -1950,7 +2009,7 @@
             "CreateOrganizationLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "CreateOrganizationLambdaVersion35oph2VINYfeoyhbhCOIafa1Tz7NoDLiCawiFSq0t8"
+                "Ref": "CreateOrganizationLambdaVersion4s1cN7YReTzIPDNpmRBz8eyWyCYQhdFl9STMT8Www"
               },
               "Export": {
                 "Name": "sls-teacher-link-staging-CreateOrganizationLambdaFunctionQualifiedArn"
@@ -1959,7 +2018,7 @@
             "DesignationdataLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "DesignationdataLambdaVersionMMafzdWKYj9rkYUSLcP9rtPENz0hGOvo29k2jqJa2a8"
+                "Ref": "DesignationdataLambdaVersionahlNkB6KJnwOkLtu3FKKK7h2m8m7nCifZPBsEKHZAzg"
               },
               "Export": {
                 "Name": "sls-teacher-link-staging-DesignationdataLambdaFunctionQualifiedArn"
@@ -1968,7 +2027,7 @@
             "EducationdataLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "EducationdataLambdaVersiongHJHfpvHpcuzsdmESHoMALTzqVZO2VP0SxUFVtL4Nw"
+                "Ref": "EducationdataLambdaVersionx4VP3I3pAgxYFgs7OvGaHYKNbnezCJZ32AMBxlyJ0U"
               },
               "Export": {
                 "Name": "sls-teacher-link-staging-EducationdataLambdaFunctionQualifiedArn"
@@ -1977,7 +2036,7 @@
             "LanguagesdataLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "LanguagesdataLambdaVersions4i8yVOFI5ZeAW0eI9cYK7iu2OYtVlFBPolXgoAmKn0"
+                "Ref": "LanguagesdataLambdaVersion1sFR7EDCncSUoBYWqdWLfNzl91k9EuG5D3ncCNcn3s"
               },
               "Export": {
                 "Name": "sls-teacher-link-staging-LanguagesdataLambdaFunctionQualifiedArn"
@@ -1986,7 +2045,7 @@
             "SocialmediaLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "SocialmediaLambdaVersionDszEKMmgcCvTPDpv7a5f4y3dXLFhndajhNOhqTKYME"
+                "Ref": "SocialmediaLambdaVersionc0ep7jIjO0EKlZTAKqtyi9U7kobhXobX2tfGKpMTco"
               },
               "Export": {
                 "Name": "sls-teacher-link-staging-SocialmediaLambdaFunctionQualifiedArn"
@@ -2054,7 +2113,7 @@
           "memory": 1024,
           "runtime": "nodejs18.x",
           "vpc": {},
-          "versionLogicalId": "UsersLambdaVersion6yQYmGvCf3jIwHvnVLn38K8fbRVr5oEeN3HtFFRnqFs"
+          "versionLogicalId": "UsersLambdaVersionk3nYNFQ1U65qCUwVeLoIHbWmRMgeatsvB0AYkveVo"
         },
         "institutions": {
           "handler": "src/handlers/Institution.handler",
@@ -2077,7 +2136,7 @@
           "memory": 1024,
           "runtime": "nodejs18.x",
           "vpc": {},
-          "versionLogicalId": "InstitutionsLambdaVersionH5VCkm6Z3Q45AtD7ARGssqWU0ackaoCcToAPhiCbSik"
+          "versionLogicalId": "InstitutionsLambdaVersionMvfrmv4bWW96G1ClkWwrMwAtYaHZ3lDZd6Amm7UVe4"
         },
         "login": {
           "handler": "src/handlers/login.handler",
@@ -2100,7 +2159,7 @@
           "memory": 1024,
           "runtime": "nodejs18.x",
           "vpc": {},
-          "versionLogicalId": "LoginLambdaVersionYPa9HDwYQALUDLDVffZJEWxR775wTxfNAhrq6tkmFEw"
+          "versionLogicalId": "LoginLambdaVersion7D33cfjmWqJJTkdDKG7qxJT1ZAu3DQu97xhycyevRY"
         },
         "createOrganization": {
           "handler": "src/handlers/organization.handler",
@@ -2212,7 +2271,7 @@
           "memory": 1024,
           "runtime": "nodejs18.x",
           "vpc": {},
-          "versionLogicalId": "CreateOrganizationLambdaVersion35oph2VINYfeoyhbhCOIafa1Tz7NoDLiCawiFSq0t8"
+          "versionLogicalId": "CreateOrganizationLambdaVersion4s1cN7YReTzIPDNpmRBz8eyWyCYQhdFl9STMT8Www"
         },
         "Designationdata": {
           "handler": "src/handlers/Designation.handler",
@@ -2248,7 +2307,7 @@
           "timeout": 6,
           "runtime": "nodejs18.x",
           "vpc": {},
-          "versionLogicalId": "DesignationdataLambdaVersionMMafzdWKYj9rkYUSLcP9rtPENz0hGOvo29k2jqJa2a8"
+          "versionLogicalId": "DesignationdataLambdaVersionahlNkB6KJnwOkLtu3FKKK7h2m8m7nCifZPBsEKHZAzg"
         },
         "Educationdata": {
           "handler": "src/handlers/Education.handler",
@@ -2267,7 +2326,7 @@
           "timeout": 6,
           "runtime": "nodejs18.x",
           "vpc": {},
-          "versionLogicalId": "EducationdataLambdaVersiongHJHfpvHpcuzsdmESHoMALTzqVZO2VP0SxUFVtL4Nw"
+          "versionLogicalId": "EducationdataLambdaVersionx4VP3I3pAgxYFgs7OvGaHYKNbnezCJZ32AMBxlyJ0U"
         },
         "Languagesdata": {
           "handler": "src/handlers/languages.handler",
@@ -2286,47 +2345,115 @@
           "timeout": 6,
           "runtime": "nodejs18.x",
           "vpc": {},
-          "versionLogicalId": "LanguagesdataLambdaVersions4i8yVOFI5ZeAW0eI9cYK7iu2OYtVlFBPolXgoAmKn0"
+          "versionLogicalId": "LanguagesdataLambdaVersion1sFR7EDCncSUoBYWqdWLfNzl91k9EuG5D3ncCNcn3s"
         },
         "socialmedia": {
           "handler": "src/handlers/socialmedia.handler",
           "events": [
             {
               "http": {
-                "path": "create",
+                "path": "socialmedia",
                 "method": "post",
+                "cors": {
+                  "origin": "*",
+                  "methods": [
+                    "OPTIONS",
+                    "POST"
+                  ],
+                  "headers": [
+                    "Content-Type",
+                    "X-Amz-Date",
+                    "Authorization",
+                    "X-Api-Key",
+                    "X-Amz-Security-Token",
+                    "X-Amz-User-Agent",
+                    "X-Amzn-Trace-Id"
+                  ],
+                  "allowCredentials": "<REDACTED>"
+                },
                 "integration": "AWS_PROXY"
               }
             },
             {
               "http": {
-                "path": "read",
+                "path": "socialmedia/{id}",
                 "method": "get",
+                "cors": {
+                  "origin": "*",
+                  "methods": [
+                    "OPTIONS",
+                    "GET"
+                  ],
+                  "headers": [
+                    "Content-Type",
+                    "X-Amz-Date",
+                    "Authorization",
+                    "X-Api-Key",
+                    "X-Amz-Security-Token",
+                    "X-Amz-User-Agent",
+                    "X-Amzn-Trace-Id"
+                  ],
+                  "allowCredentials": "<REDACTED>"
+                },
                 "integration": "AWS_PROXY"
               }
             },
             {
               "http": {
-                "path": "update",
+                "path": "socialmedia/{id}",
                 "method": "put",
+                "cors": {
+                  "origin": "*",
+                  "methods": [
+                    "OPTIONS",
+                    "PUT"
+                  ],
+                  "headers": [
+                    "Content-Type",
+                    "X-Amz-Date",
+                    "Authorization",
+                    "X-Api-Key",
+                    "X-Amz-Security-Token",
+                    "X-Amz-User-Agent",
+                    "X-Amzn-Trace-Id"
+                  ],
+                  "allowCredentials": "<REDACTED>"
+                },
                 "integration": "AWS_PROXY"
               }
             },
             {
               "http": {
-                "path": "delete",
+                "path": "socialmedia/{id}",
                 "method": "delete",
+                "cors": {
+                  "origin": "*",
+                  "methods": [
+                    "OPTIONS",
+                    "DELETE"
+                  ],
+                  "headers": [
+                    "Content-Type",
+                    "X-Amz-Date",
+                    "Authorization",
+                    "X-Api-Key",
+                    "X-Amz-Security-Token",
+                    "X-Amz-User-Agent",
+                    "X-Amzn-Trace-Id"
+                  ],
+                  "allowCredentials": "<REDACTED>"
+                },
                 "integration": "AWS_PROXY"
               }
             }
           ],
+          "timeout": 90,
           "name": "teacher-link-staging-socialmedia",
           "package": {},
           "memory": 1024,
-          "timeout": 6,
           "runtime": "nodejs18.x",
           "vpc": {},
-          "versionLogicalId": "SocialmediaLambdaVersionDszEKMmgcCvTPDpv7a5f4y3dXLFhndajhNOhqTKYME"
+          "versionLogicalId": "SocialmediaLambdaVersionc0ep7jIjO0EKlZTAKqtyi9U7kobhXobX2tfGKpMTco"
         }
       }
     },
@@ -2598,7 +2725,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
               },
               "Handler": "src/handlers/users.handler",
               "Runtime": "nodejs18.x",
@@ -2632,7 +2759,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
               },
               "Handler": "src/handlers/Institution.handler",
               "Runtime": "nodejs18.x",
@@ -2666,7 +2793,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
               },
               "Handler": "src/handlers/login.handler",
               "Runtime": "nodejs18.x",
@@ -2700,7 +2827,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
               },
               "Handler": "src/handlers/organization.handler",
               "Runtime": "nodejs18.x",
@@ -2734,7 +2861,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
               },
               "Handler": "src/handlers/Designation.handler",
               "Runtime": "nodejs18.x",
@@ -2768,7 +2895,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
               },
               "Handler": "src/handlers/Education.handler",
               "Runtime": "nodejs18.x",
@@ -2802,7 +2929,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
               },
               "Handler": "src/handlers/languages.handler",
               "Runtime": "nodejs18.x",
@@ -2836,13 +2963,13 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
               },
               "Handler": "src/handlers/socialmedia.handler",
               "Runtime": "nodejs18.x",
               "FunctionName": "teacher-link-staging-socialmedia",
               "MemorySize": 1024,
-              "Timeout": 6,
+              "Timeout": 90,
               "Environment": {
                 "Variables": {
                   "DB_HOST": "inspire-edge-db.cnawwwkeyq7q.ap-south-1.rds.amazonaws.com",
@@ -2865,84 +2992,84 @@
               "SocialmediaLogGroup"
             ]
           },
-          "UsersLambdaVersion6yQYmGvCf3jIwHvnVLn38K8fbRVr5oEeN3HtFFRnqFs": {
+          "UsersLambdaVersionk3nYNFQ1U65qCUwVeLoIHbWmRMgeatsvB0AYkveVo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UsersLambdaFunction"
               },
-              "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+              "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
             }
           },
-          "InstitutionsLambdaVersionH5VCkm6Z3Q45AtD7ARGssqWU0ackaoCcToAPhiCbSik": {
+          "InstitutionsLambdaVersionMvfrmv4bWW96G1ClkWwrMwAtYaHZ3lDZd6Amm7UVe4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "InstitutionsLambdaFunction"
               },
-              "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+              "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
             }
           },
-          "LoginLambdaVersionYPa9HDwYQALUDLDVffZJEWxR775wTxfNAhrq6tkmFEw": {
+          "LoginLambdaVersion7D33cfjmWqJJTkdDKG7qxJT1ZAu3DQu97xhycyevRY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "LoginLambdaFunction"
               },
-              "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+              "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
             }
           },
-          "CreateOrganizationLambdaVersion35oph2VINYfeoyhbhCOIafa1Tz7NoDLiCawiFSq0t8": {
+          "CreateOrganizationLambdaVersion4s1cN7YReTzIPDNpmRBz8eyWyCYQhdFl9STMT8Www": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateOrganizationLambdaFunction"
               },
-              "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+              "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
             }
           },
-          "DesignationdataLambdaVersionMMafzdWKYj9rkYUSLcP9rtPENz0hGOvo29k2jqJa2a8": {
+          "DesignationdataLambdaVersionahlNkB6KJnwOkLtu3FKKK7h2m8m7nCifZPBsEKHZAzg": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "DesignationdataLambdaFunction"
               },
-              "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+              "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
             }
           },
-          "EducationdataLambdaVersiongHJHfpvHpcuzsdmESHoMALTzqVZO2VP0SxUFVtL4Nw": {
+          "EducationdataLambdaVersionx4VP3I3pAgxYFgs7OvGaHYKNbnezCJZ32AMBxlyJ0U": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "EducationdataLambdaFunction"
               },
-              "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+              "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
             }
           },
-          "LanguagesdataLambdaVersions4i8yVOFI5ZeAW0eI9cYK7iu2OYtVlFBPolXgoAmKn0": {
+          "LanguagesdataLambdaVersion1sFR7EDCncSUoBYWqdWLfNzl91k9EuG5D3ncCNcn3s": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "LanguagesdataLambdaFunction"
               },
-              "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+              "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
             }
           },
-          "SocialmediaLambdaVersionDszEKMmgcCvTPDpv7a5f4y3dXLFhndajhNOhqTKYME": {
+          "SocialmediaLambdaVersionc0ep7jIjO0EKlZTAKqtyi9U7kobhXobX2tfGKpMTco": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "SocialmediaLambdaFunction"
               },
-              "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+              "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
             }
           },
           "ApiGatewayRestApi": {
@@ -3074,7 +3201,7 @@
               }
             }
           },
-          "ApiGatewayResourceCreate": {
+          "ApiGatewayResourceSocialmedia": {
             "Type": "AWS::ApiGateway::Resource",
             "Properties": {
               "ParentId": {
@@ -3083,52 +3210,19 @@
                   "RootResourceId"
                 ]
               },
-              "PathPart": "create",
+              "PathPart": "socialmedia",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
             }
           },
-          "ApiGatewayResourceRead": {
+          "ApiGatewayResourceSocialmediaIdVar": {
             "Type": "AWS::ApiGateway::Resource",
             "Properties": {
               "ParentId": {
-                "Fn::GetAtt": [
-                  "ApiGatewayRestApi",
-                  "RootResourceId"
-                ]
+                "Ref": "ApiGatewayResourceSocialmedia"
               },
-              "PathPart": "read",
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              }
-            }
-          },
-          "ApiGatewayResourceUpdate": {
-            "Type": "AWS::ApiGateway::Resource",
-            "Properties": {
-              "ParentId": {
-                "Fn::GetAtt": [
-                  "ApiGatewayRestApi",
-                  "RootResourceId"
-                ]
-              },
-              "PathPart": "update",
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              }
-            }
-          },
-          "ApiGatewayResourceDelete": {
-            "Type": "AWS::ApiGateway::Resource",
-            "Properties": {
-              "ParentId": {
-                "Fn::GetAtt": [
-                  "ApiGatewayRestApi",
-                  "RootResourceId"
-                ]
-              },
-              "PathPart": "delete",
+              "PathPart": "{id}",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -3263,6 +3357,96 @@
               },
               "ResourceId": {
                 "Ref": "ApiGatewayResourceConstants"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodSocialmediaOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceSocialmedia"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodSocialmediaIdVarOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,PUT,GET'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceSocialmediaIdVar"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -3729,13 +3913,13 @@
               "LanguagesdataLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayMethodCreatePost": {
+          "ApiGatewayMethodSocialmediaPost": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
               "HttpMethod": "POST",
               "RequestParameters": {},
               "ResourceId": {
-                "Ref": "ApiGatewayResourceCreate"
+                "Ref": "ApiGatewayResourceSocialmedia"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -3775,13 +3959,13 @@
               "SocialmediaLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayMethodReadGet": {
+          "ApiGatewayMethodSocialmediaIdVarGet": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
               "HttpMethod": "GET",
               "RequestParameters": {},
               "ResourceId": {
-                "Ref": "ApiGatewayResourceRead"
+                "Ref": "ApiGatewayResourceSocialmediaIdVar"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -3821,13 +4005,13 @@
               "SocialmediaLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayMethodUpdatePut": {
+          "ApiGatewayMethodSocialmediaIdVarPut": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
               "HttpMethod": "PUT",
               "RequestParameters": {},
               "ResourceId": {
-                "Ref": "ApiGatewayResourceUpdate"
+                "Ref": "ApiGatewayResourceSocialmediaIdVar"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -3867,13 +4051,13 @@
               "SocialmediaLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayMethodDeleteDelete": {
+          "ApiGatewayMethodSocialmediaIdVarDelete": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
               "HttpMethod": "DELETE",
               "RequestParameters": {},
               "ResourceId": {
-                "Ref": "ApiGatewayResourceDelete"
+                "Ref": "ApiGatewayResourceSocialmediaIdVar"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -3913,7 +4097,7 @@
               "SocialmediaLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1738754352164": {
+          "ApiGatewayDeployment1738841159470": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -3925,6 +4109,8 @@
               "ApiGatewayMethodOrganizationOptions",
               "ApiGatewayMethodOrganizationIdVarOptions",
               "ApiGatewayMethodConstantsOptions",
+              "ApiGatewayMethodSocialmediaOptions",
+              "ApiGatewayMethodSocialmediaIdVarOptions",
               "ApiGatewayMethodUsersAny",
               "ApiGatewayMethodInstitutionsAny",
               "ApiGatewayMethodLoginAny",
@@ -3935,10 +4121,10 @@
               "ApiGatewayMethodConstantsGet",
               "ApiGatewayMethodEducationDashdataGet",
               "ApiGatewayMethodLanguagesGet",
-              "ApiGatewayMethodCreatePost",
-              "ApiGatewayMethodReadGet",
-              "ApiGatewayMethodUpdatePut",
-              "ApiGatewayMethodDeleteDelete"
+              "ApiGatewayMethodSocialmediaPost",
+              "ApiGatewayMethodSocialmediaIdVarGet",
+              "ApiGatewayMethodSocialmediaIdVarPut",
+              "ApiGatewayMethodSocialmediaIdVarDelete"
             ]
           },
           "UsersLambdaPermissionApiGateway": {
@@ -4248,7 +4434,7 @@
           "UsersLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UsersLambdaVersion6yQYmGvCf3jIwHvnVLn38K8fbRVr5oEeN3HtFFRnqFs"
+              "Ref": "UsersLambdaVersionk3nYNFQ1U65qCUwVeLoIHbWmRMgeatsvB0AYkveVo"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-UsersLambdaFunctionQualifiedArn"
@@ -4257,7 +4443,7 @@
           "InstitutionsLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "InstitutionsLambdaVersionH5VCkm6Z3Q45AtD7ARGssqWU0ackaoCcToAPhiCbSik"
+              "Ref": "InstitutionsLambdaVersionMvfrmv4bWW96G1ClkWwrMwAtYaHZ3lDZd6Amm7UVe4"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-InstitutionsLambdaFunctionQualifiedArn"
@@ -4266,7 +4452,7 @@
           "LoginLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "LoginLambdaVersionYPa9HDwYQALUDLDVffZJEWxR775wTxfNAhrq6tkmFEw"
+              "Ref": "LoginLambdaVersion7D33cfjmWqJJTkdDKG7qxJT1ZAu3DQu97xhycyevRY"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-LoginLambdaFunctionQualifiedArn"
@@ -4275,7 +4461,7 @@
           "CreateOrganizationLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateOrganizationLambdaVersion35oph2VINYfeoyhbhCOIafa1Tz7NoDLiCawiFSq0t8"
+              "Ref": "CreateOrganizationLambdaVersion4s1cN7YReTzIPDNpmRBz8eyWyCYQhdFl9STMT8Www"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-CreateOrganizationLambdaFunctionQualifiedArn"
@@ -4284,7 +4470,7 @@
           "DesignationdataLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "DesignationdataLambdaVersionMMafzdWKYj9rkYUSLcP9rtPENz0hGOvo29k2jqJa2a8"
+              "Ref": "DesignationdataLambdaVersionahlNkB6KJnwOkLtu3FKKK7h2m8m7nCifZPBsEKHZAzg"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-DesignationdataLambdaFunctionQualifiedArn"
@@ -4293,7 +4479,7 @@
           "EducationdataLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "EducationdataLambdaVersiongHJHfpvHpcuzsdmESHoMALTzqVZO2VP0SxUFVtL4Nw"
+              "Ref": "EducationdataLambdaVersionx4VP3I3pAgxYFgs7OvGaHYKNbnezCJZ32AMBxlyJ0U"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-EducationdataLambdaFunctionQualifiedArn"
@@ -4302,7 +4488,7 @@
           "LanguagesdataLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "LanguagesdataLambdaVersions4i8yVOFI5ZeAW0eI9cYK7iu2OYtVlFBPolXgoAmKn0"
+              "Ref": "LanguagesdataLambdaVersion1sFR7EDCncSUoBYWqdWLfNzl91k9EuG5D3ncCNcn3s"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-LanguagesdataLambdaFunctionQualifiedArn"
@@ -4311,7 +4497,7 @@
           "SocialmediaLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "SocialmediaLambdaVersionDszEKMmgcCvTPDpv7a5f4y3dXLFhndajhNOhqTKYME"
+              "Ref": "SocialmediaLambdaVersionc0ep7jIjO0EKlZTAKqtyi9U7kobhXobX2tfGKpMTco"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-SocialmediaLambdaFunctionQualifiedArn"
@@ -4356,7 +4542,7 @@
       "serviceProvider": null,
       "instanceParameters": null
     },
-    "serviceRawFile": "service: teacher-link\n\nprovider:\n  name: aws\n  runtime: nodejs18.x\n  stage: ${opt:stage, 'staging'}\n  region: ap-south-1\n  deploymentBucket:\n    name: teacherlink-deployments-ap-south-1  # Your S3 bucket for deployments\n  environment:\n    DB_HOST: inspire-edge-db.cnawwwkeyq7q.ap-south-1.rds.amazonaws.com\n    DB_USER: teacherlink_user\n    DB_PASSWORD: Inspireedge2024\n    DB_NAME: teacherlink\n    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1\n    DYNAMODB_TABLE: Inspire-dynamic-data\n    S3_BUCKET: teacherlink-deployments-ap-south-1\n  iamRoleStatements:\n    - Effect: Allow\n      Action:\n        - dynamodb:PutItem\n        - dynamodb:GetItem\n        - dynamodb:UpdateItem\n        - dynamodb:DeleteItem\n        - dynamodb:Scan\n        - dynamodb:Query\n        - s3:PutObject\n        - s3:GetObject\n        - s3:DeleteObject\n      Resource:\n        - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}\n        - arn:aws:s3:::${self:provider.environment.S3_BUCKET}/*\n\n  iam:\n    role:\n      statements:\n        # Allow Secrets Manager access\n        - Effect: Allow\n          Action:\n            - secretsmanager:GetSecretValue\n          Resource: arn:aws:secretsmanager:ap-south-1:*:secret:teacherlink-*\n\n        # Allow S3 access\n        - Effect: Allow\n          Action:\n            - s3:GetObject\n            - s3:PutObject\n            - s3:ListBucket\n          Resource:\n            - arn:aws:s3:::teacherlink\n            - arn:aws:s3:::teacherlink/*\n\n        # Allow SES access\n        - Effect: Allow\n          Action:\n            - ses:SendEmail\n            - ses:SendRawEmail\n          Resource: \"*\"\n\n        # Allow RDS connection\n        - Effect: Allow\n          Action:\n            - rds-db:connect\n          Resource: arn:aws:rds-db:ap-south-1:*:dbuser:*/teacherlink_user\n\n        # Allow CloudFormation, API Gateway, Lambda, and Logs\n        - Effect: Allow\n          Action:\n            - cloudformation:*\n            - apigateway:*\n            - lambda:*\n            - logs:*\n          Resource: \"*\"\n\nplugins:\n  - serverless-offline\n\ncustom:\n  serverless-offline:\n    httpPort: 3000\n    noPrependStageInUrl: true\n    useChildProcesses: true\n\nfunctions:\n  users:\n    handler: src/handlers/users.handler\n    environment: ${file(src/env/${self:provider.stage}.yml)}\n    events:\n      - http:\n          path: users\n          method: any\n    timeout: 30\n\n  institutions:\n    handler: src/handlers/Institution.handler\n    environment: ${file(src/env/${self:provider.stage}.yml)}\n    events:\n      - http:\n          path: institutions\n          method: any\n    timeout: 30\n\n  login:\n    handler: src/handlers/login.handler\n    environment: ${file(src/env/${self:provider.stage}.yml)}\n    events:\n      - http:\n          path: login\n          method: any\n    timeout: 30\n    \n  \n  createOrganization:\n    handler: src/handlers/organization.handler\n    environment: ${file(src/env/${self:provider.stage}.yml)}\n    events:\n      - http:\n          path: organization\n          method: post\n          cors: true\n          \n      - http:\n          path: organization/{id}\n          method: get\n          cors: true\n      - http:\n          path: organization/{id}\n          method: put\n          cors: true\n      - http:\n          path: organization/{id}\n          method: delete\n          cors: true\n    timeout: 90\n\n\n  Designationdata:\n    handler: src/handlers/Designation.handler\n    events:\n      - http:\n          path: constants\n          method: get\n          cors: true\n\n  Educationdata:\n    handler: src/handlers/Education.handler\n    events:\n      - http:\n          path: education-data\n          method: get\n      \n  Languagesdata:\n    handler: src/handlers/languages.handler\n    events:\n      - http:\n          path: languages\n          method: get\n\n  socialmedia:\n    handler: src/handlers/socialmedia.handler\n    events:\n      - http:\n          path: create\n          method: post\n      - http:\n          path: read\n          method: get\n      - http:\n          path: update\n          method: put\n      - http:\n          path: delete\n          method: delete",
+    "serviceRawFile": "service: teacher-link\n\nprovider:\n  name: aws\n  runtime: nodejs18.x\n  stage: ${opt:stage, 'staging'}\n  region: ap-south-1\n  deploymentBucket:\n    name: teacherlink-deployments-ap-south-1  # Your S3 bucket for deployments\n  environment:\n    DB_HOST: inspire-edge-db.cnawwwkeyq7q.ap-south-1.rds.amazonaws.com\n    DB_USER: teacherlink_user\n    DB_PASSWORD: Inspireedge2024\n    DB_NAME: teacherlink\n    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1\n    DYNAMODB_TABLE: Inspire-dynamic-data\n    S3_BUCKET: teacherlink-deployments-ap-south-1\n  iamRoleStatements:\n    - Effect: Allow\n      Action:\n        - dynamodb:PutItem\n        - dynamodb:GetItem\n        - dynamodb:UpdateItem\n        - dynamodb:DeleteItem\n        - dynamodb:Scan\n        - dynamodb:Query\n        - s3:PutObject\n        - s3:GetObject\n        - s3:DeleteObject\n      Resource:\n        - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}\n        - arn:aws:s3:::${self:provider.environment.S3_BUCKET}/*\n\n  iam:\n    role:\n      statements:\n        # Allow Secrets Manager access\n        - Effect: Allow\n          Action:\n            - secretsmanager:GetSecretValue\n          Resource: arn:aws:secretsmanager:ap-south-1:*:secret:teacherlink-*\n\n        # Allow S3 access\n        - Effect: Allow\n          Action:\n            - s3:GetObject\n            - s3:PutObject\n            - s3:ListBucket\n          Resource:\n            - arn:aws:s3:::teacherlink\n            - arn:aws:s3:::teacherlink/*\n\n        # Allow SES access\n        - Effect: Allow\n          Action:\n            - ses:SendEmail\n            - ses:SendRawEmail\n          Resource: \"*\"\n\n        # Allow RDS connection\n        - Effect: Allow\n          Action:\n            - rds-db:connect\n          Resource: arn:aws:rds-db:ap-south-1:*:dbuser:*/teacherlink_user\n\n        # Allow CloudFormation, API Gateway, Lambda, and Logs\n        - Effect: Allow\n          Action:\n            - cloudformation:*\n            - apigateway:*\n            - lambda:*\n            - logs:*\n          Resource: \"*\"\n\nplugins:\n  - serverless-offline\n\ncustom:\n  serverless-offline:\n    httpPort: 3000\n    noPrependStageInUrl: true\n    useChildProcesses: true\n\nfunctions:\n  users:\n    handler: src/handlers/users.handler\n    environment: ${file(src/env/${self:provider.stage}.yml)}\n    events:\n      - http:\n          path: users\n          method: any\n    timeout: 30\n\n  institutions:\n    handler: src/handlers/Institution.handler\n    environment: ${file(src/env/${self:provider.stage}.yml)}\n    events:\n      - http:\n          path: institutions\n          method: any\n    timeout: 30\n\n  login:\n    handler: src/handlers/login.handler\n    environment: ${file(src/env/${self:provider.stage}.yml)}\n    events:\n      - http:\n          path: login\n          method: any\n    timeout: 30\n    \n  \n  createOrganization:\n    handler: src/handlers/organization.handler\n    environment: ${file(src/env/${self:provider.stage}.yml)}\n    events:\n      - http:\n          path: organization\n          method: post\n          cors: true\n          \n      - http:\n          path: organization/{id}\n          method: get\n          cors: true\n      - http:\n          path: organization/{id}\n          method: put\n          cors: true\n      - http:\n          path: organization/{id}\n          method: delete\n          cors: true\n    timeout: 90\n\n\n  Designationdata:\n    handler: src/handlers/Designation.handler\n    events:\n      - http:\n          path: constants\n          method: get\n          cors: true\n\n  Educationdata:\n    handler: src/handlers/Education.handler\n    events:\n      - http:\n          path: education-data\n          method: get\n      \n  Languagesdata:\n    handler: src/handlers/languages.handler\n    events:\n      - http:\n          path: languages\n          method: get\n\n  socialmedia:\n    handler: src/handlers/socialmedia.handler\n    events:\n      - http:\n          path: socialmedia\n          method: post\n          cors: true\n      - http:\n          path: socialmedia/{id}\n          method: get\n          cors: true\n      - http:\n          path: socialmedia/{id}\n          method: put\n          cors: true\n      - http:\n          path: socialmedia/{id}\n          method: delete\n          cors: true\n    timeout: 90",
     "command": [
       "deploy"
     ],
@@ -4369,42 +4555,42 @@
     "serviceProviderAwsCfStackName": "teacher-link-staging",
     "serviceProviderAwsCfStackId": "arn:aws:cloudformation:ap-south-1:034362065816:stack/teacher-link-staging/aead7d40-bc47-11ef-95a8-02403a6e06c7",
     "serviceProviderAwsCfStackCreated": "2024-12-17T07:22:33.206Z",
-    "serviceProviderAwsCfStackUpdated": "2025-02-05T11:18:05.811Z",
+    "serviceProviderAwsCfStackUpdated": "2025-02-06T10:44:31.403Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "EducationdataLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-Educationdata:28",
+        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-Educationdata:30",
         "Description": "Current Lambda function version",
         "ExportName": "sls-teacher-link-staging-EducationdataLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "SocialmediaLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-socialmedia:23",
+        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-socialmedia:25",
         "Description": "Current Lambda function version",
         "ExportName": "sls-teacher-link-staging-SocialmediaLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "LanguagesdataLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-Languagesdata:27",
+        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-Languagesdata:29",
         "Description": "Current Lambda function version",
         "ExportName": "sls-teacher-link-staging-LanguagesdataLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "InstitutionsLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-institutions:81",
+        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-institutions:83",
         "Description": "Current Lambda function version",
         "ExportName": "sls-teacher-link-staging-InstitutionsLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "CreateOrganizationLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-createOrganization:58",
+        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-createOrganization:60",
         "Description": "Current Lambda function version",
         "ExportName": "sls-teacher-link-staging-CreateOrganizationLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "LoginLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-login:64",
+        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-login:66",
         "Description": "Current Lambda function version",
         "ExportName": "sls-teacher-link-staging-LoginLambdaFunctionQualifiedArn"
       },
@@ -4421,13 +4607,13 @@
       },
       {
         "OutputKey": "UsersLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-users:88",
+        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-users:90",
         "Description": "Current Lambda function version",
         "ExportName": "sls-teacher-link-staging-UsersLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "DesignationdataLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-Designationdata:27",
+        "OutputValue": "arn:aws:lambda:ap-south-1:034362065816:function:teacher-link-staging-Designationdata:29",
         "Description": "Current Lambda function version",
         "ExportName": "sls-teacher-link-staging-DesignationdataLambdaFunctionQualifiedArn"
       }
@@ -4611,7 +4797,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "teacherlink-deployments-ap-south-1",
-              "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+              "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
             },
             "Handler": "src/handlers/users.handler",
             "Runtime": "nodejs18.x",
@@ -4645,7 +4831,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "teacherlink-deployments-ap-south-1",
-              "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+              "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
             },
             "Handler": "src/handlers/Institution.handler",
             "Runtime": "nodejs18.x",
@@ -4679,7 +4865,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "teacherlink-deployments-ap-south-1",
-              "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+              "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
             },
             "Handler": "src/handlers/login.handler",
             "Runtime": "nodejs18.x",
@@ -4713,7 +4899,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "teacherlink-deployments-ap-south-1",
-              "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+              "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
             },
             "Handler": "src/handlers/organization.handler",
             "Runtime": "nodejs18.x",
@@ -4747,7 +4933,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "teacherlink-deployments-ap-south-1",
-              "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+              "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
             },
             "Handler": "src/handlers/Designation.handler",
             "Runtime": "nodejs18.x",
@@ -4781,7 +4967,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "teacherlink-deployments-ap-south-1",
-              "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+              "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
             },
             "Handler": "src/handlers/Education.handler",
             "Runtime": "nodejs18.x",
@@ -4815,7 +5001,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "teacherlink-deployments-ap-south-1",
-              "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+              "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
             },
             "Handler": "src/handlers/languages.handler",
             "Runtime": "nodejs18.x",
@@ -4849,13 +5035,13 @@
           "Properties": {
             "Code": {
               "S3Bucket": "teacherlink-deployments-ap-south-1",
-              "S3Key": "serverless/teacher-link/staging/1738754367660-2025-02-05T11:19:27.660Z/teacher-link.zip"
+              "S3Key": "serverless/teacher-link/staging/1738841175203-2025-02-06T11:26:15.203Z/teacher-link.zip"
             },
             "Handler": "src/handlers/socialmedia.handler",
             "Runtime": "nodejs18.x",
             "FunctionName": "teacher-link-staging-socialmedia",
             "MemorySize": 1024,
-            "Timeout": 6,
+            "Timeout": 90,
             "Environment": {
               "Variables": {
                 "DB_HOST": "inspire-edge-db.cnawwwkeyq7q.ap-south-1.rds.amazonaws.com",
@@ -4878,84 +5064,84 @@
             "SocialmediaLogGroup"
           ]
         },
-        "UsersLambdaVersion6yQYmGvCf3jIwHvnVLn38K8fbRVr5oEeN3HtFFRnqFs": {
+        "UsersLambdaVersionk3nYNFQ1U65qCUwVeLoIHbWmRMgeatsvB0AYkveVo": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "UsersLambdaFunction"
             },
-            "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+            "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
           }
         },
-        "InstitutionsLambdaVersionH5VCkm6Z3Q45AtD7ARGssqWU0ackaoCcToAPhiCbSik": {
+        "InstitutionsLambdaVersionMvfrmv4bWW96G1ClkWwrMwAtYaHZ3lDZd6Amm7UVe4": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "InstitutionsLambdaFunction"
             },
-            "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+            "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
           }
         },
-        "LoginLambdaVersionYPa9HDwYQALUDLDVffZJEWxR775wTxfNAhrq6tkmFEw": {
+        "LoginLambdaVersion7D33cfjmWqJJTkdDKG7qxJT1ZAu3DQu97xhycyevRY": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "LoginLambdaFunction"
             },
-            "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+            "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
           }
         },
-        "CreateOrganizationLambdaVersion35oph2VINYfeoyhbhCOIafa1Tz7NoDLiCawiFSq0t8": {
+        "CreateOrganizationLambdaVersion4s1cN7YReTzIPDNpmRBz8eyWyCYQhdFl9STMT8Www": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "CreateOrganizationLambdaFunction"
             },
-            "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+            "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
           }
         },
-        "DesignationdataLambdaVersionMMafzdWKYj9rkYUSLcP9rtPENz0hGOvo29k2jqJa2a8": {
+        "DesignationdataLambdaVersionahlNkB6KJnwOkLtu3FKKK7h2m8m7nCifZPBsEKHZAzg": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "DesignationdataLambdaFunction"
             },
-            "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+            "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
           }
         },
-        "EducationdataLambdaVersiongHJHfpvHpcuzsdmESHoMALTzqVZO2VP0SxUFVtL4Nw": {
+        "EducationdataLambdaVersionx4VP3I3pAgxYFgs7OvGaHYKNbnezCJZ32AMBxlyJ0U": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "EducationdataLambdaFunction"
             },
-            "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+            "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
           }
         },
-        "LanguagesdataLambdaVersions4i8yVOFI5ZeAW0eI9cYK7iu2OYtVlFBPolXgoAmKn0": {
+        "LanguagesdataLambdaVersion1sFR7EDCncSUoBYWqdWLfNzl91k9EuG5D3ncCNcn3s": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "LanguagesdataLambdaFunction"
             },
-            "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+            "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
           }
         },
-        "SocialmediaLambdaVersionDszEKMmgcCvTPDpv7a5f4y3dXLFhndajhNOhqTKYME": {
+        "SocialmediaLambdaVersionc0ep7jIjO0EKlZTAKqtyi9U7kobhXobX2tfGKpMTco": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "SocialmediaLambdaFunction"
             },
-            "CodeSha256": "OLuq9iraM+YZw+dZdahDq1srxh0N5G3+x/kCopDIQb0="
+            "CodeSha256": "o6a1WqfJb02BHbEOczbmXNCfRaIiKp5gUUdnHFVCRGQ="
           }
         },
         "ApiGatewayRestApi": {
@@ -5087,7 +5273,7 @@
             }
           }
         },
-        "ApiGatewayResourceCreate": {
+        "ApiGatewayResourceSocialmedia": {
           "Type": "AWS::ApiGateway::Resource",
           "Properties": {
             "ParentId": {
@@ -5096,52 +5282,19 @@
                 "RootResourceId"
               ]
             },
-            "PathPart": "create",
+            "PathPart": "socialmedia",
             "RestApiId": {
               "Ref": "ApiGatewayRestApi"
             }
           }
         },
-        "ApiGatewayResourceRead": {
+        "ApiGatewayResourceSocialmediaIdVar": {
           "Type": "AWS::ApiGateway::Resource",
           "Properties": {
             "ParentId": {
-              "Fn::GetAtt": [
-                "ApiGatewayRestApi",
-                "RootResourceId"
-              ]
+              "Ref": "ApiGatewayResourceSocialmedia"
             },
-            "PathPart": "read",
-            "RestApiId": {
-              "Ref": "ApiGatewayRestApi"
-            }
-          }
-        },
-        "ApiGatewayResourceUpdate": {
-          "Type": "AWS::ApiGateway::Resource",
-          "Properties": {
-            "ParentId": {
-              "Fn::GetAtt": [
-                "ApiGatewayRestApi",
-                "RootResourceId"
-              ]
-            },
-            "PathPart": "update",
-            "RestApiId": {
-              "Ref": "ApiGatewayRestApi"
-            }
-          }
-        },
-        "ApiGatewayResourceDelete": {
-          "Type": "AWS::ApiGateway::Resource",
-          "Properties": {
-            "ParentId": {
-              "Fn::GetAtt": [
-                "ApiGatewayRestApi",
-                "RootResourceId"
-              ]
-            },
-            "PathPart": "delete",
+            "PathPart": "{id}",
             "RestApiId": {
               "Ref": "ApiGatewayRestApi"
             }
@@ -5276,6 +5429,96 @@
             },
             "ResourceId": {
               "Ref": "ApiGatewayResourceConstants"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayMethodSocialmediaOptions": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "AuthorizationType": "NONE",
+            "HttpMethod": "OPTIONS",
+            "MethodResponses": [
+              {
+                "StatusCode": "200",
+                "ResponseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": true,
+                  "method.response.header.Access-Control-Allow-Headers": true,
+                  "method.response.header.Access-Control-Allow-Methods": true
+                },
+                "ResponseModels": {}
+              }
+            ],
+            "RequestParameters": {},
+            "Integration": {
+              "Type": "MOCK",
+              "RequestTemplates": {
+                "application/json": "{statusCode:200}"
+              },
+              "ContentHandling": "CONVERT_TO_TEXT",
+              "IntegrationResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": "'*'",
+                    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                    "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
+                  },
+                  "ResponseTemplates": {
+                    "application/json": ""
+                  }
+                }
+              ]
+            },
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceSocialmedia"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayMethodSocialmediaIdVarOptions": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "AuthorizationType": "NONE",
+            "HttpMethod": "OPTIONS",
+            "MethodResponses": [
+              {
+                "StatusCode": "200",
+                "ResponseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": true,
+                  "method.response.header.Access-Control-Allow-Headers": true,
+                  "method.response.header.Access-Control-Allow-Methods": true
+                },
+                "ResponseModels": {}
+              }
+            ],
+            "RequestParameters": {},
+            "Integration": {
+              "Type": "MOCK",
+              "RequestTemplates": {
+                "application/json": "{statusCode:200}"
+              },
+              "ContentHandling": "CONVERT_TO_TEXT",
+              "IntegrationResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": "'*'",
+                    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                    "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,PUT,GET'"
+                  },
+                  "ResponseTemplates": {
+                    "application/json": ""
+                  }
+                }
+              ]
+            },
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceSocialmediaIdVar"
             },
             "RestApiId": {
               "Ref": "ApiGatewayRestApi"
@@ -5742,13 +5985,13 @@
             "LanguagesdataLambdaPermissionApiGateway"
           ]
         },
-        "ApiGatewayMethodCreatePost": {
+        "ApiGatewayMethodSocialmediaPost": {
           "Type": "AWS::ApiGateway::Method",
           "Properties": {
             "HttpMethod": "POST",
             "RequestParameters": {},
             "ResourceId": {
-              "Ref": "ApiGatewayResourceCreate"
+              "Ref": "ApiGatewayResourceSocialmedia"
             },
             "RestApiId": {
               "Ref": "ApiGatewayRestApi"
@@ -5788,13 +6031,13 @@
             "SocialmediaLambdaPermissionApiGateway"
           ]
         },
-        "ApiGatewayMethodReadGet": {
+        "ApiGatewayMethodSocialmediaIdVarGet": {
           "Type": "AWS::ApiGateway::Method",
           "Properties": {
             "HttpMethod": "GET",
             "RequestParameters": {},
             "ResourceId": {
-              "Ref": "ApiGatewayResourceRead"
+              "Ref": "ApiGatewayResourceSocialmediaIdVar"
             },
             "RestApiId": {
               "Ref": "ApiGatewayRestApi"
@@ -5834,13 +6077,13 @@
             "SocialmediaLambdaPermissionApiGateway"
           ]
         },
-        "ApiGatewayMethodUpdatePut": {
+        "ApiGatewayMethodSocialmediaIdVarPut": {
           "Type": "AWS::ApiGateway::Method",
           "Properties": {
             "HttpMethod": "PUT",
             "RequestParameters": {},
             "ResourceId": {
-              "Ref": "ApiGatewayResourceUpdate"
+              "Ref": "ApiGatewayResourceSocialmediaIdVar"
             },
             "RestApiId": {
               "Ref": "ApiGatewayRestApi"
@@ -5880,13 +6123,13 @@
             "SocialmediaLambdaPermissionApiGateway"
           ]
         },
-        "ApiGatewayMethodDeleteDelete": {
+        "ApiGatewayMethodSocialmediaIdVarDelete": {
           "Type": "AWS::ApiGateway::Method",
           "Properties": {
             "HttpMethod": "DELETE",
             "RequestParameters": {},
             "ResourceId": {
-              "Ref": "ApiGatewayResourceDelete"
+              "Ref": "ApiGatewayResourceSocialmediaIdVar"
             },
             "RestApiId": {
               "Ref": "ApiGatewayRestApi"
@@ -5926,7 +6169,7 @@
             "SocialmediaLambdaPermissionApiGateway"
           ]
         },
-        "ApiGatewayDeployment1738754352164": {
+        "ApiGatewayDeployment1738841159470": {
           "Type": "AWS::ApiGateway::Deployment",
           "Properties": {
             "RestApiId": {
@@ -5938,6 +6181,8 @@
             "ApiGatewayMethodOrganizationOptions",
             "ApiGatewayMethodOrganizationIdVarOptions",
             "ApiGatewayMethodConstantsOptions",
+            "ApiGatewayMethodSocialmediaOptions",
+            "ApiGatewayMethodSocialmediaIdVarOptions",
             "ApiGatewayMethodUsersAny",
             "ApiGatewayMethodInstitutionsAny",
             "ApiGatewayMethodLoginAny",
@@ -5948,10 +6193,10 @@
             "ApiGatewayMethodConstantsGet",
             "ApiGatewayMethodEducationDashdataGet",
             "ApiGatewayMethodLanguagesGet",
-            "ApiGatewayMethodCreatePost",
-            "ApiGatewayMethodReadGet",
-            "ApiGatewayMethodUpdatePut",
-            "ApiGatewayMethodDeleteDelete"
+            "ApiGatewayMethodSocialmediaPost",
+            "ApiGatewayMethodSocialmediaIdVarGet",
+            "ApiGatewayMethodSocialmediaIdVarPut",
+            "ApiGatewayMethodSocialmediaIdVarDelete"
           ]
         },
         "UsersLambdaPermissionApiGateway": {
@@ -6261,7 +6506,7 @@
         "UsersLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "UsersLambdaVersion6yQYmGvCf3jIwHvnVLn38K8fbRVr5oEeN3HtFFRnqFs"
+            "Ref": "UsersLambdaVersionk3nYNFQ1U65qCUwVeLoIHbWmRMgeatsvB0AYkveVo"
           },
           "Export": {
             "Name": "sls-teacher-link-staging-UsersLambdaFunctionQualifiedArn"
@@ -6270,7 +6515,7 @@
         "InstitutionsLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "InstitutionsLambdaVersionH5VCkm6Z3Q45AtD7ARGssqWU0ackaoCcToAPhiCbSik"
+            "Ref": "InstitutionsLambdaVersionMvfrmv4bWW96G1ClkWwrMwAtYaHZ3lDZd6Amm7UVe4"
           },
           "Export": {
             "Name": "sls-teacher-link-staging-InstitutionsLambdaFunctionQualifiedArn"
@@ -6279,7 +6524,7 @@
         "LoginLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "LoginLambdaVersionYPa9HDwYQALUDLDVffZJEWxR775wTxfNAhrq6tkmFEw"
+            "Ref": "LoginLambdaVersion7D33cfjmWqJJTkdDKG7qxJT1ZAu3DQu97xhycyevRY"
           },
           "Export": {
             "Name": "sls-teacher-link-staging-LoginLambdaFunctionQualifiedArn"
@@ -6288,7 +6533,7 @@
         "CreateOrganizationLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "CreateOrganizationLambdaVersion35oph2VINYfeoyhbhCOIafa1Tz7NoDLiCawiFSq0t8"
+            "Ref": "CreateOrganizationLambdaVersion4s1cN7YReTzIPDNpmRBz8eyWyCYQhdFl9STMT8Www"
           },
           "Export": {
             "Name": "sls-teacher-link-staging-CreateOrganizationLambdaFunctionQualifiedArn"
@@ -6297,7 +6542,7 @@
         "DesignationdataLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "DesignationdataLambdaVersionMMafzdWKYj9rkYUSLcP9rtPENz0hGOvo29k2jqJa2a8"
+            "Ref": "DesignationdataLambdaVersionahlNkB6KJnwOkLtu3FKKK7h2m8m7nCifZPBsEKHZAzg"
           },
           "Export": {
             "Name": "sls-teacher-link-staging-DesignationdataLambdaFunctionQualifiedArn"
@@ -6306,7 +6551,7 @@
         "EducationdataLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "EducationdataLambdaVersiongHJHfpvHpcuzsdmESHoMALTzqVZO2VP0SxUFVtL4Nw"
+            "Ref": "EducationdataLambdaVersionx4VP3I3pAgxYFgs7OvGaHYKNbnezCJZ32AMBxlyJ0U"
           },
           "Export": {
             "Name": "sls-teacher-link-staging-EducationdataLambdaFunctionQualifiedArn"
@@ -6315,7 +6560,7 @@
         "LanguagesdataLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "LanguagesdataLambdaVersions4i8yVOFI5ZeAW0eI9cYK7iu2OYtVlFBPolXgoAmKn0"
+            "Ref": "LanguagesdataLambdaVersion1sFR7EDCncSUoBYWqdWLfNzl91k9EuG5D3ncCNcn3s"
           },
           "Export": {
             "Name": "sls-teacher-link-staging-LanguagesdataLambdaFunctionQualifiedArn"
@@ -6324,7 +6569,7 @@
         "SocialmediaLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "SocialmediaLambdaVersionDszEKMmgcCvTPDpv7a5f4y3dXLFhndajhNOhqTKYME"
+            "Ref": "SocialmediaLambdaVersionc0ep7jIjO0EKlZTAKqtyi9U7kobhXobX2tfGKpMTco"
           },
           "Export": {
             "Name": "sls-teacher-link-staging-SocialmediaLambdaFunctionQualifiedArn"

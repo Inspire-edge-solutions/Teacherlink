@@ -160,19 +160,19 @@ functions:
     handler: src/handlers/socialmedia.handler
     events:
       - http:
-          path: create
+          path: socialmedia
           method: post
           cors: true
       - http:
-          path: read
+          path: socialmedia/{id}
           method: get
           cors: true
       - http:
-          path: update
+          path: socialmedia/{id}
           method: put
           cors: true
       - http:
-          path: delete
+          path: socialmedia/{id}
           method: delete
           cors: true
     timeout: 90
