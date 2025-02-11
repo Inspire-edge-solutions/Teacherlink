@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
+import axios from "axios";
 import "./profile-styles.css";
 import Select from "react-select";
 
-const designationOptions = [
-  { value: 'designation1', label: 'Designation 1' },
-  { value: 'designation2', label: 'Designation 2' },
-];
 
 const industryTypeOptions = [
   { value: 'industry1', label: 'Industry 1' },
@@ -54,13 +51,7 @@ const customStyles = {
   }),
 };
 
-const teachingDesignationOptions = [
-  { value: 'nurseryTeacher', label: 'Nursery Teacher' },
-  { value: 'montessoriTeacher', label: 'Montessori Teacher' },
-  { value: 'neetFaculty', label: 'NEET faculty' },
-  { value: 'jeeFaculty', label: 'JEE faculty' },
-  { value: 'cetFaculty', label: 'CET faculty' }
-];
+
 
 const curriculumOptions = [
   { value: 'stateBoard', label: 'State Board' },
@@ -79,67 +70,11 @@ const subjectsOptions = [
   { value: 'others', label: 'Others' }
 ];
 
-const gradesOptions = [
-  { value: 'prePrimary', label: 'Pre-Primary' },
-  { value: 'primary', label: 'Primary' },
-  { value: 'middleSchool', label: 'Middle School' },
-  { value: 'highSchool', label: 'High School' },
-  { value: 'grade1', label: 'Grade 1' },
-  { value: 'grade2', label: 'Grade 2' },
-  { value: 'grade3', label: 'Grade 3' },
-  { value: 'grade4', label: 'Grade 4' },
-  { value: 'grade5', label: 'Grade 5' },
-  { value: 'grade6', label: 'Grade 6' },
-  { value: 'grade7', label: 'Grade 7' },
-  { value: 'grade8', label: 'Grade 8' },
-  { value: 'grade9', label: 'Grade 9' },
-  { value: 'grade10', label: 'Grade 10' },
-  { value: 'grade11', label: 'Grade 11' },
-  { value: 'grade12', label: 'Grade 12' },
-  { value: 'degree', label: 'Degree' },
-  { value: 'masterDegree', label: 'Master Degree' },
-  { value: 'phd', label: 'PhD' },
-  { value: 'mphil', label: 'MPhil' },
-  { value: 'bed', label: 'B.Ed' },
-  { value: 'ded', label: 'D.Ed' }
-];
 
-const expertiseOptions = [
-  { value: 'neet', label: 'NEET' },
-  { value: 'jeeMains', label: 'JEE(Mains)' },
-  { value: 'jeeAdvanced', label: 'JEE (Advanced)' },
-  { value: 'cet', label: 'CET (state level entrance)' },
-  { value: 'foundation', label: 'Foundation' },
-  { value: 'spokenEnglish', label: 'Spoken English' },
-  { value: 'roboticsLab', label: 'Robotics Lab' },
-  { value: 'juniorIAS', label: 'Junior IAS' },
-  { value: 'practicalClasses', label: 'Practical classes' }
-];
 
-const adminDesignationOptions = [
-  { value: 'principal', label: 'Principal' },
-  { value: 'vicePrincipal', label: 'Vice Principal' },
-  { value: 'director', label: 'Director' },
-  { value: 'academicCoordinator', label: 'Academic Coordinator' },
-  { value: 'disciplineCoordinator', label: 'Discipline Coordinator' },
-  { value: 'dean', label: 'Dean' }
-];
-
-const teachingAdminDesignationOptions = [
-  { value: 'principal', label: 'Principal' },
-  { value: 'vicePrincipal', label: 'Vice Principal' },
-  { value: 'director', label: 'Director' },
-  { value: 'academicCoordinator', label: 'Academic Coordinator' },
-  { value: 'disciplineCoordinator', label: 'Discipline Coordinator' },
-  { value: 'dean', label: 'Dean' },
-  { value: 'nurseryTeacher', label: 'Nursery Teacher' },
-  { value: 'montessoriTeacher', label: 'Montessori Teacher' },
-  { value: 'neetFaculty', label: 'NEET faculty' },
-  { value: 'jeeFaculty', label: 'JEE faculty' },
-  { value: 'cetFaculty', label: 'CET faculty' }
-];
 
 const Experience = ({ excludeAdditionalDetails }) => {
+
   const [workExperience, setWorkExperience] = useState({
     total: { years: '0', months: '0' },
     teaching: { years: '0', months: '0' },
@@ -247,6 +182,39 @@ const Experience = ({ excludeAdditionalDetails }) => {
     privateTuitions: "",
     homeTuitions: ""
   });
+
+  const [teachingDesignations, setTeachingDesignations] = useState([]);
+  const [adminDesignations, setAdminDesignations] = useState([]);
+  const [teachingAdminDesignations, setTeachingAdminDesignations] = useState([]);
+  const [coreExpertise, setCoreExpertise] = useState([]);
+  const [grades, setGrades] = useState([]);
+
+  useEffect(() => {
+    const fetchDesignations = async () => {
+      try {
+        const response = await fetch('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/constants');
+        const data = await response.json();
+        console.log(data);
+        // Assuming data is an array of objects
+        const transformedData = data.map(item => ({
+          keyword: item.keyword,
+          value: item.value,
+          label: item.label
+        }));
+        console.log(transformedData);
+        // Set the state for each designation type
+        setTeachingDesignations(transformedData.filter(item => item.keyword === "Teaching") || []);
+        setAdminDesignations(transformedData.filter(item => item.keyword === "Administration") || []);
+        setTeachingAdminDesignations(transformedData.filter(item => item.keyword === "Teaching&Administration") || []);
+        setCoreExpertise(transformedData.filter(item => item.keyword === "CoreExpertise") || []);
+        setGrades(transformedData.filter(item => item.keyword === "Grades") || []);
+      } catch (error) {
+        console.error('Error fetching designations:', error);
+      }
+    };
+
+    fetchDesignations();
+  }, []);
 
   return (
     <div className="work-experience-section">
@@ -781,8 +749,8 @@ const Experience = ({ excludeAdditionalDetails }) => {
                 <div className="col-lg-6 col-md-12">
                   <div className="mb-4">
                     <Select
-                      options={teachingDesignationOptions}
-                      value={teachingDesignationOptions.find(option => option.value === experience.teachingDesignation) || ''}
+                      options={teachingDesignations}
+                      value={teachingDesignations.find(option => option.value === experience.teachingDesignation) || ''}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
@@ -846,10 +814,8 @@ const Experience = ({ excludeAdditionalDetails }) => {
                   <div className="mb-4">
                     <Select
                       isMulti
-                      options={gradesOptions}
-                      value={gradesOptions.filter(option => 
-                        experience.gradesHandled.includes(option.value)
-                      )}
+                      options={grades}
+                      value={grades.find(option => option.value === experience.grades) || ''}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
@@ -870,8 +836,8 @@ const Experience = ({ excludeAdditionalDetails }) => {
                   <div className="mb-4">
                     <Select
                       isMulti
-                      options={expertiseOptions}
-                      value={expertiseOptions.filter(option => 
+                      options={coreExpertise}
+                      value={coreExpertise.filter(option => 
                         experience.coreExpertise.includes(option.value)
                       )}
                       onChange={(selected) => {
@@ -898,8 +864,8 @@ const Experience = ({ excludeAdditionalDetails }) => {
                 <div className="col-lg-6 col-md-12">
                   <div className="mb-4">
                     <Select
-                      options={adminDesignationOptions}
-                      value={adminDesignationOptions.find(option => 
+                      options={adminDesignations}
+                      value={adminDesignations.find(option => 
                         option.value === experience.adminDesignation
                       ) || ''}
                       onChange={(selected) => {
@@ -950,9 +916,9 @@ const Experience = ({ excludeAdditionalDetails }) => {
                   <div className="mb-4">
                     <Select
                       isMulti
-                      options={teachingAdminDesignationOptions}
-                      value={teachingAdminDesignationOptions.filter(option => 
-                        experience.teachingAdminDesignations?.includes(option.value)
+                      options={teachingAdminDesignations}
+                      value={teachingAdminDesignations.filter(option => 
+                        experience.teachingAdminDesignation?.includes(option.value)
                       )}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
@@ -1017,10 +983,8 @@ const Experience = ({ excludeAdditionalDetails }) => {
                   <div className="mb-4">
                     <Select
                       isMulti
-                      options={gradesOptions}
-                      value={gradesOptions.filter(option => 
-                        experience.gradesHandled.includes(option.value)
-                      )}
+                      options={grades}
+                      value={grades.find(option => option.value === experience.grades) || ''}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
@@ -1041,8 +1005,8 @@ const Experience = ({ excludeAdditionalDetails }) => {
                   <div className="mb-4">
                     <Select
                       isMulti
-                      options={expertiseOptions}
-                      value={expertiseOptions.filter(option => 
+                      options={coreExpertise}
+                      value={coreExpertise.filter(option => 
                         experience.coreExpertise.includes(option.value)
                       )}
                       onChange={(selected) => {
