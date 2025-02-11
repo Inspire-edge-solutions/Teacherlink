@@ -5,15 +5,18 @@ import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
 import path from 'path';
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
-  'Access-Control-Allow-Headers': 'Content-Type,Authorization'
+// CORS headers function
+const getCorsHeaders = () => {
+  return {
+    'Access-Control-Allow-Origin': '*', // Allow all origins
+    'Access-Control-Allow-Methods': 'OPTIONS, POST, GET, PUT, DELETE', // Allowed HTTP methods
+    'Access-Control-Allow-Headers': 'Content-Type,Authorization' // Allowed headers
+  };
 };
 
 const formatResponse = (statusCode, body) => ({
   statusCode,
-  headers: corsHeaders,
+  headers: getCorsHeaders(), // CORS headers added here
   body: JSON.stringify(body)
 });
 
@@ -53,15 +56,29 @@ export const handler = async (event) => {
       case 'DELETE':
         response = await handleDelete(connection, id);
         break;
+      case 'OPTIONS':
+        response = {
+          statusCode: 200,
+          headers: getCorsHeaders(), // CORS headers added here
+        };
+        break;
       default:
-        response = formatResponse(400, { message: 'Invalid HTTP method' });
+        response = {
+          statusCode: 400,
+          body: JSON.stringify({ message: 'Invalid HTTP method' }),
+          headers: getCorsHeaders(), // CORS headers added here
+        };
         break;
     }
 
     return response;
   } catch (error) {
     console.error('Error:', error);
-    return formatResponse(500, { message: 'Internal Server Error', error });
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: 'Internal Server Error', error }),
+      headers: getCorsHeaders(), // CORS headers added here
+    };
   } finally {
     if (connection) {
       await connection.end();

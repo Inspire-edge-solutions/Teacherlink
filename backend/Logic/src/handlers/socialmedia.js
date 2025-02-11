@@ -23,10 +23,17 @@ export const handler = async (event) => {
       case 'DELETE':
         response = await handleDelete(connection, JSON.parse(body));
         break;
+      case 'OPTIONS':
+        response = {
+          statusCode: 200,
+          headers: getCorsHeaders(),
+        };
+        break;
       default:
         response = {
           statusCode: 400,
-          body: JSON.stringify({ message: 'Invalid HTTP method' })
+          body: JSON.stringify({ message: 'Invalid HTTP method' }),
+          headers: getCorsHeaders(),
         };
         break;
     }
@@ -36,13 +43,23 @@ export const handler = async (event) => {
     console.error('Error:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'Internal Server Error', error })
+      body: JSON.stringify({ message: 'Internal Server Error', error }),
+      headers: getCorsHeaders(),
     };
   } finally {
     if (connection) {
       await connection.end();
     }
   }
+};
+
+// CORS headers function
+const getCorsHeaders = () => {
+  return {
+    'Access-Control-Allow-Origin': '*', // Allow all origins
+    'Access-Control-Allow-Methods': 'OPTIONS, POST, GET, PUT, DELETE', // Allowed HTTP methods
+    'Access-Control-Allow-Headers': 'Content-Type', // Allowed headers
+  };
 };
 
 // Create a new social media profile
@@ -54,7 +71,8 @@ const handleCreate = async (connection, data) => {
   const [result] = await connection.execute(query, [data.facebook, data.twitter, data.linkedin, data.instagram]);
   return {
     statusCode: 201,
-    body: JSON.stringify({ message: 'Profile created successfully', id: result.insertId })
+    body: JSON.stringify({ message: 'Profile created successfully', id: result.insertId }),
+    headers: getCorsHeaders(), // Add CORS headers here
   };
 };
 
@@ -71,7 +89,8 @@ const handleRead = async (connection, queryParams) => {
   const [results] = await connection.execute(query, params);
   return {
     statusCode: 200,
-    body: JSON.stringify(results)
+    body: JSON.stringify(results),
+    headers: getCorsHeaders(), // Add CORS headers here
   };
 };
 
@@ -85,7 +104,8 @@ const handleUpdate = async (connection, data) => {
   const [result] = await connection.execute(query, [data.facebook, data.twitter, data.linkedin, data.instagram, data.id]);
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: 'Profile updated successfully', affectedRows: result.affectedRows })
+    body: JSON.stringify({ message: 'Profile updated successfully', affectedRows: result.affectedRows }),
+    headers: getCorsHeaders(), // Add CORS headers here
   };
 };
 
@@ -95,6 +115,7 @@ const handleDelete = async (connection, data) => {
   const [result] = await connection.execute(query, [data.id]);
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: 'Profile deleted successfully', affectedRows: result.affectedRows })
+    body: JSON.stringify({ message: 'Profile deleted successfully', affectedRows: result.affectedRows }),
+    headers: getCorsHeaders(), // Add CORS headers here
   };
 };
