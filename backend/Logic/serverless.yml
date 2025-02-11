@@ -85,34 +85,37 @@ functions:
   users:
     handler: src/handlers/users.handler
     environment: ${file(src/env/${self:provider.stage}.yml)}
+    timeout: 29
     events:
       - http:
           path: users
           method: any
-    timeout: 30
 
   institutions:
     handler: src/handlers/Institution.handler
     environment: ${file(src/env/${self:provider.stage}.yml)}
+    timeout: 29
     events:
       - http:
           path: institutions
           method: any
-    timeout: 30
 
   login:
     handler: src/handlers/login.handler
     environment: ${file(src/env/${self:provider.stage}.yml)}
+    timeout: 29
     events:
       - http:
+          path: register
+          method: post
+      - http:
           path: login
-          method: any
-    timeout: 30
-    
-  
+          method: post
+
   createOrganization:
     handler: src/handlers/organization.handler
     environment: ${file(src/env/${self:provider.stage}.yml)}
+    timeout: 29
     events:
       - http:
           path: organization
@@ -131,8 +134,6 @@ functions:
           path: organization/{id}
           method: delete
           cors: true
-    timeout: 90
-
 
   Designationdata:
     handler: src/handlers/Designation.handler
@@ -160,19 +161,18 @@ functions:
     handler: src/handlers/socialmedia.handler
     events:
       - http:
-          path: create
+          path: socialmedia
           method: post
           cors: true
       - http:
-          path: read
+          path: socialmedia/{id}
           method: get
           cors: true
       - http:
-          path: update
+          path: socialmedia/{id}
           method: put
           cors: true
       - http:
-          path: delete
+          path: socialmedia/{id}
           method: delete
           cors: true
-    timeout: 90
