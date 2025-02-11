@@ -207,7 +207,7 @@ const FormContent = () => {
         };
   
         // Send the data to your backend API using axios
-        return axios.post("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/login", {
+        return axios.post("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/register", {
           route: "RegisterUser",
           ...userData,
         }, {

@@ -387,11 +387,14 @@
 // export default AdditionalInfo;
 
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 
 const AdditionalInfo = () => {
+
+  const [availableReligions, setAvailableReligions] = useState([]);
+  
   const skillOptions = [
     { value: "Basic knowledge", label: "Basic knowledge" },
     { value: "Word", label: "Word" },
@@ -489,6 +492,19 @@ const AdditionalInfo = () => {
       alert('Error submitting form!');
     }
   };
+  useEffect(() => {
+    const fetchReligion = async () => {
+      try {
+        const response = await axios.get('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/languages');
+        const filteredReligions = response.data.filter(religion => religion.category === 'Religion');
+        setAvailableReligions(filteredReligions);
+      } catch (error) {
+        console.error('Error fetching religions:', error);
+      }
+    };
+
+    fetchReligion();
+  }, []);
 
   return (
     <div className="default-form">
@@ -689,10 +705,11 @@ const AdditionalInfo = () => {
             onChange={(e) => handleChange('religion', e.target.value)}
           >
             <option value="">Religion</option>
-            <option value="Hindu">Hindu</option>
-            <option value="Muslim">Muslim</option>
-            <option value="Christian">Christian</option>
-            <option value="Other">Other</option>
+            {availableReligions.map((availableReligion) => (
+                      <option key={availableReligion.id} value={availableReligion.value}>
+                        {availableReligion.label}
+                      </option>
+                    ))}
           </select>
         </div>
 

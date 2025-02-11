@@ -180,6 +180,7 @@ const JobPreference = () => {
         }
       }
     }));
+
   };
 
   const renderJobDetailsSection = () => (
