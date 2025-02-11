@@ -820,7 +820,7 @@ const AdditionalInfo = () => {
 
         {/* Submit Button */}
         <div className="form-group col-lg-12 col-md-12">
-          <button onClick={handleSubmit} className="btn btn-primary">Save additional information</button>
+          <button onClick={handleSubmit} className="theme-btn btn-style-three">Save additional information</button>
         </div>
       </div>
     </div>

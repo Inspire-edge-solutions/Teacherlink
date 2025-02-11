@@ -54,24 +54,40 @@ const FormInfoBox = () => {
       </div>
 
       <div className="default-form">
+       
         {viewMode === 'easy' ? (
           <>
             <PersonalDetails dateOfBirth={false} />
             <Address city={false} houseNo={false} street={false}/>
-            <Education isEasyMode={true} />
-            <Experience/>
+            <Education isEasyMode={viewMode === 'easy'} 
+            grade12syllabus={false} grade12school={false} grade12percentage={false} grade12mode={false} 
+            degreeCollege={false} degreePlace={false} degreeUniversity={false} degreePercentage={false} degreeMode={false}
+             masterCollege={false} masterPlace={false} masterUniversity={false} masterPercentage={false} masterMode={false} 
+             doctorateCollege={false} doctorateUniversity={false} doctorateMode={false}
+             bEdCollege={false} bEdPlace={false} bEdAffiliated={false} bEdCourseDuration={false} bEdPercentage={false} bEdMode={false}
+             certificatePlace={false} certificateCourseDuration={false} certificateSpecialization={false} certificateMode={false}
+             />
+            <Experience excludeAdditionalDetails={false}/>
             <JobPreferences />
+            <Social isEasyMode={true}/>
           </>
         ) : (
           <>
             <LogoUpload />
             <PersonalDetails dateOfBirth={true} />
             <Address city={true} houseNo={true} street={true}/>
-            <Education isEasyMode={false} />
-            <Experience />
+            <Education isEasyMode={false} 
+            grade12syllabus={true} grade12school={true} grade12percentage={true} grade12mode={true} 
+            degreeCollege={true} degreePlace={true} degreeUniversity={true} degreePercentage={true} degreeMode={true} 
+            masterCollege={true} masterPlace={true} masterUniversity={true} masterPercentage={true} masterMode={true} 
+            doctorateCollege={true} doctorateUniversity={true} doctorateMode={true}
+            bEdCollege={true} bEdPlace={true} bEdAffiliated={true} bEdCourseDuration={true} bEdPercentage={true} bEdMode={true}
+            certificatePlace={true} certificateCourseDuration={true} certificateSpecialization={true} certificateMode={true}
+            />
+            <Experience excludeAdditionalDetails={true}/>
             <Languages />
             <JobPreferences />
-            <Social />
+            <Social isEasyMode={false}/>
             <ContactInfoBox />
             <AdditionalInfo />
           </>

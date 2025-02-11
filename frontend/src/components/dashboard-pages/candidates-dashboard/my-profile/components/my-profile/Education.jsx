@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import Select from "react-select";
 import "./profile-styles.css";
 
-const Education = ({ isEasyMode }) => {
+const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percentage,grade12mode,
+  degreeCollege,degreePlace,degreeUniversity,degreePercentage,degreeMode,
+  masterCollege,masterPlace,masterUniversity,masterPercentage,masterMode,
+  doctorateCollege,doctorateUniversity,doctorateMode,
+  bEdCollege,bEdPlace,bEdAffiliated,bEdCourseDuration,bEdPercentage,bEdMode,
+  certificatePlace,certificateCourseDuration,certificateSpecialization,certificateMode }) => {
   // Base education data for Grade 10 (mandatory)
   const [grade10Data, setGrade10Data] = useState({
     syllabus: '',
@@ -391,7 +396,7 @@ const Education = ({ isEasyMode }) => {
                 ))}
               </div>
             </div>
-
+            {grade12syllabus && (
             <div className="form-group col-lg-6 col-md-12">
               <div className="radio-group">
                 {syllabusOptions.map(option => (
@@ -409,7 +414,8 @@ const Education = ({ isEasyMode }) => {
                 ))}
               </div>
             </div>
-
+            )}
+            {grade12school && (
             <div className="form-group col-lg-6 col-md-12">
               <input
                 type="text"
@@ -421,6 +427,7 @@ const Education = ({ isEasyMode }) => {
                 required
               />
             </div>
+            )}
 
             <div className="form-group col-lg-6 col-md-12">
               <select
@@ -460,7 +467,7 @@ const Education = ({ isEasyMode }) => {
                 required
               />
             </div>
-
+            {grade12percentage && (
             <div className="form-group col-lg-6 col-md-12">
               <input
                 type="text"
@@ -472,7 +479,8 @@ const Education = ({ isEasyMode }) => {
                 required
               />
             </div>
-
+            )}
+            {grade12mode && (
             <div className="form-group col-12">
               <div className="radio-group single-line">
                 <label>Mode of Study:</label>
@@ -491,6 +499,7 @@ const Education = ({ isEasyMode }) => {
                 ))}
               </div>
             </div>
+            )}
           </div>
         );
 
@@ -564,7 +573,7 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              {degreeCollege && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -576,7 +585,8 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              )}
+              {degreePlace && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -587,8 +597,9 @@ const Education = ({ isEasyMode }) => {
                   pattern="[a-zA-Z0-9 ]*"
                   required
                 />
-              </div>
-
+                </div>
+              )}
+              {degreeUniversity && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -599,6 +610,7 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
+              )}
 
               <div className="form-group col-lg-6 col-md-12">
                 <select
@@ -646,7 +658,7 @@ const Education = ({ isEasyMode }) => {
                   />
                 </div>
               )}
-
+              {degreePercentage && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -658,7 +670,8 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              )}
+              {degreeMode && (
               <div className="form-group col-12 mode-section">
                 <div className="radio-group">
                   <label>Mode of Study:</label>
@@ -677,6 +690,7 @@ const Education = ({ isEasyMode }) => {
                   ))}
                 </div>
               </div>
+              )}
             </div>
           </div>
         );
@@ -714,6 +728,7 @@ const Education = ({ isEasyMode }) => {
                 />
               </div>
 
+              {masterCollege && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -724,7 +739,8 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              )}
+              {masterPlace && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -735,7 +751,8 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              )}
+              {masterUniversity && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -746,7 +763,7 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              )}
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="number"
@@ -780,7 +797,7 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              {masterPercentage && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -792,7 +809,8 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              )}
+              {masterMode && (
               <div className="form-group col-12 mode-section">
                 <div className="radio-group">
                   <label>Mode of Study:</label>
@@ -811,6 +829,7 @@ const Education = ({ isEasyMode }) => {
                   ))}
                 </div>
               </div>
+              )}
             </div>
           </div>
         );
@@ -837,7 +856,7 @@ const Education = ({ isEasyMode }) => {
                   ))}
                 </div>
               </div>
-
+              {doctorateCollege && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -848,7 +867,8 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              )}
+              {doctorateUniversity && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -859,7 +879,7 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              )}
               <div className="form-group col-lg-6 col-md-12">
                 <select
                   value={data.yearOfCompletion}
@@ -898,7 +918,7 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              {doctorateMode && (
               <div className="form-group col-12 mode-section">
                 <div className="radio-group">
                   <label>Mode of Study:</label>
@@ -917,14 +937,47 @@ const Education = ({ isEasyMode }) => {
                   ))}
                 </div>
               </div>
+              )}
             </div>
           </div>
         );
 
       case 'nttMtt':
         return (
-          <div className="ntt-mtt-section">
-            <div className="row">
+            <div className="ntt-mtt-section">
+              <div className="row">
+                {isEasyMode ? (
+                  <>
+                   <div className="form-group col-lg-6 col-md-12">
+                <select
+                  value={data.yearOfPassing}
+                  onChange={(e) => handleEducationDataChange(index, 'yearOfPassing', e.target.value)}
+                  required
+                >
+                  <option value="">Year of Passing</option>
+                  {(() => {
+                    const currentYear = new Date().getFullYear();
+                    const years = [];
+                    const minYear = currentYear - 16;
+                    // If pursuing, show up to 1 future year, else show only past years
+                    const maxYear = data.courseStatus === 'Pursuing' 
+                      ? currentYear + 1 
+                      : currentYear;
+                    
+                    for (let year = maxYear; year >= minYear; year--) {
+                      years.push(
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      );
+                    }
+                    return years;
+                  })()}
+                </select>
+              </div>
+              </>
+              ):(
+              <>
               <div className="form-group col-lg-6 col-md-12">
                 <div className="radio-group">
                   <label>Course Status:</label>
@@ -1047,6 +1100,8 @@ const Education = ({ isEasyMode }) => {
                   ))}
                 </div>
               </div>
+              </>
+              )}
             </div>
           </div>
         );
@@ -1074,7 +1129,7 @@ const Education = ({ isEasyMode }) => {
                   ))}
                 </div>
               </div>
-
+              {bEdCollege && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -1086,7 +1141,9 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
+              )}
 
+              {bEdPlace && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -1097,7 +1154,9 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
+              )}
 
+              {bEdAffiliated && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -1109,7 +1168,9 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
+              )}
 
+              {bEdCourseDuration && (
               <div className="form-group col-lg-6 col-md-12">
                 <Select
                   value={bEdCourseDurationOptions.find(option => option.value === data.courseDuration)}
@@ -1118,7 +1179,8 @@ const Education = ({ isEasyMode }) => {
                   placeholder="Course Duration"
                   required
                 />
-              </div>
+                </div>
+                )}
 
               <div className="form-group col-lg-6 col-md-12">
                 <Select
@@ -1157,7 +1219,7 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              {bEdPercentage && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -1169,7 +1231,8 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              )}
+              {bEdMode && (
               <div className="form-group col-12 mode-section">
                 <div className="radio-group">
                   <label>Mode of Study:</label>
@@ -1188,6 +1251,7 @@ const Education = ({ isEasyMode }) => {
                   ))}
                 </div>
               </div>
+              )}
             </div>
           </div>
         );
@@ -1226,7 +1290,7 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              {certificatePlace && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -1237,7 +1301,9 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
+              )}
 
+              {certificateCourseDuration && (
               <div className="form-group col-lg-6 col-md-12">
                 <Select
                   value={certificateCourseDurationOptions.find(option => option.value === data.courseDuration)}
@@ -1247,6 +1313,7 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
+              )}
 
               <div className="form-group col-lg-6 col-md-12">
                 <Select
@@ -1270,7 +1337,7 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              {certificateSpecialization && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -1282,7 +1349,8 @@ const Education = ({ isEasyMode }) => {
                   required
                 />
               </div>
-
+              )}
+              {certificateMode && (
               <div className="form-group col-12 mode-section">
                 <div className="radio-group">
                   <label>Mode of Study:</label>
@@ -1301,6 +1369,7 @@ const Education = ({ isEasyMode }) => {
                   ))}
                 </div>
               </div>
+              )}
             </div>
           </div>
         );
@@ -1309,6 +1378,33 @@ const Education = ({ isEasyMode }) => {
         return (
           <div className="ded-section">
             <div className="row">
+              {isEasyMode ? (
+                <>  
+                 <div className="form-group col-lg-6 col-md-12">
+                <Select
+                  value={data.yearOfPassing}
+                  onChange={(selected) => handleEducationDataChange(index, 'yearOfPassing', selected.value)}
+                  options={(() => {
+                    const currentYear = new Date().getFullYear();
+                    const years = [];
+                    const minYear = currentYear - 16;
+                    // If pursuing, show up to 2 future years, else show only past years
+                    const maxYear = data.courseStatus === 'Pursuing' 
+                      ? currentYear + 2 
+                      : currentYear;
+                    
+                    for (let year = maxYear; year >= minYear; year--) {
+                      years.push({ value: year.toString(), label: year.toString() });
+                    }
+                    return years;
+                  })()}
+                  placeholder="Year of Passing"
+                  required
+                />
+              </div>
+              </>
+              ):(
+              <>
               <div className="form-group col-lg-6 col-md-12">
                 <div className="radio-group">
                   <label>Course Status:</label>
@@ -1438,6 +1534,8 @@ const Education = ({ isEasyMode }) => {
                   ))}
                 </div>
               </div>
+              </>
+              )}
             </div>
           </div>
         );

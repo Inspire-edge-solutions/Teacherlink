@@ -36,9 +36,9 @@ const Location = () => {
       <div className="row">
         <div className="form-group col-lg-6 col-md-12">
             <Select
-              id="permanentCountry"
-              name="permanentCountry"
-              placeholder="Select Country"
+              id="Country"
+              name="Country"
+              placeholder="Country"
               options={countries}
               value={country} // Use country state here
               onChange={option => {
@@ -50,9 +50,9 @@ const Location = () => {
           </div>
           <div className="form-group col-lg-6 col-md-12">
             <Select
-              id="permanentState"
-              name="permanentState"
-              placeholder="Select State/UT"
+              id="State"
+              name="State"
+              placeholder="State/UT"
               options={getStates(country?.value)} // Use country state here
               value={state}
               onChange={option => {
@@ -63,9 +63,9 @@ const Location = () => {
           </div>
           <div className="form-group col-lg-6 col-md-12">
             <Select
-              id="permanentCity"
-              name="permanentCity"
-              placeholder="Select City"
+              id="City"
+              name="City"
+              placeholder="City"
               options={getCities(state?.value)} // Use state here
               value={city}
               onChange={option => setCity(option)} // Set selected city
