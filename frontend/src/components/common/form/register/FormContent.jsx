@@ -212,16 +212,12 @@
         };
   
         // Send the data to your backend API using axios
-        const response = await axios.post(
-          "https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/register",
-          {
-            route: "RegisterUser",
-            ...userData,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
+        return axios.post("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/register", {
+          route: "RegisterUser",
+          ...userData,
+        }, {
+          headers: {
+            "Content-Type": "application/json",
           }
         );
   

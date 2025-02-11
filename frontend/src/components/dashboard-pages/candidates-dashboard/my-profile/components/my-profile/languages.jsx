@@ -8,67 +8,22 @@ const Languages = () => {
     read: false,
     write: false
   }]);
+  
+  const [availableLanguages, setAvailableLanguages] = useState([]);
 
-  const [languageOptions, setLanguageOptions] = useState([]);
-
-  // Combined fetch for both languages and options
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchLanguages = async () => {
       try {
-        const response = await axios.get('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/languages', {
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          },
-          withCredentials: false
-        });
-        
-        if (response.data) {
-          setLanguageOptions(response.data); // Set options
-          if (response.data.length > 0) {
-            setLanguages(response.data); // Set languages if there are any
-          }
-        }
+        const response = await axios.get('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/languages');
+        const filteredLanguages = response.data.filter(lang => lang.category === 'languages in India');
+        setAvailableLanguages(filteredLanguages);
       } catch (error) {
-        console.error('Error fetching data:', error.response ? error.response.data : error.message);
-        alert('Failed to fetch languages. Please try again later.');
+        console.error('Error fetching languages:', error);
       }
     };
 
-    fetchData();
+    fetchLanguages();
   }, []);
-
-  // List of languages - you can expand this list as needed
-  // const languageOptions = [
-  //   'English',
-  //   'Hindi',
-  //   'Bengali',
-  //   'Telugu',
-  //   'Marathi',
-  //   'Tamil',
-  //   'Urdu',
-  //   'Gujarati',
-  //   'Kannada',
-  //   'Malayalam',
-  //   'Manipuri',
-  //   'Konkani',
-  //   'Punjabi',
-  //   'Sikkimese',
-  //   'Assamese',
-  //   'Bhojpuri',
-  //   'Haryanvi',
-  //   'Maithili',
-  //   'Magahi',
-  //   'Nepali',
-  //   'Odia',
-  //   'Sindhi',
-  //   'Tulu',
-  //   'Kashmiri',
-  //   'Kurukh',
-  //   'Mizo',
-  //   'Nagamese',
-  //   // Add more languages as needed
-  // ];
 
   const handleLanguageChange = (index, field, value) => {
     setLanguages(prev => {
@@ -146,9 +101,9 @@ const Languages = () => {
                     onChange={(e) => handleLanguageChange(index, 'language', e.target.value)}
                   >
                     <option value="">Select Language</option>
-                    {languageOptions.map((option) => (
-                      <option key={option.id} value={option.name}>
-                        {option.name}
+                    {availableLanguages.map((availableLang) => (
+                      <option key={availableLang.id} value={availableLang.value}>
+                        {availableLang.label}
                       </option>
                     ))}
                   </select>
