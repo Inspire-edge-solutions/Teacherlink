@@ -1,35 +1,7 @@
 const SocialNetworkBox = () => {
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const data = {
-      facebook: formData.get('facebook'),
-      twitter: formData.get('twitter'),
-      linkedin: formData.get('linkedin'),
-      instagram: formData.get('instagram'),
-    };
-
-    try {
-      const response = await fetch('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/socialmedia', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const result = await response.json();
-      console.log('Success:', result);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
 
   return (
-    <form className="default-form" onSubmit={handleSubmit}>
+    <form className="default-form">
       <div className="row">
         {/* <!-- Input --> */}
         <h3>Social Networks</h3>

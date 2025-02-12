@@ -525,8 +525,31 @@ const JobPreference = () => {
     </div>
   );
 
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent the default form submission
+
+    try {
+      const response = await fetch("https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/jobPreference", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jobDetails), // Send jobDetails as JSON
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      console.log("Success:", data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
-    <form className="default-form">
+    <form className="default-form" onSubmit={handleSubmit}>
       
       
       <div className="row">

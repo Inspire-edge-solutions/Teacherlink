@@ -8,7 +8,7 @@ const CopyrightFooter = () => {
           <div className="copyright-text">
             © {new Date().getFullYear()} TeacherLink by{" "}
             <a
-              href="https://themeforest.net/user/Inspire Edge Solutions"
+              href="https://inspireedgesolutions.com/"
               target="_blank"
               rel="noopener noreferrer"
             >
