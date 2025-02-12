@@ -177,7 +177,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "teacherlink-deployments-ap-south-1",
-          "S3Key": "serverless/teacher-link/staging/1739190143598-2025-02-10T12:22:23.598Z/teacher-link.zip"
+          "S3Key": "serverless/teacher-link/staging/1739259817712-2025-02-11T07:43:37.712Z/teacher-link.zip"
         },
         "Handler": "src/handlers/users.handler",
         "Runtime": "nodejs18.x",
@@ -211,7 +211,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "teacherlink-deployments-ap-south-1",
-          "S3Key": "serverless/teacher-link/staging/1739190143598-2025-02-10T12:22:23.598Z/teacher-link.zip"
+          "S3Key": "serverless/teacher-link/staging/1739259817712-2025-02-11T07:43:37.712Z/teacher-link.zip"
         },
         "Handler": "src/handlers/Institution.handler",
         "Runtime": "nodejs18.x",
@@ -245,7 +245,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "teacherlink-deployments-ap-south-1",
-          "S3Key": "serverless/teacher-link/staging/1739190143598-2025-02-10T12:22:23.598Z/teacher-link.zip"
+          "S3Key": "serverless/teacher-link/staging/1739259817712-2025-02-11T07:43:37.712Z/teacher-link.zip"
         },
         "Handler": "src/handlers/login.handler",
         "Runtime": "nodejs18.x",
@@ -279,7 +279,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "teacherlink-deployments-ap-south-1",
-          "S3Key": "serverless/teacher-link/staging/1739190143598-2025-02-10T12:22:23.598Z/teacher-link.zip"
+          "S3Key": "serverless/teacher-link/staging/1739259817712-2025-02-11T07:43:37.712Z/teacher-link.zip"
         },
         "Handler": "src/handlers/organization.handler",
         "Runtime": "nodejs18.x",
@@ -313,9 +313,9 @@
       "Properties": {
         "Code": {
           "S3Bucket": "teacherlink-deployments-ap-south-1",
-          "S3Key": "serverless/teacher-link/staging/1739190143598-2025-02-10T12:22:23.598Z/teacher-link.zip"
+          "S3Key": "serverless/teacher-link/staging/1739259817712-2025-02-11T07:43:37.712Z/teacher-link.zip"
         },
-        "Handler": "src/handlers/Designation.handler",
+        "Handler": "src/handlers/handler.handler",
         "Runtime": "nodejs18.x",
         "FunctionName": "teacher-link-staging-Designationdata",
         "MemorySize": 1024,
@@ -347,7 +347,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "teacherlink-deployments-ap-south-1",
-          "S3Key": "serverless/teacher-link/staging/1739190143598-2025-02-10T12:22:23.598Z/teacher-link.zip"
+          "S3Key": "serverless/teacher-link/staging/1739259817712-2025-02-11T07:43:37.712Z/teacher-link.zip"
         },
         "Handler": "src/handlers/Education.handler",
         "Runtime": "nodejs18.x",
@@ -381,7 +381,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "teacherlink-deployments-ap-south-1",
-          "S3Key": "serverless/teacher-link/staging/1739190143598-2025-02-10T12:22:23.598Z/teacher-link.zip"
+          "S3Key": "serverless/teacher-link/staging/1739259817712-2025-02-11T07:43:37.712Z/teacher-link.zip"
         },
         "Handler": "src/handlers/languages.handler",
         "Runtime": "nodejs18.x",
@@ -415,7 +415,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "teacherlink-deployments-ap-south-1",
-          "S3Key": "serverless/teacher-link/staging/1739190143598-2025-02-10T12:22:23.598Z/teacher-link.zip"
+          "S3Key": "serverless/teacher-link/staging/1739259817712-2025-02-11T07:43:37.712Z/teacher-link.zip"
         },
         "Handler": "src/handlers/socialmedia.handler",
         "Runtime": "nodejs18.x",
@@ -444,84 +444,84 @@
         "SocialmediaLogGroup"
       ]
     },
-    "UsersLambdaVersionVByzcElBCspdvIN0NlXmOzITveC2wYhdfphePwlr8": {
+    "UsersLambdaVersionb3tm0oqOHFO89RM0GNN24El8Yvay5ECZAdnIYNwjZU": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UsersLambdaFunction"
         },
-        "CodeSha256": "Sp6iBRR/jA/BvE3sQxPFfe3UqgA8/fggtkLxi/5uicw="
+        "CodeSha256": "5KBRh5rL/Oa7IqYwuoZaWc6ln+RJ19If+JIXWDAHi2k="
       }
     },
-    "InstitutionsLambdaVersionGltTSGca8tOfJ3qAZOOGkK0vT1Th9QVF9QtJUdYKk": {
+    "InstitutionsLambdaVersiongBqz5P834n1u1jazMLqh34QbUOlj3WnCpYWqcQOfU": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "InstitutionsLambdaFunction"
         },
-        "CodeSha256": "Sp6iBRR/jA/BvE3sQxPFfe3UqgA8/fggtkLxi/5uicw="
+        "CodeSha256": "5KBRh5rL/Oa7IqYwuoZaWc6ln+RJ19If+JIXWDAHi2k="
       }
     },
-    "LoginLambdaVersionV9j31SR3fRzxCuLT6lsDTFQGgAwrlEiFxtu0Dl2eM": {
+    "LoginLambdaVersionCxe5LzgqsLERsBAVbRZIXmH4XnyW0CR37J6nj2TCuI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "LoginLambdaFunction"
         },
-        "CodeSha256": "Sp6iBRR/jA/BvE3sQxPFfe3UqgA8/fggtkLxi/5uicw="
+        "CodeSha256": "5KBRh5rL/Oa7IqYwuoZaWc6ln+RJ19If+JIXWDAHi2k="
       }
     },
-    "CreateOrganizationLambdaVersionBtg5U6qPd8nBBmvuIvXGdbqF2JqwUGwLlEeorkPDY": {
+    "CreateOrganizationLambdaVersionrazuQQ8tk68ohcQC4kxxXYSKF241Pkhfp0rt2HXub1o": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateOrganizationLambdaFunction"
         },
-        "CodeSha256": "Sp6iBRR/jA/BvE3sQxPFfe3UqgA8/fggtkLxi/5uicw="
+        "CodeSha256": "5KBRh5rL/Oa7IqYwuoZaWc6ln+RJ19If+JIXWDAHi2k="
       }
     },
-    "DesignationdataLambdaVersionhtm6tZ9VGl0fDJBiAzRH3FzzSO5LBXzM6ukoPe8": {
+    "DesignationdataLambdaVersionWHXtPuZ2fkqRXeBs6RFpGwCuwsJp2PdSBNhDrClBkTQ": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DesignationdataLambdaFunction"
         },
-        "CodeSha256": "Sp6iBRR/jA/BvE3sQxPFfe3UqgA8/fggtkLxi/5uicw="
+        "CodeSha256": "5KBRh5rL/Oa7IqYwuoZaWc6ln+RJ19If+JIXWDAHi2k="
       }
     },
-    "EducationdataLambdaVersion3RTJURdyTkbYMW1zZYTRfMD4R3QYK0tHoctCDuWv4": {
+    "EducationdataLambdaVersion67bIsmV6UON8nQyZaiakiPkzk2wNsl7BY1RSZ2FcDZI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "EducationdataLambdaFunction"
         },
-        "CodeSha256": "Sp6iBRR/jA/BvE3sQxPFfe3UqgA8/fggtkLxi/5uicw="
+        "CodeSha256": "5KBRh5rL/Oa7IqYwuoZaWc6ln+RJ19If+JIXWDAHi2k="
       }
     },
-    "LanguagesdataLambdaVersionzwx2ylSeZq2jyLi0AA7XQYuT2Ol30x0Pe5v6LHorQU": {
+    "LanguagesdataLambdaVersionM4iRyqX9iAN5BklNjCOb6vMqyWezP0zCevt6aeQh5oI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "LanguagesdataLambdaFunction"
         },
-        "CodeSha256": "Sp6iBRR/jA/BvE3sQxPFfe3UqgA8/fggtkLxi/5uicw="
+        "CodeSha256": "5KBRh5rL/Oa7IqYwuoZaWc6ln+RJ19If+JIXWDAHi2k="
       }
     },
-    "SocialmediaLambdaVersionrn3dULk8jZHMlVXzCLErr6dcDSHKKTB5v7D6QFjZqs": {
+    "SocialmediaLambdaVersion3H2YUOGRsPjnFJAdx6qaaxlcQGMnVTOT5alZyaMtm4": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "SocialmediaLambdaFunction"
         },
-        "CodeSha256": "Sp6iBRR/jA/BvE3sQxPFfe3UqgA8/fggtkLxi/5uicw="
+        "CodeSha256": "5KBRh5rL/Oa7IqYwuoZaWc6ln+RJ19If+JIXWDAHi2k="
       }
     },
     "ApiGatewayRestApi": {
@@ -1610,7 +1610,7 @@
         "SocialmediaLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1739190126777": {
+    "ApiGatewayDeployment1739259778970": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -1948,7 +1948,7 @@
     "UsersLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UsersLambdaVersionVByzcElBCspdvIN0NlXmOzITveC2wYhdfphePwlr8"
+        "Ref": "UsersLambdaVersionb3tm0oqOHFO89RM0GNN24El8Yvay5ECZAdnIYNwjZU"
       },
       "Export": {
         "Name": "sls-teacher-link-staging-UsersLambdaFunctionQualifiedArn"
@@ -1957,7 +1957,7 @@
     "InstitutionsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "InstitutionsLambdaVersionGltTSGca8tOfJ3qAZOOGkK0vT1Th9QVF9QtJUdYKk"
+        "Ref": "InstitutionsLambdaVersiongBqz5P834n1u1jazMLqh34QbUOlj3WnCpYWqcQOfU"
       },
       "Export": {
         "Name": "sls-teacher-link-staging-InstitutionsLambdaFunctionQualifiedArn"
@@ -1966,7 +1966,7 @@
     "LoginLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "LoginLambdaVersionV9j31SR3fRzxCuLT6lsDTFQGgAwrlEiFxtu0Dl2eM"
+        "Ref": "LoginLambdaVersionCxe5LzgqsLERsBAVbRZIXmH4XnyW0CR37J6nj2TCuI"
       },
       "Export": {
         "Name": "sls-teacher-link-staging-LoginLambdaFunctionQualifiedArn"
@@ -1975,7 +1975,7 @@
     "CreateOrganizationLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateOrganizationLambdaVersionBtg5U6qPd8nBBmvuIvXGdbqF2JqwUGwLlEeorkPDY"
+        "Ref": "CreateOrganizationLambdaVersionrazuQQ8tk68ohcQC4kxxXYSKF241Pkhfp0rt2HXub1o"
       },
       "Export": {
         "Name": "sls-teacher-link-staging-CreateOrganizationLambdaFunctionQualifiedArn"
@@ -1984,7 +1984,7 @@
     "DesignationdataLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DesignationdataLambdaVersionhtm6tZ9VGl0fDJBiAzRH3FzzSO5LBXzM6ukoPe8"
+        "Ref": "DesignationdataLambdaVersionWHXtPuZ2fkqRXeBs6RFpGwCuwsJp2PdSBNhDrClBkTQ"
       },
       "Export": {
         "Name": "sls-teacher-link-staging-DesignationdataLambdaFunctionQualifiedArn"
@@ -1993,7 +1993,7 @@
     "EducationdataLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "EducationdataLambdaVersion3RTJURdyTkbYMW1zZYTRfMD4R3QYK0tHoctCDuWv4"
+        "Ref": "EducationdataLambdaVersion67bIsmV6UON8nQyZaiakiPkzk2wNsl7BY1RSZ2FcDZI"
       },
       "Export": {
         "Name": "sls-teacher-link-staging-EducationdataLambdaFunctionQualifiedArn"
@@ -2002,7 +2002,7 @@
     "LanguagesdataLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "LanguagesdataLambdaVersionzwx2ylSeZq2jyLi0AA7XQYuT2Ol30x0Pe5v6LHorQU"
+        "Ref": "LanguagesdataLambdaVersionM4iRyqX9iAN5BklNjCOb6vMqyWezP0zCevt6aeQh5oI"
       },
       "Export": {
         "Name": "sls-teacher-link-staging-LanguagesdataLambdaFunctionQualifiedArn"
@@ -2011,7 +2011,7 @@
     "SocialmediaLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "SocialmediaLambdaVersionrn3dULk8jZHMlVXzCLErr6dcDSHKKTB5v7D6QFjZqs"
+        "Ref": "SocialmediaLambdaVersion3H2YUOGRsPjnFJAdx6qaaxlcQGMnVTOT5alZyaMtm4"
       },
       "Export": {
         "Name": "sls-teacher-link-staging-SocialmediaLambdaFunctionQualifiedArn"

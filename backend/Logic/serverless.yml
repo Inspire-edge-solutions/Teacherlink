@@ -136,7 +136,7 @@ functions:
           cors: true
 
   Designationdata:
-    handler: src/handlers/Designation.handler
+    handler: src/handlers/handler.handler
     events:
       - http:
           path: constants
