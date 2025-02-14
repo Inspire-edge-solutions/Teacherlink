@@ -4,7 +4,7 @@ const CopyrightFooter = () => {
       <p>
         © {new Date().getFullYear()} TeacherLink by{" "}
         <a
-          href="https://themeforest.net/user/Inspire Edge Solutions"
+          href="https://www.inspireedgesolutions.com"
           target="_blank"
           rel="noopener noreferrer"
         >

@@ -1,76 +1,70 @@
-import React, { useState } from 'react';
+import  { useState, useEffect } from 'react';
 import Select from 'react-select';
 import csc from "countries-states-cities";
+import axios from 'axios';
 
 const JobPreference = () => {
   const [preferences, setPreferences] = useState({
     jobShift: {
-      fullTime: { offline: null, online: null },
-      partTimeWeekdays: { offline: null, online: null },
-      partTimeWeekends: { offline: null, online: null },
-      partTimeVacations: { offline: null, online: null }
+      Full_time: { offline: null, online: null },
+      part_time_weekdays: { offline: null, online: null },
+      part_time_weekends: { offline: null, online: null },
+      part_time_vacations: { offline: null, online: null }
     },
     organizationType: {
-      schoolCollegeUniversity: { offline: null, online: null },
-      coachingCentersInstitutes: { offline: null, online: null },
-      edTechCompanies: { offline: null, online: null }
+      school_college_university: { offline: null, online: null },
+      coaching_institute: { offline: null, online: null },
+       Ed_TechCompanies: { offline: null, online: null }
     },
     parentGuardian: {
-      homeTuitionsOffline: { offline: null, online: null },
-      privateTuitionsOffline: { offline: null, online: null },
-      groupTuitionsOffline: { offline: null, online: null },
-      privateTuitionsOnline: { offline: null, online: null },
-      groupTuitionsOnline: { offline: null, online: null },
-      coachingClassesOffline: { offline: null, online: null }
+      Home_Tutor: { offline: null, online: null },
+      Private_Tutor: { offline: null, online: null },
+      Group_Tutor_offline: { offline: null, online: null },
+      Private_Tutions_online: { offline: null, online: null },
+      Group_Tutor_online: { offline: null, online: null },
+      coaching_institute: { offline: null, online: null }
     }
   });
 
   const [jobSearchStatus, setJobSearchStatus] = useState({
-    fullTime: {
+    Full_time: {
       offline: '',
       online: ''
     },
-    partTimeWeekdays: {
+    part_time_weekdays: {
       offline: '',
       online: ''
     }
   });
 
   const [salaryDetails, setSalaryDetails] = useState({
-    expectedSalary: "",
+    expected_salary: "",
    
   });
 
   const [jobDetails, setJobDetails] = useState({
-    jobType: '',
-    teachingDesignations: [],
+    Full_time :'',
+    Job_Type: '',
+    Teaching_designation: [],
     curriculum: [],
     subjects: [],
     grades: [],
-    coreExpertise: [],
-    adminDesignations: [],
-    adminCurriculum: [],
-    teachingAndAdminDesignation: [],
-    expectedSalary: '',
+    core_expertise: [],
+    Administrative_designations: [],
+    admincurriculum: [],
+    Teaching_Administrative_designations: [],
+    expected_salary: '',
     preferredLocations: [],
-    preferredCountries: [],
-    noticePeriod: '',
+    preferred_country: '',
+    notice_period: '',
     location: '',
     country: '',
   });
 
-  const jobTypeOptions = [
+  const Job_TypeOptions = [
     { value: 'teaching', label: 'Education - Teaching' },
     { value: 'administration', label: 'Education - Administration' },
     { value: 'teachingAndAdmin', label: 'Education - Teaching + Administration' }
-  ];
-
-  const teachingDesignations = [
-    { value: 'nurseryTeacher', label: 'Nursery Teacher' },
-    { value: 'montessoriTeacher', label: 'Montessori Teacher' },
-    { value: 'neetFaculty', label: 'NEET faculty' },
-    { value: 'jeeFaculty', label: 'JEE faculty' },
-    { value: 'cetFaculty', label: 'CET faculty' }
   ];
 
   const curriculumOptions = [
@@ -82,59 +76,6 @@ const JobPreference = () => {
     { value: 'deemedUniversity', label: 'Deemed University' }
   ];
 
-  const subjectOptions = [
-    { value: 'physics', label: 'Physics' },
-    { value: 'chemistry', label: 'Chemistry' },
-    { value: 'others', label: 'Others' }
-  ];
-
-  const gradeOptions = [
-    { value: 'prePrimary', label: 'Pre-Primary' },
-    { value: 'primary', label: 'Primary' },
-    { value: 'middleSchool', label: 'Middle School' },
-    { value: 'highSchool', label: 'High School' },
-    { value: 'grade1', label: 'Grade 1' },
-    { value: 'grade2', label: 'Grade 2' },
-    { value: 'grade12', label: 'Grade 12' },
-    { value: 'degree', label: 'Degree' },
-    { value: 'masterDegree', label: 'Master Degree' },
-    { value: 'phd', label: 'PhD' },
-    { value: 'mphil', label: 'MPhil' },
-    { value: 'bed', label: 'B.Ed' },
-    { value: 'ded', label: 'D.Ed' }
-  ];
-
-  const coreExpertiseOptions = [
-    { value: 'neet', label: 'NEET' },
-    { value: 'jeeMains', label: 'JEE(Mains)' },
-    { value: 'jeeAdvanced', label: 'JEE (Advanced)' },
-    { value: 'cet', label: 'CET (state level entrance)' },
-    { value: 'foundation', label: 'Foundation' },
-    { value: 'spokenEnglish', label: 'Spoken English' },
-    { value: 'roboticsLab', label: 'Robotics Lab' },
-    { value: 'juniorIAS', label: 'Junior IAS' },
-    { value: 'practicalClasses', label: 'Practical classes' }
-  ];
-
-  const adminDesignationOptions = [
-    { value: 'principal', label: 'Principal' },
-    { value: 'vicePrincipal', label: 'Vice Principal' },
-    { value: 'director', label: 'Director' },
-    { value: 'academicCoordinator', label: 'Academic Coordinator' },
-    { value: 'disciplineCoordinator', label: 'Discipline Coordinator' },
-    { value: 'dean', label: 'Dean' }
-  ];
-
-  const teachingAndAdminDesignationOptions = [
-    ...teachingDesignations.map(option => ({
-      ...option,
-      group: 'Teaching'
-    })),
-    ...adminDesignationOptions.map(option => ({
-      ...option,
-      group: 'Administration'
-    }))
-  ];
 
   const salaryRanges = [
     { value: "less_than_40k", label: "Less than 40K" },
@@ -183,6 +124,56 @@ const JobPreference = () => {
 
   };
 
+  const [subjectsOptions, setSubjectsOptions] = useState([]);
+
+  const subjectList = async () => {
+    try {
+        const response = await axios.get("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/education-data");
+        console.log("Fetched subjects:", response.data);
+        const formattedSubjects = response.data.map(subject => ({
+            value: subject.value, 
+            label: subject.label,
+        }));
+        setSubjectsOptions(formattedSubjects);
+      } catch (error) {
+          console.error("Error fetching subjects:", error);
+      }
+  };
+  useEffect(() => {
+    subjectList();
+  }, []);
+
+
+  const [teachingDesignations, setTeachingDesignations] = useState([]);
+  const [adminDesignations, setAdminDesignations] = useState([]);
+  const [teachingAdminDesignations, setTeachingAdminDesignations] = useState([]);
+  const [coreExpertise, setCoreExpertise] = useState([]);
+  const [grades, setGrades] = useState([]);
+  useEffect(() => {
+    const fetchDesignations = async () => {
+      try {
+        const response = await fetch('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/constants');
+        const data = await response.json();
+        const transformedData = data.map(item => ({
+          category: item.category,
+          value: item.value,
+          label: item.label
+        }));
+        //console.log(transformedData);
+        // Set the state for each designation type
+        setTeachingDesignations(transformedData.filter(item => item.category === "Teaching") || []);
+        setAdminDesignations(transformedData.filter(item => item.category === "Administration") || []);
+        setTeachingAdminDesignations(transformedData.filter(item => (item.category === "Teaching" || item.category === "Administration")) || []);
+        setCoreExpertise(transformedData.filter(item => item.category === "Core Expertise") || []);
+        setGrades(transformedData.filter(item => item.category === "Grades") || []);
+      } catch (error) {
+        console.error('Error fetching designations:', error);
+      }
+    };
+
+    fetchDesignations();
+  }, []);
+
   const renderJobDetailsSection = () => (
     <div className="form-group col-lg-12">
       <div className="form-box">
@@ -192,13 +183,13 @@ const JobPreference = () => {
           <div className="form-group col-lg-6 col-md-12">
             <Select
               placeholder="Job Type"
-              options={jobTypeOptions}
-              value={jobTypeOptions.find(option => option.value === jobDetails.jobType)}
+              options={Job_TypeOptions}
+              value={Job_TypeOptions.find(option => option.value === jobDetails.Job_Type)}
               onChange={(selected) => {
                 console.log('Selected job type:', selected?.value);
                 setJobDetails(prev => ({
                   ...prev,
-                  jobType: selected?.value
+                  Job_Type: selected?.value
                 }));
               }}
             />
@@ -207,10 +198,10 @@ const JobPreference = () => {
             <select 
             placeholder="Expected salary(INR)"
               required
-              value={salaryDetails.expectedSalary}
+              value={salaryDetails.expected_salary}
               onChange={(e) => setSalaryDetails(prev => ({
                 ...prev,
-                expectedSalary: e.target.value
+                expected_salary: e.target.value
               }))}
             >
               <option value="">Expected salary(INR)</option>
@@ -235,10 +226,10 @@ const JobPreference = () => {
                     { value: 'lessThan1Month', label: '< 1 month' },
                     { value: 'moreThan1Month', label: '> 1 Month' }
                   ]}
-                  value={jobDetails.noticePeriod}
+                  value={jobDetails.notice_period}
                   onChange={(selected) => setJobDetails(prev => ({
                     ...prev,
-                    noticePeriod: selected
+                    notice_period: selected
                   }))}
                 />
               </div>
@@ -274,28 +265,19 @@ const JobPreference = () => {
       />
     </div>
 
-          {jobDetails.jobType && (
+          {jobDetails.Job_Type && (
             <>
               {/* Teaching and Administration Combined Fields */}
-              {jobDetails.jobType === 'teachingAndAdmin' && (
+              {jobDetails.Job_Type === 'teachingAndAdmin' && (
                 <div className='row'>
                   {/* Teaching and Admin Designation */}
                   <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
                       placeholder="Teaching & Administrative Designation(s)"
-                      options={[
-                        {
-                          label: 'Teaching Designations',
-                          options: teachingDesignations
-                        },
-                        {
-                          label: 'Administrative Designations',
-                          options: adminDesignationOptions
-                        }
-                      ]}
-                      value={jobDetails.teachingAndAdminDesignation.map(value => {
-                        const option = teachingAndAdminDesignationOptions.find(opt => opt.value === value);
+                      options={teachingAdminDesignations}
+                      value={jobDetails.Teaching_Administrative_designations.map(value => {
+                        const option = teachingAdminDesignations.find(opt => opt.value === value);
                         return option ? {
                           value: option.value,
                           label: option.label
@@ -303,16 +285,16 @@ const JobPreference = () => {
                       }).filter(Boolean)}
                       onChange={(selected) => setJobDetails(prev => ({
                         ...prev,
-                        teachingAndAdminDesignation: selected ? selected.map(item => item.value) : []
+                        Teaching_Administrative_designations: selected ? selected.map(item => item.value) : []
                       }))}
                     />
                   </div>
 
-                  {/* Curriculum/Board/University */}
+                  {/* curriculum/Board/University */}
                   <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
-                      placeholder="Curriculum/Board/University"
+                      placeholder="curriculum/Board/University"
                       options={curriculumOptions}
                       value={jobDetails.curriculum.map(value => ({
                         value,
@@ -325,15 +307,15 @@ const JobPreference = () => {
                     />
                   </div>
 
-                  {/* Subjects */}
+                  {/* subjects */}
                   <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
-                      placeholder="Subjects"
-                      options={subjectOptions}
+                      placeholder="subjects"
+                      options={subjectsOptions}
                       value={jobDetails.subjects.map(value => ({
                         value,
-                        label: subjectOptions.find(opt => opt.value === value)?.label
+                        label: subjectsOptions.find(opt => opt.value === value)?.label
                       }))}
                       onChange={(selected) => setJobDetails(prev => ({
                         ...prev,
@@ -342,15 +324,15 @@ const JobPreference = () => {
                     />
                   </div>
 
-                  {/* Grades */}
+                  {/* grades */}
                   <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
-                      placeholder="Grades"
-                      options={gradeOptions}
+                      placeholder="grades"
+                      options={grades}
                       value={jobDetails.grades.map(value => ({
                         value,
-                        label: gradeOptions.find(opt => opt.value === value)?.label
+                        label: grades.find(opt => opt.value === value)?.label
                       }))}
                       onChange={(selected) => setJobDetails(prev => ({
                         ...prev,
@@ -364,14 +346,14 @@ const JobPreference = () => {
                     <Select
                       isMulti
                       placeholder="Core Expertise"
-                      options={coreExpertiseOptions}
-                      value={jobDetails.coreExpertise.map(value => ({
+                      options={coreExpertise}
+                      value={jobDetails.core_expertise.map(value => ({
                         value,
-                        label: coreExpertiseOptions.find(opt => opt.value === value)?.label
+                        label: coreExpertise.find(opt => opt.value === value)?.label
                       }))}
                       onChange={(selected) => setJobDetails(prev => ({
                         ...prev,
-                        coreExpertise: selected ? selected.map(item => item.value) : []
+                        core_expertise: selected ? selected.map(item => item.value) : []
                       }))}
                     />
                   </div>
@@ -381,32 +363,30 @@ const JobPreference = () => {
           )}
 
  {/* Teaching Related Fields */}
- {jobDetails.jobType === 'teaching' && (
+ {jobDetails.Job_Type === 'teaching' && (
         <>
           {/* Teaching Designation */}
-          <div className='row'>
+          <div className="row">
           <div className="form-group col-lg-6 col-md-12">
             <Select
               isMulti
               placeholder="Teaching Designation(s)"
               options={teachingDesignations}
-              value={jobDetails.teachingDesignations.map(value => ({
-                value,
-                label: teachingDesignations.find(opt => opt.value === value)?.label
-              }))}
+              value={teachingDesignations.filter(option => 
+                jobDetails.Teaching_designation.includes(option.value)
+              )}
               onChange={(selected) => setJobDetails(prev => ({
                 ...prev,
-                teachingDesignations: selected ? selected.map(item => item.value) : []
+                Teaching_designation: selected ? selected.map(item => item.value) : []
               }))}
-              className="form-select"
             />
           </div>
 
-          {/* Curriculum/Board/University */}
+          {/* curriculum/Board/University */}
           <div className="form-group col-lg-6 col-md-12">
             <Select
               isMulti
-              placeholder="Curriculum/Board/University"
+              placeholder="curriculum/Board/University"
               options={curriculumOptions}
               value={jobDetails.curriculum.map(value => ({
                 value,
@@ -416,43 +396,40 @@ const JobPreference = () => {
                 ...prev,
                 curriculum: selected ? selected.map(item => item.value) : []
               }))}
-              className="form-select"
             />
           </div>
 
-          {/* Subjects */}
+          {/* subjects */}
           <div className="form-group col-lg-6 col-md- 12">
             <Select
               isMulti
-              placeholder="Subjects"
-              options={subjectOptions}
+              placeholder="subjects"
+              options={subjectsOptions}
               value={jobDetails.subjects.map(value => ({
                 value,
-                label: subjectOptions.find(opt => opt.value === value)?.label
+                label: subjectsOptions.find(opt => opt.value === value)?.label
               }))}
               onChange={(selected) => setJobDetails(prev => ({
                 ...prev,
                 subjects: selected ? selected.map(item => item.value) : []
               }))}
-              className="form-select"
             />
           </div>
 
-          {/* Grades */}
+          {/* grades */}
           <div className="form-group col-lg-6 col-md-12">
             <Select
               isMulti
-              placeholder="Grades"
-              options={gradeOptions}
+              placeholder="grades"
+              options={grades}
               value={jobDetails.grades.map(value => ({
                 value,
-                label: gradeOptions.find(opt => opt.value === value)?.label
+                label: grades.find(opt => opt.value === value)?.label
               }))}
               onChange={(selected) => setJobDetails(prev => ({
                 ...prev,
                 grades: selected ? selected.map(item => item.value) : []
               }))}
-              className="form-select"
             />
           </div>
 
@@ -461,16 +438,15 @@ const JobPreference = () => {
             <Select
               isMulti
               placeholder="Core Expertise"
-              options={coreExpertiseOptions}
-              value={jobDetails.coreExpertise.map(value => ({
+              options={coreExpertise}
+              value={jobDetails.core_expertise.map(value => ({
                 value,
-                label: coreExpertiseOptions.find(opt => opt.value === value)?.label
+                label: coreExpertise.find(opt => opt.value === value)?.label
               }))}
               onChange={(selected) => setJobDetails(prev => ({
                 ...prev,
-                coreExpertise: selected ? selected.map(item => item.value) : []
+                core_expertise: selected ? selected.map(item => item.value) : []
               }))}
-              className="form-select"
             />
           </div>
           </div>
@@ -478,48 +454,44 @@ const JobPreference = () => {
       )}
 
 {/* Administration Related Fields */}
-{jobDetails.jobType === 'administration' && (
+{jobDetails.Job_Type === 'administration' && (
         <>
           {/* Administrative Designation */}
-          <div className='row'>
-          <div className="form form-group col-lg-6 col-md-12">
-            <Select
-              isMulti
-              placeholder="Administrative Designation(s)"
-              options={adminDesignationOptions}
-              value={jobDetails.adminDesignations.map(value => ({
-                value,
-                label: adminDesignationOptions.find(opt => opt.value === value)?.label
-              }))}
-              onChange={(selected) => setJobDetails(prev => ({
-                ...prev,
-                adminDesignations: selected ? selected.map(item => item.value) : []
-              }))}
-              className="form-select"
-            />
-          </div>
-
-          {/* Administrative Curriculum/Board/University */}
+          
           <div className="form-group col-lg-6 col-md-12">
             <Select
               isMulti
-              placeholder="Curriculum/Board/University"
+              placeholder="Administrative Designation(s)"
+                options={adminDesignations}
+              value={jobDetails.Administrative_designations.map(value => ({
+                value,
+                label: adminDesignations.find(opt => opt.value === value)?.label
+              }))}
+              onChange={(selected) => setJobDetails(prev => ({
+                ...prev,
+                Administrative_designations: selected ? selected.map(item => item.value) : []
+              }))}
+            />
+          </div>
+
+          {/* Administrative curriculum/Board/University */}
+          <div className="form-group col-lg-6 col-md-12">
+            <Select
+              isMulti
+              placeholder="curriculum/Board/University"
               options={curriculumOptions}  // Using the same curriculum options as teaching
-              value={jobDetails.adminCurriculum.map(value => ({
+              value={jobDetails.admincurriculum.map(value => ({
                 value,
                 label: curriculumOptions.find(opt => opt.value === value)?.label
               }))}
               onChange={(selected) => setJobDetails(prev => ({
                 ...prev,
-                adminCurriculum: selected ? selected.map(item => item.value) : []
+                admincurriculum: selected ? selected.map(item => item.value) : []
               }))}
-              className="form-select"
             />
-          </div>
           </div>
         </>
       )}
-
         </div>
       </div>
     </div>
@@ -527,6 +499,8 @@ const JobPreference = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent the default form submission
+
+
 
     try {
       const response = await fetch("https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/jobPreference", {
@@ -540,7 +514,6 @@ const JobPreference = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
       const data = await response.json();
       console.log("Success:", data);
     } catch (error) {
@@ -550,7 +523,6 @@ const JobPreference = () => {
 
   return (
     <form className="default-form" onSubmit={handleSubmit}>
-      
       
       <div className="row">
         {/* Job Shift & Job Category Section */}
@@ -573,8 +545,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.jobShift.fullTime.offline === null ? '' : preferences.jobShift.fullTime.offline}
-                        onChange={(e) => handlePreferenceChange('jobShift', 'fullTime', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={jobDetails.Full_time }
+                        onChange={(e) => handlePreferenceChange('jobShift', 'Full_time', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -584,8 +556,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.jobShift.fullTime.online === null ? '' : preferences.jobShift.fullTime.online}
-                        onChange={(e) => handlePreferenceChange('jobShift', 'fullTime', 'online', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.jobShift.Full_time.online === null ? '' : preferences.jobShift.Full_time.online}
+                        onChange={(e) => handlePreferenceChange('jobShift', 'Full_time', 'online', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -598,8 +570,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.jobShift.partTimeWeekdays.offline === null ? '' : preferences.jobShift.partTimeWeekdays.offline}
-                        onChange={(e) => handlePreferenceChange('jobShift', 'partTimeWeekdays', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.jobShift.part_time_weekdays.offline === null ? '' : preferences.jobShift.part_time_weekdays.offline}
+                        onChange={(e) => handlePreferenceChange('jobShift', 'part_time_weekdays', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -609,8 +581,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.jobShift.partTimeWeekdays.online === null ? '' : preferences.jobShift.partTimeWeekdays.online}
-                        onChange={(e) => handlePreferenceChange('jobShift', 'partTimeWeekdays', 'online', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.jobShift.part_time_weekdays.online === null ? '' : preferences.jobShift.part_time_weekdays.online}
+                        onChange={(e) => handlePreferenceChange('jobShift', 'part_time_weekdays', 'online', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -624,8 +596,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.jobShift.partTimeWeekends.offline === null ? '' : preferences.jobShift.partTimeWeekends.offline}
-                        onChange={(e) => handlePreferenceChange('jobShift', 'partTimeWeekends', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.jobShift.part_time_weekends.offline === null ? '' : preferences.jobShift.part_time_weekends.offline}
+                        onChange={(e) => handlePreferenceChange('jobShift', 'part_time_weekends', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -635,8 +607,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.jobShift.partTimeWeekends.online === null ? '' : preferences.jobShift.partTimeWeekends.online}
-                        onChange={(e) => handlePreferenceChange('jobShift', 'partTimeWeekends', 'online', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.jobShift.part_time_weekends.online === null ? '' : preferences.jobShift.part_time_weekends.online}
+                        onChange={(e) => handlePreferenceChange('jobShift', 'part_time_weekends', 'online', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -650,8 +622,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.jobShift.partTimeVacations.offline === null ? '' : preferences.jobShift.partTimeVacations.offline}
-                        onChange={(e) => handlePreferenceChange('jobShift', 'partTimeVacations', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.jobShift.part_time_vacations.offline === null ? '' : preferences.jobShift.part_time_vacations.offline}
+                        onChange={(e) => handlePreferenceChange('jobShift', 'part_time_vacations', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -661,8 +633,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.jobShift.partTimeVacations.online === null ? '' : preferences.jobShift.partTimeVacations.online}
-                        onChange={(e) => handlePreferenceChange('jobShift', 'partTimeVacations', 'online', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.jobShift.part_time_vacations.online === null ? '' : preferences.jobShift.part_time_vacations.online}
+                        onChange={(e) => handlePreferenceChange('jobShift', 'part_time_vacations', 'online', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -697,8 +669,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.organizationType.schoolCollegeUniversity.offline === null ? '' : preferences.organizationType.schoolCollegeUniversity.offline}
-                        onChange={(e) => handlePreferenceChange('organizationType', 'schoolCollegeUniversity', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.organizationType.school_college_university.offline === null ? '' : preferences.organizationType.school_college_university.offline}
+                        onChange={(e) => handlePreferenceChange('organizationType', 'school_college_university', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -708,8 +680,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.organizationType.schoolCollegeUniversity.online === null ? '' : preferences.organizationType.schoolCollegeUniversity.online}
-                        onChange={(e) => handlePreferenceChange('organizationType', 'schoolCollegeUniversity', 'online', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.organizationType.school_college_university.online === null ? '' : preferences.organizationType.school_college_university.online}
+                        onChange={(e) => handlePreferenceChange('organizationType', 'school_college_university', 'online', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -723,8 +695,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.organizationType.coachingCentersInstitutes.offline === null ? '' : preferences.organizationType.coachingCentersInstitutes.offline}
-                        onChange={(e) => handlePreferenceChange('organizationType', 'coachingCentersInstitutes', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.organizationType.coaching_institute.offline === null ? '' : preferences.organizationType.coaching_institute.offline}
+                        onChange={(e) => handlePreferenceChange('organizationType', 'coaching_institute', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -734,8 +706,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.organizationType.coachingCentersInstitutes.online === null ? '' : preferences.organizationType.coachingCentersInstitutes.online}
-                        onChange={(e) => handlePreferenceChange('organizationType', 'coachingCentersInstitutes', 'online', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.organizationType.coaching_institute.online === null ? '' : preferences.organizationType.coaching_institute.online}
+                        onChange={(e) => handlePreferenceChange('organizationType', 'coaching_institute', 'online', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -749,8 +721,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.organizationType.edTechCompanies.offline === null ? '' : preferences.organizationType.edTechCompanies.offline}
-                        onChange={(e) => handlePreferenceChange('organizationType', 'edTechCompanies', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.organizationType. Ed_TechCompanies.offline === null ? '' : preferences.organizationType. Ed_TechCompanies.offline}
+                        onChange={(e) => handlePreferenceChange('organizationType', ' Ed_TechCompanies', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -760,8 +732,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.organizationType.edTechCompanies.online === null ? '' : preferences.organizationType.edTechCompanies.online}
-                        onChange={(e) => handlePreferenceChange('organizationType', 'edTechCompanies', 'online', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.organizationType. Ed_TechCompanies.online === null ? '' : preferences.organizationType. Ed_TechCompanies.online}
+                        onChange={(e) => handlePreferenceChange('organizationType', ' Ed_TechCompanies', 'online', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -770,7 +742,7 @@ const JobPreference = () => {
                     </td>
                   </tr>
 
-                  {/* Add similar rows for coachingCentersInstitutes and edTechCompanies */}
+                  {/* Add similar rows for coaching_institute and  Ed_TechCompanies */}
                 </tbody>
               </table>
             </div>
@@ -792,12 +764,12 @@ const JobPreference = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Home Tutor (One-to-One at Student's Home)</td>
+                    <td>Home Tutor (One-to-One at Students Home)</td>
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.parentGuardian.homeTuitionsOffline.offline === null ? '' : preferences.parentGuardian.homeTuitionsOffline.offline}
-                        onChange={(e) => handlePreferenceChange('parentGuardian', 'homeTuitionsOffline', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.parentGuardian.Home_Tutor.offline === null ? '' : preferences.parentGuardian.Home_Tutor.offline}
+                        onChange={(e) => handlePreferenceChange('parentGuardian', 'Home_Tutor', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -807,12 +779,12 @@ const JobPreference = () => {
                     <td className="disabled">-</td>
                   </tr>
                   <tr>
-                    <td>Private Tutor (One-to-One at Tutor's Place)</td>
+                    <td>Private Tutor (One-to-One at Tutors Place)</td>
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.parentGuardian.privateTuitionsOffline.offline === null ? '' : preferences.parentGuardian.privateTuitionsOffline.offline}
-                        onChange={(e) => handlePreferenceChange('parentGuardian', 'privateTuitionsOffline', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.parentGuardian.Private_Tutor.offline === null ? '' : preferences.parentGuardian.Private_Tutor.offline}
+                        onChange={(e) => handlePreferenceChange('parentGuardian', 'Private_Tutor', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -827,8 +799,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.parentGuardian.groupTuitionsOffline.offline === null ? '' : preferences.parentGuardian.groupTuitionsOffline.offline}
-                        onChange={(e) => handlePreferenceChange('parentGuardian', 'groupTuitionsOffline', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.parentGuardian.Group_Tutor_offline.offline === null ? '' : preferences.parentGuardian.Group_Tutor_offline.offline}
+                        onChange={(e) => handlePreferenceChange('parentGuardian', 'Group_Tutor_offline', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -843,8 +815,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.parentGuardian.privateTuitionsOnline.online === null ? '' : preferences.parentGuardian.privateTuitionsOnline.online}
-                        onChange={(e) => handlePreferenceChange('parentGuardian', 'privateTuitionsOnline', 'online', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.parentGuardian.Private_Tutions_online.online === null ? '' : preferences.parentGuardian.Private_Tutions_online.online}
+                        onChange={(e) => handlePreferenceChange('parentGuardian', 'Private_Tutions_online', 'online', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -858,8 +830,8 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.parentGuardian.groupTuitionsOnline.online === null ? '' : preferences.parentGuardian.groupTuitionsOnline.online}
-                        onChange={(e) => handlePreferenceChange('parentGuardian', 'groupTuitionsOnline', 'online', e.target.value === '' ? null : e.target.value === 'true')}
+                        value={preferences.parentGuardian.Group_Tutor_online.online === null ? '' : preferences.parentGuardian.Group_Tutor_online.online}
+                        onChange={(e) => handlePreferenceChange('parentGuardian', 'Group_Tutor_online', 'online', e.target.value === '' ? null : e.target.value === 'true')}
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -893,11 +865,11 @@ const JobPreference = () => {
                 <td>
                   <select
                     className="form-select"
-                    value={jobSearchStatus.fullTime.offline}
+                    value={jobSearchStatus.Full_time.offline}
                     onChange={(e) => setJobSearchStatus(prev => ({
                       ...prev,
-                      fullTime: {
-                        ...prev.fullTime,
+                      Full_time: {
+                        ...prev.Full_time,
                         offline: e.target.value
                       }
                     }))}
@@ -911,11 +883,11 @@ const JobPreference = () => {
                 <td>
                   <select
                     className="form-select"
-                    value={jobSearchStatus.fullTime.online}
+                    value={jobSearchStatus.Full_time.online}
                     onChange={(e) => setJobSearchStatus(prev => ({
                       ...prev,
-                      fullTime: {
-                        ...prev.fullTime,
+                      Full_time: {
+                        ...prev.Full_time,
                         online: e.target.value
                       }
                     }))}
@@ -934,11 +906,11 @@ const JobPreference = () => {
                 <td>
                   <select
                     className="form-select"
-                    value={jobSearchStatus.partTimeWeekdays.offline}
+                    value={jobSearchStatus.part_time_weekdays.offline}
                     onChange={(e) => setJobSearchStatus(prev => ({
                       ...prev,
-                      partTimeWeekdays: {
-                        ...prev.partTimeWeekdays,
+                      part_time_weekdays: {
+                        ...prev.part_time_weekdays,
                         offline: e.target.value
                       }
                     }))}
@@ -952,11 +924,11 @@ const JobPreference = () => {
                 <td>
                   <select
                     className="form-select"
-                    value={jobSearchStatus.partTimeWeekdays.online}
+                    value={jobSearchStatus.part_time_weekdays.online}
                     onChange={(e) => setJobSearchStatus(prev => ({
                       ...prev,
-                      partTimeWeekdays: {
-                        ...prev.partTimeWeekdays,
+                      part_time_weekdays: {
+                        ...prev.part_time_weekdays,
                         online: e.target.value
                       }
                     }))}
@@ -979,4 +951,4 @@ const JobPreference = () => {
   );
 };
 
-export default JobPreference; 
+export default JobPreference;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Country, State, City } from 'country-state-city';
-//import './profileStyles.css';
+import './profileStyles.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 const OrgDetails = () => {
@@ -151,7 +151,7 @@ const OrgDetails = () => {
   };
 
   return (
-    <>
+    <div className='default-form'>
     <div className="row">
     <div className="form-group col-lg-6 col-md-12">
       <select 
@@ -336,7 +336,9 @@ const OrgDetails = () => {
               value={reportingAuthority.phone1}
               onChange={handleReportingAuthorityChange}
               placeholder="Contact Number-1 (Calling)"
-              pattern="[0-9]{10}"
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            }}
               maxLength="10"
               title="Please enter exactly 10 digits"
             />
@@ -351,7 +353,9 @@ const OrgDetails = () => {
               value={reportingAuthority.phone2}
               onChange={handleReportingAuthorityChange}
               placeholder="Contact Number-2 (WhatsApp)"
-              pattern="[0-9]{10}"
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            }}
               maxLength="10"
               title="Please enter exactly 10 digits"
             />
@@ -498,7 +502,9 @@ const OrgDetails = () => {
               value={reportingAuthority.phone1}
               onChange={handleReportingAuthorityChange}
               placeholder="Contact Number-1 (Calling)"
-              pattern="[0-9]{10}"
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            }}
               maxLength="10"
               title="Please enter exactly 10 digits"
             />
@@ -513,7 +519,9 @@ const OrgDetails = () => {
               value={reportingAuthority.phone2}
               onChange={handleReportingAuthorityChange}
               placeholder="Contact Number-2 (WhatsApp)"
-              pattern="[0-9]{10}"
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            }}
               maxLength="10"
               title="Please enter exactly 10 digits"
             />
@@ -539,7 +547,7 @@ const OrgDetails = () => {
               value={orgDetails.country || ''}
               onChange={handleInputChange}
             >
-              <option value="">Select Country</option>
+              <option value="">Country</option>
               {countries && countries.map((country) => (
                 <option key={country.isoCode} value={country.isoCode}>
                   {country.name}
@@ -556,7 +564,7 @@ const OrgDetails = () => {
               onChange={handleInputChange}
               disabled={!orgDetails.country}
             >
-              <option value="">Select State</option>
+              <option value="">State</option>
               {states && states.map((state) => (
                 <option key={state.isoCode} value={state.isoCode}>
                   {state.name}
@@ -573,7 +581,7 @@ const OrgDetails = () => {
               onChange={handleInputChange}
               disabled={!orgDetails.state}
             >
-              <option value="">Select City</option>
+              <option value="">City</option>
               {cities && cities.map((city) => (
                 <option key={city.name} value={city.name}>
                   {city.name}
@@ -599,7 +607,9 @@ const OrgDetails = () => {
               value={orgDetails.pincode}
               onChange={handleInputChange}
               placeholder="Pin code"
-              pattern="[0-9]*"
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            }}
               maxLength="6"
             />
           </div>
@@ -618,7 +628,7 @@ const OrgDetails = () => {
               value={orgDetails.country || ''}
               onChange={handleInputChange}
             >
-              <option value="">Select Country</option>
+              <option value="">Country</option>
               {countries && countries.map((country) => (
                 <option key={country.isoCode} value={country.isoCode}>
                   {country.name}
@@ -635,7 +645,7 @@ const OrgDetails = () => {
               onChange={handleInputChange}
               disabled={!orgDetails.country}
             >
-              <option value="">Select State</option>
+              <option value="">State</option>
               {states && states.map((state) => (
                 <option key={state.isoCode} value={state.isoCode}>
                   {state.name}
@@ -652,7 +662,7 @@ const OrgDetails = () => {
               onChange={handleInputChange}
               disabled={!orgDetails.state}
             >
-              <option value="">Select City</option>
+              <option value="">City</option>
               {cities && cities.map((city) => (
                 <option key={city.name} value={city.name}>
                   {city.name}
@@ -678,7 +688,9 @@ const OrgDetails = () => {
               value={orgDetails.pincode}
               onChange={handleInputChange}
               placeholder="Pin code"
-              pattern="[0-9]*"
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            }}
               maxLength="6"
             />
           </div>
@@ -770,7 +782,9 @@ const OrgDetails = () => {
               name="phone1"
               value={orgDetails.contactPerson.phone1}
               onChange={handleContactPersonChange}
-              pattern="[0-9]{10}"
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            }}
               maxLength="10"
               placeholder="Contact Number-1 (Calling)"
             />
@@ -783,7 +797,9 @@ const OrgDetails = () => {
               name="phone2"
               value={orgDetails.contactPerson.phone2}
               onChange={handleContactPersonChange}
-              pattern="[0-9]{10}"
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            }}
               maxLength="10"
               placeholder="Contact Number-2 (WhatsApp)"
             />
@@ -812,7 +828,7 @@ const OrgDetails = () => {
         </button>
       </div>
     )}
-    </>
+    </div>
   );
 };
 

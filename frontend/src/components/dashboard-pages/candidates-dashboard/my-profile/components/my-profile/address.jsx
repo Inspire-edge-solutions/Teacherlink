@@ -3,14 +3,15 @@ import axios from "axios";
 import Select from "react-select";
 import csc from "countries-states-cities"; // Package to get countries, states, and cities
 
-const Address = ({city,houseNo,street}) => {
+const Address = ({city,houseNo,pincode}) => {
   const [formData, setFormData] = useState({
     permanentAddress: {
       country: null,
       state: null,
       city: null,
       houseNo: "",
-      street: ""
+      street: "",
+      pincode: ""
     },
     presentAddress: {
       country: null,
@@ -18,7 +19,8 @@ const Address = ({city,houseNo,street}) => {
       city: null,
       houseNo: "",
       street: "",
-      sameAsPermanent: false
+      sameAsPermanent: false,
+      pincode: ""
     }
   });
 
@@ -73,6 +75,7 @@ const Address = ({city,houseNo,street}) => {
           city: null,
           houseNo: "",
           street: "",
+          pincode: "",
           sameAsPermanent: false
         }
       }));
@@ -149,7 +152,7 @@ const Address = ({city,houseNo,street}) => {
           <Select
             id="permanentCountry"
             name="permanentCountry"
-            placeholder="Select Country"
+            placeholder="Country"
             options={countries}
             value={formData.permanentAddress.country}
             onChange={option => {
@@ -164,7 +167,7 @@ const Address = ({city,houseNo,street}) => {
           <Select
             id="permanentState"
             name="permanentState"
-            placeholder="Select State/UT"
+            placeholder="State/UT"
             options={getStates(formData.permanentAddress.country?.value)}
             value={formData.permanentAddress.state}
             onChange={option => {
@@ -178,7 +181,7 @@ const Address = ({city,houseNo,street}) => {
           <Select
             id="permanentCity"
             name="permanentCity"
-            placeholder="Select City"
+            placeholder="City"
             options={getCities(formData.permanentAddress.state?.value)}
             value={formData.permanentAddress.city}
             onChange={option => handleAddressChange("permanentAddress", "city", option)}
@@ -191,26 +194,32 @@ const Address = ({city,houseNo,street}) => {
             id="permanentHouseNo"
             name="permanentHouseNo"
             type="text"
-            placeholder="House No."
+            placeholder="House No. & Street"
             value={formData.permanentAddress.houseNo}
             onChange={e => handleAddressChange("permanentAddress", "houseNo", e.target.value)}
             required
+            maxLength="50"
           />
           </div>
           )}
-          {street && (
+         
+          {pincode && (
           <div className="form-group">
           <input
-            id="permanentStreet"
-            name="permanentStreet"
+            id="permanentPincode"
+            name="permanentPincode"
             type="text"
-            placeholder="Street"
-            value={formData.permanentAddress.street}
-            onChange={e => handleAddressChange("permanentAddress", "street", e.target.value)}
+            placeholder="Pincode"
+            value={formData.permanentAddress.pincode}
+            onChange={e => handleAddressChange("permanentAddress", "pincode", e.target.value)}
+            onInput={(e) => {
+              e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            }}
+            maxLength="6"
             required
-          />
-          </div>
-          )}
+          />          
+        </div>
+        )}
         </div>
 
         {/* Present Address */}
@@ -235,7 +244,7 @@ const Address = ({city,houseNo,street}) => {
               <Select
                 id="presentCountry"
                 name="presentCountry"
-                placeholder="Select Country"
+                placeholder="Country"
                 options={countries}
                 value={formData.presentAddress.country}
                 onChange={option => {
@@ -249,7 +258,7 @@ const Address = ({city,houseNo,street}) => {
               <Select
                 id="presentState"
                 name="presentState"
-                placeholder="Select State/UT"
+                placeholder="State/UT"
                 options={getStates(formData.presentAddress.country?.value)}
                 value={formData.presentAddress.state}
                 onChange={option => {
@@ -263,7 +272,7 @@ const Address = ({city,houseNo,street}) => {
               <Select
                 id="presentCity"
                 name="presentCity"
-                placeholder="Select City"
+                placeholder="City"
                 options={getCities(formData.presentAddress.state?.value)}
                 value={formData.presentAddress.city}
                 onChange={option => handleAddressChange("presentAddress", "city", option)}
@@ -276,22 +285,27 @@ const Address = ({city,houseNo,street}) => {
                 id="presentHouseNo"
                 name="presentHouseNo"
                 type="text"
-                placeholder="House No."
+                placeholder="House No. & Street"
                 value={formData.presentAddress.houseNo}
                 onChange={e => handleAddressChange("presentAddress", "houseNo", e.target.value)}
+                maxLength="50"
                 required
               />
               </div>
               )}
-              {street && (
+              {pincode && (
               <div className="form-group">
               <input
-                id="presentStreet"
-                name="presentStreet"
+                id="presentPincode"
+                name="presentPincode"
                 type="text"
-                placeholder="Street"
-                value={formData.presentAddress.street}
-                onChange={e => handleAddressChange("presentAddress", "street", e.target.value)}
+                placeholder="Pincode"
+                value={formData.presentAddress.pincode}
+                onChange={e => handleAddressChange("presentAddress", "pincode", e.target.value)}
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                }}
+                maxLength="6"
                 required
               />
               </div>

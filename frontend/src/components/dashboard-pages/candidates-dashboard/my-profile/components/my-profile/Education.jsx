@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import "./profile-styles.css";
+import axios from "axios";
 
 const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percentage,grade12mode,
   degreeCollege,degreePlace,degreeUniversity,degreePercentage,degreeMode,
@@ -16,8 +17,10 @@ const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percenta
     percentage: '',
     mode: ''
   });
-
-  // Additional education sections
+const [coreSubjectsOptions, setCoreSubjectsOptions] = useState([]);
+const [degrees, setDegrees] = useState([]);
+const [masterDegrees, setMasterDegrees] = useState([]);
+const [otherSubjects, setOtherSubjects] = useState('');
   const [additionalEducation, setAdditionalEducation] = useState([]);
   const [selectedEducationType, setSelectedEducationType] = useState(null);
 
@@ -48,140 +51,6 @@ const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percenta
     // { value: 'hybrid', label: 'Hybrid' }
   ];
 
-  const coreSubjectsOptions = [
-    { value: 'physics', label: 'Physics' },
-    { value: 'chemistry', label: 'Chemistry' },
-    { value: 'biology', label: 'Biology' },
-    { value: 'mathematics', label: 'Mathematics' },
-    { value: 'computerScience', label: 'Computer Science' },
-    // Add more subjects as needed
-  ];
-
-  const specializationOptions = [
-    { value: 'Computer Science', label: 'Computer Science' },
-    { value: 'Information Science', label: 'Information Science' },
-    { value: 'Mechanical Engineering', label: 'Mechanical Engineering' },
-    { value: 'AI/ML', label: 'AI/ML' },
-    { value: 'Cyber Security', label: 'Cyber Security' }
-  ];
-
-  const degreeOptions = [
-    { value: 'bsc', label: 'B.Sc' },
-    { value: 'ba', label: 'BA' },
-    { value: 'bcom', label: 'B.Com' },
-    { value: 'btech', label: 'BTech/BE' },
-    { value: 'mbbs', label: 'MBBS' },
-    { value: 'bds', label: 'BDS' },
-    { value: 'bscAgri', label: 'BSc Agri' },
-    { value: 'other', label: 'Others' }
-  ];
-
-  const degreeSubjectsOptions = [
-    { value: 'physics', label: 'Physics' },
-    { value: 'chemistry', label: 'Chemistry' },
-    { value: 'mathematics', label: 'Mathematics' },
-    { value: 'accountancy', label: 'Accountancy' },
-    { value: 'businessStudies', label: 'Business Studies' },
-    // ... add more subjects
-  ];
-
-  const masterDegreeOptions = [
-    { value: 'msc', label: 'M.Sc' },
-    { value: 'ma', label: 'MA' },
-    { value: 'mcom', label: 'M.com' },
-    { value: 'mtech', label: 'MTech/ME' },
-    { value: 'md', label: 'MD' },
-    { value: 'mscAgri', label: 'M.sc Agri' },
-    { value: 'other', label: 'Other' }
-  ];
-
-  const masterSubjectsOptions = [
-    { value: 'physics', label: 'Physics' },
-    { value: 'chemistry', label: 'Chemistry' },
-    { value: 'mathematics', label: 'Mathematics' },
-    { value: 'accountancy', label: 'Accountancy' },
-    { value: 'businessStudies', label: 'Business Studies' },
-    { value: 'other', label: 'Other' }
-  ];
-
-  const masterSpecializationOptions = [
-    { value: 'ai', label: 'AI' },
-    { value: 'cyberSecurity', label: 'Cyber Security' },
-    { value: 'radiology', label: 'Radiology' },
-    { value: 'neurology', label: 'Neurology' },
-    { value: 'other', label: 'Other' }
-  ];
-
-  const degreeModeOptions = [
-    { value: 'regular', label: 'Regular' },
-    { value: 'correspondence', label: 'Correspondence' },
-    { value: 'evening', label: 'Evening' },
-    { value: 'online', label: 'Online' },
-    { value: 'hybrid', label: 'Hybrid' }
-  ];
-
-  // Add these options at the component level
-  const threeYearDegreeOptions = [
-    { value: 'bsc', label: 'B.Sc', duration: 3 },
-    { value: 'ba', label: 'BA', duration: 3 },
-    { value: 'bcom', label: 'B.Com', duration: 3 },
-    { value: 'bca', label: 'BCA', duration: 3 },
-    { value: 'other3Year', label: 'Other 3-Year Degree', duration: 3 }
-  ];
-
-  const fourYearDegreeOptions = [
-    { value: 'btech', label: 'BTech/BE', duration: 4 },
-    { value: 'mbbs', label: 'MBBS', duration: 4 },
-    { value: 'bds', label: 'BDS', duration: 4 },
-    { value: 'bscAgri', label: 'BSc Agri', duration: 4 },
-    { value: 'other4Year', label: 'Other 4-Year Degree', duration: 4 }
-  ];
-
-  const threeYearSubjectsOptions = [
-    { value: 'physics', label: 'Physics' },
-    { value: 'chemistry', label: 'Chemistry' },
-    { value: 'mathematics', label: 'Mathematics' },
-    { value: 'biology', label: 'Biology' },
-    { value: 'computerScience', label: 'Computer Science' },
-    { value: 'accountancy', label: 'Accountancy' },
-    { value: 'economics', label: 'Economics' },
-    { value: 'businessStudies', label: 'Business Studies' },
-    { value: 'statistics', label: 'Statistics' },
-    { value: 'other', label: 'Other' }
-  ];
-
-  const fourYearSpecializationOptions = [
-    { value: 'computerScience', label: 'Computer Science' },
-    { value: 'informationScience', label: 'Information Science' },
-    { value: 'mechanicalEngineering', label: 'Mechanical Engineering' },
-    { value: 'electricalEngineering', label: 'Electrical Engineering' },
-    { value: 'electronicsCommunication', label: 'Electronics & Communication' },
-    { value: 'civil', label: 'Civil Engineering' },
-    { value: 'other', label: 'Other' }
-  ];
-
-  // Add these options at the component level
-  const doctorateSpecializationOptions = [
-    { value: 'gravitation', label: 'Gravitation' },
-    { value: 'nuclearPhysics', label: 'Nuclear Physics' },
-    { value: 'numericalAnalysis', label: 'Numerical Analysis' },
-    { value: 'other', label: 'Other' }
-  ];
-
-  const doctorateModeOptions = [
-    { value: 'regular', label: 'Regular' },
-    { value: 'partTime', label: 'Part Time' }
-  ];
-
-  // Add these options at the component level
-  const nttMttModeOptions = [
-    { value: 'regular', label: 'Regular' },
-    { value: 'correspondence', label: 'Correspondence' },
-    { value: 'evening', label: 'Evening' },
-    { value: 'online', label: 'Online' },
-    { value: 'hybrid', label: 'Hybrid' }
-  ];
-
   const courseDurationOptions = [
     { value: '1', label: '1 month' },
     { value: '2', label: '2 months' },
@@ -206,14 +75,6 @@ const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percenta
     { value: '2', label: '2 years' },
     { value: '3', label: '3 years' },
     { value: '4', label: '4 years' }
-  ];
-
-  const specializedSubjectsOptions = [
-    { value: 'physics', label: 'Physics' },
-    { value: 'chemistry', label: 'Chemistry' },
-    { value: 'mathematics', label: 'Mathematics' },
-    { value: 'english', label: 'English' },
-    { value: 'others', label: 'Others' }
   ];
 
   // Add these options at the component level
@@ -373,6 +234,47 @@ const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percenta
     setAdditionalEducation(prev => prev.filter((_, i) => i !== index));
   };
 
+  const subjectList = async () => {
+    try {
+        const response = await axios.get("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/education-data");
+        //console.log("Fetched details:", response.data);
+        const formattedSubjects = response.data.map(subject => ({
+            value: subject.value, 
+            label: subject.label,
+        }));
+
+        setCoreSubjectsOptions(formattedSubjects); // Set the formatted subjects to state
+    } catch (error) {
+        console.error("Error fetching details:", error);
+    }
+};
+useEffect(() => {
+  subjectList();
+}, []);
+
+useEffect(() => {
+  const fetchDegrees = async () => {
+    try {
+      const response = await fetch('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/constants');
+      const data = await response.json();
+      const transformedData = data.map(item => ({
+        category: item.category,
+        value: item.value,
+        label: item.label
+      }));
+      //console.log(transformedData);
+      // Set the state for each designation type
+      setDegrees(transformedData.filter(item => item.category === "Degrees") || []);
+      setMasterDegrees(transformedData.filter(item => item.category === "MasterDegree") || []);
+    } catch (error) {
+      console.error('Error fetching designations:', error);
+    }
+  };
+
+  fetchDegrees();
+}, []);
+
+
   const renderEducationFields = (type, data, index) => {
     switch(type) {
       case 'grade12':
@@ -467,6 +369,18 @@ const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percenta
                 required
               />
             </div>
+            {data.coreSubjects === 'Others' && (
+              <div className="form-group col-lg-6 col-md-12">
+                <input
+                  type="text"
+                  value={data.otherSubjects}
+                  onChange={(e) => handleEducationDataChange(index, 'otherSubjects', e.target.value)}
+                  placeholder="Specify other subjects"
+                  required
+                />
+              </div>
+            )}
+            
             {grade12percentage && (
             <div className="form-group col-lg-6 col-md-12">
               <input
@@ -527,52 +441,16 @@ const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percenta
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <div className="radio-group">
-                  <label>Course Duration</label>
-                  <label>
-                    <input
-                      type="radio"
-                      name={`degreeDuration_${index}`}
-                      value="3"
-                      checked={data.duration === "3"}
-                      onChange={(e) => {
-                        handleEducationDataChange(index, 'duration', e.target.value);
-                        handleEducationDataChange(index, 'courseName', '');
-                      }}
-                      required
-                    />
-                    3 Year Degree
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name={`degreeDuration_${index}`}
-                      value="4"
-                      checked={data.duration === "4"}
-                      onChange={(e) => {
-                        handleEducationDataChange(index, 'duration', e.target.value);
-                        handleEducationDataChange(index, 'courseName', '');
-                      }}
-                      required
-                    />
-                    4 Year Degree
-                  </label>
-                </div>
-              </div>
-
-              <div className="form-group col-lg-6 col-md-12">
                 <Select
-                  value={
-                    data.duration === "3" 
-                      ? threeYearDegreeOptions.find(option => option.value === data.courseName)
-                      : fourYearDegreeOptions.find(option => option.value === data.courseName)
-                  }
-                  onChange={(selected) => handleEducationDataChange(index, 'courseName', selected.value)}
-                  options={data.duration === "3" ? threeYearDegreeOptions : fourYearDegreeOptions}
-                  placeholder="Degree"
+                  type="text"
+                  value={data.courseName}
+                  onChange={(e) => handleEducationDataChange(index, 'courseName', e.target.value)}
+                  options={degrees}
+                  placeholder="Degree Name"
                   required
                 />
               </div>
+
               {degreeCollege && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
@@ -632,32 +510,20 @@ const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percenta
                 </select>
               </div>
 
-              {data.duration === "3" && (
+             
                 <div className="form-group col-lg-6 col-md-12">
                   <Select
                     isMulti
                     value={data.coreSubjects}
                     onChange={(selected) => handleEducationDataChange(index, 'coreSubjects', selected)}
-                    options={threeYearSubjectsOptions}
-                    placeholder="Core Subjects"
+                    options={coreSubjectsOptions}
+                    placeholder="Core Subjects/Specialization"
                     required
                   />
                 </div>
-              )}
+              
 
-              {data.duration === "4" && (
-                <div className="form-group col-lg-6 col-md-12">
-                
-                  <Select
-                    isMulti
-                    value={data.specialization}
-                    onChange={(selected) => handleEducationDataChange(index, 'specialization', selected)}
-                    options={fourYearSpecializationOptions}
-                    placeholder="Specialization"
-                    required
-                  />
-                </div>
-              )}
+             
               {degreePercentage && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
@@ -720,10 +586,11 @@ const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percenta
 
               <div className="form-group col-lg-6 col-md-12">
                 <Select
-                  value={masterDegreeOptions.find(option => option.value === data.courseName)}
-                  onChange={(selected) => handleEducationDataChange(index, 'courseName', selected.value)}
-                  options={masterDegreeOptions}
-                  placeholder="Master degree"
+                  type="text"
+                  value={data.courseName}
+                  onChange={(e) => handleEducationDataChange(index, 'courseName', e.target.value)}
+                  options={masterDegrees}
+                  placeholder="Master Degree Name"
                   required
                 />
               </div>
@@ -781,22 +648,12 @@ const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percenta
                   isMulti
                   value={data.coreSubjects}
                   onChange={(selected) => handleEducationDataChange(index, 'coreSubjects', selected)}
-                  options={masterSubjectsOptions}
-                  placeholder="Core Subjects"
+                  options={coreSubjectsOptions}
+                  placeholder="Core Subjects/Specialization"
                   required
                 />
               </div>
 
-              <div className="form-group col-lg-6 col-md-12">
-                <Select
-                  isMulti
-                  value={data.specialization}
-                  onChange={(selected) => handleEducationDataChange(index, 'specialization', selected)}
-                  options={masterSpecializationOptions}
-                  placeholder="Specialization"
-                  required
-                />
-              </div>
               {masterPercentage && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
@@ -913,7 +770,7 @@ const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percenta
                   isMulti
                   value={data.specialization}
                   onChange={(selected) => handleEducationDataChange(index, 'specialization', selected)}
-                  options={doctorateSpecializationOptions}
+                  options={coreSubjectsOptions}
                   placeholder="Specialization"
                   required
                 />
@@ -1208,14 +1065,10 @@ const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percenta
               <div className="form-group col-lg-6 col-md-12">
                 <Select
                   isMulti
-                  value={specializedSubjectsOptions.filter(option => 
-                    data.specializedSubjects?.includes(option.value)
-                  )}
-                  onChange={(selected) => handleEducationDataChange(index, 'specializedSubjects', 
-                    selected.map(option => option.value)
-                  )}
-                  options={specializedSubjectsOptions}
-                  placeholder="Specialized Subjects"
+                  value={data.coreSubjects}
+                  onChange={(selected) => handleEducationDataChange(index, 'coreSubjects',selected)}
+                  options={coreSubjectsOptions}
+                  placeholder="Core Subjects/Specialization"
                   required
                 />
               </div>
@@ -1494,15 +1347,14 @@ const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percenta
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <input
-                  type="text"
-                  value={data.subjects}
-                  onChange={(e) => handleEducationDataChange(index, 'subjects', e.target.value)}
-                  placeholder="Core Subjects"
-                  maxLength={40}
-                  pattern="[a-zA-Z0-9, ]*"
-                  required
-                />
+              <Select
+                isMulti
+                value={data.coreSubjects}
+                onChange={(selected) => handleEducationDataChange(index, 'coreSubjects', selected)}
+                options={coreSubjectsOptions}
+                placeholder="Core Subjects/Specialization"
+                required
+            />
               </div>
 
               <div className="form-group col-lg-6 col-md-12">

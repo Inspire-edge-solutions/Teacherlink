@@ -3,17 +3,6 @@ import axios from "axios";
 import "./profile-styles.css";
 import Select from "react-select";
 
-
-const industryTypeOptions = [
-  { value: 'industry1', label: 'Industry 1' },
-  { value: 'industry2', label: 'Industry 2' },
-];
-
-const workProfileOptions = [
-  { value: 'profile1', label: 'Profile 1' },
-  { value: 'profile2', label: 'Profile 2' },
-];
-
 const customStyles = {
   control: (provided) => ({
     ...provided,
@@ -51,8 +40,6 @@ const customStyles = {
   }),
 };
 
-
-
 const curriculumOptions = [
   { value: 'stateBoard', label: 'State Board' },
   { value: 'cbse', label: 'CBSE' },
@@ -61,17 +48,6 @@ const curriculumOptions = [
   { value: 'affiliatedUniversity', label: 'Affiliated University' },
   { value: 'deemedUniversity', label: 'Deemed University' }
 ];
-
-const subjectsOptions = [
-  { value: 'physics', label: 'Physics' },
-  { value: 'chemistry', label: 'Chemistry' },
-  { value: 'mathematics', label: 'Mathematics' },
-  { value: 'biology', label: 'Biology' },
-  { value: 'others', label: 'Others' }
-];
-
-
-
 
 const Experience = ({ excludeAdditionalDetails }) => {
 
@@ -136,39 +112,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
       <option key={i} value={i}>{i} Years</option>
     )),
     <option key="31" value="31">{'>30 Years'}</option>
-  ];
-
-  const validateForm = (entry) => {
-    const errors = {};
-    
-    if (entry.jobType === 'non-education') {
-      if (!entry.generalDesignation) {
-        errors.generalDesignation = 'General designation is required';
-      }
-      if (!entry.roleDesignation) {
-        errors.roleDesignation = 'Role designation is required';
-      }
-      if (!entry.industryType) {
-        errors.industryType = 'Industry type is required';
-      }
-      if (!entry.workProfile) {
-        errors.workProfile = 'Work profile is required';
-      }
-    }
-    
-    return errors;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const errors = experienceEntries.map(entry => validateForm(entry));
-    
-    if (errors.every(error => Object.keys(error).length === 0)) {
-      console.log('Form submitted:', experienceEntries);
-    } else {
-      console.log('Form errors:', errors);
-    }
-  };
+  ];    
 
   const removeExperience = (indexToRemove) => {
     setExperienceEntries(prev => prev.filter((_, index) => index !== indexToRemove));
@@ -182,32 +126,49 @@ const Experience = ({ excludeAdditionalDetails }) => {
     privateTuitions: "",
     homeTuitions: ""
   });
-
+  
+  // for fetching subjects,designations,grades,core expertise from the backend
+  const [subjectsOptions, setSubjectsOptions] = useState([]);
   const [teachingDesignations, setTeachingDesignations] = useState([]);
   const [adminDesignations, setAdminDesignations] = useState([]);
   const [teachingAdminDesignations, setTeachingAdminDesignations] = useState([]);
   const [coreExpertise, setCoreExpertise] = useState([]);
   const [grades, setGrades] = useState([]);
 
+  const subjectList = async () => {
+    try {
+        const response = await axios.get("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/education-data");
+        console.log("Fetched subjects:", response.data);
+        const formattedSubjects = response.data.map(subject => ({
+            value: subject.value, 
+            label: subject.label,
+        }));
+        setSubjectsOptions(formattedSubjects);
+      } catch (error) {
+          console.error("Error fetching subjects:", error);
+      }
+  };
+  useEffect(() => {
+    subjectList();
+  }, []);
+
   useEffect(() => {
     const fetchDesignations = async () => {
       try {
         const response = await fetch('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/constants');
         const data = await response.json();
-        console.log(data);
-        // Assuming data is an array of objects
         const transformedData = data.map(item => ({
-          keyword: item.keyword,
+          category: item.category,
           value: item.value,
           label: item.label
         }));
-        console.log(transformedData);
+        //console.log(transformedData);
         // Set the state for each designation type
-        setTeachingDesignations(transformedData.filter(item => item.keyword === "Teaching") || []);
-        setAdminDesignations(transformedData.filter(item => item.keyword === "Administration") || []);
-        setTeachingAdminDesignations(transformedData.filter(item => item.keyword === "Teaching&Administration") || []);
-        setCoreExpertise(transformedData.filter(item => item.keyword === "CoreExpertise") || []);
-        setGrades(transformedData.filter(item => item.keyword === "Grades") || []);
+        setTeachingDesignations(transformedData.filter(item => item.category === "Teaching") || []);
+        setAdminDesignations(transformedData.filter(item => item.category === "Administration") || []);
+        setTeachingAdminDesignations(transformedData.filter(item => (item.category === "Teaching" || item.category === "Administration")) || []);
+        setCoreExpertise(transformedData.filter(item => item.category === "Core Expertise") || []);
+        setGrades(transformedData.filter(item => item.category === "Grades") || []);
       } catch (error) {
         console.error('Error fetching designations:', error);
       }
@@ -667,81 +628,6 @@ const Experience = ({ excludeAdditionalDetails }) => {
               />
             </div>
 
-            {/* Non-Education specific fields */}
-            {experience.jobType === 'non-education' && (
-              <>
-                <div className="row">
-                  {/* Designation */}
-                  <div className="col-lg-6 col-md-12">
-                    <div className="mb-4">
-                      <Select
-                        options={designationOptions}
-                        value={designationOptions.find(option => option.value === experience.designation) || ''}
-                        onChange={(selected) => {
-                          const newEntries = [...experienceEntries];
-                          newEntries[index] = {
-                            ...newEntries[index],
-                            designation: selected?.value || ''
-                          };
-                          setExperienceEntries(newEntries);
-                        }}
-                        styles={customStyles}
-                        placeholder="Designation"
-                        isClearable
-                      />
-                    </div>
-                  </div>
-
-                  {/* Industry Type */}
-                  <div className="col-lg-6 col-md-12">
-                    <div className="mb-4">
-                      <Select
-                        options={industryTypeOptions}
-                        value={industryTypeOptions.find(option => option.value === experience.industryType) || ''}
-                        onChange={(selected) => {
-                          const newEntries = [...experienceEntries];
-                          newEntries[index] = {
-                            ...newEntries[index],
-                            industryType: selected?.value || ''
-                          };
-                          setExperienceEntries(newEntries);
-                        }}
-                        styles={customStyles}
-                        placeholder="Industry type"
-                        isClearable
-                      />
-                      <span className="text-muted small">Alpha numeric, max 20 characters</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Work Profile */}
-                <div className="col-lg-12 col-md-12">
-                  <div className="mb-4">
-                    <Select
-                      isMulti
-                      options={workProfileOptions}
-                      value={workProfileOptions.filter(option => 
-                        experience.workProfile.includes(option.value)
-                      )}
-                      onChange={(selected) => {
-                        const newEntries = [...experienceEntries];
-                        newEntries[index] = {
-                          ...newEntries[index],
-                          workProfile: selected ? selected.map(item => item.value) : []
-                        };
-                        setExperienceEntries(newEntries);
-                      }}
-                      styles={customStyles}
-                      placeholder="Work profile"
-                      isClearable
-                    />
-                    <span className="text-muted small">Alpha numeric, max 40 characters</span>
-                  </div>
-                </div>
-              </>
-            )}
-
             {/* Teaching specific fields */}
             {experience.jobType === 'teaching' && (
               <div className="row">
@@ -806,6 +692,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                       styles={customStyles}
                       placeholder="Subjects you handled"
                       isClearable
+                      menuPortalTarget={document.body}
                     />
                   </div>
                 </div>
@@ -975,6 +862,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                       styles={customStyles}
                       placeholder="Subjects you handled"
                       isClearable
+                      menuPortalTarget={document.body}
                     />
                   </div>
                 </div>

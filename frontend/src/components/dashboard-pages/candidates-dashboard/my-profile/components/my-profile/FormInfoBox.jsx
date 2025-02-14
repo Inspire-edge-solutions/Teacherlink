@@ -58,7 +58,7 @@ const FormInfoBox = () => {
         {viewMode === 'easy' ? (
           <>
             <PersonalDetails dateOfBirth={false} />
-            <Address city={false} houseNo={false} street={false}/>
+            <Address city={false} houseNo={false} pincode={false} />
             <Education isEasyMode={viewMode === 'easy'} 
             grade12syllabus={false} grade12school={false} grade12percentage={false} grade12mode={false} 
             degreeCollege={false} degreePlace={false} degreeUniversity={false} degreePercentage={false} degreeMode={false}
@@ -75,7 +75,7 @@ const FormInfoBox = () => {
           <>
             <LogoUpload />
             <PersonalDetails dateOfBirth={true} />
-            <Address city={true} houseNo={true} street={true}/>
+            <Address city={true} houseNo={true} pincode={true} />
             <Education isEasyMode={false} 
             grade12syllabus={true} grade12school={true} grade12percentage={true} grade12mode={true} 
             degreeCollege={true} degreePlace={true} degreeUniversity={true} degreePercentage={true} degreeMode={true} 
