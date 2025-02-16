@@ -3,12 +3,12 @@ import Select from "react-select";
 import "./profile-styles.css";
 import axios from "axios";
 
-const Education = ({ isEasyMode, grade12syllabus, grade12school, grade12percentage,grade12mode,
+const Education = ({ className,isEasyMode, grade12syllabus, grade12school, grade12percentage,grade12mode,
   degreeCollege,degreePlace,degreeUniversity,degreePercentage,degreeMode,
   masterCollege,masterPlace,masterUniversity,masterPercentage,masterMode,
   doctorateCollege,doctorateUniversity,doctorateMode,
   bEdCollege,bEdPlace,bEdAffiliated,bEdCourseDuration,bEdPercentage,bEdMode,
-  certificatePlace,certificateCourseDuration,certificateSpecialization,certificateMode }) => {
+  certificatePlace,certificateCourseDuration,certificateSpecialization,certificateMode,  }) => {
   // Base education data for Grade 10 (mandatory)
   const [grade10Data, setGrade10Data] = useState({
     syllabus: '',
@@ -138,7 +138,7 @@ const [otherSubjects, setOtherSubjects] = useState('');
           universityName: '',
           yearOfPassing: '',
           coreSubjects: [],
-          specialization: '',
+          specialization: [],
           percentage: '',
           mode: '',
           courseStatus: 'Completed'
@@ -151,7 +151,6 @@ const [otherSubjects, setOtherSubjects] = useState('');
           universityName: '',
           yearOfPassing: '',
           coreSubjects: [],
-          specialization: '',
           percentage: '',
           mode: '',
           courseStatus: 'Completed'
@@ -161,7 +160,7 @@ const [otherSubjects, setOtherSubjects] = useState('');
           placeOfStudy: '',
           universityName: '',
           yearOfCompletion: '',
-          coreSubjectsSpecialization: '',
+          coreSubjects: [],
           mode: ''
         };
       case 'nttMtt':
@@ -192,7 +191,7 @@ const [otherSubjects, setOtherSubjects] = useState('');
           affiliatedTo: '',
           courseDuration: '',
           yearOfPassing: '',
-          specializedSubjects: [],
+          coreSubjects: [],
           percentage: '',
           mode: ''
         };
@@ -281,7 +280,7 @@ useEffect(() => {
         return (
           <div className="row">
             <div className="form-group col-lg-6 col-md-12">
-              <div className="radio-group">
+            <div className={`radio-group ${!courseStatusOptions.value  ? 'required' : ''}`}>
                 <label>Course Status:</label>
                 {courseStatusOptions.map(option => (
                   <label key={option.value}>
@@ -326,7 +325,7 @@ useEffect(() => {
                 placeholder="School Name"
                 pattern="[a-zA-Z0-9 ]*"
                 maxLength={20}
-                required
+                
               />
             </div>
             )}
@@ -365,6 +364,7 @@ useEffect(() => {
                 value={data.coreSubjects}
                 onChange={(selected) => handleEducationDataChange(index, 'coreSubjects', selected)}
                 options={coreSubjectsOptions}
+                className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
                 placeholder="Core Subjects"
                 required
               />
@@ -390,7 +390,7 @@ useEffect(() => {
                 placeholder="Grade / Percentage"
                 pattern="[a-zA-Z0-9+%]*"
                 maxLength={5}
-                required
+                
               />
             </div>
             )}
@@ -406,7 +406,7 @@ useEffect(() => {
                       value={option.value}
                       checked={data.mode === option.value}
                       onChange={(e) => handleEducationDataChange(index, 'mode', e.target.value)}
-                      required
+                      
                     />
                     {option.label}
                   </label>
@@ -422,7 +422,7 @@ useEffect(() => {
           <div className="degree-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <div className="radio-group">
+              <div className={`radio-group ${!courseStatusOptions.value  ? 'required' : ''}`}>
                   <label>Course Status:</label>
                   {courseStatusOptions.map(option => (
                     <label key={option.value}>
@@ -446,6 +446,7 @@ useEffect(() => {
                   value={data.courseName}
                   onChange={(e) => handleEducationDataChange(index, 'courseName', e.target.value)}
                   options={degrees}
+                  className={`custom-select ${data.courseName.length === 0 ? 'required' : ''}`}
                   placeholder="Degree Name"
                   required
                 />
@@ -460,7 +461,7 @@ useEffect(() => {
                   placeholder="College Name"
                   pattern="[a-zA-Z0-9 ]*"
                   maxLength={20}
-                  required
+                  
                 />
               </div>
               )}
@@ -473,7 +474,7 @@ useEffect(() => {
                   placeholder="Place of Study"
                   maxLength={20}
                   pattern="[a-zA-Z0-9 ]*"
-                  required
+                  
                 />
                 </div>
               )}
@@ -485,7 +486,7 @@ useEffect(() => {
                   onChange={(e) => handleEducationDataChange(index, 'universityName', e.target.value)}
                   placeholder="University Name"
                   maxLength={20}
-                  required
+                
                 />
               </div>
               )}
@@ -517,13 +518,12 @@ useEffect(() => {
                     value={data.coreSubjects}
                     onChange={(selected) => handleEducationDataChange(index, 'coreSubjects', selected)}
                     options={coreSubjectsOptions}
+                    className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
                     placeholder="Core Subjects/Specialization"
                     required
                   />
                 </div>
               
-
-             
               {degreePercentage && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
@@ -533,7 +533,7 @@ useEffect(() => {
                   placeholder="Grade / Percentage"
                   pattern="[a-zA-Z0-9+%]*"
                   maxLength={5}
-                  required
+                  
                 />
               </div>
               )}
@@ -566,7 +566,7 @@ useEffect(() => {
           <div className="master-degree-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <div className="radio-group">
+              <div className={`radio-group ${!courseStatusOptions.value  ? 'required' : ''}`}>
                   <label>Course Status:</label>
                   {courseStatusOptions.map(option => (
                     <label key={option.value}>
@@ -591,7 +591,7 @@ useEffect(() => {
                   onChange={(e) => handleEducationDataChange(index, 'courseName', e.target.value)}
                   options={masterDegrees}
                   placeholder="Master Degree Name"
-                  required
+                  className={`custom-select ${data.courseName.length === 0 ? 'required' : ''}`}
                 />
               </div>
 
@@ -603,7 +603,7 @@ useEffect(() => {
                   onChange={(e) => handleEducationDataChange(index, 'collegeName', e.target.value)}
                   placeholder="College Name"
                   maxLength={20}
-                  required
+                  
                 />
               </div>
               )}
@@ -615,7 +615,7 @@ useEffect(() => {
                   onChange={(e) => handleEducationDataChange(index, 'placeOfStudy', e.target.value)}
                   placeholder="Place of Study"
                   maxLength={20}
-                  required
+                  
                 />
               </div>
               )}
@@ -627,7 +627,7 @@ useEffect(() => {
                   onChange={(e) => handleEducationDataChange(index, 'universityName', e.target.value)}
                   placeholder="University Name"
                   maxLength={20}
-                  required
+                  
                 />
               </div>
               )}
@@ -649,6 +649,7 @@ useEffect(() => {
                   value={data.coreSubjects}
                   onChange={(selected) => handleEducationDataChange(index, 'coreSubjects', selected)}
                   options={coreSubjectsOptions}
+                  className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
                   placeholder="Core Subjects/Specialization"
                   required
                 />
@@ -696,7 +697,7 @@ useEffect(() => {
           <div className="doctorate-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <div className="radio-group">
+              <div className={`radio-group ${!courseStatusOptions.value  ? 'required' : ''}`}>
                   <label>Course Status:</label>
                   {courseStatusOptions.map(option => (
                     <label key={option.value}>
@@ -721,7 +722,7 @@ useEffect(() => {
                   onChange={(e) => handleEducationDataChange(index, 'placeOfStudy', e.target.value)}
                   placeholder="Place of Study"
                   maxLength={20}
-                  required
+                  
                 />
               </div>
               )}
@@ -733,7 +734,7 @@ useEffect(() => {
                   onChange={(e) => handleEducationDataChange(index, 'universityName', e.target.value)}
                   placeholder="University Name"
                   maxLength={20}
-                  required
+                  
                 />
               </div>
               )}
@@ -768,10 +769,11 @@ useEffect(() => {
               <div className="form-group col-lg-6 col-md-12">
                 <Select
                   isMulti
-                  value={data.specialization}
+                  value={data.coreSubjects}
                   onChange={(selected) => handleEducationDataChange(index, 'specialization', selected)}
                   options={coreSubjectsOptions}
-                  placeholder="Specialization"
+                  className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
+                  placeholder="Core Subjects/Specialization"
                   required
                 />
               </div>
@@ -787,7 +789,7 @@ useEffect(() => {
                         value={option.value}
                         checked={data.mode === option.value}
                         onChange={(e) => handleEducationDataChange(index, 'mode', e.target.value)}
-                        required
+                        
                       />
                       {option.label}
                     </label>
@@ -836,7 +838,7 @@ useEffect(() => {
               ):(
               <>
               <div className="form-group col-lg-6 col-md-12">
-                <div className="radio-group">
+              <div className={`radio-group ${!courseStatusOptions.value  ? 'required' : ''}`}>
                   <label>Course Status:</label>
                   {courseStatusOptions.map(option => (
                     <label key={option.value}>
@@ -862,7 +864,7 @@ useEffect(() => {
                   placeholder="Institute Name"
                   maxLength={20}
                   pattern="[a-zA-Z0-9 ]*"
-                  required
+                  
                 />
               </div>
 
@@ -873,7 +875,7 @@ useEffect(() => {
                   onChange={(e) => handleEducationDataChange(index, 'placeOfStudy', e.target.value)}
                   placeholder="Place of Study"
                   maxLength={20}
-                  required
+                  
                 />
               </div>
 
@@ -885,7 +887,7 @@ useEffect(() => {
                   placeholder="Affiliated to / recognized by"
                   maxLength={20}
                   pattern="[a-zA-Z0-9 ]*"
-                  required
+                  
                 />
               </div>
 
@@ -895,7 +897,7 @@ useEffect(() => {
                   onChange={(selected) => handleEducationDataChange(index, 'courseDuration', selected.value)}
                   options={courseDurationOptions}
                   placeholder="Course Duration"
-                  required
+                  
                 />
               </div>
 
@@ -935,7 +937,7 @@ useEffect(() => {
                   placeholder="Grade / Percentage"
                   pattern="[a-zA-Z0-9+%]*"
                   maxLength={5}
-                  required
+                  
                 />
               </div>
 
@@ -950,7 +952,7 @@ useEffect(() => {
                         value={option.value}
                         checked={data.mode === option.value}
                         onChange={(e) => handleEducationDataChange(index, 'mode', e.target.value)}
-                        required
+                        
                       />
                       {option.label}
                     </label>
@@ -969,7 +971,7 @@ useEffect(() => {
           <div className="bed-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <div className="radio-group">
+              <div className={`radio-group ${!courseStatusOptions.value  ? 'required' : ''}`}>
                   <label>Course Status:</label>
                   {courseStatusOptions.map(option => (
                     <label key={option.value}>
@@ -995,7 +997,7 @@ useEffect(() => {
                   placeholder="Institute / College name"
                   maxLength={20}
                   pattern="[a-zA-Z0-9 ]*"
-                  required
+                  
                 />
               </div>
               )}
@@ -1008,7 +1010,7 @@ useEffect(() => {
                   onChange={(e) => handleEducationDataChange(index, 'placeOfStudy', e.target.value)}
                   placeholder="Place of Study"
                   maxLength={20}
-                  required
+                  
                 />
               </div>
               )}
@@ -1022,7 +1024,7 @@ useEffect(() => {
                   placeholder="Affiliated to / recognized by"
                   maxLength={20}
                   pattern="[a-zA-Z0-9 ]*"
-                  required
+                
                 />
               </div>
               )}
@@ -1034,32 +1036,37 @@ useEffect(() => {
                   onChange={(selected) => handleEducationDataChange(index, 'courseDuration', selected.value)}
                   options={bEdCourseDurationOptions}
                   placeholder="Course Duration"
-                  required
+                  
                 />
                 </div>
                 )}
 
-              <div className="form-group col-lg-6 col-md-12">
-                <Select
+<div className="form-group col-lg-6 col-md-12">
+                <select
                   value={data.yearOfPassing}
-                  onChange={(selected) => handleEducationDataChange(index, 'yearOfPassing', selected.value)}
-                  options={(() => {
+                  onChange={(e) => handleEducationDataChange(index, 'yearOfPassing', e.target.value)}
+                  required
+                >
+                  <option value="">Year of Passing</option>
+                  {(() => {
                     const currentYear = new Date().getFullYear();
                     const years = [];
                     const minYear = currentYear - 16;
-                    // If pursuing, show up to 3 future years, else show only past years
+                    // If pursuing, show up to 1 future year, else show only past years
                     const maxYear = data.courseStatus === 'Pursuing' 
-                      ? currentYear + 3 
+                      ? currentYear + 1 
                       : currentYear;
                     
                     for (let year = maxYear; year >= minYear; year--) {
-                      years.push({ value: year.toString(), label: year.toString() });
+                      years.push(
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      );
                     }
                     return years;
                   })()}
-                  placeholder="Year of Passing"
-                  required
-                />
+                </select>
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
@@ -1068,6 +1075,7 @@ useEffect(() => {
                   value={data.coreSubjects}
                   onChange={(selected) => handleEducationDataChange(index, 'coreSubjects',selected)}
                   options={coreSubjectsOptions}
+                  className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
                   placeholder="Core Subjects/Specialization"
                   required
                 />
@@ -1081,7 +1089,7 @@ useEffect(() => {
                   placeholder="Grade / Percentage"
                   pattern="[a-zA-Z0-9+%]*"
                   maxLength={5}
-                  required
+                  
                 />
               </div>
               )}
@@ -1097,7 +1105,7 @@ useEffect(() => {
                         value={option.value}
                         checked={data.mode === option.value}
                         onChange={(e) => handleEducationDataChange(index, 'mode', e.target.value)}
-                        required
+                        
                       />
                       {option.label}
                     </label>
@@ -1114,7 +1122,7 @@ useEffect(() => {
           <div className="certificate-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <div className="radio-group">
+              <div className={`radio-group ${!courseStatusOptions.value  ? 'required' : ''}`}>
                   <label>Course Status:</label>
                   {courseStatusOptions.map(option => (
                     <label key={option.value}>
@@ -1151,7 +1159,7 @@ useEffect(() => {
                   onChange={(e) => handleEducationDataChange(index, 'placeOfStudy', e.target.value)}
                   placeholder="Place of Study"
                   maxLength={20}
-                  required
+                  
                 />
               </div>
               )}
@@ -1163,33 +1171,38 @@ useEffect(() => {
                   onChange={(selected) => handleEducationDataChange(index, 'courseDuration', selected.value)}
                   options={certificateCourseDurationOptions}
                   placeholder="Course Duration"
-                  required
+                  
                 />
               </div>
               )}
 
-              <div className="form-group col-lg-6 col-md-12">
-                <Select
-                  value={data.yearOfPassing}
-                  onChange={(selected) => handleEducationDataChange(index, 'yearOfPassing', selected.value)}
-                  options={(() => {
-                    const currentYear = new Date().getFullYear();
-                    const years = [];
-                    const minYear = currentYear - 16;
-                    // If pursuing, show up to 2 future years, else show only past years
-                    const maxYear = data.courseStatus === 'Pursuing' 
-                      ? currentYear + 2 
-                      : currentYear;
-                    
-                    for (let year = maxYear; year >= minYear; year--) {
-                      years.push({ value: year.toString(), label: year.toString() });
-                    }
-                    return years;
-                  })()}
-                  placeholder="Year of Passing"
-                  required
-                />
-              </div>
+<div className="form-group col-lg-6 col-md-12">
+              <select
+                value={data.yearOfPassing}
+                onChange={(e) => handleEducationDataChange(index, 'yearOfPassing', e.target.value)}
+                required
+              >
+                <option value="">Year of Passing</option>
+                {(() => {
+                  const currentYear = new Date().getFullYear();
+                  const years = [];
+                  const minYear = currentYear - 14;
+                  // If pursuing, show up to 2 future years, else show only past years
+                  const maxYear = data.courseStatus === 'Pursuing' 
+                    ? currentYear + 2 
+                    : currentYear;
+                  
+                  for (let year = maxYear; year >= minYear; year--) {
+                    years.push(
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    );
+                  }
+                  return years;
+                })()}
+              </select>
+            </div>
               {certificateSpecialization && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
@@ -1199,7 +1212,7 @@ useEffect(() => {
                   placeholder="Specialization"
                   maxLength={20}
                   pattern="[a-zA-Z0-9 ]*"
-                  required
+                  
                 />
               </div>
               )}
@@ -1215,7 +1228,7 @@ useEffect(() => {
                         value={option.value}
                         checked={data.mode === option.value}
                         onChange={(e) => handleEducationDataChange(index, 'mode', e.target.value)}
-                        required
+                        
                       />
                       {option.label}
                     </label>
@@ -1233,33 +1246,38 @@ useEffect(() => {
             <div className="row">
               {isEasyMode ? (
                 <>  
-                 <div className="form-group col-lg-6 col-md-12">
-                <Select
+                <div className="form-group col-lg-6 col-md-12">
+                <select
                   value={data.yearOfPassing}
-                  onChange={(selected) => handleEducationDataChange(index, 'yearOfPassing', selected.value)}
-                  options={(() => {
+                  onChange={(e) => handleEducationDataChange(index, 'yearOfPassing', e.target.value)}
+                  required
+                >
+                  <option value="">Year of Passing</option>
+                  {(() => {
                     const currentYear = new Date().getFullYear();
                     const years = [];
                     const minYear = currentYear - 16;
-                    // If pursuing, show up to 2 future years, else show only past years
+                    // If pursuing, show up to 1 future year, else show only past years
                     const maxYear = data.courseStatus === 'Pursuing' 
-                      ? currentYear + 2 
+                      ? currentYear + 1 
                       : currentYear;
                     
                     for (let year = maxYear; year >= minYear; year--) {
-                      years.push({ value: year.toString(), label: year.toString() });
+                      years.push(
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      );
                     }
                     return years;
                   })()}
-                  placeholder="Year of Passing"
-                  required
-                />
+                </select>
               </div>
               </>
               ):(
               <>
               <div className="form-group col-lg-6 col-md-12">
-                <div className="radio-group">
+              <div className={`radio-group ${!courseStatusOptions.value  ? 'required' : ''}`}>
                   <label>Course Status:</label>
                   {courseStatusOptions.map(option => (
                     <label key={option.value}>
@@ -1269,7 +1287,7 @@ useEffect(() => {
                         value={option.value}
                         checked={data.courseStatus === option.value}
                         onChange={(e) => handleEducationDataChange(index, 'courseStatus', e.target.value)}
-                        required
+                        
                       />
                       {option.label}
                     </label>
@@ -1285,7 +1303,7 @@ useEffect(() => {
                   placeholder="Institute / College name"
                   maxLength={20}
                   pattern="[a-zA-Z0-9 ]*"
-                  required
+                  
                 />
               </div>
 
@@ -1297,7 +1315,7 @@ useEffect(() => {
                   placeholder="Place of Study"
                   maxLength={20}
                   pattern="[a-zA-Z0-9 ]*"
-                  required
+                  
                 />
               </div>
 
@@ -1309,7 +1327,7 @@ useEffect(() => {
                   placeholder="Affiliated to / recognized by"
                   maxLength={20}
                   pattern="[a-zA-Z0-9 ]*"
-                  required
+                  
                 />
               </div>
 
@@ -1319,32 +1337,38 @@ useEffect(() => {
                   onChange={(selected) => handleEducationDataChange(index, 'courseDuration', selected.value)}
                   options={dEdCourseDurationOptions}
                   placeholder="Course Duration"
-                  required
+                  
                 />
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <Select
-                  value={data.yearOfPassing}
-                  onChange={(selected) => handleEducationDataChange(index, 'yearOfPassing', selected.value)}
-                  options={(() => {
-                    const currentYear = new Date().getFullYear();
-                    const years = [];
-                    const minYear = currentYear - 16;
-                    // If pursuing, show up to 2 future years, else show only past years
-                    const maxYear = data.courseStatus === 'Pursuing' 
-                      ? currentYear + 2 
-                      : currentYear;
-                    
-                    for (let year = maxYear; year >= minYear; year--) {
-                      years.push({ value: year.toString(), label: year.toString() });
-                    }
-                    return years;
-                  })()}
-                  placeholder="Year of Passing"
-                  required
-                />
-              </div>
+              <select
+                value={data.yearOfPassing}
+                onChange={(e) => handleEducationDataChange(index, 'yearOfPassing', e.target.value)}
+                required
+              >
+                <option value="">Year of Passing</option>
+                {(() => {
+                  const currentYear = new Date().getFullYear();
+                  const years = [];
+                  const minYear = currentYear - 14;
+                  // If pursuing, show up to 2 future years, else show only past years
+                  const maxYear = data.courseStatus === 'Pursuing' 
+                    ? currentYear + 2 
+                    : currentYear;
+                  
+                  for (let year = maxYear; year >= minYear; year--) {
+                    years.push(
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    );
+                  }
+                  return years;
+                })()}
+                required
+              </select>
+            </div>
 
               <div className="form-group col-lg-6 col-md-12">
               <Select
@@ -1353,7 +1377,7 @@ useEffect(() => {
                 onChange={(selected) => handleEducationDataChange(index, 'coreSubjects', selected)}
                 options={coreSubjectsOptions}
                 placeholder="Core Subjects/Specialization"
-                required
+                
             />
               </div>
 
@@ -1364,7 +1388,7 @@ useEffect(() => {
                   onChange={(e) => handleEducationDataChange(index, 'percentage', e.target.value)}
                   placeholder="Percentage"
                   maxLength={5}
-                  required
+                  
                 />
               </div>
 
@@ -1379,7 +1403,7 @@ useEffect(() => {
                         value={option.value}
                         checked={data.mode === option.value}
                         onChange={(e) => handleEducationDataChange(index, 'mode', e.target.value)}
-                        required
+                        
                       />
                       {option.label}
                     </label>
@@ -1453,7 +1477,7 @@ useEffect(() => {
                   placeholder="School Name"
                   pattern="[a-zA-Z0-9 ]*"
                   maxLength={20}
-                  required
+                
                 />
               </div>
 
@@ -1483,7 +1507,7 @@ useEffect(() => {
                   placeholder="Grade / Percentage"
                   pattern="[a-zA-Z0-9+%]*"
                   maxLength={5}
-                  required
+                  
                 />
               </div>
 

@@ -2,43 +2,7 @@ import React, { useState, useEffect} from "react";
 import axios from "axios";
 import "./profile-styles.css";
 import Select from "react-select";
-
-const customStyles = {
-  control: (provided) => ({
-    ...provided,
-    height: '50px',
-    backgroundColor: '#F0F5F7',
-    border: 'none',
-    boxShadow: 'none',
-    '&:hover': {
-      border: 'none',
-    }
-  }),
-  option: (provided, state) => ({
-    ...provided,
-    backgroundColor: state.isSelected ? '#1967D2' : provided.backgroundColor,
-    '&:hover': {
-      backgroundColor: state.isSelected ? '#1967D2' : '#F3F3F3',
-    }
-  }),
-  multiValue: (provided) => ({
-    ...provided,
-    backgroundColor: '#1967D2',
-    borderRadius: '3px',
-  }),
-  multiValueLabel: (provided) => ({
-    ...provided,
-    color: 'white',
-  }),
-  multiValueRemove: (provided) => ({
-    ...provided,
-    color: 'white',
-    '&:hover': {
-      backgroundColor: '#1967D2',
-      color: 'white',
-    },
-  }),
-};
+import csc from "countries-states-cities";
 
 const curriculumOptions = [
   { value: 'stateBoard', label: 'State Board' },
@@ -49,7 +13,35 @@ const curriculumOptions = [
   { value: 'deemedUniversity', label: 'Deemed University' }
 ];
 
-const Experience = ({ excludeAdditionalDetails }) => {
+const baseExperience = {
+  organizationName: '',
+  jobCategory: '',
+  currentlyWorking: null,
+  workPeriod: {
+    from: { month: '', year: '' },
+    to: { month: '', year: '' }
+  },
+  salary: '',
+  paySlip: null,
+  jobType: '',
+  teachingDesignation: '',
+  teachingCurriculum: '',
+  teachingSubjects: [],
+  teachingGrades: [],
+  teachingCoreExpertise: [],
+  adminDesignation: '',
+  adminCurriculum: '',
+  teachingAdminDesignations: [],
+  teachingAdminCurriculum: '',
+  teachingAdminSubjects: [],
+  teachingAdminGrades: [],
+  teachingAdminCoreExpertise: [],
+  designation: '',
+  industryType: '',
+  workProfile: [],
+};
+
+const Experience = ({ excludeAdditionalDetails , className}) => {
 
   const [workExperience, setWorkExperience] = useState({
     total: { years: '0', months: '0' },
@@ -70,41 +62,10 @@ const Experience = ({ excludeAdditionalDetails }) => {
     }
   });
 
-  const initialState = {
-    organizationName: '',
-    jobCategory: '',
-    jobType: '',
-    designation: '',
-    industryType: '',
-    workProfile: [],
-    curriculum: '',
-    subjectsHandled: [],
-    gradesHandled: [],
-    coreExpertise: [],
-    adminDesignation: '',
-    adminCurriculum: '',
-    currentlyWorking: null,
-    workPeriod: {
-      from: { month: '', year: '' },
-      to: { month: '', year: '' }
-    },
-    salary: '',
-    paySlip: null,
-    teachingAdminDesignations: []
-  };
-
-  const [experienceEntries, setExperienceEntries] = useState([{
-    ...initialState,
-    adminDesignation: '',
-    curriculum: ''
-  }]);
+  const [experienceEntries, setExperienceEntries] = useState([]);
 
   const addNewExperience = () => {
-    setExperienceEntries(prev => [...prev, {
-      ...initialState,
-      adminDesignation: '',
-      curriculum: ''
-    }]);
+    setExperienceEntries(prev => [...prev, baseExperience]);
   };
 
   const yearOptions = [
@@ -126,6 +87,30 @@ const Experience = ({ excludeAdditionalDetails }) => {
     privateTuitions: "",
     homeTuitions: ""
   });
+
+  const [country, setCountry] = useState(null);
+  const [state, setState] = useState(null);
+  const [city, setCity] = useState(null);
+  
+
+  const countries = csc.getAllCountries().map((country) => ({
+    value: country.id,
+    label: country.name,
+  }));
+
+  const states = country
+    ? csc.getStatesOfCountry(country.value).map((state) => ({
+        value: state.id,
+        label: state.name,
+      }))
+    : [];
+
+  const cities = state
+    ? csc.getCitiesOfState(state.value).map((city) => ({
+        value: city.id,
+        label: city.name,
+      }))
+    : [];
   
   // for fetching subjects,designations,grades,core expertise from the backend
   const [subjectsOptions, setSubjectsOptions] = useState([]);
@@ -145,35 +130,50 @@ const Experience = ({ excludeAdditionalDetails }) => {
         }));
         setSubjectsOptions(formattedSubjects);
       } catch (error) {
-          console.error("Error fetching subjects:", error);
+        console.error("Error fetching subjects:", error);
       }
   };
-  useEffect(() => {
-    subjectList();
-  }, []);
+  const fetchDesignations = async () => {
+    try {
+      const response = await fetch('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/constants');
+      const data = await response.json();
+      const transformedData = data.map(item => ({
+        category: item.category,
+        value: item.value,
+        label: item.label
+      }));
+      //console.log(transformedData);
+      // Set the state for each designation type
+      setTeachingDesignations(transformedData.filter(item => item.category === "Teaching") || []);
+      setAdminDesignations(transformedData.filter(item => item.category === "Administration") || []);
+      setTeachingAdminDesignations(transformedData.filter(item => (item.category === "Teaching" || item.category === "Administration")) || []);
+      setCoreExpertise(transformedData.filter(item => item.category === "Core Expertise") || []);
+      setGrades(transformedData.filter(item => item.category === "Grades") || []);
+    } catch (error) {
+      console.error('Error fetching designations:', error);
+    }
+  };
 
-  useEffect(() => {
-    const fetchDesignations = async () => {
-      try {
-        const response = await fetch('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/constants');
-        const data = await response.json();
-        const transformedData = data.map(item => ({
-          category: item.category,
-          value: item.value,
-          label: item.label
-        }));
-        //console.log(transformedData);
-        // Set the state for each designation type
-        setTeachingDesignations(transformedData.filter(item => item.category === "Teaching") || []);
-        setAdminDesignations(transformedData.filter(item => item.category === "Administration") || []);
-        setTeachingAdminDesignations(transformedData.filter(item => (item.category === "Teaching" || item.category === "Administration")) || []);
-        setCoreExpertise(transformedData.filter(item => item.category === "Core Expertise") || []);
-        setGrades(transformedData.filter(item => item.category === "Grades") || []);
-      } catch (error) {
-        console.error('Error fetching designations:', error);
-      }
+  const submitExperienceData = async () => {
+    const experienceData = {
+      workExperience,
+      experienceEntries,
+      otherTeachingExp,
+      baseExperience,
     };
 
+    try {
+      const response = await axios.post("https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/workExperience", experienceData);
+      console.log("Data submitted successfully:", response.data);
+      alert("Data submitted successfully");
+    } catch (error) {
+      console.error("Error submitting data:", error);
+      alert("Error submitting data");
+    }
+  };
+
+  useEffect(() => {
+    subjectList();
     fetchDesignations();
   }, []);
 
@@ -191,8 +191,10 @@ const Experience = ({ excludeAdditionalDetails }) => {
                 ...prev,
                 total: { ...prev.total, years: e.target.value }
               }))}
+              required
             >
               {yearOptions}
+            
             </select>
             <select 
               value={workExperience.total.months}
@@ -200,10 +202,12 @@ const Experience = ({ excludeAdditionalDetails }) => {
                 ...prev,
                 total: { ...prev.total, months: e.target.value }
               }))}
+              required
             >
               {Array.from({ length: 12 }, (_, i) => (
                 <option key={i} value={i}>{i} Months</option>
               ))}
+              
             </select>
           </div>
         </div>
@@ -218,6 +222,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                 ...prev,
                 teaching: { ...prev.teaching, years: e.target.value }
               }))}
+              required
             >
               {yearOptions}
             </select>
@@ -227,6 +232,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                 ...prev,
                 teaching: { ...prev.teaching, months: e.target.value }
               }))}
+              required
             >
               {Array.from({ length: 12 }, (_, i) => (
                 <option key={i} value={i}>{i} Months</option>
@@ -337,7 +343,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
      
 
       {/* Experience Details Forms */}
-      {experienceEntries.map((experience, index) => (
+      {experienceEntries.map((baseExperience, index) => (
         <div key={index} className="experience-entry">
           <div className="d-flex justify-content-between align-items-center">
             <h4>Experience Details {index + 1}</h4>
@@ -361,7 +367,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                 className="form-control"
                 maxLength="20"
                 pattern="[A-Za-z0-9 ]+"
-                value={experience.organizationName}
+                value={baseExperience.organizationName}
                 onChange={(e) => {
                   const newEntries = [...experienceEntries];
                   newEntries[index] = {
@@ -370,19 +376,20 @@ const Experience = ({ excludeAdditionalDetails }) => {
                   };
                   setExperienceEntries(newEntries);
                 }}
+                required
                 placeholder="Name of the organization"
               />
             </div>
 
             {/* Job Category */}
             <div className="form-group col-lg-6 col-md-12">
-              <div className="radio-group">
+              <div className={`radio-group ${!baseExperience.jobCategory ? 'required' : ''}`}>
                 <label>
                   <input
                     type="radio"
                     name={`jobCategory-${index}`}
                     value="fullTime"
-                    checked={experience.jobCategory === 'fullTime'}
+                    checked={baseExperience.jobCategory === 'fullTime'}
                     onChange={(e) => {
                       const newEntries = [...experienceEntries];
                       newEntries[index] = {
@@ -391,6 +398,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                       };
                       setExperienceEntries(newEntries);
                     }}
+                    
                   />
                   Full Time
                 </label>
@@ -399,7 +407,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                     type="radio"
                     name={`jobCategory-${index}`}
                     value="partTime"
-                    checked={experience.jobCategory === 'partTime'}
+                    checked={baseExperience.jobCategory === 'partTime'}
                     onChange={(e) => {
                       const newEntries = [...experienceEntries];
                       newEntries[index] = {
@@ -418,7 +426,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
             <div className="form-group col-lg-6 col-md-12">
               <select
                 className="form-select"
-                value={experience.jobType}
+                value={baseExperience.jobType}
                 onChange={(e) => {
                   const newEntries = [...experienceEntries];
                   newEntries[index] = {
@@ -427,6 +435,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                   };
                   setExperienceEntries(newEntries);
                 }}
+                required
               >
                 <option value="">Job Type</option>
                 <option value="teaching">Education - Teaching</option>
@@ -439,14 +448,14 @@ const Experience = ({ excludeAdditionalDetails }) => {
             {/* Currently Working */}
             <div className="form-group col-lg-6 col-md-12">
               
-              <div className="radio-group">
+              <div className={`radio-group ${!baseExperience.currentlyWorking ? 'required' : ''}`}>
               <label>Are you currently working here?</label>
                 <label>
                   <input
                     type="radio"
                     name={`currentlyWorking-${index}`}
                     value="yes"
-                    checked={experience.currentlyWorking === true}
+                    checked={baseExperience.currentlyWorking === true}
                     onChange={(e) => {
                       const newEntries = [...experienceEntries];
                       newEntries[index] = {
@@ -463,7 +472,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                     type="radio"
                     name={`currentlyWorking-${index}`}
                     value="no"
-                    checked={experience.currentlyWorking === false}
+                    checked={baseExperience.currentlyWorking === false}
                     onChange={(e) => {
                       const newEntries = [...experienceEntries];
                       newEntries[index] = {
@@ -483,7 +492,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
               <label>Worked from</label>
               <div className="date-selector">
                 <select
-                  value={experience.workPeriod.from.month}
+                  value={baseExperience.workPeriod.from.month}
                   onChange={(e) => {
                     const newEntries = [...experienceEntries];
                     newEntries[index] = {
@@ -495,6 +504,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                     };
                     setExperienceEntries(newEntries);
                   }}
+                  required
                 >
                   <option value="">Month</option>
                   {Array.from({ length: 12 }, (_, i) => (
@@ -504,18 +514,19 @@ const Experience = ({ excludeAdditionalDetails }) => {
                   ))}
                 </select>
                 <select
-                  value={experience.workPeriod.from.year}
+                  value={baseExperience.workPeriod.from.year}
                   onChange={(e) => {
                     const newEntries = [...experienceEntries];
                     newEntries[index] = {
                       ...newEntries[index],
                       workPeriod: {
                         ...newEntries[index].workPeriod,
-                        from: { ...newEntries[index].workPeriod.from, year: e.target.value }
+                        from: { ...newEntries[index].workPeriod.to, year: e.target.value }
                       }
                     };
                     setExperienceEntries(newEntries);
                   }}
+                  required
                 >
                   <option value="">Year</option>
                   {Array.from({ length: 50 }, (_, i) => (
@@ -527,24 +538,25 @@ const Experience = ({ excludeAdditionalDetails }) => {
               </div>
             </div>
 
-            {!experience.currentlyWorking && (
+            {!baseExperience.currentlyWorking && (
               <div className="form-group col-lg-6 col-md-12">
                 <label>Worked till</label>
                 <div className="date-selector">
                   {/* Similar month/year selectors as above */}
                   <select
-                  value={experience.workPeriod.from.month}
+                  value={baseExperience.workPeriod.to.month}
                   onChange={(e) => {
                     const newEntries = [...experienceEntries];
                     newEntries[index] = {
                       ...newEntries[index],
                       workPeriod: {
                         ...newEntries[index].workPeriod,
-                        from: { ...newEntries[index].workPeriod.from, month: e.target.value }
+                        to: { ...newEntries[index].workPeriod.to, month: e.target.value }
                       }
                     };
                     setExperienceEntries(newEntries);
                   }}
+                  required
                 >
                   <option value="">Month</option>
                   {Array.from({ length: 12 }, (_, i) => (
@@ -554,18 +566,19 @@ const Experience = ({ excludeAdditionalDetails }) => {
                   ))}
                 </select>
                 <select
-                  value={experience.workPeriod.from.year}
+                  value={baseExperience.workPeriod.to.year}
                   onChange={(e) => {
                     const newEntries = [...experienceEntries];
                     newEntries[index] = {
                       ...newEntries[index],
                       workPeriod: {
                         ...newEntries[index].workPeriod,
-                        from: { ...newEntries[index].workPeriod.from, year: e.target.value }
+                        to: { ...newEntries[index].workPeriod.to, year: e.target.value }
                       }
                     };
                     setExperienceEntries(newEntries);
                   }}
+                  required
                 >
                   <option value="">Year</option>
                   {Array.from({ length: 50 }, (_, i) => (
@@ -574,7 +587,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                     </option>
                   ))}
                 </select>
-                </div>
+                </div>  
               </div>
             )}
 
@@ -588,7 +601,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                   className="form-control"
                   step="0.1"
                   min="0"
-                  value={experience.salary}
+                  value={baseExperience.salary}
                   onChange={(e) => {
                     const newEntries = [...experienceEntries];
                     newEntries[index] = {
@@ -597,14 +610,15 @@ const Experience = ({ excludeAdditionalDetails }) => {
                     };
                     setExperienceEntries(newEntries);
                   }}
+                  required
                   placeholder="Salary"
                   style={{ maxWidth: '200px' }}
                 />
               
                 <span className="mx-2">
-                  {experience.jobCategory === 'fullTime' ? 'in LPA' : 'per hour'}
+                  {baseExperience.jobCategory === 'fullTime' ? 'in LPA' : 'per hour'}
                 </span>
-                {experience.jobCategory === 'fullTime' ? 
+                {baseExperience.jobCategory === 'fullTime' ? 
                   <span className="text-muted"></span> : 
                   <span className="text-muted"></span>
                 }
@@ -629,14 +643,13 @@ const Experience = ({ excludeAdditionalDetails }) => {
             </div>
 
             {/* Teaching specific fields */}
-            {experience.jobType === 'teaching' && (
+            {baseExperience.jobType === 'teaching' && (
               <div className="row">
                 {/* Teaching Designation and Curriculum in first row */}
-                <div className="col-lg-6 col-md-12">
-                  <div className="mb-4">
+                <div className="form-group col-lg-6 col-md-12">
                     <Select
                       options={teachingDesignations}
-                      value={teachingDesignations.find(option => option.value === experience.teachingDesignation) || ''}
+                      value={teachingDesignations.find(option => option.value === baseExperience.teachingDesignation) || ''}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
@@ -645,115 +658,103 @@ const Experience = ({ excludeAdditionalDetails }) => {
                         };
                         setExperienceEntries(newEntries);
                       }}
-                      styles={customStyles}
+                      className={`custom-select ${!baseExperience.teachingDesignation ? 'required' : ''}`}
                       placeholder="Teaching designation"
                       isClearable
                     />
-                  </div>
                 </div>
 
-                <div className="col-lg-6 col-md-12">
-                  <div className="mb-4">
+                <div className="form-group col-lg-6 col-md-12">
                     <Select
                       options={curriculumOptions}
-                      value={curriculumOptions.find(option => option.value === experience.curriculum) || ''}
+                      value={curriculumOptions.find(option => option.value === baseExperience.teachingCurriculum) || ''}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
                           ...newEntries[index],
-                          curriculum: selected?.value || ''
+                          teachingCurriculum: selected?.value || ''
                         };
                         setExperienceEntries(newEntries);
                       }}
-                      styles={customStyles}
                       placeholder="Curriculum"
                       isClearable
                     />
-                  </div>
                 </div>
 
-                {/* Subjects and Grades in second row */}
-                <div className="col-lg-6 col-md-12">
-                  <div className="mb-4">
+                {/* Subjects and Grades*/}
+                <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
                       options={subjectsOptions}
                       value={subjectsOptions.filter(option => 
-                        experience.subjectsHandled.includes(option.value)
+                        baseExperience.teachingSubjects.includes(option.value)
                       )}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
                           ...newEntries[index],
-                          subjectsHandled: selected ? selected.map(item => item.value) : []
+                          teachingSubjects: selected ? selected.map(item => item.value) : []
                         };
                         setExperienceEntries(newEntries);
                       }}
-                      styles={customStyles}
+                      className={`custom-select ${!baseExperience.subjectsOptions ? 'required' : ''}`}
                       placeholder="Subjects you handled"
                       isClearable
-                      menuPortalTarget={document.body}
                     />
-                  </div>
                 </div>
 
-                <div className="col-lg-6 col-md-12">
-                  <div className="mb-4">
+                <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
                       options={grades}
-                      value={grades.find(option => option.value === experience.grades) || ''}
+                      value={grades.filter(option => baseExperience.teachingGrades.includes(option.value))}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
                           ...newEntries[index],
-                          gradesHandled: selected ? selected.map(item => item.value) : []
+                          teachingGrades: selected ? selected.map(item => item.value) : []
                         };
                         setExperienceEntries(newEntries);
                       }}
-                      styles={customStyles}
+                      className={`custom-select ${!baseExperience.grades ? 'required' : ''}`}
                       placeholder="Grades you handled"
                       isClearable
                     />
-                  </div>
                 </div>
 
                 {/* Core Expertise in third row */}
-                <div className="col-lg-12 col-md-12">
-                  <div className="mb-4">
+                <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
                       options={coreExpertise}
-                      value={coreExpertise.filter(option => 
-                        experience.coreExpertise.includes(option.value)
+                        value={coreExpertise.filter(option => 
+                        baseExperience.teachingCoreExpertise.includes(option.value)
                       )}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
                           ...newEntries[index],
-                          coreExpertise: selected ? selected.map(item => item.value) : []
+                          teachingCoreExpertise: selected ? selected.map(item => item.value) : []
                         };
                         setExperienceEntries(newEntries);
                       }}
-                      styles={customStyles}
-                      placeholder="Core expertise"
+                      className={`custom-select ${!baseExperience.coreExpertise ? 'required' : ''}`}
+                      placeholder="Core Expertise"
                       isClearable
                     />
-                  </div>
                 </div>
               </div>
             )}
 
             {/* Administration specific fields */}
-            {experience.jobType === 'administration' && (
+            {baseExperience.jobType === 'administration' && (
               <div className="row">
                 {/* Designation */}
-                <div className="col-lg-6 col-md-12">
-                  <div className="mb-4">
+                <div className="form-group col-lg-6 col-md-12">
                     <Select
                       options={adminDesignations}
                       value={adminDesignations.find(option => 
-                        option.value === experience.adminDesignation
+                        option.value === baseExperience.adminDesignation
                       ) || ''}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
@@ -763,49 +764,43 @@ const Experience = ({ excludeAdditionalDetails }) => {
                         };
                         setExperienceEntries(newEntries);
                       }}
-                      styles={customStyles}
+                      className={`custom-select ${!baseExperience.adminDesignations ? 'required' : ''}`}
                       placeholder="Designation"
                       isClearable
                     />
-                  </div>
                 </div>
 
                 {/* Curriculum/Board/University */}
-                <div className="col-lg-6 col-md-12">
-                  <div className="mb-4">
+                <div className="form-group col-lg-6 col-md-12">
                     <Select
                       options={curriculumOptions}
                       value={curriculumOptions.find(option => 
-                        option.value === experience.curriculum
+                        option.value === baseExperience.adminCurriculum
                       ) || ''}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
                           ...newEntries[index],
-                          curriculum: selected?.value || ''
+                          adminCurriculum: selected?.value || ''
                         };
                         setExperienceEntries(newEntries);
                       }}
-                      styles={customStyles}
                       placeholder="Curriculum/Board/University"
                       isClearable
                     />
-                  </div>
                 </div>
               </div>
             )}
             
-            
-            {experience.jobType === 'teachingAndAdministration' && (
+            {baseExperience.jobType === 'teachingAndAdministration' && (
               <div className="row">
                 {/* Teaching and Admin Designation with multi-select */}
-                <div className="col-lg-6 col-md-12">
-                  <div className="mb-4">
+                <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
                       options={teachingAdminDesignations}
                       value={teachingAdminDesignations.filter(option => 
-                        experience.teachingAdminDesignation?.includes(option.value)
+                        baseExperience.teachingAdminDesignations?.includes(option.value)
                       )}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
@@ -815,98 +810,90 @@ const Experience = ({ excludeAdditionalDetails }) => {
                         };
                         setExperienceEntries(newEntries);
                       }}
-                      styles={customStyles}
+                      className={`custom-select ${baseExperience.teachingAdminDesignations ? 'required' : ''}`}
                       placeholder="Designation"
                       isClearable
                     />
-                  </div>
                 </div>
 
-                <div className="col-lg-6 col-md-12">
-                  <div className="mb-4">
+                <div className="form-group col-lg-6 col-md-12">
                     <Select
                       options={curriculumOptions}
-                      value={curriculumOptions.find(option => option.value === experience.curriculum) || ''}
+                      value={curriculumOptions.find(option => option.value === baseExperience.teachingAdminCurriculum) || ''}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
                           ...newEntries[index],
-                          curriculum: selected?.value || ''
+                          teachingAdminCurriculum: selected?.value || ''
                         };
                         setExperienceEntries(newEntries);
                       }}
-                      styles={customStyles}
                       placeholder="Curriculum"
                       isClearable
                     />
-                  </div>
                 </div>
-
                 {/* Subjects and Grades in second row */}
-                <div className="col-lg-6 col-md-12">
-                  <div className="mb-4">
+                <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
                       options={subjectsOptions}
                       value={subjectsOptions.filter(option => 
-                        experience.subjectsHandled.includes(option.value)
+                        baseExperience.teachingAdminSubjects.includes(option.value)
                       )}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
                           ...newEntries[index],
-                          subjectsHandled: selected ? selected.map(item => item.value) : []
+                          teachingAdminSubjects: selected ? selected.map(item => item.value) : []
                         };
                         setExperienceEntries(newEntries);
                       }}
-                      styles={customStyles}
+                      className={`custom-select ${!baseExperience.subjectsOptions ? 'required' : ''}`}
                       placeholder="Subjects you handled"
                       isClearable
-                      menuPortalTarget={document.body}
                     />
-                  </div>
                 </div>
 
-                <div className="col-lg-6 col-md-12">
-                  <div className="mb-4">
+                <div className="form-group col-lg-6 col-md-12">
                     <Select
                       isMulti
                       options={grades}
-                      value={grades.find(option => option.value === experience.grades) || ''}
+                      value={grades.filter(option => 
+                        baseExperience.teachingAdminGrades.includes(option.value)
+                      )}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
                           ...newEntries[index],
-                          gradesHandled: selected ? selected.map(item => item.value) : []
+                          teachingAdminGrades: selected ? selected.map(item => item.value) : []
                         };
                         setExperienceEntries(newEntries);
-                      }}
-                      styles={customStyles}
+                        }}
+                      className={`custom-select ${!baseExperience.grades ? 'required' : ''}`}
                       placeholder="Grades you handled"
                       isClearable
                     />
-                  </div>
                 </div>
 
                 {/* Core Expertise in third row */}
-                <div className="col-lg-12 col-md-12">
+                <div className="form-group col-lg-6 col-md-12">
                   <div className="mb-4">
                     <Select
                       isMulti
                       options={coreExpertise}
                       value={coreExpertise.filter(option => 
-                        experience.coreExpertise.includes(option.value)
+                        baseExperience.teachingAdminCoreExpertise.includes(option.value)
                       )}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
                           ...newEntries[index],
-                          coreExpertise: selected ? selected.map(item => item.value) : []
+                          teachingAdminCoreExpertise: selected ? selected.map(item => item.value) : []
                         };
                         setExperienceEntries(newEntries);
                       }}
-                      styles={customStyles}
-                      placeholder="Core expertise"
+                      className={`custom-select ${!baseExperience.coreExpertise ? 'required' : ''}`}
+                      placeholder="Core Expertise"
                       isClearable
                     />
                   </div>
@@ -915,7 +902,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
             )}
             
             {/* Industry Type */}
-             {experience.jobType === 'nonEducation' && (
+             {baseExperience.jobType === 'nonEducation' && (
              <div className="row">
             
             <div className="form-group col-lg-6 col-md-12">
@@ -924,7 +911,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                 placeholder="Designation"
                 className="form-control"
                 maxLength="20"
-                value={experience.designation}
+                value={baseExperience.designation}
                 onChange={(e) => {
                   const newEntries = [...experienceEntries];
                   newEntries[index] = {
@@ -933,6 +920,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                   };
                   setExperienceEntries(newEntries);
                 }}
+                required
               />
             </div>
 
@@ -942,7 +930,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                 placeholder="Industry Type"
                 className="form-control"
                 maxLength="20"
-                value={experience.industryType}
+                value={baseExperience.industryType}
                 onChange={(e) => {
                   const newEntries = [...experienceEntries];
                   newEntries[index] = {
@@ -951,6 +939,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                   };
                   setExperienceEntries(newEntries);
                 }}
+                required
               />
             </div>
 
@@ -961,7 +950,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                 placeholder="Work Profile"
                 className="form-control"
                 maxLength="40"
-                value={experience.workProfile}
+                value={baseExperience.workProfile}
                 onChange={(e) => {
                   const newEntries = [...experienceEntries];
                   newEntries[index] = {
@@ -970,6 +959,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                   };
                   setExperienceEntries(newEntries);
                 }}
+                required
               />
               </div>
             </div>
@@ -977,44 +967,45 @@ const Experience = ({ excludeAdditionalDetails }) => {
 
             {/* Country */}
             <div className="form-group col-lg-6 col-md-12">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Country"
-                value={experience.country}
-                onChange={(e) => {
-                  const newEntries = [...experienceEntries];
-                  newEntries[index] = {
-                    ...newEntries[index],
-                    country: e.target.value
-                  };
-                  setExperienceEntries(newEntries);
-                }}
-              />
-            </div>
-            {/* City */}
-            <div className="form-group col-lg-6 col-md-12">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="City"
-                value={experience.city}
-                onChange={(e) => {
-                  const newEntries = [...experienceEntries];
-                  newEntries[index] = {
-                    ...newEntries[index],
-                    city: e.target.value
-                  };
-                  setExperienceEntries(newEntries);
-                }}
-              />
-            </div>
+      <Select
+      placeholder="Country"
+        options={countries}
+        value={country}
+        onChange={(option) => {
+          setCountry(option);
+          setState(null); // Reset state when country changes
+          setCity(null);  // Reset city when country changes
+        }}
+        className={`custom-select ${!baseExperience.country ? 'required' : ''}`}
+      />
+    </div>
+    <div className="form-group col-lg-6 col-md-12">
+      <Select
+      placeholder="State/UT"
+        options={states}
+        value={state}
+        onChange={(option) => {
+          setState(option);
+          setCity(null); // Reset city when state changes
+        }}
+        className={`custom-select ${!baseExperience.state ? 'required' : ''}`}
+      />
+    </div>
+    <div className="form-group col-lg-6 col-md-12">
+      <Select
+      placeholder="City"
+        options={cities}
+        value={city}
+        onChange={(option) => setCity(option)}
+        className={`custom-select ${!baseExperience.city ? 'required' : ''}`}
+      />
+    </div>
 
             {/* Job Process */}
             <div className="form-group col-lg-6 col-md-12">
               <select
                 className="form-select"
-                value={experience.jobProcess}
+                value={baseExperience.jobProcess}
                 onChange={(e) => {
                   const newEntries = [...experienceEntries];
                   newEntries[index] = {
@@ -1023,6 +1014,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                   };
                   setExperienceEntries(newEntries);
                 }}
+                required
               >
                 <option value="">Job Process</option>
                 <option value="regular">Regular (Offline)</option>
@@ -1068,7 +1060,7 @@ const Experience = ({ excludeAdditionalDetails }) => {
                 <tr key={key}>
                   <td>{label}</td>
                   <td>
-                    <div className="radio-group">
+                    <div className={`radio-group ${!otherTeachingExp[key] ? 'required' : ''}`}>
                       <label className="me-3">
                         <input
                           type="radio"
@@ -1103,6 +1095,9 @@ const Experience = ({ excludeAdditionalDetails }) => {
           </table>
         </div>
       </div>
+      <button className="btn theme-btn btn-style-three" onClick={submitExperienceData}>
+          Save Experience Details
+        </button>
     </div>
   );
 };

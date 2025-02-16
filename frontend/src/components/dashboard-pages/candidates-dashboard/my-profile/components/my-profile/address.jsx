@@ -3,7 +3,7 @@ import axios from "axios";
 import Select from "react-select";
 import csc from "countries-states-cities"; // Package to get countries, states, and cities
 
-const Address = ({city,houseNo,pincode}) => {
+const Address = ({city,houseNo,pincode,className}) => {
   const [formData, setFormData] = useState({
     permanentAddress: {
       country: null,
@@ -143,16 +143,18 @@ const Address = ({city,houseNo,pincode}) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="default-form">
+    <form onSubmit={handleSubmit} className={`address ${className}`}>
       <div className="row">
         {/* Permanent Address */}
         <div className="form-group col-lg-6 col-md-12">
           <h3>Permanent Address</h3>
           <div className="form-group">
-          <Select
+            <Select
+            required
             id="permanentCountry"
             name="permanentCountry"
             placeholder="Country"
+            className={`custom-select ${!formData.permanentAddress.country ? 'required' : ''}`}
             options={countries}
             value={formData.permanentAddress.country}
             onChange={option => {
@@ -165,9 +167,11 @@ const Address = ({city,houseNo,pincode}) => {
 
           <div className="form-group">
           <Select
+            required
             id="permanentState"
             name="permanentState"
             placeholder="State/UT"
+            className={`custom-select ${!formData.permanentAddress.state ? 'required' : ''}`}
             options={getStates(formData.permanentAddress.country?.value)}
             value={formData.permanentAddress.state}
             onChange={option => {
@@ -179,6 +183,7 @@ const Address = ({city,houseNo,pincode}) => {
            {city && (
           <div className="form-group">
           <Select
+            required
             id="permanentCity"
             name="permanentCity"
             placeholder="City"
@@ -197,7 +202,6 @@ const Address = ({city,houseNo,pincode}) => {
             placeholder="House No. & Street"
             value={formData.permanentAddress.houseNo}
             onChange={e => handleAddressChange("permanentAddress", "houseNo", e.target.value)}
-            required
             maxLength="50"
           />
           </div>
@@ -216,7 +220,6 @@ const Address = ({city,houseNo,pincode}) => {
               e.target.value = e.target.value.replace(/[^0-9]/g, '');
             }}
             maxLength="6"
-            required
           />          
         </div>
         )}
@@ -241,10 +244,12 @@ const Address = ({city,houseNo,pincode}) => {
           {!formData.presentAddress.sameAsPermanent && (
             <>
              <div className="form-group">
-              <Select
+                <Select
+                required
                 id="presentCountry"
                 name="presentCountry"
                 placeholder="Country"
+                className={`custom-select ${!formData.presentAddress.country ? 'required' : ''}`}
                 options={countries}
                 value={formData.presentAddress.country}
                 onChange={option => {
@@ -256,9 +261,11 @@ const Address = ({city,houseNo,pincode}) => {
               </div>
                <div className="form-group">
               <Select
+                required
                 id="presentState"
                 name="presentState"
                 placeholder="State/UT"
+                className={`custom-select ${!formData.presentAddress.state ? 'required' : ''}`}
                 options={getStates(formData.presentAddress.country?.value)}
                 value={formData.presentAddress.state}
                 onChange={option => {
@@ -270,6 +277,7 @@ const Address = ({city,houseNo,pincode}) => {
               {city && (
               <div className="form-group">
               <Select
+                required
                 id="presentCity"
                 name="presentCity"
                 placeholder="City"
@@ -289,7 +297,7 @@ const Address = ({city,houseNo,pincode}) => {
                 value={formData.presentAddress.houseNo}
                 onChange={e => handleAddressChange("presentAddress", "houseNo", e.target.value)}
                 maxLength="50"
-                required
+                
               />
               </div>
               )}
@@ -306,7 +314,7 @@ const Address = ({city,houseNo,pincode}) => {
                   e.target.value = e.target.value.replace(/[^0-9]/g, '');
                 }}
                 maxLength="6"
-                required
+              
               />
               </div>
               )}

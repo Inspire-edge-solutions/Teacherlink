@@ -1,7 +1,7 @@
 import { React,useState } from "react";
 import axios from 'axios';
 
-const PersonalDetails = ({dateOfBirth}) => {
+const PersonalDetails = ({ className, dateOfBirth }) => {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -71,7 +71,7 @@ const PersonalDetails = ({dateOfBirth}) => {
   };
 
   return (
-    <div className="default-form">
+    <div className={`personal-details ${className}`}>
       <div className="row">
         <h3>Personal Details</h3>
 
@@ -94,14 +94,14 @@ const PersonalDetails = ({dateOfBirth}) => {
             value={formData.email}
             onChange={handleInputChange}
             placeholder="Email address"
-            required
             maxLength="50"
+            required
           />
         </div>
 
         {/* Gender Radio Buttons */}
         <div className="form-group col-lg-6 col-md-12">
-          <div className="radio-group">
+          <div className={`radio-group ${!formData.gender ? 'required' : ''}`}>
             <h6>Gender:</h6>
             <div className="radio-option">
               <input
@@ -151,7 +151,7 @@ const PersonalDetails = ({dateOfBirth}) => {
             onFocus={handleFocus}
             onBlur={handleBlur}
             max={new Date().toISOString().split('T')[0]} // Prevent future dates
-            required
+            
           />
         </div>
         )}

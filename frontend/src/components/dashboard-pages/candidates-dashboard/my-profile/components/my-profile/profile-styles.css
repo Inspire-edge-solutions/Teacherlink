@@ -638,6 +638,17 @@ input[type="file"] {
   cursor: pointer;
 }
 
-.required {
-    color: red;
+input:required , select:required , textarea:required{
+  border: 2px solid orchid !important;
+}
+.radio-group {
+  padding: 10px;
+  border: 2px solid transparent; /* Default: no border */
+}
+.radio-group.required {
+  border-color: orchid !important; /* Apply border when required */
+}
+.custom-select.required {
+  border: 2px solid orchid !important;
+  border-radius: 8px !important;
 }

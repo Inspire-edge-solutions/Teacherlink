@@ -11,20 +11,20 @@ const ContactInfoBox = () => {
             type="text"
             name="name"
             placeholder="Find your location on map"
-            required
+            
           />
         </div>
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-3 col-md-12">
           
-          <input type="text" name="name" placeholder="Latitude" required />
+          <input type="text" name="name" placeholder="Latitude"  />
         </div>
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-3 col-md-12">
          
-          <input type="text" name="name" placeholder="Longitude" required />
+          <input type="text" name="name" placeholder="Longitude" />
         </div>
 
         {/* <!-- Input --> */}
