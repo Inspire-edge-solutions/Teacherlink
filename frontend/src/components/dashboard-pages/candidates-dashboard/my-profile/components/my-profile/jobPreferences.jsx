@@ -3,7 +3,7 @@ import Select from 'react-select';
 import csc from "countries-states-cities";
 import axios from 'axios';
 
-const JobPreference = ({className}) => {
+const JobPreference = () => {
   const [preferences, setPreferences] = useState({
     jobShift: {
       Full_time: { offline: null, online: null },
@@ -37,28 +37,25 @@ const JobPreference = ({className}) => {
     }
   });
 
-  const [salaryDetails, setSalaryDetails] = useState({
-    expected_salary: "",
-   
-  });
-
   const [jobDetails, setJobDetails] = useState({
-    Full_time :'',
     Job_Type: '',
-    Teaching_designation: [],
-    curriculum: [],
-    subjects: [],
-    grades: [],
-    core_expertise: [],
-    Administrative_designations: [],
-    admincurriculum: [],
-    Teaching_Administrative_designations: [],
     expected_salary: '',
-    preferredLocations: [],
+    teachingDesignation: [],
+    teachingCurriculum: [],
+    teachingSubjects: [],
+    teachingGrades: [],
+    teachingCoreExpertise: [],
+    adminDesignations: [],
+    adminCurriculum: [],
+    teachingAdminDesignations: [],
+    teachingAdminCurriculum: [],
+    teachingAdminSubjects: [],
+    teachingAdminGrades: [],
+    teachingAdminCoreExpertise: [],
     preferred_country: '',
+    preferred_state: '',
+    preferred_city: '',
     notice_period: '',
-    location: '',
-    country: '',
   });
 
   const Job_TypeOptions = [
@@ -66,17 +63,6 @@ const JobPreference = ({className}) => {
     { value: 'administration', label: 'Education - Administration' },
     { value: 'teachingAndAdmin', label: 'Education - Teaching + Administration' }
   ];
-
-  const curriculumOptions = [
-    { value: 'stateBoard', label: 'State Board' },
-    { value: 'cbse', label: 'CBSE' },
-    { value: 'icse', label: 'ICSE' },
-    { value: 'others', label: 'Others' },
-    { value: 'affiliatedUniversity', label: 'Affiliated University' },
-    { value: 'deemedUniversity', label: 'Deemed University' }
-  ];
-
-
   const salaryRanges = [
     { value: "less_than_40k", label: "Less than 40K" },
     { value: "40k_70k", label: "40-70 K" },
@@ -86,25 +72,20 @@ const JobPreference = ({className}) => {
     { value: "more_than_100k", label: "More than 100K" }
   ];
 
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
-  const [selectedCity, setSelectedCity] = useState(null);
-  
-
   const countries = csc.getAllCountries().map((country) => ({
     value: country.id,
     label: country.name,
   }));
 
-  const states = selectedCountry
-    ? csc.getStatesOfCountry(selectedCountry.value).map((state) => ({
+  const states = jobDetails.preferred_country
+    ? csc.getStatesOfCountry(jobDetails.preferred_country.value).map((state) => ({
         value: state.id,
         label: state.name,
       }))
     : [];
 
-  const cities = selectedState
-    ? csc.getCitiesOfState(selectedState.value).map((city) => ({
+  const cities = jobDetails.preferred_state
+    ? csc.getCitiesOfState(jobDetails.preferred_state.value).map((city) => ({
         value: city.id,
         label: city.name,
       }))
@@ -130,6 +111,7 @@ const JobPreference = ({className}) => {
   const [teachingAdminDesignations, setTeachingAdminDesignations] = useState([]);
   const [coreExpertise, setCoreExpertise] = useState([]);
   const [grades, setGrades] = useState([]);
+  const [curriculum, setCurriculum] = useState([]);
 
   const subjectList = async () => {
     try {
@@ -165,6 +147,7 @@ const JobPreference = ({className}) => {
         setTeachingAdminDesignations(transformedData.filter(item => (item.category === "Teaching" || item.category === "Administration")) || []);
         setCoreExpertise(transformedData.filter(item => item.category === "Core Expertise") || []);
         setGrades(transformedData.filter(item => item.category === "Grades") || []);
+        setCurriculum(transformedData.filter(item => item.category === "Curriculum") || []);
       } catch (error) {
         console.error('Error fetching designations:', error);
       }
@@ -198,8 +181,8 @@ const JobPreference = ({className}) => {
             <select 
             placeholder="Expected salary(INR)"
               required
-              value={salaryDetails.expected_salary}
-              onChange={(e) => setSalaryDetails(prev => ({
+              value={jobDetails.expected_salary}
+              onChange={(e) => setJobDetails(prev => ({
                 ...prev,
                 expected_salary: e.target.value
               }))}
@@ -234,15 +217,20 @@ const JobPreference = ({className}) => {
                   className={`custom-select ${!jobDetails.notice_period ? 'required' : ''}`}
                 />
               </div>
-              <div className="form-group col-lg-6 col-md-12">
+      <div className="form-group col-lg-6 col-md-12">
       <Select
       placeholder="Preferred Country"
         options={countries}
-        value={selectedCountry}
+        value={jobDetails.preferred_country}
         onChange={(option) => {
-          setSelectedCountry(option);
-          setSelectedState(null); // Reset state when country changes
-          setSelectedCity(null);  // Reset city when country changes
+          setJobDetails(prev => ({
+            ...prev,
+            preferred_country: option
+          }));
+          setJobDetails(prev => ({
+            ...prev,
+            preferred_state: null
+          }));
         }}
         className={`custom-select ${!jobDetails.preferred_country ? 'required' : ''}`}
       />
@@ -251,10 +239,16 @@ const JobPreference = ({className}) => {
       <Select
       placeholder="Preferred State/UT"
         options={states}
-        value={selectedState}
+        value={jobDetails.preferred_state}
         onChange={(option) => {
-          setSelectedState(option);
-          setSelectedCity(null); // Reset city when state changes
+          setJobDetails(prev => ({
+            ...prev,
+            preferred_state: option
+          }));
+          setJobDetails(prev => ({
+            ...prev,
+            preferred_city: null
+          }));
         }}
         className={`custom-select ${!jobDetails.preferred_state ? 'required' : ''}`}
       />
@@ -263,8 +257,11 @@ const JobPreference = ({className}) => {
       <Select
       placeholder="Preferred City"
         options={cities}
-        value={selectedCity}
-        onChange={(option) => setSelectedCity(option)}
+        value={jobDetails.preferred_city}
+        onChange={(option) => setJobDetails(prev => ({
+          ...prev,
+          preferred_city: option
+        }))}
         className={`custom-select ${!jobDetails.preferred_city ? 'required' : ''}`}
       />
     </div>
@@ -280,7 +277,7 @@ const JobPreference = ({className}) => {
                       isMulti
                       placeholder="Teaching & Administrative Designation(s)"
                       options={teachingAdminDesignations}
-                      value={jobDetails.Teaching_Administrative_designations.map(value => {
+                      value={jobDetails.teachingAdminDesignations.map(value => {
                         const option = teachingAdminDesignations.find(opt => opt.value === value);
                         return option ? {
                           value: option.value,
@@ -289,9 +286,9 @@ const JobPreference = ({className}) => {
                       }).filter(Boolean)}
                       onChange={(selected) => setJobDetails(prev => ({
                         ...prev,
-                        Teaching_Administrative_designations: selected ? selected.map(item => item.value) : []
+                        teachingAdminDesignations: selected ? selected.map(item => item.value) : []
                       }))}
-                      className={`custom-select ${!jobDetails.teachingAdminDesignations ? 'required' : ''}`}
+                      className={`custom-select ${jobDetails.teachingAdminDesignations ? 'required' : ''}`}
                     />
                   </div>
 
@@ -300,14 +297,14 @@ const JobPreference = ({className}) => {
                     <Select
                       isMulti
                       placeholder="curriculum/Board/University"
-                      options={curriculumOptions}
-                      value={jobDetails.curriculum.map(value => ({
+                      options={curriculum}
+                        value={jobDetails.teachingAdminCurriculum.map(value => ({
                         value,
-                        label: curriculumOptions.find(opt => opt.value === value)?.label
+                          label: curriculum.find(opt => opt.value === value)?.label
                       }))}
                       onChange={(selected) => setJobDetails(prev => ({
                         ...prev,
-                        curriculum: selected ? selected.map(item => item.value) : []
+                        teachingAdminCurriculum: selected ? selected.map(item => item.value) : []
                       }))}
                     />
                   </div>
@@ -318,15 +315,15 @@ const JobPreference = ({className}) => {
                       isMulti
                       placeholder="Subjects"
                       options={subjectsOptions}
-                      value={jobDetails.subjects.map(value => ({
+                      value={jobDetails.teachingAdminSubjects.map(value => ({
                         value,
                         label: subjectsOptions.find(opt => opt.value === value)?.label
                       }))}
                       onChange={(selected) => setJobDetails(prev => ({
                         ...prev,
-                        subjects: selected ? selected.map(item => item.value) : []
+                        teachingAdminSubjects: selected ? selected.map(item => item.value) : []
                       }))}
-                      className={`custom-select ${!jobDetails.subjectsOptions ? 'required' : ''}`}
+                      className={`custom-select ${jobDetails.teachingAdminSubjects ? 'required' : ''}`}
                     />
                   </div>
 
@@ -336,15 +333,15 @@ const JobPreference = ({className}) => {
                       isMulti
                       placeholder="Grades"
                       options={grades}
-                      value={jobDetails.grades.map(value => ({
+                      value={jobDetails.teachingAdminGrades.map(value => ({
                         value,
                         label: grades.find(opt => opt.value === value)?.label
                       }))}
                       onChange={(selected) => setJobDetails(prev => ({
                         ...prev,
-                        grades: selected ? selected.map(item => item.value) : []
+                        teachingGrades: selected ? selected.map(item => item.value) : []
                       }))}
-                      className={`custom-select ${jobDetails.grades ? 'required' : ''}`}
+                      className={`custom-select ${jobDetails.teachingAdminGrades ? 'required' : ''}`}
                     />
                   </div>
 
@@ -354,15 +351,15 @@ const JobPreference = ({className}) => {
                       isMulti
                       placeholder="Core Expertise"
                       options={coreExpertise}
-                      value={jobDetails.core_expertise.map(value => ({
+                      value={jobDetails.teachingAdminCoreExpertise.map(value => ({
                         value,
                         label: coreExpertise.find(opt => opt.value === value)?.label
                       }))}
                       onChange={(selected) => setJobDetails(prev => ({
                         ...prev,
-                        core_expertise: selected ? selected.map(item => item.value) : []
+                        teachingAdminCoreExpertise: selected ? selected.map(item => item.value) : []
                       }))}
-                      className={`custom-select ${!jobDetails.coreExpertise ? 'required' : ''}`}
+                      className={`custom-select ${jobDetails.teachingAdminCoreExpertise ? 'required' : ''}`}
                     />
                   </div>
                 </div>
@@ -381,13 +378,13 @@ const JobPreference = ({className}) => {
               placeholder="Teaching Designation(s)"
               options={teachingDesignations}
               value={teachingDesignations.filter(option => 
-                jobDetails.Teaching_designation.includes(option.value)
+                jobDetails.teachingDesignation.includes(option.value)
               )}
               onChange={(selected) => setJobDetails(prev => ({
                 ...prev,
-                Teaching_designation: selected ? selected.map(item => item.value) : []
+                teachingDesignation: selected ? selected.map(item => item.value) : []
               }))}
-              className={`custom-select ${!jobDetails.teachingDesignations ? 'required' : ''}`}
+              className={`custom-select ${!jobDetails.teachingDesignation ? 'required' : ''}`}
             />
           </div>
 
@@ -396,14 +393,14 @@ const JobPreference = ({className}) => {
             <Select
               isMulti
               placeholder="Curriculum/Board/University"
-              options={curriculumOptions}
-              value={jobDetails.curriculum.map(value => ({
+              options={curriculum}
+              value={jobDetails.teachingCurriculum.map(value => ({
                 value,
-                label: curriculumOptions.find(opt => opt.value === value)?.label
+                label: curriculum.find(opt => opt.value === value)?.label
               }))}
               onChange={(selected) => setJobDetails(prev => ({
                 ...prev,
-                curriculum: selected ? selected.map(item => item.value) : []
+                teachingCurriculum: selected ? selected.map(item => item.value) : []
               }))}
             />
           </div>
@@ -414,15 +411,15 @@ const JobPreference = ({className}) => {
               isMulti
               placeholder="Subjects"
               options={subjectsOptions}
-              value={jobDetails.subjects.map(value => ({
+              value={jobDetails.teachingSubjects.map(value => ({
                 value,
                 label: subjectsOptions.find(opt => opt.value === value)?.label
               }))}
               onChange={(selected) => setJobDetails(prev => ({
                 ...prev,
-                subjects: selected ? selected.map(item => item.value) : []
+                teachingSubjects: selected ? selected.map(item => item.value) : []
               }))}
-              className={`custom-select ${!jobDetails.subjectsOptions ? 'required' : ''}`}
+              className={`custom-select ${jobDetails.teachingSubjects ? 'required' : ''}`}
             />
           </div>
 
@@ -432,15 +429,15 @@ const JobPreference = ({className}) => {
               isMulti
               placeholder="Grades"
               options={grades}
-              value={jobDetails.grades.map(value => ({
+              value={jobDetails.teachingGrades.map(value => ({
                 value,
                 label: grades.find(opt => opt.value === value)?.label
               }))}
               onChange={(selected) => setJobDetails(prev => ({
                 ...prev,
-                grades: selected ? selected.map(item => item.value) : []
+                teachingGrades: selected ? selected.map(item => item.value) : []
               }))}
-              className={`custom-select ${jobDetails.grades ? 'required' : ''}`}
+              className={`custom-select ${jobDetails.teachingGrades ? 'required' : ''}`}
             />
           </div>
 
@@ -450,40 +447,39 @@ const JobPreference = ({className}) => {
               isMulti
               placeholder="Core Expertise"
               options={coreExpertise}
-              value={jobDetails.core_expertise.map(value => ({
+              value={jobDetails.teachingCoreExpertise.map(value => ({
                 value,
                 label: coreExpertise.find(opt => opt.value === value)?.label
               }))}
               onChange={(selected) => setJobDetails(prev => ({
                 ...prev,
-                core_expertise: selected ? selected.map(item => item.value) : []
+                teachingCoreExpertise: selected ? selected.map(item => item.value) : []
               }))}
-              className={`custom-select ${!jobDetails.coreExpertise ? 'required' : ''}`}
+              className={`custom-select ${jobDetails.teachingCoreExpertise ? 'required' : ''}`}
             />
           </div>
           </div>
         </>
       )}
 
-{/* Administration Related Fields */}
-{jobDetails.Job_Type === 'administration' && (
+      {/* Administration Related Fields */}
+      {jobDetails.Job_Type === 'administration' && (
         <>
           {/* Administrative Designation */}
-          
           <div className="form-group col-lg-6 col-md-12">
             <Select
               isMulti
               placeholder="Administrative Designation(s)"
                 options={adminDesignations}
-              value={jobDetails.Administrative_designations.map(value => ({
+              value={jobDetails.adminDesignations.map(value => ({
                 value,
                 label: adminDesignations.find(opt => opt.value === value)?.label
               }))}
               onChange={(selected) => setJobDetails(prev => ({
                 ...prev,
-                Administrative_designations: selected ? selected.map(item => item.value) : []
+                adminDesignations: selected ? selected.map(item => item.value) : []
               }))}
-              className={`custom-select ${!jobDetails.adminDesignations ? 'required' : ''}`}
+              className={`custom-select ${jobDetails.adminDesignations ? 'required' : ''}`}
             />
           </div>
 
@@ -492,14 +488,14 @@ const JobPreference = ({className}) => {
             <Select
               isMulti
               placeholder="Curriculum/Board/University"
-              options={curriculumOptions}  // Using the same curriculum options as teaching
-              value={jobDetails.admincurriculum.map(value => ({
+              options={curriculum}  // Using the same curriculum options as teaching
+                value={jobDetails.adminCurriculum.map(value => ({
                 value,
-                label: curriculumOptions.find(opt => opt.value === value)?.label
+                label: curriculum.find(opt => opt.value === value)?.label
               }))}
               onChange={(selected) => setJobDetails(prev => ({
                 ...prev,
-                admincurriculum: selected ? selected.map(item => item.value) : []
+                adminCurriculum: selected ? selected.map(item => item.value) : []
               }))}
             />
           </div>

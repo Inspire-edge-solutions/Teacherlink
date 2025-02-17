@@ -67,7 +67,7 @@ const FormInfoBox = () => {
              bEdCollege={false} bEdPlace={false} bEdAffiliated={false} bEdCourseDuration={false} bEdPercentage={false} bEdMode={false}
              certificatePlace={false} certificateCourseDuration={false} certificateSpecialization={false} certificateMode={false}
             />
-            <Experience excludeAdditionalDetails={false} className="easy-view" />
+            <Experience excludeAdditionalDetails={false} excludeTeachingCurriculum={false} excludeAdminCurriculum={false} excludeTeachingAdminCurriculum={false} className="easy-view" />
             <JobPreferences className="easy-view" />
             <Social isEasyMode={true} className="easy-view" />
           </>
@@ -84,7 +84,7 @@ const FormInfoBox = () => {
             bEdCollege={true} bEdPlace={true} bEdAffiliated={true} bEdCourseDuration={true} bEdPercentage={true} bEdMode={true}
             certificatePlace={true} certificateCourseDuration={true} certificateSpecialization={true} certificateMode={true}
             />
-            <Experience excludeAdditionalDetails={true} />
+            <Experience excludeAdditionalDetails={true} excludeTeachingCurriculum={true} excludeAdminCurriculum={true} excludeTeachingAdminCurriculum={true} />
             <Languages />
             <JobPreferences />
             <Social isEasyMode={false} />

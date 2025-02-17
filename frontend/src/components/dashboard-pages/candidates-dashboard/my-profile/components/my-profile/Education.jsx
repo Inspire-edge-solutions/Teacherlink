@@ -3,7 +3,7 @@ import Select from "react-select";
 import "./profile-styles.css";
 import axios from "axios";
 
-const Education = ({ className,isEasyMode, grade12syllabus, grade12school, grade12percentage,grade12mode,
+const Education = ({isEasyMode, grade12syllabus, grade12school, grade12percentage,grade12mode,
   degreeCollege,degreePlace,degreeUniversity,degreePercentage,degreeMode,
   masterCollege,masterPlace,masterUniversity,masterPercentage,masterMode,
   doctorateCollege,doctorateUniversity,doctorateMode,
@@ -20,7 +20,6 @@ const Education = ({ className,isEasyMode, grade12syllabus, grade12school, grade
 const [coreSubjectsOptions, setCoreSubjectsOptions] = useState([]);
 const [degrees, setDegrees] = useState([]);
 const [masterDegrees, setMasterDegrees] = useState([]);
-const [otherSubjects, setOtherSubjects] = useState('');
   const [additionalEducation, setAdditionalEducation] = useState([]);
   const [selectedEducationType, setSelectedEducationType] = useState(null);
 
@@ -126,6 +125,7 @@ const [otherSubjects, setOtherSubjects] = useState('');
           schoolName: '',
           yearOfPassing: '',
           coreSubjects: [],
+          otherSubjects: '',
           percentage: '',
           mode: '',
           courseStatus: 'Completed'
@@ -138,7 +138,7 @@ const [otherSubjects, setOtherSubjects] = useState('');
           universityName: '',
           yearOfPassing: '',
           coreSubjects: [],
-          specialization: [],
+          otherSubjects: '',
           percentage: '',
           mode: '',
           courseStatus: 'Completed'
@@ -151,6 +151,7 @@ const [otherSubjects, setOtherSubjects] = useState('');
           universityName: '',
           yearOfPassing: '',
           coreSubjects: [],
+          otherSubjects: '',
           percentage: '',
           mode: '',
           courseStatus: 'Completed'
@@ -161,7 +162,10 @@ const [otherSubjects, setOtherSubjects] = useState('');
           universityName: '',
           yearOfCompletion: '',
           coreSubjects: [],
-          mode: ''
+          otherSubjects: '',
+          percentage: '',
+          mode: '',
+          courseStatus: 'Completed'
         };
       case 'nttMtt':
         return {
@@ -173,14 +177,15 @@ const [otherSubjects, setOtherSubjects] = useState('');
           percentage: '',
           mode: ''
         };
-      case 'dEdDEld':
+      case 'dEd':
         return {
           instituteName: '',
           placeOfStudy: '',
           affiliatedTo: '',
           courseDuration: '',
           yearOfPassing: '',
-          subjects: '',
+          coreSubjects: [],
+          otherSubjects: '',
           percentage: '',
           mode: ''
         };
@@ -192,6 +197,7 @@ const [otherSubjects, setOtherSubjects] = useState('');
           courseDuration: '',
           yearOfPassing: '',
           coreSubjects: [],
+          otherSubjects: '',
           percentage: '',
           mode: ''
         };
@@ -361,15 +367,20 @@ useEffect(() => {
             <div className="form-group col-lg-6 col-md-12">
               <Select
                 isMulti
-                value={data.coreSubjects}
-                onChange={(selected) => handleEducationDataChange(index, 'coreSubjects', selected)}
+                value={data.coreSubjects.map(subject => ({ value: subject, label: subject }))}
+                onChange={(selected) => {
+                  const selectedValues = selected.map(option => option.value);
+                  console.log("Selected Values:", selectedValues); // Debugging line
+                  handleEducationDataChange(index, 'coreSubjects', selectedValues);
+                }}
                 options={coreSubjectsOptions}
                 className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
                 placeholder="Core Subjects"
                 required
               />
             </div>
-            {data.coreSubjects === 'Others' && (
+          
+            {data.coreSubjects.includes('Others') && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
@@ -511,18 +522,34 @@ useEffect(() => {
                 </select>
               </div>
 
-             
-                <div className="form-group col-lg-6 col-md-12">
-                  <Select
-                    isMulti
-                    value={data.coreSubjects}
-                    onChange={(selected) => handleEducationDataChange(index, 'coreSubjects', selected)}
-                    options={coreSubjectsOptions}
-                    className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
-                    placeholder="Core Subjects/Specialization"
-                    required
-                  />
-                </div>
+             {/*core subjects*/}
+             <div className="form-group col-lg-6 col-md-12">
+              <Select
+                isMulti
+                value={data.coreSubjects.map(subject => ({ value: subject, label: subject }))}
+                onChange={(selected) => {
+                  const selectedValues = selected.map(option => option.value);
+                  console.log("Selected Values:", selectedValues); // Debugging line
+                  handleEducationDataChange(index, 'coreSubjects', selectedValues);
+                }}
+                options={coreSubjectsOptions}
+                className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
+                placeholder="Core Subjects"
+                required
+              />
+            </div>
+          
+            {data.coreSubjects.includes('Others') && (
+              <div className="form-group col-lg-6 col-md-12">
+                <input
+                  type="text"
+                  value={data.otherSubjects}
+                  onChange={(e) => handleEducationDataChange(index, 'otherSubjects', e.target.value)}
+                  placeholder="Specify other subjects"
+                  required
+                />
+              </div>
+            )}
               
               {degreePercentage && (
               <div className="form-group col-lg-6 col-md-12">
@@ -644,16 +671,32 @@ useEffect(() => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <Select
-                  isMulti
-                  value={data.coreSubjects}
-                  onChange={(selected) => handleEducationDataChange(index, 'coreSubjects', selected)}
-                  options={coreSubjectsOptions}
-                  className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
-                  placeholder="Core Subjects/Specialization"
+              <Select
+                isMulti
+                value={data.coreSubjects.map(subject => ({ value: subject, label: subject }))}
+                onChange={(selected) => {
+                  const selectedValues = selected.map(option => option.value);
+                  console.log("Selected Values:", selectedValues); // Debugging line
+                  handleEducationDataChange(index, 'coreSubjects', selectedValues);
+                }}
+                options={coreSubjectsOptions}
+                className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
+                placeholder="Core Subjects"
+                required
+              />
+            </div>
+          
+            {data.coreSubjects.includes('Others') && (
+              <div className="form-group col-lg-6 col-md-12">
+                <input
+                  type="text"
+                  value={data.otherSubjects}
+                  onChange={(e) => handleEducationDataChange(index, 'otherSubjects', e.target.value)}
+                  placeholder="Specify other subjects"
                   required
                 />
               </div>
+            )}
 
               {masterPercentage && (
               <div className="form-group col-lg-6 col-md-12">
@@ -767,16 +810,33 @@ useEffect(() => {
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
-                <Select
-                  isMulti
-                  value={data.coreSubjects}
-                  onChange={(selected) => handleEducationDataChange(index, 'specialization', selected)}
-                  options={coreSubjectsOptions}
-                  className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
-                  placeholder="Core Subjects/Specialization"
+              <Select
+                isMulti
+                value={data.coreSubjects.map(subject => ({ value: subject, label: subject }))}
+                onChange={(selected) => {
+                  const selectedValues = selected.map(option => option.value);
+                  console.log("Selected Values:", selectedValues); // Debugging line
+                  handleEducationDataChange(index, 'coreSubjects', selectedValues);
+                }}
+                options={coreSubjectsOptions}
+                className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
+                placeholder="Core Subjects"
+                required
+              />
+            </div>
+          
+            {data.coreSubjects.includes('Others') && (
+              <div className="form-group col-lg-6 col-md-12">
+                <input
+                  type="text"
+                  value={data.otherSubjects}
+                  onChange={(e) => handleEducationDataChange(index, 'otherSubjects', e.target.value)}
+                  placeholder="Specify other subjects"
                   required
                 />
               </div>
+            )}
+
               {doctorateMode && (
               <div className="form-group col-12 mode-section">
                 <div className="radio-group">
@@ -1069,17 +1129,33 @@ useEffect(() => {
                 </select>
               </div>
 
+               <div className="form-group col-lg-6 col-md-12">
+              <Select
+                isMulti
+                value={data.coreSubjects.map(subject => ({ value: subject, label: subject }))}
+                onChange={(selected) => {
+                  const selectedValues = selected.map(option => option.value);
+                  console.log("Selected Values:", selectedValues); // Debugging line
+                  handleEducationDataChange(index, 'coreSubjects', selectedValues);
+                }}
+                options={coreSubjectsOptions}
+                className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
+                placeholder="Core Subjects"
+                required
+              />
+            </div>
+          
+            {data.coreSubjects.includes('Others') && (
               <div className="form-group col-lg-6 col-md-12">
-                <Select
-                  isMulti
-                  value={data.coreSubjects}
-                  onChange={(selected) => handleEducationDataChange(index, 'coreSubjects',selected)}
-                  options={coreSubjectsOptions}
-                  className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
-                  placeholder="Core Subjects/Specialization"
+                <input
+                  type="text"
+                  value={data.otherSubjects}
+                  onChange={(e) => handleEducationDataChange(index, 'otherSubjects', e.target.value)}
+                  placeholder="Specify other subjects"
                   required
                 />
               </div>
+            )}
               {bEdPercentage && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
@@ -1176,7 +1252,7 @@ useEffect(() => {
               </div>
               )}
 
-<div className="form-group col-lg-6 col-md-12">
+              <div className="form-group col-lg-6 col-md-12">
               <select
                 value={data.yearOfPassing}
                 onChange={(e) => handleEducationDataChange(index, 'yearOfPassing', e.target.value)}
@@ -1228,7 +1304,6 @@ useEffect(() => {
                         value={option.value}
                         checked={data.mode === option.value}
                         onChange={(e) => handleEducationDataChange(index, 'mode', e.target.value)}
-                        
                       />
                       {option.label}
                     </label>
@@ -1315,7 +1390,6 @@ useEffect(() => {
                   placeholder="Place of Study"
                   maxLength={20}
                   pattern="[a-zA-Z0-9 ]*"
-                  
                 />
               </div>
 
@@ -1327,7 +1401,6 @@ useEffect(() => {
                   placeholder="Affiliated to / recognized by"
                   maxLength={20}
                   pattern="[a-zA-Z0-9 ]*"
-                  
                 />
               </div>
 
@@ -1337,7 +1410,6 @@ useEffect(() => {
                   onChange={(selected) => handleEducationDataChange(index, 'courseDuration', selected.value)}
                   options={dEdCourseDurationOptions}
                   placeholder="Course Duration"
-                  
                 />
               </div>
 
@@ -1370,16 +1442,33 @@ useEffect(() => {
               </select>
             </div>
 
-              <div className="form-group col-lg-6 col-md-12">
+            <div className="form-group col-lg-6 col-md-12">
               <Select
                 isMulti
-                value={data.coreSubjects}
-                onChange={(selected) => handleEducationDataChange(index, 'coreSubjects', selected)}
+                value={data.coreSubjects.map(subject => ({ value: subject, label: subject }))}
+                onChange={(selected) => {
+                  const selectedValues = selected.map(option => option.value);
+                  console.log("Selected Values:", selectedValues); // Debugging line
+                  handleEducationDataChange(index, 'coreSubjects', selectedValues);
+                }}
                 options={coreSubjectsOptions}
-                placeholder="Core Subjects/Specialization"
-                
-            />
+                className={`custom-select ${data.coreSubjects.length === 0 ? 'required' : ''}`}
+                placeholder="Core Subjects"
+                required
+              />
+            </div>
+          
+            {data.coreSubjects.includes('Others') && (
+              <div className="form-group col-lg-6 col-md-12">
+                <input
+                  type="text"
+                  value={data.otherSubjects}
+                  onChange={(e) => handleEducationDataChange(index, 'otherSubjects', e.target.value)}
+                  placeholder="Specify other subjects"
+                  required
+                />
               </div>
+            )}
 
               <div className="form-group col-lg-6 col-md-12">
                 <input

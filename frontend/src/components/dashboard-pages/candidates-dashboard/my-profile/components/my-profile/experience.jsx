@@ -4,15 +4,6 @@ import "./profile-styles.css";
 import Select from "react-select";
 import csc from "countries-states-cities";
 
-const curriculumOptions = [
-  { value: 'stateBoard', label: 'State Board' },
-  { value: 'cbse', label: 'CBSE' },
-  { value: 'icse', label: 'ICSE' },
-  { value: 'others', label: 'Others' },
-  { value: 'affiliatedUniversity', label: 'Affiliated University' },
-  { value: 'deemedUniversity', label: 'Deemed University' }
-];
-
 const baseExperience = {
   organizationName: '',
   jobCategory: '',
@@ -23,25 +14,39 @@ const baseExperience = {
   },
   salary: '',
   paySlip: null,
+  country: '',
+  state: '',
+  city: '',
+  jobProcess: '',
   jobType: '',
   teachingDesignation: '',
+  otherTeachingDesignation: '',
   teachingCurriculum: '',
+  otherTeachingCurriculum: '',
   teachingSubjects: [],
+  otherTeachingSubjects: '',
   teachingGrades: [],
   teachingCoreExpertise: [],
+  otherTeachingCoreExpertise: '',
   adminDesignation: '',
+  otherAdminDesignation: '',
   adminCurriculum: '',
+  otherAdminCurriculum: '',
   teachingAdminDesignations: [],
+  otherTeachingAdminDesignation: '',
   teachingAdminCurriculum: '',
+  otherTeachingAdminCurriculum: '',
   teachingAdminSubjects: [],
+  otherTeachingAdminSubjects: '',
   teachingAdminGrades: [],
   teachingAdminCoreExpertise: [],
+  otherTeachingAdminCoreExpertise: '',
   designation: '',
   industryType: '',
   workProfile: [],
 };
 
-const Experience = ({ excludeAdditionalDetails , className}) => {
+const Experience = ({ excludeAdditionalDetails, excludeTeachingCurriculum,excludeAdminCurriculum, excludeTeachingAdminCurriculum }) => {
 
   const [workExperience, setWorkExperience] = useState({
     total: { years: '0', months: '0' },
@@ -112,13 +117,14 @@ const Experience = ({ excludeAdditionalDetails , className}) => {
       }))
     : [];
   
-  // for fetching subjects,designations,grades,core expertise from the backend
+  // for fetching subjects,designations,grades,core expertise,curriculum from the backend
   const [subjectsOptions, setSubjectsOptions] = useState([]);
   const [teachingDesignations, setTeachingDesignations] = useState([]);
   const [adminDesignations, setAdminDesignations] = useState([]);
   const [teachingAdminDesignations, setTeachingAdminDesignations] = useState([]);
   const [coreExpertise, setCoreExpertise] = useState([]);
   const [grades, setGrades] = useState([]);
+  const [curriculum, setCurriculum] = useState([]);
 
   const subjectList = async () => {
     try {
@@ -149,6 +155,7 @@ const Experience = ({ excludeAdditionalDetails , className}) => {
       setTeachingAdminDesignations(transformedData.filter(item => (item.category === "Teaching" || item.category === "Administration")) || []);
       setCoreExpertise(transformedData.filter(item => item.category === "Core Expertise") || []);
       setGrades(transformedData.filter(item => item.category === "Grades") || []);
+      setCurriculum(transformedData.filter(item => item.category === "Curriculum") || []);
     } catch (error) {
       console.error('Error fetching designations:', error);
     }
@@ -156,10 +163,14 @@ const Experience = ({ excludeAdditionalDetails , className}) => {
 
   const submitExperienceData = async () => {
     const experienceData = {
-      workExperience,
-      experienceEntries,
-      otherTeachingExp,
-      baseExperience,
+      workExperience:{
+        total: workExperience.total,
+        teaching: workExperience.teaching,
+        details: workExperience.details,
+      },
+      experienceEntries: experienceEntries,
+      otherTeachingExp: otherTeachingExp,
+      baseExperience: baseExperience,
     };
 
     try {
@@ -663,11 +674,22 @@ const Experience = ({ excludeAdditionalDetails , className}) => {
                       isClearable
                     />
                 </div>
-
+                {baseExperience.teachingDesignation === 'Others' && (
+                  <div className="form-group col-lg-6 col-md-12">
+                    <input
+                      type="text"
+                      value={baseExperience.otherTeachingDesignation || ''}
+                      onChange={(e) => setExperienceEntries({ ...experienceEntries, otherTeachingDesignation: e.target.value })}
+                      placeholder="Specify other designation"
+                      required
+                    />
+                  </div>
+                )}
+                {excludeTeachingCurriculum && (
                 <div className="form-group col-lg-6 col-md-12">
                     <Select
-                      options={curriculumOptions}
-                      value={curriculumOptions.find(option => option.value === baseExperience.teachingCurriculum) || ''}
+                      options={curriculum}
+                      value={curriculum.find(option => option.value === baseExperience.teachingCurriculum) || ''}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
@@ -680,6 +702,17 @@ const Experience = ({ excludeAdditionalDetails , className}) => {
                       isClearable
                     />
                 </div>
+                )}
+                {baseExperience.teachingCurriculum === 'Others' && (
+                  <div className="form-group col-lg-6 col-md-12">
+                    <input
+                      type="text"
+                      value={baseExperience.otherTeachingCurriculum || ''}
+                      onChange={(e) => setExperienceEntries({ ...experienceEntries, otherTeachingCurriculum: e.target.value })}
+                      placeholder="Specify other curriculum"
+                    />
+                  </div>
+                )}
 
                 {/* Subjects and Grades*/}
                 <div className="form-group col-lg-6 col-md-12">
@@ -702,6 +735,17 @@ const Experience = ({ excludeAdditionalDetails , className}) => {
                       isClearable
                     />
                 </div>
+                {baseExperience.teachingSubjects.includes('Others') && (
+                  <div className="form-group col-lg-6 col-md-12">
+                    <input
+                      type="text"
+                      value={baseExperience.otherTeachingSubjects || ''}  
+                      onChange={(e) => setExperienceEntries({ ...experienceEntries, otherTeachingSubjects: e.target.value })}
+                      placeholder="Specify other subjects"
+                    />
+                  </div>
+                )}
+
 
                 <div className="form-group col-lg-6 col-md-12">
                     <Select
@@ -743,6 +787,19 @@ const Experience = ({ excludeAdditionalDetails , className}) => {
                       isClearable
                     />
                 </div>
+
+                {baseExperience.teachingCoreExpertise.includes('Others') && (
+                  <div className="form-group col-lg-6 col-md-12">
+                    <input
+                      type="text"
+                      value={baseExperience.otherTeachingCoreExpertise || ''} 
+                      onChange={(e) => setExperienceEntries({ ...experienceEntries, otherTeachingCoreExpertise: e.target.value })}
+                      placeholder="Specify other core expertise"
+                      required
+                    />
+                  </div>
+                )}
+
               </div>
             )}
 
@@ -769,12 +826,25 @@ const Experience = ({ excludeAdditionalDetails , className}) => {
                       isClearable
                     />
                 </div>
+                {baseExperience.adminDesignation === 'Others' && (
+                  <div className="form-group col-lg-6 col-md-12">
+                    <input
+                      type="text"
+                      value={baseExperience.otherAdminDesignation || ''}  
+                      onChange={(e) => setExperienceEntries({ ...experienceEntries, otherAdminDesignation: e.target.value })}
+                      placeholder="Specify other designation"
+                      required
+                    />
+                  </div>
+                )}
+
 
                 {/* Curriculum/Board/University */}
+                {excludeAdminCurriculum && (
                 <div className="form-group col-lg-6 col-md-12">
                     <Select
-                      options={curriculumOptions}
-                      value={curriculumOptions.find(option => 
+                      options={curriculum}
+                      value={curriculum.find(option => 
                         option.value === baseExperience.adminCurriculum
                       ) || ''}
                       onChange={(selected) => {
@@ -789,8 +859,20 @@ const Experience = ({ excludeAdditionalDetails , className}) => {
                       isClearable
                     />
                 </div>
-              </div>
-            )}
+                )}
+
+                {baseExperience.adminCurriculum === 'Others' && (
+                  <div className="form-group col-lg-6 col-md-12">
+                    <input
+                      type="text"
+                      value={baseExperience.otherAdminCurriculum || ''} 
+                      onChange={(e) => setExperienceEntries({ ...experienceEntries, otherAdminCurriculum: e.target.value })}
+                      placeholder="Specify other curriculum"
+                    />
+                  </div>
+                )}
+                  </div>
+                )}  
             
             {baseExperience.jobType === 'teachingAndAdministration' && (
               <div className="row">
@@ -815,11 +897,23 @@ const Experience = ({ excludeAdditionalDetails , className}) => {
                       isClearable
                     />
                 </div>
+                {baseExperience.teachingAdminDesignations.includes('Others') && (
+                  <div className="form-group col-lg-6 col-md-12">
+                    <input
+                      type="text"
+                      value={baseExperience.otherTeachingAdminDesignation || ''}  
+                      onChange={(e) => setExperienceEntries({ ...experienceEntries, otherTeachingAdminDesignation: e.target.value })}
+                      placeholder="Specify other designation"
+                      required
+                    />
+                  </div>
+                )}
 
+                {excludeTeachingAdminCurriculum && (
                 <div className="form-group col-lg-6 col-md-12">
                     <Select
-                      options={curriculumOptions}
-                      value={curriculumOptions.find(option => option.value === baseExperience.teachingAdminCurriculum) || ''}
+                      options={curriculum}
+                      value={curriculum.find(option => option.value === baseExperience.teachingAdminCurriculum) || ''}
                       onChange={(selected) => {
                         const newEntries = [...experienceEntries];
                         newEntries[index] = {
@@ -832,6 +926,19 @@ const Experience = ({ excludeAdditionalDetails , className}) => {
                       isClearable
                     />
                 </div>
+                )}
+
+                {baseExperience.teachingAdminCurriculum === 'Others' && (
+                  <div className="form-group col-lg-6 col-md-12">
+                    <input
+                      type="text"
+                      value={baseExperience.otherTeachingAdminCurriculum || ''} 
+                      onChange={(e) => setExperienceEntries({ ...experienceEntries, otherTeachingAdminCurriculum: e.target.value })}
+                      placeholder="Specify other curriculum"
+                    />
+                  </div>
+                )}
+
                 {/* Subjects and Grades in second row */}
                 <div className="form-group col-lg-6 col-md-12">
                     <Select
@@ -853,6 +960,17 @@ const Experience = ({ excludeAdditionalDetails , className}) => {
                       isClearable
                     />
                 </div>
+                {baseExperience.teachingAdminSubjects.includes('Others') && (
+                  <div className="form-group col-lg-6 col-md-12">
+                    <input
+                      type="text"
+                      value={baseExperience.otherTeachingAdminSubjects || ''} 
+                      onChange={(e) => setExperienceEntries({ ...experienceEntries, otherTeachingAdminSubjects: e.target.value })}
+                      placeholder="Specify other subjects"
+                    />
+                  </div>
+                )}
+
 
                 <div className="form-group col-lg-6 col-md-12">
                     <Select
@@ -877,7 +995,7 @@ const Experience = ({ excludeAdditionalDetails , className}) => {
 
                 {/* Core Expertise in third row */}
                 <div className="form-group col-lg-6 col-md-12">
-                  <div className="mb-4">
+                
                     <Select
                       isMulti
                       options={coreExpertise}
@@ -896,8 +1014,22 @@ const Experience = ({ excludeAdditionalDetails , className}) => {
                       placeholder="Core Expertise"
                       isClearable
                     />
-                  </div>
+                
                 </div>
+
+                {baseExperience.teachingAdminCoreExpertise.includes('Others') && (
+                  <div className="form-group col-lg-6 col-md-12">
+                    <input
+                      type="text"
+                      value={baseExperience.otherTeachingAdminCoreExpertise || ''}  
+                      onChange={(e) => setExperienceEntries({ ...experienceEntries, otherTeachingAdminCoreExpertise: e.target.value })}
+                      placeholder="Specify other core expertise"
+                      required
+                    />
+                  </div>
+                )}
+                
+                
               </div>
             )}
             
