@@ -219,7 +219,7 @@
           headers: {
             "Content-Type": "application/json",
           }
-        );
+        });
   
         // Handle success
         if (response.status === 201) {
