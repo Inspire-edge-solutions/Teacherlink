@@ -10,23 +10,23 @@ const SocialNetworkBox = () => {
             type="text"
             name="facebook"
             placeholder="Facebook"
-            required
+            
           />
         </div>
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <input type="text" name="twitter" placeholder="Twitter" required />
+            <input type="text" name="twitter" placeholder="Twitter" />
         </div>
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <input type="text" name="linkedin" placeholder="Linkedin" required />
+          <input type="text" name="linkedin" placeholder="Linkedin" />
         </div>
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <input type="text" name="instagram" placeholder="Instagram" required />
+          <input type="text" name="instagram" placeholder="Instagram" />
         </div>
 
         {/* <!-- Submit Button --> */}

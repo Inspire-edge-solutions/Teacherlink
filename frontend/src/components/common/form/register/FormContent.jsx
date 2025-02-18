@@ -128,16 +128,17 @@ const FormContent = () => {
 
         // Prepare the payload for your backend API
         const userData = {
-          firebaseUid: user.uid, // Firebase User ID
+         
           name: name,
           email: user.email,
           password: password, // This might be a security risk if password is logged or reused
-          number: number, // Custom field captured from your form
+          phone_number: number, // Custom field captured from your form
+          firebase_uid: user.uid, // Firebase User ID
         };
 
         // Send the data to your backend API using axios
-        return axios.post("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/login", {
-          route: "RegisterUser",
+        return axios.post("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users", {
+          route: "CreateUser",
           ...userData,
         }, {
           headers: {
@@ -196,15 +197,19 @@ const FormContent = () => {
       </div>
 
       <div className="form-group">
-        <label>Mobile number :</label>
-        <input
-          type="number"
-          placeholder="Enter mobile number"
-          value={number}
-          onChange={(e) => setNumber(e.target.value)}
-          required
-        />
-      </div>
+          <input
+            type="text"
+            name="callingNumber"
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+            placeholder="Mobile Number"
+            onInput={(e) => {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+          }}
+            maxLength="10"
+            required
+          />
+        </div>
       <div className="form-group">
         <button className="theme-btn btn-style-one" type="submit">
           Register

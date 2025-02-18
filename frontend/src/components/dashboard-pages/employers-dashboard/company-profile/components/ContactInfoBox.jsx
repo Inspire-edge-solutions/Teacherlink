@@ -11,7 +11,7 @@ const ContactInfoBox = () => {
                         type="text"
                         name="name"
                         placeholder="Find on Map"
-                        required
+                        
                     />
                 </div>
 
@@ -21,7 +21,7 @@ const ContactInfoBox = () => {
                         type="text"
                         name="name"
                         placeholder="Latitude"
-                        required
+                        
                     />
                 </div>
 
@@ -31,7 +31,7 @@ const ContactInfoBox = () => {
                         type="text"
                         name="name"
                         placeholder="Longitude"
-                        required
+                        
                     />
                 </div>
 

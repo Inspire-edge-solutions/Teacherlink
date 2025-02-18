@@ -402,6 +402,7 @@ const AdditionalInfo = () => {
     { value: "PPT", label: "PPT" },
     { value: "ERP", label: "ERP" },
     { value: "Tally", label: "Tally" },
+    { value: "Other", label: "Other" },
   ];
 
   const [formData, setFormData] = useState({
@@ -518,8 +519,6 @@ const AdditionalInfo = () => {
             name="computerSkills"
             options={skillOptions}
             placeholder="Computer Skills"
-            className="basic-multi-select"
-            classNamePrefix="select"
             value={skillOptions.filter(option =>
               formData.computerSkills.includes(option.value)
             )}

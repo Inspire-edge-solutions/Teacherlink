@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Country, State, City } from 'country-state-city';
+import Select from 'react-select';
 import './profileStyles.css';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -17,6 +18,7 @@ const OrgDetails = () => {
       name: '',
       gender: '',
       designation: [],
+      otherDesignation: '',
       phone1: '',
       phone2: '',
       email: ''
@@ -25,15 +27,33 @@ const OrgDetails = () => {
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-  const [showDesignationDropdown, setShowDesignationDropdown] = useState(false);
+  const [designations, setDesignations] = useState([]);
   const [isOwner, setIsOwner] = useState('');
   const [reportingAuthority, setReportingAuthority] = useState({
     name: '',
     gender: '',
     designation: [],
+    otherDesignation: '',
     phone1: '',
     phone2: '',
     email: ''
+  });
+
+  const [parents, setParents] = useState({
+    country: '',
+    state: '',
+    city: '',
+    address: '',
+    pincode: '',
+    contactPerson: {
+      name: '',
+      gender: '',
+      designation: [],
+      otherDesignation: '',
+      phone1: '',
+      phone2: '',
+      email: ''
+    }
   });
 
   useEffect(() => {
@@ -76,10 +96,19 @@ const OrgDetails = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setOrgDetails(prev => ({
-      ...prev,
-      [name]: value
-    }));
+
+    // Check if the input belongs to the parentGuardianDetails
+    if (isParentGuardian() && name in parents) {
+      setParents(prev => ({
+        ...prev,
+        [name]: value // Update the specific field in parentGuardianDetails
+      }));
+    } else {
+      setOrgDetails(prev => ({
+        ...prev,
+        [name]: value // Update the general orgDetails fields
+      }));
+    }
   };
 
   const isParentGuardian = () => {
@@ -89,25 +118,24 @@ const OrgDetails = () => {
   const shouldShowAdditionalFields = () => {
     return ['School / College/ University', 'Coaching Centers/ Institutes', 'Ed Tech company'].includes(selectedType);
   };
-  
-  const designationOptions = [
-    'Chairman',
-    'Director',
-    'Principal',
-    'Vice Principal',
-    // Add more designations as needed
-  ];
 
-  const handleDesignationSelect = (designation) => {
-    setOrgDetails(prev => ({
-      ...prev,
-      contactPerson: {
-        ...prev.contactPerson,
-        designation: prev.contactPerson.designation.includes(designation)
-          ? prev.contactPerson.designation.filter(d => d !== designation)
-          : [...prev.contactPerson.designation, designation]
-      }
-    }));
+  const handleDesignationSelect = (selectedOptions, type) => {
+    const selectedValues = selectedOptions ? selectedOptions.map(option => option.value) : [];
+
+    if (type === 'reportingAuthority') {
+      setReportingAuthority(prev => ({
+        ...prev,
+        designation: selectedValues
+      }));
+    } else {
+      setOrgDetails(prev => ({
+        ...prev,
+        contactPerson: {
+          ...prev.contactPerson,
+          designation: selectedValues
+        }
+      }));
+    }
   };
 
   const handleContactPersonChange = (e) => {
@@ -121,18 +149,6 @@ const OrgDetails = () => {
     }));
   };
 
-  const handleMultiSelect = (e) => {
-    const { name, options } = e.target;
-    const selectedValues = Array.from(options, option => option.value);
-    setOrgDetails(prev => ({
-      ...prev,
-      contactPerson: {
-        ...prev.contactPerson,
-        [name]: selectedValues
-      }
-    }));
-  };
-
   const handleReportingAuthorityChange = (e) => {
     const { name, value } = e.target;
     setReportingAuthority(prev => ({
@@ -141,20 +157,31 @@ const OrgDetails = () => {
     }));
   };
 
-  const handleReportingAuthorityDesignationSelect = (designation) => {
-    setReportingAuthority(prev => ({
-      ...prev,
-      designation: prev.designation.includes(designation)
-        ? prev.designation.filter(d => d !== designation)
-        : [...prev.designation, designation]
-    }));
+  const fetchDesignations = async () => {
+    try {
+      const response = await fetch('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/constants');
+      const data = await response.json();
+      const transformedData = data.map(item => ({
+        category: item.category,
+        value: item.value,
+        label: item.label
+      }));
+      setDesignations(transformedData.filter(item => item.category === "Administration") || []);
+    } catch (error) {
+      console.error("Error fetching designations:", error);
+    }
   };
+  useEffect(() => {
+    fetchDesignations();
+  }, []);
+
 
   return (
     <div className='default-form'>
     <div className="row">
     <div className="form-group col-lg-6 col-md-12">
       <select 
+      required
         className="form-control"
         value={selectedType}
         onChange={handleTypeChange}
@@ -179,6 +206,7 @@ const OrgDetails = () => {
               name="name"
               value={orgDetails.name}
               onChange={handleInputChange}
+              required
             />
           </div>
 
@@ -261,6 +289,7 @@ const OrgDetails = () => {
               onChange={handleContactPersonChange}
               maxLength="20"
               placeholder="Name"
+              required
             />
           </div>
 
@@ -298,38 +327,39 @@ const OrgDetails = () => {
         </div>
       </div>
       <div className="form-group col-lg-6 col-md-12">
-            <div className="custom-multiselect">
-              <div 
-                className="select-header form-control"
-                onClick={() => setShowDesignationDropdown(!showDesignationDropdown)}
-              >
-                {reportingAuthority.designation.length > 0 
-                  ? reportingAuthority.designation.join(', ')
-                  : 'Select Designation(s)'}
-              </div>
-              {showDesignationDropdown && (
-                <div className="select-options">
-                  {designationOptions.map((designation, index) => (
-                    <div 
-                      key={index}
-                      className="select-option"
-                      onClick={() => handleReportingAuthorityDesignationSelect(designation)}
-                    >
+          <Select
+          isMulti
+          options={designations}
+          value={designations.filter(option => 
+          orgDetails.contactPerson.designation.includes(option.value)
+          )}
+          onChange={(selectedOptions) => handleDesignationSelect(selectedOptions, 'contactPerson')}
+          className={`custom-select ${orgDetails.contactPerson.designation.length === 0 ? 'required' : ''}`}
+          placeholder="Designation"
+          isClearable
+          />
+        </div>
+                  {orgDetails.contactPerson.designation.includes('Others') && (
+                    <div className="form-group col-lg-6 col-md-12">
                       <input
-                        type="checkbox"
-                        checked={reportingAuthority.designation.includes(designation)}
-                        readOnly
+                        type="text"
+                        value={orgDetails.contactPerson.otherDesignation || ''}  
+                        onChange={(e) => setOrgDetails({ 
+                          ...orgDetails, 
+                          contactPerson: { 
+                            ...orgDetails.contactPerson, 
+                            otherDesignation: e.target.value 
+                          } 
+                        })}
+                        placeholder="Specify other designation"
+                        required
                       />
-                      <span>{designation}</span>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+                  )}
 
           <div className="form-group col-lg-6 col-md-12">
             <input
+            required
               type="tel"
               className="form-control"
               name="phone1"
@@ -347,6 +377,7 @@ const OrgDetails = () => {
 
           <div className="form-group col-lg-6 col-md-12">
             <input
+            required
               type="tel"
               className="form-control"
               name="phone2"
@@ -364,6 +395,7 @@ const OrgDetails = () => {
 
           <div className="form-group col-lg-6 col-md-12">
             <input
+            required
               type="email"
               className="form-control"
               name="email"
@@ -413,6 +445,7 @@ const OrgDetails = () => {
 
           <div className="form-group col-lg-6 col-md-12">
             <input
+            required
               type="text"
               className="form-control"
               name="name"
@@ -464,38 +497,37 @@ const OrgDetails = () => {
           </div>
 
           <div className="form-group col-lg-6 col-md-12">
-            <div className="custom-multiselect">
-              <div 
-                className="select-header form-control"
-                onClick={() => setShowDesignationDropdown(!showDesignationDropdown)}
-              >
-                {reportingAuthority.designation.length > 0 
-                  ? reportingAuthority.designation.join(', ')
-                  : 'Select Designation(s)'}
-              </div>
-              {showDesignationDropdown && (
-                <div className="select-options">
-                  {designationOptions.map((designation, index) => (
-                    <div 
-                      key={index}
-                      className="select-option"
-                      onClick={() => handleReportingAuthorityDesignationSelect(designation)}
-                    >
+          <Select
+          isMulti
+          options={designations}
+          value={designations.filter(option => 
+          reportingAuthority.designation.includes(option.value)
+          )}
+          onChange={(selectedOptions) => handleDesignationSelect(selectedOptions, 'reportingAuthority')}
+          className={`custom-select ${reportingAuthority.designation.length === 0 ? 'required' : ''}`}
+          placeholder="Designation"
+          isClearable
+          />
+        </div>
+                  {reportingAuthority.designation.includes('Others') && (
+                    <div className="form-group col-lg-6 col-md-12">
                       <input
-                        type="checkbox"
-                        checked={reportingAuthority.designation.includes(designation)}
-                        readOnly
+                        type="text"
+                        value={reportingAuthority.otherDesignation || ''}  
+                        onChange={(e) => setReportingAuthority({ 
+                          ...reportingAuthority, 
+                          otherDesignation: e.target.value 
+                          } 
+                        )}
+                        placeholder="Specify other designation"
+                        required
                       />
-                      <span>{designation}</span>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+                  )}
 
           <div className="form-group col-lg-6 col-md-12">
             <input
+            required
               type="tel"
               className="form-control"
               name="phone1"
@@ -513,6 +545,7 @@ const OrgDetails = () => {
 
           <div className="form-group col-lg-6 col-md-12">
             <input
+            required
               type="tel"
               className="form-control"
               name="phone2"
@@ -530,6 +563,7 @@ const OrgDetails = () => {
 
           <div className="form-group col-lg-6 col-md-12">
             <input
+            required
               type="email"
               className="form-control"
               name="email"
@@ -542,6 +576,7 @@ const OrgDetails = () => {
           <div className="row">
           <div className="form-group col-lg-6 col-md-12">
             <select
+            
               className="form-control"
               name="country"
               value={orgDetails.country || ''}
@@ -558,6 +593,7 @@ const OrgDetails = () => {
 
           <div className="form-group col-lg-6 col-md-12">
             <select
+            
               className="form-control"
               name="state"
               value={orgDetails.state || ''}
@@ -575,6 +611,7 @@ const OrgDetails = () => {
 
           <div className="form-group col-lg-6 col-md-12">
             <select
+            
               className="form-control"
               name="city"
               value={orgDetails.city || ''}
@@ -611,6 +648,7 @@ const OrgDetails = () => {
                 e.target.value = e.target.value.replace(/[^0-9]/g, '');
             }}
               maxLength="6"
+              required
             />
           </div>
           </div>
@@ -623,9 +661,10 @@ const OrgDetails = () => {
         <div className="row">
           <div className="form-group col-lg-6 col-md-12">
             <select
+            required
               className="form-control"
               name="country"
-              value={orgDetails.country || ''}
+              value={parents.country || ''}
               onChange={handleInputChange}
             >
               <option value="">Country</option>
@@ -639,11 +678,12 @@ const OrgDetails = () => {
 
           <div className="form-group col-lg-6 col-md-12">
             <select
+            required
               className="form-control"
               name="state"
-              value={orgDetails.state || ''}
+              value={parents.state || ''}
               onChange={handleInputChange}
-              disabled={!orgDetails.country}
+              disabled={!parents.country}
             >
               <option value="">State</option>
               {states && states.map((state) => (
@@ -656,11 +696,12 @@ const OrgDetails = () => {
 
           <div className="form-group col-lg-6 col-md-12">
             <select
+            required
               className="form-control"
               name="city"
-              value={orgDetails.city || ''}
+              value={parents.city || ''}
               onChange={handleInputChange}
-              disabled={!orgDetails.state}
+              disabled={!parents.state}
             >
               <option value="">City</option>
               {cities && cities.map((city) => (
@@ -675,17 +716,18 @@ const OrgDetails = () => {
               type="text"
               className="form-control"
               name="address"
-              value={orgDetails.address}
+              value={parents.address}
               onChange={handleInputChange}
               placeholder="Address:No./ Lane / Area"
             />
           </div>
           <div className="form-group col-lg-6 col-md-12">
             <input
+            required
               type="text"
               className="form-control"
               name="pincode"
-              value={orgDetails.pincode}
+              value={parents.pincode}
               onChange={handleInputChange}
               placeholder="Pin code"
               onInput={(e) => {
@@ -700,10 +742,11 @@ const OrgDetails = () => {
 
           <div className="form-group col-lg-6 col-md-12">
             <input
+            required
               type="text"
               className="form-control"
               name="name"
-              value={orgDetails.contactPerson.name}
+              value={parents.contactPerson.name}
               onChange={handleContactPersonChange}
               maxLength="20"
               placeholder="Name"
@@ -744,43 +787,44 @@ const OrgDetails = () => {
         </div>
       </div>
 
-          <div className="form-group col-lg-6 col-md-12">
-            <div className="custom-multiselect">
-              <div 
-                className="select-header form-control"
-                onClick={() => setShowDesignationDropdown(!showDesignationDropdown)}
-              >
-                {orgDetails.contactPerson.designation.length > 0 
-                  ? orgDetails.contactPerson.designation.join(', ')
-                  : 'Select Designation(s)'}
-              </div>
-              {showDesignationDropdown && (
-                <div className="select-options">
-                  {designationOptions.map((designation, index) => (
-                    <div 
-                      key={index}
-                      className="select-option"
-                      onClick={() => handleDesignationSelect(designation)}
-                    >
+      <div className="form-group col-lg-6 col-md-12">
+          <Select
+          isMulti
+          options={designations}
+          value={designations.filter(option => 
+          parents.contactPerson.designation.includes(option.value)
+          )}
+          onChange={(selectedOptions) => handleDesignationSelect(selectedOptions, 'parents')}
+          className={`custom-select ${parents.contactPerson.designation.length === 0 ? 'required' : ''}`}
+          placeholder="Designation"
+          isClearable
+          />
+        </div>
+                  {parents.contactPerson.designation.includes('Others') && (
+                    <div className="form-group col-lg-6 col-md-12">
                       <input
-                        type="checkbox"
-                        checked={orgDetails.contactPerson.designation.includes(designation)}
-                        onChange={() => {}}
+                        type="text"
+                        value={reportingAuthority.otherDesignation || ''}  
+                        onChange={(e) => setParents({ 
+                          ...parents, 
+                          contactPerson: { 
+                            ...parents.contactPerson, 
+                            otherDesignation: e.target.value 
+                          } 
+                        })}
+                        placeholder="Specify other designation"
+                        required
                       />
-                      <span>{designation}</span>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+                  )}
 
           <div className="form-group col-lg-6 col-md-12">
             <input
+            required
               type="tel"
               className="form-control"
               name="phone1"
-              value={orgDetails.contactPerson.phone1}
+              value={parents.contactPerson.phone1}
               onChange={handleContactPersonChange}
               onInput={(e) => {
                 e.target.value = e.target.value.replace(/[^0-9]/g, '');
@@ -792,10 +836,11 @@ const OrgDetails = () => {
 
           <div className="form-group col-lg-6 col-md-12">
             <input
+            required
               type="tel"
               className="form-control"
               name="phone2"
-              value={orgDetails.contactPerson.phone2}
+              value={parents.contactPerson.phone2}
               onChange={handleContactPersonChange}
               onInput={(e) => {
                 e.target.value = e.target.value.replace(/[^0-9]/g, '');
@@ -807,10 +852,11 @@ const OrgDetails = () => {
 
           <div className="form-group col-lg-6 col-md-12">
             <input
+            required
               type="email"
               className="form-control"
               name="email"
-              value={orgDetails.contactPerson.email}
+              value={parents.contactPerson.email}
               onChange={handleContactPersonChange}
               placeholder="Email"
             />

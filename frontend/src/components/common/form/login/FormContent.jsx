@@ -99,6 +99,9 @@ const FormContent = () => {
       navigate("/");
     } catch (error) {
       alert(error.message);
+      if(error.response){
+        console.log("Backend error :",error.response.data);
+      }
     }
   };
 
@@ -138,14 +141,16 @@ const FormContent = () => {
     <div className="text">
            Don&apos;t have an account? <Link to="/register">Signup</Link>
          </div>
-
+         
          <div className="divider">
            <span>or</span>
          </div>
 
          <LoginWithSocial />
        </div>
-
+       <div className="text">
+           Forgot Password? <Link to="/candidates-dashboard/change-password">Reset Password</Link>
+         </div>
     </div>
   );
 };
