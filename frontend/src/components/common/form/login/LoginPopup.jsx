@@ -1,7 +1,8 @@
 import Register from "../register/Register";
-import FormContent2 from "./FormContent";
+import FormContent from "./FormContent";
 
 const LoginPopup = () => {
+  
   return (
     <>
       <div className="modal fade" id="loginPopupModal">
@@ -19,7 +20,7 @@ const LoginPopup = () => {
               <div id="login-modal">
                 {/* <!-- Login Form --> */}
                 <div className="login-form default-form">
-                  <FormContent2 />
+                  <FormContent userType={userType} />
                 </div>
                 {/* <!--End Login Form --> */}
               </div>

@@ -110,7 +110,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const FormContent = () => {
+const FormContent = ({userType}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -128,12 +128,12 @@ const FormContent = () => {
 
         // Prepare the payload for your backend API
         const userData = {
-         
           name: name,
           email: user.email,
           password: password, // This might be a security risk if password is logged or reused
           phone_number: number, // Custom field captured from your form
           firebase_uid: user.uid, // Firebase User ID
+          user_type: userType,
         };
 
         // Send the data to your backend API using axios
@@ -147,18 +147,15 @@ const FormContent = () => {
         });
       })
       .then((response) => {
-        // Handle success
         if (response.status === 200) {
           alert("Registration successful! Please login.");
-          navigate("/login");
+          navigate("/login",{state:{userType:userType}});
         } else {
-          // Handle backend errors
-          alert(`Backend Error: ${response.statusText}`);
+          console.error("Failed to submit data:", response.statusText);
         }
       })
       .catch((error) => {
-        // Handle errors from Firebase, Axios or the fetch call
-        alert(`Error: ${error.message}`);
+        console.error("Error submitting data:", error);
       });
   };
 
@@ -196,6 +193,7 @@ const FormContent = () => {
         />
       </div>
 
+      <label>Mobile Number :</label>
       <div className="form-group">
           <input
             type="text"

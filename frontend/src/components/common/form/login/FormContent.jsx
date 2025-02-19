@@ -79,31 +79,60 @@
 
 // export default FormContent;
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { auth } from "../../../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import LoginWithSocial from "./LoginWithSocial";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const FormContent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const userType = location.state?.userType;
+ 
   const handleLogin = async (e) => {
     e.preventDefault();
+    console.log("user type before login:", userType);
+    
     try {
       await signInWithEmailAndPassword(auth, email, password);
       alert("Login successful!");
-      navigate("/");
-    } catch (error) {
-      alert(error.message);
-      if(error.response){
-        console.log("Backend error :",error.response.data);
+      
+      console.log("user type after login:", userType);
+      if (userType === "Candidate") {
+        navigate("/candidates-dashboard/dashboard");
+      } else if (userType === "Employer") {
+        navigate("/employers-dashboard/dashboard");
       }
     }
+    catch (error) {
+      alert(error.message);
+      if (error.response) {
+        console.log("Backend error :", error.response.data);
+      }
+    }
+    ;
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users",
+          {route:"GetUser"}
+        );
+        console.log("Fetched data:", response.data);
+        // You can set the fetched data to state if needed
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array to run once on mount
 
   return (
     <div className="form-inner">
@@ -138,13 +167,13 @@ const FormContent = () => {
         </div>
       </form>
       <div className="bottom-box">
-    <div className="text">
-           Don&apos;t have an account? <Link to="/register">Signup</Link>
-         </div>
-         
-         <div className="divider">
-           <span>or</span>
-         </div>
+        <div className="text">
+          Don&apos;t have an account? <Link to="/register">Signup</Link>
+        </div>
+        
+        <div className="divider">
+          <span>or</span>
+        </div>
 
          <LoginWithSocial />
        </div>
