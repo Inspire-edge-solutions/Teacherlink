@@ -79,35 +79,33 @@
 
 // export default FormContent;
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { auth } from "../../../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import LoginWithSocial from "./LoginWithSocial";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
 
 const FormContent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const location = useLocation();
-  const userType = location.state?.userType;
+
  
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("user type before login:", userType);
     
     try {
       await signInWithEmailAndPassword(auth, email, password);
       alert("Login successful!");
-      
-      console.log("user type after login:", userType);
-      if (userType === "Candidate") {
-        navigate("/candidates-dashboard/dashboard");
-      } else if (userType === "Employer") {
-        navigate("/employers-dashboard/dashboard");
-      }
+      navigate('/');
+    //  console.log(auth.currentUser);
+    //  console.log(userType);
+    //   if (userType === "Candidate") {
+    //     navigate("/candidates-dashboard/dashboard");
+    //   } else if (userType === "Employer") {
+    //     navigate("/employers-dashboard/dashboard");
+    //   }
     }
     catch (error) {
       alert(error.message);
@@ -117,22 +115,6 @@ const FormContent = () => {
     }
     ;
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users",
-          {route:"GetUser"}
-        );
-        console.log("Fetched data:", response.data);
-        // You can set the fetched data to state if needed
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []); // Empty dependency array to run once on mount
 
   return (
     <div className="form-inner">
@@ -178,7 +160,7 @@ const FormContent = () => {
          <LoginWithSocial />
        </div>
        <div className="text">
-           Forgot Password? <Link to="/candidates-dashboard/change-password">Reset Password</Link>
+           Forgot Password?<Link to="/forgetpassword"> Reset Password</Link>
          </div>
     </div>
   );

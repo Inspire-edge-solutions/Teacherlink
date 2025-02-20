@@ -110,12 +110,15 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const FormContent = ({userType}) => {
+const FormContent = ({ userType }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [number, setNumber] = useState("");
   const navigate = useNavigate();
+
+  // Log userType to verify its value
+  //console.log("User Type:", userType);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -133,8 +136,10 @@ const FormContent = ({userType}) => {
           password: password, // This might be a security risk if password is logged or reused
           phone_number: number, // Custom field captured from your form
           firebase_uid: user.uid, // Firebase User ID
-          user_type: userType,
+          user_type: userType, // Ensure userType is correctly passed
         };
+
+        console.log("User Data:", userData); // Log userData to verify its contents
 
         // Send the data to your backend API using axios
         return axios.post("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users", {
@@ -149,7 +154,7 @@ const FormContent = ({userType}) => {
       .then((response) => {
         if (response.status === 200) {
           alert("Registration successful! Please login.");
-          navigate("/login",{state:{userType:userType}});
+          navigate("/login",{state:{userType}});
         } else {
           console.error("Failed to submit data:", response.statusText);
         }
@@ -160,6 +165,7 @@ const FormContent = ({userType}) => {
   };
 
   return (
+    <>
     <form onSubmit={handleRegister}>
       <div className="form-group">
         <label>Name :</label>
@@ -214,6 +220,7 @@ const FormContent = ({userType}) => {
         </button>
       </div>
     </form>
+    </>
   );
 };
 

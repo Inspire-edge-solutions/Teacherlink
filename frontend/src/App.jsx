@@ -1,4 +1,3 @@
-
 import Aos from "aos";
 import "aos/dist/aos.css";
 import "./styles/index.scss";
@@ -74,6 +73,7 @@ import PackagePage from "./pages/candidates-dashboard/packages";
 import ShortListedJobsPage from "./pages/candidates-dashboard/short-listed-jobs";
 import LoginPage from "./pages/others/login";
 import RegisterPage from "./pages/others/register";
+import ForgetPasswordPage from "./pages/forget-password";
 import ShopListPage from "./pages/shop/shop-list";
 import ShopSingleDyanmic from "./pages/shop/shop-single";
 import CartPage from "./pages/shop/cart";
@@ -97,6 +97,8 @@ function App() {
                 <Route path="/">
                   <Route index element={<HomePage13 />} />
                   <Route path="home-13" element={<HomePage13 />} />
+                  
+                  <Route path="forgetPassword" element={<ForgetPasswordPage />} />
                  
                   <Route path="job-list-v3" element={<JobListPage3 />} />
                   <Route path="job-list-v4" element={<JobListPage4 />} />
@@ -142,6 +144,7 @@ function App() {
                   <Route path="contact" element={<ContactPage />} />
                   <Route path="login" element={<LoginPage />} />
                   <Route path="register" element={<RegisterPage />} />
+                  
                   <Route path="404" element={<NotFoundPage />} />
                   <Route path="*" element={<NotFoundPage />} />
 

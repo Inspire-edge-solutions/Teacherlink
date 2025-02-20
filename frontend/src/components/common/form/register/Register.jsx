@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const Register = () => {
-  const [userType, setUserType] = useState("");
+  const [userType, setUserType] = useState("Candidate");
+
   const handleUserType = (type) => {
-    setUserType(type); // Update userType based on selection
+    setUserType(type);
   };
 
   return (
