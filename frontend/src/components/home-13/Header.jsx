@@ -2,7 +2,6 @@
 
 
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import HeaderNavContent from "../header/HeaderNavContent";
 
 
@@ -34,17 +33,14 @@ const Header = () => {
         {/* <!--Nav Outer --> */}
         <div className="nav-outer">
           <div className="logo-box">
-            <div className="logo">
               <Link to="/">
                 <img
-                 
                   src="/images/teacherlink-logo.png"
                   alt="brand"
-                  height={150}
-                  width={150}
+                  height={300}
+                  width={300}
                 />
               </Link>
-            </div>
           </div>
           {/* End .logo-box */}
 
@@ -62,7 +58,7 @@ const Header = () => {
               // data-bs-toggle="modal"
               // data-bs-target="#register"
             >
-              Login
+              Login/Register
             </a>
             {/* <Link
               to="/employers-dashboard/post-jobs"

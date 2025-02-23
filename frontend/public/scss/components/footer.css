@@ -104,6 +104,7 @@ Main Footer
 .main-footer .list li a {
   display: inline-block;
   color: #696969;
+  -webkit-transition: all 200ms ease;
   transition: all 200ms ease;
 }
 
@@ -115,6 +116,7 @@ Main Footer
   width: 0px;
   content: "";
   border-bottom: 2px solid var(--primary-color);
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -123,6 +125,7 @@ Main Footer
 }
 
 .main-footer .list li:hover a {
+  -webkit-transform: translateX(25px);
   transform: translateX(25px);
   color: var(--primary-color);
 }
@@ -139,7 +142,11 @@ Main Footer
 
 .main-footer .footer-bottom .bottom-left {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -162,6 +169,7 @@ Main Footer
   display: inline-block;
   color: #696969;
   line-height: 30px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -172,14 +180,24 @@ Main Footer
 
 .main-footer .footer-bottom .outer-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
 .main-footer .social-links {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -189,6 +207,7 @@ Main Footer
   font-size: 14px;
   line-height: 24px;
   color: #696969;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -216,8 +235,8 @@ Main Footer
   position: relative;
 }
 
-.newsletter-form .form-group input[type=text],
-.newsletter-form .form-group input[type=email] {
+.newsletter-form .form-group input[type="text"],
+.newsletter-form .form-group input[type="email"] {
   display: block;
   height: 60px;
   width: 100%;
@@ -227,8 +246,10 @@ Main Footer
   background: #ffffff;
   padding: 15px 20px;
   padding-right: 60px;
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   border-radius: 8px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -241,6 +262,7 @@ Main Footer
   height: 40px;
   color: #ffffff;
   text-align: center;
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   border-radius: 8px;
 }
@@ -424,7 +446,11 @@ Main Footer / Style Three
 
 .app-btn {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   font-size: 14px;
   padding: 9px 22px;
@@ -434,6 +460,7 @@ Main Footer / Style Three
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
   margin-bottom: 20px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -471,8 +498,8 @@ Main Footer / Style Three
   padding: 30px 0;
 }
 
-.main-footer.style-three .newsletter-form .form-group input[type=text],
-.main-footer.style-three .newsletter-form .form-group input[type=email] {
+.main-footer.style-three .newsletter-form .form-group input[type="text"],
+.main-footer.style-three .newsletter-form .form-group input[type="email"] {
   border-radius: 50px;
   padding: 15px 28px;
   padding-right: 140px;
@@ -578,8 +605,8 @@ Main Footer / Style Five
   margin-bottom: 0;
 }
 
-.main-footer.style-five .newsletter-form .form-group input[type=text],
-.main-footer.style-five .newsletter-form .form-group input[type=email] {
+.main-footer.style-five .newsletter-form .form-group input[type="text"],
+.main-footer.style-five .newsletter-form .form-group input[type="email"] {
   border-radius: 8px;
   padding-right: 140px;
   height: 70px;
@@ -589,6 +616,7 @@ Main Footer / Style Five
   line-height: 20px;
   color: #696969;
   border: 1px solid #ecedf2;
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
 }
 
@@ -696,4 +724,5 @@ Main Footer / Style Six
   font-size: 14px;
   line-height: 24px;
   color: #696969;
-}/*# sourceMappingURL=footer.css.map */
+}
+/*# sourceMappingURL=footer.css.map */

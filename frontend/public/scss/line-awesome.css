@@ -16,15 +16,15 @@
 .la-lg {
   font-size: 1.33333em;
   line-height: 0.75em;
-  vertical-align: -0.0667em;
+  vertical-align: -.0667em;
 }
 
 .la-xs {
-  font-size: 0.75em;
+  font-size: .75em;
 }
 
 .la-sm {
-  font-size: 0.875em;
+  font-size: .875em;
 }
 
 .la-1x {
@@ -92,8 +92,8 @@
 
 .la-border {
   border: solid 0.08em #eee;
-  border-radius: 0.1em;
-  padding: 0.2em 0.25em 0.15em;
+  border-radius: .1em;
+  padding: .2em .25em .15em;
 }
 
 .la-pull-left {
@@ -109,7 +109,7 @@
 .lar.la-pull-left,
 .lal.la-pull-left,
 .lab.la-pull-left {
-  margin-right: 0.3em;
+  margin-right: .3em;
 }
 
 .la.la-pull-right,
@@ -117,51 +117,74 @@
 .lar.la-pull-right,
 .lal.la-pull-right,
 .lab.la-pull-right {
-  margin-left: 0.3em;
+  margin-left: .3em;
 }
 
 .la-spin {
+  -webkit-animation: la-spin 2s infinite linear;
   animation: la-spin 2s infinite linear;
 }
 
 .la-pulse {
+  -webkit-animation: la-spin 1s infinite steps(8);
   animation: la-spin 1s infinite steps(8);
 }
-@keyframes la-spin {
+
+@-webkit-keyframes la-spin {
   0% {
+    -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
   100% {
+    -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
 }
+
+@keyframes la-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
 .la-rotate-90 {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
 .la-rotate-180 {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
 .la-rotate-270 {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
 }
 
 .la-flip-horizontal {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  -webkit-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
 
 .la-flip-vertical {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(1, -1);
   transform: scale(1, -1);
 }
 
 .la-flip-both, .la-flip-horizontal.la-flip-vertical {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(-1, -1);
   transform: scale(-1, -1);
 }
 
@@ -171,6 +194,7 @@
 :root .la-flip-horizontal,
 :root .la-flip-vertical,
 :root .la-flip-both {
+  -webkit-filter: none;
   filter: none;
 }
 
@@ -5802,41 +5826,44 @@ readers do not read off random characters that represent icons */
 }
 
 @font-face {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-style: normal;
   font-weight: normal;
   font-display: auto;
   src: url("/fonts/la-brands-400.eot");
   src: url("/fonts/la-brands-400.eot?#iefix") format("embedded-opentype"), url("/fonts/la-brands-400.woff2") format("woff2"), url("/fonts/la-brands-400.woff") format("woff"), url("/fonts/la-brands-400.ttf") format("truetype"), url("/fonts/la-brands-400.svg#lineawesome") format("svg");
 }
+
 .lab {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
 }
 
 @font-face {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-style: normal;
   font-weight: 400;
   font-display: auto;
   src: url("/fonts/la-regular-400.eot");
   src: url("/fonts/la-regular-400.eot?#iefix") format("embedded-opentype"), url("/fonts/la-regular-400.woff2") format("woff2"), url("/fonts/la-regular-400.woff") format("woff"), url("/fonts/la-regular-400.ttf") format("truetype"), url("/fonts/la-regular-400.svg#lineawesome") format("svg");
 }
+
 .lar {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
 @font-face {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-style: normal;
   font-weight: 900;
   font-display: auto;
   src: url("/fonts/la-solid-900.eot");
   src: url("/fonts/la-solid-900.eot?#iefix") format("embedded-opentype"), url("/fonts/la-solid-900.woff2") format("woff2"), url("/fonts/la-solid-900.woff") format("woff"), url("/fonts/la-solid-900.ttf") format("truetype"), url("/fonts/la-solid-900.svg#lineawesome") format("svg");
 }
+
 .la,
 .las {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 900;
 }
 
@@ -5845,12 +5872,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-meetup {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-star-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -5871,7 +5898,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-trash-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -5880,7 +5907,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -5889,7 +5916,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-clock-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -5898,7 +5925,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-arrow-circle-o-down {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -5907,7 +5934,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-arrow-circle-o-up {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -5916,7 +5943,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-play-circle-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -5937,7 +5964,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-list-alt {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -5950,7 +5977,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-picture-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -5959,7 +5986,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-photo {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -5968,7 +5995,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-image {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -5985,7 +6012,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-pencil-square-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -5994,7 +6021,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-share-square-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6003,7 +6030,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-check-square-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6016,7 +6043,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-times-circle-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6025,7 +6052,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-check-circle-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6038,12 +6065,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-eye {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
 .la.la-eye-slash {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6064,7 +6091,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-bar-chart {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6073,7 +6100,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-bar-chart-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6082,12 +6109,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-twitter-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-facebook-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -6096,7 +6123,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-thumbs-o-up {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6105,7 +6132,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-thumbs-o-down {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6114,7 +6141,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-heart-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6127,7 +6154,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-linkedin-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -6148,12 +6175,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-github-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-lemon-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6162,7 +6189,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-square-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6171,7 +6198,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-bookmark-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6180,12 +6207,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-twitter {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-facebook {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -6194,7 +6221,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-facebook-f {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -6203,12 +6230,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-github {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-credit-card {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6217,7 +6244,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hdd-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6226,7 +6253,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hand-o-right {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6235,7 +6262,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hand-o-left {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6244,7 +6271,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hand-o-up {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6253,7 +6280,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hand-o-down {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6278,7 +6305,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-files-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6287,7 +6314,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-floppy-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6304,22 +6331,22 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-pinterest {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-pinterest-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-google-plus-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-google-plus {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -6328,7 +6355,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-money {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6349,7 +6376,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-linkedin {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -6374,7 +6401,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-comment-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6383,7 +6410,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-comments-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6396,12 +6423,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-clipboard {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
 .la.la-paste {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6410,7 +6437,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-lightbulb-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6431,7 +6458,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-bell-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6444,7 +6471,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-text-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6453,7 +6480,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-building-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6462,7 +6489,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hospital-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6483,7 +6510,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-circle-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6496,12 +6523,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-github-alt {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-folder-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6510,7 +6537,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-folder-open-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6519,7 +6546,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-smile-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6528,7 +6555,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-frown-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6537,7 +6564,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-meh-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6546,7 +6573,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-keyboard-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6555,7 +6582,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-flag-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6568,7 +6595,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-star-half-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6577,7 +6604,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-star-half-empty {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6586,7 +6613,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-star-half-full {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6607,7 +6634,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-calendar-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6616,17 +6643,17 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-maxcdn {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-html5 {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-css3 {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -6635,7 +6662,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-minus-square-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6660,12 +6687,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-compass {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
 .la.la-caret-square-o-down {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6674,7 +6701,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-toggle-down {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6683,7 +6710,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-caret-square-o-up {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6692,7 +6719,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-toggle-up {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6701,7 +6728,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-caret-square-o-right {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6710,7 +6737,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-toggle-right {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6783,12 +6810,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-btc {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-bitcoin {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -6825,27 +6852,27 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-youtube-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-youtube {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-xing {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-xing-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-youtube-play {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -6854,37 +6881,37 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-dropbox {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-stack-overflow {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-instagram {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-flickr {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-adn {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-bitbucket {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-bitbucket-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -6893,12 +6920,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-tumblr {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-tumblr-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -6919,52 +6946,52 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-apple {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-windows {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-android {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-linux {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-dribbble {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-skype {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-foursquare {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-trello {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-gratipay {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-gittip {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -6973,7 +7000,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-sun-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6982,7 +7009,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-moon-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -6991,32 +7018,32 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-vk {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-weibo {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-renren {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-pagelines {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-stack-exchange {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-arrow-circle-o-right {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7025,7 +7052,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-arrow-circle-o-left {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7034,7 +7061,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-caret-square-o-left {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7043,7 +7070,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-toggle-left {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7052,7 +7079,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-dot-circle-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7061,7 +7088,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-vimeo-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7074,7 +7101,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-plus-square-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7083,17 +7110,17 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-slack {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-wordpress {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-openid {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7110,62 +7137,62 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-yahoo {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-google {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-reddit {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-reddit-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-stumbleupon-circle {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-stumbleupon {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-delicious {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-digg {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-pied-piper-pp {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-pied-piper-alt {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-drupal {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-joomla {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7174,22 +7201,22 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-behance {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-behance-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-steam {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-steam-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7202,7 +7229,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-envelope-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7211,17 +7238,17 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-deviantart {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-soundcloud {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-file-pdf-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7230,7 +7257,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-word-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7239,7 +7266,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-excel-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7248,7 +7275,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-powerpoint-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7257,7 +7284,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-image-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7266,7 +7293,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-photo-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7275,7 +7302,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-picture-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7284,7 +7311,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-archive-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7293,7 +7320,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-zip-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7302,7 +7329,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-audio-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7311,7 +7338,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-sound-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7320,7 +7347,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-video-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7329,7 +7356,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-movie-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7338,7 +7365,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-file-code-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7347,27 +7374,27 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-vine {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-codepen {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-jsfiddle {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-life-ring {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
 .la.la-life-bouy {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7376,7 +7403,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-life-buoy {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7385,7 +7412,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-life-saver {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7394,7 +7421,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-support {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7407,12 +7434,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-rebel {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-ra {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7421,7 +7448,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-resistance {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7430,12 +7457,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-empire {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-ge {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7444,22 +7471,22 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-git-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-git {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-hacker-news {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-y-combinator-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7468,7 +7495,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-yc-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7477,22 +7504,22 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-tencent-weibo {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-qq {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-weixin {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-wechat {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7505,7 +7532,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-paper-plane-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7514,7 +7541,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-send-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7523,7 +7550,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-circle-thin {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7540,7 +7567,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-futbol-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7549,7 +7576,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-soccer-ball-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7558,22 +7585,22 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-slideshare {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-twitch {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-yelp {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-newspaper-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7582,47 +7609,47 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-paypal {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-google-wallet {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-cc-visa {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-cc-mastercard {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-cc-discover {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-cc-amex {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-cc-paypal {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-cc-stripe {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-bell-slash-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7635,7 +7662,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-copyright {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7656,27 +7683,27 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-lastfm {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-lastfm-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-ioxhost {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-angellist {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-cc {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7697,7 +7724,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-meanpath {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7706,52 +7733,52 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-buysellads {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-connectdevelop {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-dashcube {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-forumbee {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-leanpub {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-sellsy {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-shirtsinbulk {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-simplybuilt {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-skyatlas {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-diamond {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7764,7 +7791,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-facebook-official {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7773,12 +7800,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-pinterest-p {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-whatsapp {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7787,22 +7814,22 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-viacoin {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-medium {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-y-combinator {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-yc {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7811,17 +7838,17 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-optin-monster {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-opencart {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-expeditedssl {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -7850,17 +7877,17 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-object-group {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
 .la.la-object-ungroup {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
 .la.la-sticky-note-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7869,22 +7896,22 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-cc-jcb {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-cc-diners-club {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-clone {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
 .la.la-hourglass-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7905,7 +7932,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hand-rock-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7914,7 +7941,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hand-grab-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7923,7 +7950,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hand-paper-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7932,7 +7959,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hand-stop-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7941,7 +7968,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hand-scissors-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7950,7 +7977,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hand-lizard-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7959,7 +7986,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hand-spock-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7968,7 +7995,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hand-pointer-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7977,7 +8004,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-hand-peace-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -7986,72 +8013,72 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-registered {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
 .la.la-creative-commons {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-gg {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-gg-circle {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-tripadvisor {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-odnoklassniki {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-odnoklassniki-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-get-pocket {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-wikipedia-w {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-safari {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-chrome {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-firefox {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-opera {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-internet-explorer {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -8060,22 +8087,22 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-contao {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-500px {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-amazon {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-calendar-plus-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8084,7 +8111,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-calendar-minus-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8093,7 +8120,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-calendar-times-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8102,7 +8129,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-calendar-check-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8111,7 +8138,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-map-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8124,7 +8151,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-commenting-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8133,12 +8160,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-houzz {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-vimeo {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -8147,22 +8174,22 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-black-tie {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-fonticons {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-reddit-alien {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-edge {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -8171,42 +8198,42 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-codiepie {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-modx {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-fort-awesome {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-usb {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-product-hunt {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-mixcloud {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-scribd {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-pause-circle-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8215,7 +8242,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-stop-circle-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8224,37 +8251,37 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-bluetooth {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-bluetooth-b {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-gitlab {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-wpbeginner {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-wpforms {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-envira {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-wheelchair-alt {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -8263,7 +8290,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-question-circle-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8288,12 +8315,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-glide {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-glide-g {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -8302,52 +8329,52 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-viadeo {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-viadeo-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-snapchat {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-snapchat-ghost {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-snapchat-square {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-pied-piper {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-first-order {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-yoast {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-themeisle {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-google-plus-official {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -8356,7 +8383,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-google-plus-circle {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -8365,12 +8392,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-font-awesome {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-fa {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -8379,7 +8406,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-handshake-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8388,7 +8415,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-envelope-open-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8397,12 +8424,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-linode {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-address-book-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8415,7 +8442,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-address-card-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8424,7 +8451,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-vcard-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8433,7 +8460,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-user-circle-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8442,7 +8469,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-user-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8451,7 +8478,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-id-badge {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8460,7 +8487,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-id-card-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8469,7 +8496,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-drivers-license-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8478,17 +8505,17 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-quora {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-free-code-camp {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-telegram {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -8525,12 +8552,12 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-window-maximize {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
 .la.la-window-restore {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8539,7 +8566,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-window-close-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8548,7 +8575,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-times-rectangle-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8557,32 +8584,32 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-bandcamp {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-grav {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-etsy {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-imdb {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-ravelry {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-eercast {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
@@ -8591,7 +8618,7 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-snowflake-o {
-  font-family: "Line Awesome Free";
+  font-family: 'Line Awesome Free';
   font-weight: 400;
 }
 
@@ -8600,16 +8627,17 @@ readers do not read off random characters that represent icons */
 }
 
 .la.la-superpowers {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-wpexplorer {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
 }
 
 .la.la-spotify {
-  font-family: "Line Awesome Brands";
+  font-family: 'Line Awesome Brands';
   font-weight: 400;
-}/*# sourceMappingURL=line-awesome.css.map */
+}
+/*# sourceMappingURL=line-awesome.css.map */

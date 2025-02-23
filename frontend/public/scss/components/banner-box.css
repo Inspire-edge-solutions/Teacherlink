@@ -25,10 +25,16 @@ Banner Box One
 
 .banner-box-one .inner-container {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
   padding: 21px;
+  -webkit-box-pack: left;
+  -ms-flex-pack: left;
   justify-content: left;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   min-height: 245px;
   z-index: 1;
@@ -98,10 +104,16 @@ Banner Box Two
 
 .banner-box-two .inner-container {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
   padding: 21px;
+  -webkit-box-pack: left;
+  -ms-flex-pack: left;
   justify-content: left;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   min-height: 245px;
   z-index: 1;
@@ -172,10 +184,16 @@ Banner Box Three
 
 .banner-box-three .inner-container {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
   padding: 21px;
+  -webkit-box-pack: left;
+  -ms-flex-pack: left;
   justify-content: left;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   min-height: 245px;
   z-index: 1;
@@ -233,4 +251,5 @@ Banner Box Three
 
 .banner-box-three.orange .theme-btn {
   border-color: #ffffff;
-}/*# sourceMappingURL=banner-box.css.map */
+}
+/*# sourceMappingURL=banner-box.css.map */

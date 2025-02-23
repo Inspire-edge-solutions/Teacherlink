@@ -5,10 +5,17 @@ Buttons Styles
 ***/
 .theme-btn {
   position: relative;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
   display: inline-flex;
+  -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
   overflow: hidden;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -169,4 +176,5 @@ Buttons Styles
   font-weight: 400;
   line-height: 21px;
   border-radius: 5px;
-}/*# sourceMappingURL=button.css.map */
+}
+/*# sourceMappingURL=button.css.map */

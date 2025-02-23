@@ -41,10 +41,12 @@ News Section
   min-height: 258px;
   -o-object-fit: cover;
      object-fit: cover;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .news-block .inner-box:hover img {
+  -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
 
@@ -55,7 +57,10 @@ News Section
 
 .news-block .post-meta {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-bottom: 20px;
 }
@@ -105,6 +110,7 @@ News Section
 
 .news-block .lower-content h3 a {
   color: #202124;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -128,6 +134,7 @@ News Section
 
 .news-block .read-more i {
   margin-left: 10px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -169,6 +176,7 @@ News Section
 }
 
 .news-section.style-three .news-block .inner-box {
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   border-radius: 8px;
 }
@@ -244,8 +252,14 @@ News Section Three
 
 .news-block-two .inner-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   overflow: hidden;
   padding: 10px;
@@ -256,7 +270,9 @@ News Section Three
 
 .news-block-two .image-box {
   position: relative;
-  flex: 0 0 45%;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 45%;
+          flex: 0 0 45%;
 }
 
 .news-block-two .image-box .image {
@@ -273,22 +289,29 @@ News Section Three
   min-height: 258px;
   -o-object-fit: cover;
      object-fit: cover;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .news-block-two .inner-box:hover img {
+  -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
 
 .news-block-two .content-box {
   padding: 15px 30px;
   position: relative;
-  flex: 1;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .news-block-two .post-meta {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-bottom: 20px;
 }
@@ -357,6 +380,7 @@ News Section Three
 
 .news-block-two .read-more i {
   margin-left: 10px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -375,16 +399,19 @@ News Section Three
   -o-object-fit: cover;
      object-fit: cover;
 }
+
 @media (max-width: 767px) {
   .news-section.style-three .image-large img {
     min-height: 200px;
   }
 }
+
 .news-section.style-three .image-regular img {
   min-height: 163px;
   -o-object-fit: cover;
      object-fit: cover;
 }
+
 @media (max-width: 1024px) {
   .news-section.style-three .image-regular img {
     min-height: 200px;
@@ -393,17 +420,26 @@ News Section Three
 
 @media (max-width: 991px) {
   .news-section.style_2 .news-block-two .inner-box {
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
 }
+
 .news-section.style_2 .news-block-two .image-box {
-  flex: 0 0 200px;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 200px;
+          flex: 0 0 200px;
   height: 200px;
 }
+
 .news-section.style_2 .news-block-two .image-box .image {
   height: 100%;
 }
+
 .news-section.style_2 .news-block-two .image-box img {
   min-height: 100%;
   height: 100%;
-}/*# sourceMappingURL=news.css.map */
+}
+/*# sourceMappingURL=news.css.map */

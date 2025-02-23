@@ -26,6 +26,7 @@ Testimonial Section
   padding: 10px;
   margin-right: 20px;
   opacity: 0.5;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -42,6 +43,7 @@ Testimonial Section
   padding: 40px 40px;
   background: #ffffff;
   border: 1px solid #ecedf2;
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   border-radius: 8px;
 }
@@ -76,8 +78,15 @@ Testimonial Section
 .testimonial-block .info-box {
   position: relative;
   padding-left: 90px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   min-height: 70px;
 }
@@ -210,6 +219,7 @@ Testimonial Section Two
   border-radius: 50%;
   background: #ffffff;
   border: 1px solid #ecedf2;
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   margin-bottom: 15px;
 }
@@ -239,8 +249,15 @@ Testimonial Section Two
 
 .testimonial-block-two .info-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
 }
 
@@ -260,8 +277,14 @@ Testimonial Section Two
 .testimonial-carousel .owl-dots {
   position: relative;
   margin-top: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -271,6 +294,7 @@ Testimonial Section Two
   width: 8px;
   background: #bfc8cb;
   border-radius: 10px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
   margin: 0 5px;
 }
@@ -338,7 +362,11 @@ Testimonial Section Three
 
 .testimonial-section-three .slide-item {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
@@ -394,8 +422,15 @@ Testimonial Section Three
 
 .testimonial-block-three .info-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
 }
 
@@ -420,41 +455,49 @@ Testimonial Section Three
   left: 57%;
   bottom: 90px;
   top: auto;
-  transform: none;
+  -webkit-transform: none;
+          transform: none;
   display: inline;
   margin: 0;
   position: absolute;
   z-index: 2;
 }
+
 @media (max-width: 1024px) {
   .testimonial-section-three .slick-arrow {
     left: 52%;
   }
 }
+
 @media (max-width: 768px) {
   .testimonial-section-three .slick-arrow {
     bottom: 70px;
     left: 51%;
   }
 }
+
 @media (max-width: 767px) {
   .testimonial-section-three .slick-arrow {
     bottom: -80px;
   }
 }
+
 .testimonial-section-three .slick-arrow.slick-prev {
   left: 51%;
 }
+
 @media (max-width: 1024px) {
   .testimonial-section-three .slick-arrow.slick-prev {
     left: 46%;
   }
 }
+
 @media (max-width: 768px) {
   .testimonial-section-three .slick-arrow.slick-prev {
     left: 42%;
   }
 }
+
 @media (max-width: 767px) {
   .testimonial-section-three .slick-arrow.slick-prev {
     left: 33%;
@@ -516,9 +559,18 @@ Testimonial Section Four
 
 .testimonial-block-four .info-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -549,4 +601,5 @@ Testimonial Section Four
   font-size: 14px;
   color: #ffffff;
   font-weight: 300;
-}/*# sourceMappingURL=testimonials.css.map */
+}
+/*# sourceMappingURL=testimonials.css.map */

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap CSS is imported
+import { useNavigate } from 'react-router-dom';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import './forget.css';
 
 const ForgetPassword = () => {

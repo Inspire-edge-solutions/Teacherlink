@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { AuthProvider } from "./contexts/AuthContext";
 
 if (typeof window !== "undefined") {
   import("bootstrap");
@@ -90,7 +91,8 @@ function App() {
 
   return (
     <>
-    <Provider store={store}>
+      <Provider store={store}>
+        <AuthProvider>
           <div className="page-wrapper">
             <BrowserRouter>
               <Routes>
@@ -209,7 +211,8 @@ function App() {
             {/* <!-- Scroll To Top --> */}
             <ScrollToTop />
           </div>
-        </Provider>
+        </AuthProvider>
+      </Provider>
      
     </>
   )

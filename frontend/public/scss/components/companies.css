@@ -30,8 +30,10 @@ Top Companies
   padding: 30px 30px;
   background: #FFFFFF;
   border: 1px solid #ECEDF2;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 8px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
   text-align: center;
 }
@@ -57,6 +59,7 @@ Top Companies
 }
 
 .company-block .inner-box:hover {
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
 }
 
@@ -93,8 +96,14 @@ Top Companies
 
 .company-block .location {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   font-size: 14px;
   color: #696969;
@@ -120,17 +129,25 @@ Top Companies
 
 .company-block-two .inner-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   padding: 30px 30px;
   background: #FFFFFF;
   border: 1px solid #ECEDF2;
   border-radius: 8px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .company-block-two .inner-box:hover {
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
 }
 
@@ -138,8 +155,15 @@ Top Companies
   position: relative;
   padding-left: 110px;
   min-height: 90px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
 }
 
@@ -178,8 +202,14 @@ Top Companies
 
 .company-block-two .location {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   font-size: 14px;
   color: #696969;
@@ -210,20 +240,29 @@ Top Companies
   padding: 32px 20px 22px 30px;
   background: #FFFFFF;
   border: 1px solid #ECEDF2;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 10px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .company-block-three .inner-box:hover {
+  -webkit-box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
 }
 
 .company-block-three .content {
   position: relative;
   padding-left: 68px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
   align-items: flex-end;
   min-height: 51px;
 }
@@ -233,6 +272,7 @@ Top Companies
   left: 0;
   top: 0;
   width: 50px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -247,6 +287,7 @@ Top Companies
 
 .company-block-three h4 a {
   color: #202124;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -256,7 +297,10 @@ Top Companies
 
 .company-block-three .job-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-bottom: 10px;
 }
@@ -297,6 +341,7 @@ Top Companies
   border-radius: 50%;
   cursor: pointer;
   background: #ECEDF2;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
   opacity: 0;
   visibility: hidden;
@@ -309,8 +354,13 @@ Top Companies
 
 .company-block-three .job-other-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
   justify-content: flex-end;
 }
 
@@ -327,10 +377,12 @@ Top Companies
   border: 1px solid #ECEDF2;
   border-radius: 8px;
   text-align: center;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .company-block-four .inner-box:hover {
+  -webkit-box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
 }
 
@@ -355,6 +407,7 @@ Top Companies
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto 12px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -374,6 +427,7 @@ Top Companies
 
 .company-block-four h4 a {
   color: #202124;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -383,9 +437,16 @@ Top Companies
 
 .company-block-four .job-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   margin-bottom: 10px;
 }
@@ -440,6 +501,7 @@ Top Companies
   background: #ffffff;
   opacity: 0;
   visibility: hidden;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -476,4 +538,5 @@ Top Companies
   height: 80px;
   width: 80px;
   margin-bottom: 25px;
-}/*# sourceMappingURL=companies.css.map */
+}
+/*# sourceMappingURL=companies.css.map */

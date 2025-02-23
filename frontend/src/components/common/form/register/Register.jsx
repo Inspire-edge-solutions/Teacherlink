@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const Register = () => {
-  const [userType, setUserType] = useState("Candidate");
+  const [user_type, setUser_type] = useState("Candidate");
 
   const handleUserType = (type) => {
-    setUserType(type);
+    setUser_type(type);
   };
 
   return (
@@ -34,12 +34,12 @@ const Register = () => {
         {/* End .form-group */}
 
         <TabPanel>
-          <Form userType={userType} />
+          <Form user_type={user_type} />
         </TabPanel>
         {/* End cadidates Form */}
 
         <TabPanel>
-          <Form userType={userType} />
+          <Form user_type={user_type} />
         </TabPanel>
         {/* End Employer Form */}
       </Tabs>

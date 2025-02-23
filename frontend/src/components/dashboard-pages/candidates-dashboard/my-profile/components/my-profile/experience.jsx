@@ -1,50 +1,93 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./profile-styles.css";
 import Select from "react-select";
 import csc from "countries-states-cities";
 
+// const baseExperience = {
+//   organizationName: '',
+//   jobCategory: '',
+//   currentlyWorking: null,
+//   workPeriod: {
+//     from: { month: '', year: '' },
+//     to: { month: '', year: '' }
+//   },
+//   salary: '',
+//   paySlip: null,
+//   country: '',
+//   state: '',
+//   city: '',
+//   jobProcess: '',
+//   jobType: '',
+//   teachingDesignation: '',
+//   otherTeachingDesignation: '',
+//   teachingCurriculum: '',
+//   otherTeachingCurriculum: '',
+//   teachingSubjects: [],
+//   otherTeachingSubjects: '',
+//   teachingGrades: [],
+//   teachingCoreExpertise: [],
+//   otherTeachingCoreExpertise: '',
+//   adminDesignation: '',
+//   otherAdminDesignation: '',
+//   adminCurriculum: '',
+//   otherAdminCurriculum: '',
+//   teachingAdminDesignations: [],
+//   otherTeachingAdminDesignation: '',
+//   teachingAdminCurriculum: '',
+//   otherTeachingAdminCurriculum: '',
+//   teachingAdminSubjects: [],
+//   otherTeachingAdminSubjects: '',
+//   teachingAdminGrades: [],
+//   teachingAdminCoreExpertise: [],
+//   otherTeachingAdminCoreExpertise: '',
+//   designation: '',
+//   industryType: '',
+//   workProfile: [],
+// };
+
 const baseExperience = {
-  organizationName: '',
-  jobCategory: '',
-  currentlyWorking: null,
-  workPeriod: {
-    from: { month: '', year: '' },
-    to: { month: '', year: '' }
-  },
-  salary: '',
-  paySlip: null,
-  country: '',
-  state: '',
-  city: '',
-  jobProcess: '',
-  jobType: '',
-  teachingDesignation: '',
-  otherTeachingDesignation: '',
-  teachingCurriculum: '',
-  otherTeachingCurriculum: '',
-  teachingSubjects: [],
-  otherTeachingSubjects: '',
-  teachingGrades: [],
-  teachingCoreExpertise: [],
-  otherTeachingCoreExpertise: '',
-  adminDesignation: '',
-  otherAdminDesignation: '',
-  adminCurriculum: '',
-  otherAdminCurriculum: '',
-  teachingAdminDesignations: [],
-  otherTeachingAdminDesignation: '',
-  teachingAdminCurriculum: '',
-  otherTeachingAdminCurriculum: '',
-  teachingAdminSubjects: [],
-  otherTeachingAdminSubjects: '',
-  teachingAdminGrades: [],
-  teachingAdminCoreExpertise: [],
-  otherTeachingAdminCoreExpertise: '',
-  designation: '',
-  industryType: '',
+  otherTeachingAdminCurriculum: "",
   workProfile: [],
+  teachingSubjects: [],
+  otherTeachingSubjects: "",
+  otherTeachingCoreExpertise: "",
+  currentlyWorking: "",
+  otherAdminDesignation: "",
+  country: "",
+  jobType: "",
+  work_from_year: "",
+  state: "",
+  city: "",
+  work_from_month: "",
+  teachingCurriculum: "",
+  otherTeachingDesignation: "",
+  paySlip: "",
+  teachingAdminCoreExpertise: [],
+  industryType: "",
+  teachingAdminCurriculum: "",
+  otherTeachingAdminDesignation: "",
+  teachingGrades: [],
+  otherTeachingAdminSubjects: "",
+  jobProcess: "",
+  salary: "",
+  otherAdminCurriculum: "",
+  teachingAdminGrades: [],
+  designation: "",
+  jobCategory: "",
+  work_till_year: "",
+  adminCurriculum: "",
+  teachingAdminDesignations: [],
+  adminDesignation: "",
+  teachingCoreExpertise: [],
+  work_till_month: "",
+  teachingDesignation: "",
+  otherTeachingCurriculum: "",
+  otherTeachingAdminCoreExpertise: "",
+  teachingAdminSubjects: [],
+  organizationName: ""
 };
+
 
 const Experience = ({ excludeAdditionalDetails, excludeTeachingCurriculum,excludeAdminCurriculum, excludeTeachingAdminCurriculum }) => {
 
@@ -85,12 +128,12 @@ const Experience = ({ excludeAdditionalDetails, excludeTeachingCurriculum,exclud
   };
 
   const [otherTeachingExp, setOtherTeachingExp] = useState({
-    edTechCompany: "",
-    online: "",
-    coachingTuition: "",
-    groupTuitions: "",
-    privateTuitions: "",
-    homeTuitions: ""
+    edTechCompany: null,
+    online: null,
+    coachingTuition: null,
+    groupTuitions: null,
+    privateTuitions: null,
+    homeTuitions: null
   });
 
   const [country, setCountry] = useState(null);
@@ -162,19 +205,65 @@ const Experience = ({ excludeAdditionalDetails, excludeTeachingCurriculum,exclud
   };
 
   const submitExperienceData = async () => {
+    if (experienceEntries.length === 0) {
+      alert("Please add at least one work experience.");
+      return;
+    }
     const experienceData = {
-      workExperience:{
-        total: workExperience.total,
-        teaching: workExperience.teaching,
-        details: workExperience.details,
-      },
-      experienceEntries: experienceEntries,
-      otherTeachingExp: otherTeachingExp,
-      baseExperience: baseExperience,
+      // dynamoDB: {
+      //   jobProcess: baseExperience.jobProcess,
+      //   coaching_tuitions_center: otherTeachingExp.coachingTuition,
+      //   on_line: otherTeachingExp.online,
+      //   designation: baseExperience.designation,
+      //   private_tuitions: otherTeachingExp.privateTuitions,
+      //   Ed_Tech_Company: otherTeachingExp.edTechCompany,
+      //   home_tuitions: otherTeachingExp.homeTuitions,
+      //   group_tuitions: otherTeachingExp.groupTuitions,
+      //   country: baseExperience.country,
+      //   state: baseExperience.state,
+      //   city: baseExperience.city,
+      //   industryType: baseExperience.industryType,
+      //   createdAt: new Date().toISOString()
+      // },
+      dynamoDB: [baseExperience],
+      mysqlDB: {
+        total_experience_years: workExperience.total.years,
+        total_experience_months: workExperience.total.months,
+        teaching_experience_years: workExperience.teaching.years,
+        teaching_experience_months: workExperience.teaching.months,
+        teaching_exp_fulltime_years: workExperience.details.teaching.fullTime.years,
+        teaching_exp_fulltime_months: workExperience.details.teaching.fullTime.months,
+        teaching_exp_partime_years: workExperience.details.teaching.partTime.years,
+        teaching_exp_partime_months: workExperience.details.teaching.partTime.months,
+        administration_fulltime_years: workExperience.details.administration.fullTime.years,
+        administration_fulltime_months: workExperience.details.administration.fullTime.months,
+        administration_partime_years: workExperience.details.administration.partTime.years,
+        administration_parttime_months: workExperience.details.administration.partTime.months,
+        anyrole_fulltime_years: workExperience.details.nonEducation.fullTime.years,
+        anyrole_fulltime_months: workExperience.details.nonEducation.fullTime.months,
+        anyrole_partime_years: workExperience.details.nonEducation.partTime.years,
+        anyrole_parttime_months: workExperience.details.nonEducation.partTime.months,
+        Ed_Tech_Company: otherTeachingExp.edTechCompany,
+        on_line: otherTeachingExp.online,
+        coaching_tuitions_center: otherTeachingExp.coachingTuition,
+        group_tuitions: otherTeachingExp.groupTuitions,
+        private_tuitions: otherTeachingExp.privateTuitions,
+        home_tuitions: otherTeachingExp.homeTuitions,
+      }
     };
-
+  
     try {
-      const response = await axios.post("https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/workExperience", experienceData);
+      const response = await axios.post(
+        "https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/workExperience",
+        experienceData,
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      console.log("Payload being sent:", JSON.stringify(experienceData, null, 2));
+
       console.log("Data submitted successfully:", response.data);
       alert("Data submitted successfully");
     } catch (error) {
@@ -182,7 +271,7 @@ const Experience = ({ excludeAdditionalDetails, excludeTeachingCurriculum,exclud
       alert("Error submitting data");
     }
   };
-
+  
   useEffect(() => {
     subjectList();
     fetchDesignations();
@@ -503,15 +592,12 @@ const Experience = ({ excludeAdditionalDetails, excludeTeachingCurriculum,exclud
               <label>Worked from</label>
               <div className="date-selector">
                 <select
-                  value={baseExperience.workPeriod.from.month}
+                  value={baseExperience.work_from_month}
                   onChange={(e) => {
                     const newEntries = [...experienceEntries];
                     newEntries[index] = {
                       ...newEntries[index],
-                      workPeriod: {
-                        ...newEntries[index].workPeriod,
-                        from: { ...newEntries[index].workPeriod.from, month: e.target.value }
-                      }
+                      work_from_month: e.target.value
                     };
                     setExperienceEntries(newEntries);
                   }}
@@ -525,15 +611,12 @@ const Experience = ({ excludeAdditionalDetails, excludeTeachingCurriculum,exclud
                   ))}
                 </select>
                 <select
-                  value={baseExperience.workPeriod.from.year}
+                  value={baseExperience.work_from_year}
                   onChange={(e) => {
                     const newEntries = [...experienceEntries];
                     newEntries[index] = {
                       ...newEntries[index],
-                      workPeriod: {
-                        ...newEntries[index].workPeriod,
-                        from: { ...newEntries[index].workPeriod.to, year: e.target.value }
-                      }
+                      work_from_year: e.target.value
                     };
                     setExperienceEntries(newEntries);
                   }}
@@ -555,14 +638,14 @@ const Experience = ({ excludeAdditionalDetails, excludeTeachingCurriculum,exclud
                 <div className="date-selector">
                   {/* Similar month/year selectors as above */}
                   <select
-                  value={baseExperience.workPeriod.to.month}
+                  value={baseExperience.work_till_month}
                   onChange={(e) => {
                     const newEntries = [...experienceEntries];
                     newEntries[index] = {
                       ...newEntries[index],
                       workPeriod: {
-                        ...newEntries[index].workPeriod,
-                        to: { ...newEntries[index].workPeriod.to, month: e.target.value }
+                        ...newEntries[index].work_till_month,
+                        month: e.target.value
                       }
                     };
                     setExperienceEntries(newEntries);
@@ -577,14 +660,14 @@ const Experience = ({ excludeAdditionalDetails, excludeTeachingCurriculum,exclud
                   ))}
                 </select>
                 <select
-                  value={baseExperience.workPeriod.to.year}
+                  value={baseExperience.work_till_year}
                   onChange={(e) => {
                     const newEntries = [...experienceEntries];
                     newEntries[index] = {
                       ...newEntries[index],
                       workPeriod: {
-                        ...newEntries[index].workPeriod,
-                        to: { ...newEntries[index].workPeriod.to, year: e.target.value }
+                        ...newEntries[index].work_till_year,
+                        year: e.target.value
                       }
                     };
                     setExperienceEntries(newEntries);
@@ -1014,7 +1097,6 @@ const Experience = ({ excludeAdditionalDetails, excludeTeachingCurriculum,exclud
                       placeholder="Core Expertise"
                       isClearable
                     />
-                
                 </div>
 
                 {baseExperience.teachingAdminCoreExpertise.includes('Others') && (
@@ -1028,8 +1110,6 @@ const Experience = ({ excludeAdditionalDetails, excludeTeachingCurriculum,exclud
                     />
                   </div>
                 )}
-                
-                
               </div>
             )}
             
@@ -1192,7 +1272,7 @@ const Experience = ({ excludeAdditionalDetails, excludeTeachingCurriculum,exclud
                 <tr key={key}>
                   <td>{label}</td>
                   <td>
-                    <div className={`radio-group ${!otherTeachingExp[key] ? 'required' : ''}`}>
+                    <div className={`radio-group ${!otherTeachingExp[key] === null ? 'required' : ''}`}>
                       <label className="me-3">
                         <input
                           type="radio"
@@ -1227,7 +1307,7 @@ const Experience = ({ excludeAdditionalDetails, excludeTeachingCurriculum,exclud
           </table>
         </div>
       </div>
-      <button className="btn theme-btn btn-style-three" onClick={submitExperienceData}>
+      <button className="theme-btn btn-style-three" onClick={submitExperienceData}>
           Save Experience Details
         </button>
     </div>

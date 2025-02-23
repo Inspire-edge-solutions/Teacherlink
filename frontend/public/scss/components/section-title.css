@@ -7,8 +7,14 @@ Section Title
 ***/
 .sec-title-outer {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
   align-items: flex-end;
 }
 
@@ -65,6 +71,7 @@ Section Title
   position: relative;
   background: #FFFFFF;
   border: 1px solid #ECEDF2;
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   border-radius: 8px;
   min-width: 202px;
@@ -94,4 +101,5 @@ Section Title
   line-height: 20px;
   color: #202124;
   pointer-events: none;
-}/*# sourceMappingURL=section-title.css.map */
+}
+/*# sourceMappingURL=section-title.css.map */

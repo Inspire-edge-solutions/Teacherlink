@@ -5,28 +5,15 @@ Main Header
 ====================================================================
 
 ***/
-.main-header,
-.main-header .nav-outer,
-.main-header .main-menu,
-.main-header .main-box {
-  color: rgb(0, 0, 0);
-}
-
-/* Target navigation items with maximum specificity */
-.main-header .nav-outer .main-menu .navigation > li,
-.main-header .nav-outer .main-menu .navigation > li > span,
-.main-header .nav-outer .main-menu .navigation > li > a,
-.main-header .nav-outer .main-menu .navigation > li.dropdown > span,
-.main-header .nav-outer .main-menu .navigation > li.dropdown > a {
-  color: rgb(0, 0, 0) !important;
-}
-
-/* Keep hover and active states */
-.main-menu .navigation > li.current > a,
-.main-menu .navigation > li:hover > a,
-.main-menu .navigation > li > ul > li > a:hover,
-.main-menu .navigation > li.current > span {
-  color: var(--primary-color) !important;
+.main-header {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+  z-index: 99;
+  -webkit-transition: all 300ms ease;
+  transition: all 300ms ease;
 }
 
 .header-span {
@@ -40,6 +27,7 @@ Main Header
 .main-header.fixed-header {
   position: fixed;
   background: #ffffff;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -49,25 +37,44 @@ Main Header
 
 .main-header .main-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: flex-end;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  padding: 0 60px;
   max-width: 1920px;
   margin: 0 auto;
 }
 
 .main-header .nav-outer {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .main-header .logo-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .main-header .logo {
@@ -75,13 +82,20 @@ Main Header
   z-index: 9;
   padding: 25px 0;
   margin-right: 100px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .main-header .menu-box {
   position: static;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -99,7 +113,11 @@ Main Header
 
 .main-menu .navigation {
   position: static;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -107,6 +125,7 @@ Main Header
   position: relative;
   margin-right: 40px;
   padding: 20px 0;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -121,6 +140,7 @@ Main Header
   font-weight: 400;
   color: #202124;
   cursor: pointer;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -163,10 +183,14 @@ Main Header
   border-top: 2px solid var(--primary-color);
   border-radius: 0px 0px 8px 8px;
   background-color: #fff;
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   -ms-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
+  -webkit-transform: scaleY(0);
   transform: scaleY(0);
+  -webkit-transform-origin: top;
   transform-origin: top;
+  -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
 
@@ -214,6 +238,7 @@ Main Header
   white-space: nowrap;
   text-transform: capitalize;
   cursor: pointer;
+  -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
 
@@ -240,9 +265,12 @@ Main Header
   z-index: 1;
   border-top: 2px solid var(--primary-color);
   background-color: #fff;
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   -ms-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
+  -webkit-transition: all 0.3s;
   transition: all 0.3s;
+  -webkit-transform: translateY(50px);
   transform: translateY(50px);
 }
 
@@ -262,6 +290,7 @@ Main Header
   color: #363636;
   white-space: nowrap;
   text-transform: capitalize;
+  -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
 
@@ -287,12 +316,14 @@ Main Header
 .main-menu .navigation > li.dropdown:hover > ul {
   opacity: 1;
   visibility: visible;
+  -webkit-transform: scaleY(1);
   transform: scaleY(1);
 }
 
 .main-menu .navigation li > ul > li.dropdown:hover > ul {
   opacity: 1;
   visibility: visible;
+  -webkit-transform: translate(0px);
   transform: translate(0px);
 }
 
@@ -314,8 +345,14 @@ Main Header
 
 .main-header .outer-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -329,6 +366,8 @@ Main Header
 
 .main-header .outer-box .btn-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
@@ -340,8 +379,12 @@ Main Header
 
 .main-header .menu-btn {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-left: 30px;
 }
 
@@ -384,11 +427,13 @@ Main Header
 }
 
 .main-header.header-shaddow {
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   border-bottom: 1px solid #ecedf2;
 }
 
 .main-header.alternate3 {
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   background-color: #ffffff;
 }
@@ -493,6 +538,7 @@ Header Style Five
   position: absolute;
   left: 50%;
   top: 0;
+  -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
 }
 
@@ -510,6 +556,7 @@ Header Style Five
 
 .header-style-five.fixed-header .logo {
   padding: 10px 0;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -530,7 +577,9 @@ Sticky Header
   padding: 0px 0px;
   z-index: 99;
   background: rgba(255, 255, 255, 0.952941);
+  -webkit-box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -582,6 +631,7 @@ Mobile Header
   display: none;
   z-index: 99;
   background-color: #ffffff;
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
 }
 
@@ -609,8 +659,14 @@ Mobile Header
 }
 
 .mobile-header .outer-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -641,7 +697,10 @@ Mobile Header
   margin-left: 20px;
   width: 30px;
   color: #202124;
+  -webkit-box-ordinal-group: 4;
+  -ms-flex-order: 3;
   order: 3;
+  -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
   display: none;
 }
@@ -660,23 +719,4 @@ Mobile Header
   color: #202124;
   font-size: 20px;
 }
-
-/* Dropdown items */
-.main-menu .navigation > li > ul > li > a,
-.main-menu .navigation > li > ul > li > span {
-  color: rgb(0, 0, 0) !important;
-}
-
-/* Override any existing link colors */
-.main-header a,
-.main-header span,
-.main-header .navigation li > a,
-.main-header .navigation li > span {
-  color: rgb(0, 0, 0) !important;
-}
-
-/* Keep hover states */
-.main-header a:hover,
-.main-header .navigation li > a:hover {
-  color: var(--primary-color) !important;
-}
+/*# sourceMappingURL=header.css.map */

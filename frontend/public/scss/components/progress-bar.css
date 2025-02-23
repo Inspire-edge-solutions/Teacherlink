@@ -28,6 +28,7 @@ Progress Bars
   width: 0px;
   border-radius: 10px;
   border-bottom: 10px solid var(--primary-color);
+  -webkit-transition: all 2000ms ease;
   transition: all 2000ms ease;
 }
 
@@ -52,4 +53,5 @@ Progress Bars
   font-weight: 500;
   color: #202124;
   margin-bottom: 5px;
-}/*# sourceMappingURL=progress-bar.css.map */
+}
+/*# sourceMappingURL=progress-bar.css.map */

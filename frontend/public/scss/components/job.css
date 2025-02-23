@@ -21,22 +21,32 @@ Job Categories
   position: relative;
   background: #ffffff;
   border: 1px solid #ecedf2;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 10px;
   padding: 19px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .category-block .inner-box:hover {
+  -webkit-box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
 }
 
 .category-block .content {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   padding-left: 90px;
   min-height: 70px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
 }
 
@@ -47,12 +57,19 @@ Job Categories
   height: 70px;
   width: 70px;
   background: #ecedf2;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   color: var(--primary-color);
   font-size: 36px;
   border-radius: 10px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -71,6 +88,7 @@ Job Categories
 
 .category-block h4 a {
   color: #202124;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -97,18 +115,29 @@ Job Categories
   border-radius: 8px;
   padding: 40px 20px;
   text-align: center;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .category-block-two .inner-box:hover {
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
 }
 
 .category-block-two .content {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -118,13 +147,20 @@ Job Categories
   height: 70px;
   width: 70px;
   background: #ecedf2;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   color: var(--primary-color);
   font-size: 36px;
   border-radius: 50%;
   margin-bottom: 20px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -142,6 +178,7 @@ Job Categories
 
 .category-block-two h4 a {
   color: #202124;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -168,18 +205,29 @@ Job Categories
   border-radius: 8px;
   padding: 40px 20px;
   text-align: center;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .category-block-three .inner-box:hover {
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
 }
 
 .category-block-three .content {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -189,13 +237,20 @@ Job Categories
   height: 70px;
   width: 70px;
   background: #ecedf2;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   color: var(--primary-color);
   font-size: 36px;
   border-radius: 10px;
   margin-bottom: 20px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -204,11 +259,13 @@ Job Categories
   color: #202124;
   font-weight: 500;
   line-height: 29px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .category-block-three h4 a {
   color: #202124;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -220,6 +277,7 @@ Job Categories
   font-size: 14px;
   color: #696969;
   font-weight: 400;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -300,6 +358,8 @@ Job Section
 }
 
 .job-section .tab-buttons {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   margin-bottom: 30px;
 }
@@ -318,12 +378,15 @@ Job Section
   padding: 32px 20px 22px 30px;
   background: #ffffff;
   border: 1px solid #ecedf2;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 10px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .job-block .inner-box:hover {
+  -webkit-box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
 }
 
@@ -338,6 +401,7 @@ Job Section
   left: 0;
   top: 0;
   width: 50px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -352,6 +416,7 @@ Job Section
 
 .job-block h4 a {
   color: #202124;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -361,7 +426,10 @@ Job Section
 
 .job-block .job-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-bottom: 10px;
 }
@@ -406,6 +474,7 @@ Job Section
   border-radius: 50%;
   cursor: pointer;
   background: #ffffff;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -415,7 +484,10 @@ Job Section
 
 .job-block .job-other-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
@@ -480,17 +552,24 @@ Job Section Two
 
 .job-block-two .inner-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
   padding: 32px 20px 15px 30px;
   background: #ffffff;
   border: 1px solid #ecedf2;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 10px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .job-block-two .inner-box:hover {
+  -webkit-box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
 }
 
@@ -506,6 +585,7 @@ Job Section Two
   left: 0;
   top: 0;
   width: 60px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -524,6 +604,7 @@ Job Section Two
 
 .job-block-two h4 a {
   color: #202124;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -533,7 +614,10 @@ Job Section Two
 
 .job-block-two .job-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-bottom: 10px;
 }
@@ -574,6 +658,7 @@ Job Section Two
   border-radius: 50%;
   cursor: pointer;
   background: #ffffff;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -583,7 +668,11 @@ Job Section Two
 
 .job-block-two .job-other-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   top: 9px;
 }
@@ -616,12 +705,15 @@ Job Section Three
   padding: 32px 20px 22px 30px;
   background: #ffffff;
   border: 1px solid #ecedf2;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 10px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .job-block-three .inner-box:hover {
+  -webkit-box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
 }
 
@@ -636,6 +728,7 @@ Job Section Three
   left: 0;
   top: 0;
   width: 50px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -658,6 +751,7 @@ Job Section Three
 
 .job-block-three h4 a {
   color: #202124;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -667,7 +761,10 @@ Job Section Three
 
 .job-block-three .job-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-bottom: 10px;
 }
@@ -708,6 +805,7 @@ Job Section Three
   border-radius: 50%;
   cursor: pointer;
   background: #ffffff;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -717,7 +815,10 @@ Job Section Three
 
 .job-block-three .job-other-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
@@ -744,12 +845,14 @@ Job Section Four
   background: #ffffff;
   border: 1px solid #ecedf2;
   border-radius: 8px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
   text-align: center;
   height: 100%;
 }
 
 .job-block-four .inner-box:hover {
+  -webkit-box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
 }
 
@@ -759,8 +862,15 @@ Job Section Four
   top: 0;
   padding: 10px 0;
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
   align-items: flex-start;
 }
 
@@ -795,6 +905,7 @@ Job Section Four
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto 12px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -809,6 +920,7 @@ Job Section Four
 
 .job-block-four h4 a {
   color: #202124;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -841,9 +953,15 @@ Job Section Four
 
 .job-block-four .post-tags {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -ms-flex-item-align: center;
   align-self: center;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-top: 20px;
 }
@@ -901,6 +1019,7 @@ Job Section Five
 .job-section-five .outer-box {
   position: relative;
   background: #ffffff;
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   border: 1px solid #ecedf2;
   border-radius: 8px;
@@ -916,9 +1035,15 @@ Job Section Five
   padding: 30px 32px;
   padding-right: 120px;
   background: #ffffff;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
   align-items: flex-end;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
   border-left: 2px solid transparent;
 }
@@ -954,6 +1079,7 @@ Job Section Five
   left: 0;
   top: 0;
   width: 80px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -968,6 +1094,7 @@ Job Section Five
 
 .job-block-five h4 a {
   color: #202124;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -977,7 +1104,10 @@ Job Section Five
 
 .job-block-five .job-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-bottom: 10px;
 }
@@ -1018,6 +1148,7 @@ Job Section Five
   border-radius: 50%;
   cursor: pointer;
   background: #ffffff;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -1027,7 +1158,10 @@ Job Section Five
 
 .job-block-five .job-other-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   bottom: 3px;
   margin-left: 10px;
@@ -1108,6 +1242,7 @@ Job Section Six
 .job-section-six .job-block-five .inner-box {
   background: #ffffff;
   border: 1px solid #ecedf2;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 8px;
 }
@@ -1166,9 +1301,16 @@ Job Detail Section
 
 .job-block-seven .inner-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -1187,6 +1329,7 @@ Job Detail Section
   left: 0;
   top: 0;
   width: 100px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -1207,6 +1350,7 @@ Job Detail Section
 
 .job-block-seven h4 a {
   color: #202124;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -1216,7 +1360,10 @@ Job Detail Section
 
 .job-block-seven .job-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-bottom: 10px;
 }
@@ -1247,13 +1394,20 @@ Job Detail Section
 
 .job-block-seven .job-other-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
 .job-block-seven .btn-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -1271,6 +1425,7 @@ Job Detail Section
   color: var(--primary-color);
   border-radius: 7px;
   background: rgba(25, 103, 210, 0.07);
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
   margin-left: 20px;
 }
@@ -1281,6 +1436,9 @@ Job Detail Section
 }
 
 .job-block-seven.style-three .inner-box {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
 }
 
@@ -1290,12 +1448,21 @@ Job Detail Section
 }
 
 .job-block-seven.style-three .job-info {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
 }
 
 .job-block-seven.style-three .content {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   padding-left: 0;
   margin-bottom: 30px;
@@ -1347,6 +1514,7 @@ Job Detail Section
 .job-detail .images-outer .image img {
   display: block;
   width: 100%;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -1369,9 +1537,11 @@ Job Detail Section
   font-size: 30px;
   border-radius: 50%;
   z-index: 1;
+  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   opacity: 0;
   visibility: hidden;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -1381,6 +1551,7 @@ Job Detail Section
 }
 
 .job-detail .images-outer .image:hover .lightbox-image img {
+  -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
 
@@ -1415,7 +1586,11 @@ Job Detail Section
 }
 
 .job-detail-section .social-share {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -1434,6 +1609,7 @@ Job Detail Section
   color: #ffffff;
   background: #222222;
   border-radius: 8px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
   margin: 5px 0;
   margin-right: 10px;
@@ -1475,6 +1651,7 @@ Job Detail Section
   position: relative;
   padding-left: 50px;
 }
+
 .job-overview li:not(:last-child) {
   margin-bottom: 30px;
 }
@@ -1505,6 +1682,7 @@ Job Detail Section
 .job-overview-two {
   position: relative;
   border: 1px solid #ecedf2;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 8px;
   padding: 30px 30px 0;
@@ -1513,14 +1691,21 @@ Job Detail Section
 
 .job-overview-two ul {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-right: -20px;
 }
 
 .job-overview-two li {
   position: relative;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 25%;
   flex: 0 0 25%;
   padding-left: 50px;
   padding-right: 20px;
@@ -1559,8 +1744,13 @@ Job Detail Section
 
 .job-skills {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
@@ -1578,4 +1768,5 @@ Job Detail Section
   color: #696969;
   border-radius: 4px;
   background: #ffffff;
-}/*# sourceMappingURL=job.css.map */
+}
+/*# sourceMappingURL=job.css.map */

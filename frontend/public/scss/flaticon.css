@@ -9,15 +9,17 @@
   font-weight: normal;
   font-style: normal;
 }
+
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   @font-face {
     font-family: "Flaticon";
     src: url("/fonts/Flaticon.svg#Flaticon") format("svg");
   }
 }
-[class^=flaticon-]:before,
+
+[class^="flaticon-"]:before,
 [class*=" flaticon-"]:before,
-[class^=flaticon-]:after,
+[class^="flaticon-"]:after,
 [class*=" flaticon-"]:after {
   font-family: Flaticon;
   font-style: normal;
@@ -937,4 +939,5 @@
 
 .flaticon-search-3:before {
   content: "\f1e4";
-}/*# sourceMappingURL=flaticon.css.map */
+}
+/*# sourceMappingURL=flaticon.css.map */

@@ -84,36 +84,57 @@ import { auth } from "../../../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import LoginWithSocial from "./LoginWithSocial";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const FormContent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false); // Track loading state
   const navigate = useNavigate();
 
- 
+  const fetchUserData = async (firebase_uid) => {
+    try {
+      const response = await axios.get(
+        `https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users/${firebase_uid}?route=GetUser`,
+        
+      );
+      
+      const { user_type } = response.data; // Ensure correct property access
+      console.log("User Type:", user_type);
+
+      // Navigate based on user type
+      if (user_type === "Candidate") {
+        navigate("/candidates-dashboard/dashboard");
+      } else if (user_type === "Employer") {
+        navigate("/employers-dashboard/dashboard");
+      } else {
+        console.error("Unknown user type:", user_type);
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      alert("Failed to fetch user data. Please try again.");
+    } finally {
+      setLoading(false); // Reset loading state
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+    setLoading(true); // Show loading state
+
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      alert("Login successful!");
-      navigate('/');
-    //  console.log(auth.currentUser);
-    //  console.log(userType);
-    //   if (userType === "Candidate") {
-    //     navigate("/candidates-dashboard/dashboard");
-    //   } else if (userType === "Employer") {
-    //     navigate("/employers-dashboard/dashboard");
-    //   }
-    }
-    catch (error) {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const firebase_uid = userCredential.user.uid; // Get the Firebase user ID
+      
+      console.log("Firebase UID:", firebase_uid);
+      await fetchUserData(firebase_uid);
+    } catch (error) {
+      console.error("Login Error:", error);
       alert(error.message);
-      if (error.response) {
-        console.log("Backend error :", error.response.data);
-      }
+    } finally {
+      setLoading(false); // Reset loading state
     }
-    ;
   };
 
   return (
@@ -143,11 +164,12 @@ const FormContent = () => {
         </div>
 
         <div className="form-group">
-          <button  className="theme-btn btn-style-one" type="submit">
-            Login
+          <button className="theme-btn btn-style-one" type="submit" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </button>
         </div>
       </form>
+
       <div className="bottom-box">
         <div className="text">
           Don&apos;t have an account? <Link to="/register">Signup</Link>
@@ -157,11 +179,12 @@ const FormContent = () => {
           <span>or</span>
         </div>
 
-         <LoginWithSocial />
-       </div>
-       <div className="text">
-           Forgot Password?<Link to="/forgetpassword"> Reset Password</Link>
-         </div>
+        <LoginWithSocial />
+      </div>
+
+      <div className="text">
+        Forgot Password? <Link to="/forgetpassword">Reset Password</Link>
+      </div>
     </div>
   );
 };

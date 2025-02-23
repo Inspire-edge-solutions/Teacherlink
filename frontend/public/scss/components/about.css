@@ -58,8 +58,14 @@ About Section
   top: 0;
   height: 100%;
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -67,8 +73,14 @@ About Section
   width: 90px;
   height: 90px;
   background: #ffffff;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   font-size: 32px;
   padding-left: 5px;
@@ -84,6 +96,7 @@ About Section
   padding: 25px 32px 30px;
   background: #ffffff;
   border: 1px solid #ecedf2;
+  -webkit-box-shadow: 0px 46px 35px rgba(25, 25, 46, 0.04);
   box-shadow: 0px 46px 35px rgba(25, 25, 46, 0.04);
   border-radius: 10px;
   text-align: center;
@@ -96,12 +109,19 @@ About Section
   height: 60px;
   width: 60px;
   background: var(--primary-color);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   font-size: 24px;
   color: #ffffff;
   border-radius: 50%;
+  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
@@ -128,10 +148,19 @@ About Ssection / Style Two
 
 .about-section.style-two .content-column .inner-column {
   padding-left: 110px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   height: 100%;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
   align-items: flex-start;
 }
 
@@ -239,7 +268,9 @@ About Section Two
 .applicants-list {
   background: #ffffff;
   border: 1px solid #ecedf2;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  -webkit-box-shadow: 0px 40px 30px rgba(25, 25, 46, 0.04);
   box-shadow: 0px 40px 30px rgba(25, 25, 46, 0.04);
   border-radius: 8px;
   min-width: 276px;
@@ -250,8 +281,14 @@ About Section Two
   height: 50px;
   background: var(--primary-color);
   border-radius: 8px 8px 0px 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   margin: -1px;
 }
@@ -383,4 +420,5 @@ About Section Three
   line-height: 26px;
   color: #696969;
   margin-bottom: 26px;
-}/*# sourceMappingURL=about.css.map */
+}
+/*# sourceMappingURL=about.css.map */

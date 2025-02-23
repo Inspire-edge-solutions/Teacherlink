@@ -1,15 +1,27 @@
 .uploading-resume {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
 .uploading-resume .uploadButton {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   -webkit-box-align: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -ms-flex-align: center;
   align-items: center;
   width: 100%;
 }
@@ -26,15 +38,25 @@
 }
 
 .uploading-resume .cv-uploadButton {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   cursor: pointer;
   text-align: center;
   height: 300px;
   width: 100%;
   border-radius: 5px;
+  -webkit-transition: 0.3s;
   transition: 0.3s;
   margin: 0;
   color: #1b2032;
@@ -69,6 +91,8 @@
 }
 
 .uploading-resume .uploadButton-file-name {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   padding: 0 10px;
   padding-left: 18px;
@@ -83,7 +107,10 @@
 
 .cv-manager-widget .files-outer {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
@@ -93,9 +120,18 @@
   width: 190px;
   background: #F5F7FC;
   border-radius: 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   margin-bottom: 20px;
   margin-right: 20px;
@@ -112,6 +148,8 @@
 
 .file-edit-box .edit-btns {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   margin-left: 20px;
 }
@@ -126,5 +164,6 @@
   border-radius: 8px;
   margin-right: 10px;
   min-width: auto;
-  color: rgb(25, 103, 210);
-}/*# sourceMappingURL=uploadings.css.map */
+  color: #1967d2;
+}
+/*# sourceMappingURL=uploadings.css.map */

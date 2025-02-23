@@ -100,7 +100,7 @@ Call To Action Two
   width: 100%;
   background-color: var(--primary-color);
   content: "";
-  opacity: 0.85;
+  opacity: .85;
 }
 
 /*** 
@@ -118,8 +118,14 @@ Call To Action Three
 
 .call-to-action-three .outer-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -134,7 +140,6 @@ Call To Action Three
 
 .call-to-action-three.style-two .sec-title .text a {
   color: #ffffff;
-  font-family: 'Times New Roman', Times, serif;
 }
 
 .call-to-action-three.style-two .theme-btn {
@@ -202,4 +207,5 @@ Call To Action Four
 
 .call-to-action-four.style-two .image {
   width: 350px;
-}/*# sourceMappingURL=cta.css.map */
+}
+/*# sourceMappingURL=cta.css.map */

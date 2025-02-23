@@ -30,7 +30,7 @@ Banner Section
 
 .banner-section .content-column .inner-column {
   position: relative;
-  padding: 180px 0 150px;
+  padding: 270px 0 150px;
 }
 
 .banner-section .content-column .title-box {
@@ -77,6 +77,7 @@ Banner Section
   position: relative;
   background: #FFFFFF;
   border: 1px solid #ECEDF2;
+  -webkit-box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
   border-radius: 10px;
   min-width: 740px;
@@ -136,6 +137,7 @@ Banner Section
   padding-left: 40px;
   border: 0;
   border-radius: 0;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -153,17 +155,18 @@ Banner Section
 
 .job-search-form .chosen-container-single .chosen-drop {
   /*    border: 1px solid #ffffff !important;
-  border-top: 0 !important;*/
+border-top: 0 !important;*/
 }
 
 .job-search-form .chosen-container-active .chosen-single {
   /*    border: 1px solid #dddddd !important;
-  border-bottom: 0 !important;*/
+border-bottom: 0 !important;*/
 }
 
 .job-search-form .chosen-container-active .chosen-drop {
   border: 1px solid #ECEDF2 !important;
-  box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
+          box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   border-radius: 8px !important;
   padding-top: 10px !important;
 }
@@ -241,11 +244,21 @@ Info Blocks
   padding: 20px 40px 20px 90px;
   min-height: 90px;
   min-width: 260px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   background: #FFFFFF;
+  -webkit-box-shadow: 0px 40px 30px rgba(25, 25, 46, 0.04);
   box-shadow: 0px 40px 30px rgba(25, 25, 46, 0.04);
   border-radius: 8px;
 }
@@ -257,10 +270,16 @@ Info Blocks
   height: 50px;
   width: 50px;
   border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   font-size: 24px;
   font-weight: 700;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   color: var(--primary-2nd-color);
   background: rgba(249, 171, 0, 0.15);
@@ -278,11 +297,19 @@ Info Blocks
   position: relative;
   min-height: 146px;
   max-width: 276px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   padding: 30px 35px;
   background: #FFFFFF;
+  -webkit-box-shadow: 0px 40px 30px rgba(25, 25, 46, 0.04);
   box-shadow: 0px 40px 30px rgba(25, 25, 46, 0.04);
   border-radius: 8px;
   text-align: center;
@@ -304,13 +331,21 @@ Info Blocks
 .info_block_three {
   position: relative;
   padding: 20px 80px 20px 90px;
+  -webkit-box-shadow: 0px 46px 35px rgba(25, 25, 46, 0.04);
   box-shadow: 0px 46px 35px rgba(25, 25, 46, 0.04);
   background: #ffffff;
   min-height: 90px;
   min-width: 290px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   border-radius: 10px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
 }
 
@@ -321,9 +356,15 @@ Info Blocks
   height: 50px;
   width: 50px;
   border-radius: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   font-size: 24px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   color: #D93025;
   background: rgba(217, 48, 37, 0.2);
@@ -368,10 +409,18 @@ Info Blocks
 .info_block_four .inner {
   position: relative;
   padding: 20px 30px 20px 66px;
+  -webkit-box-shadow: 0px 46px 35px rgba(25, 25, 46, 0.04);
   box-shadow: 0px 46px 35px rgba(25, 25, 46, 0.04);
   background: #ffffff;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   border-radius: 10px;
 }
@@ -383,14 +432,21 @@ Info Blocks
   height: 80px;
   width: 80px;
   border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   font-size: 34px;
   font-weight: 400;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   color: #34A853;
   background: #FFFFFF;
   overflow: hidden;
+  -webkit-box-shadow: 0px 46.7708px 35.0781px rgba(25, 25, 46, 0.04);
   box-shadow: 0px 46.7708px 35.0781px rgba(25, 25, 46, 0.04);
   border-radius: 9.35417px;
   z-index: 1;
@@ -527,8 +583,14 @@ Banner Section
 
 .banner-section-two .bottom-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   margin-top: 125px;
 }
@@ -553,6 +615,8 @@ Banner Section
   line-height: 25px;
   color: #FFFFFF;
   font-weight: 400;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
@@ -648,6 +712,7 @@ Banner Section Three
   position: relative;
   background: #FFFFFF;
   border: 1px solid #ECEDF2;
+  -webkit-box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
   border-radius: 10px;
   min-width: 740px;
@@ -714,6 +779,7 @@ Banner Section Three
   padding-right: 40px;
   border: 0;
   border-radius: 0;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -743,9 +809,18 @@ Banner Section Four
   height: 100vh;
   min-height: 700px;
   text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   padding: 120px 0;
 }
@@ -816,8 +891,14 @@ Banner Section Four
 
 .banner-section-four .bottom-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   margin-top: 125px;
 }
@@ -842,6 +923,8 @@ Banner Section Four
   line-height: 25px;
   color: #FFFFFF;
   font-weight: 400;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
@@ -932,6 +1015,8 @@ Banner Section Five
 }
 
 .banner-section-five .image-column .row {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   margin: 0 -20px;
 }
@@ -1290,8 +1375,14 @@ Banner Section Eight
 
 .banner-section-eight .bottom-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   margin-top: 160px;
 }
@@ -1299,7 +1390,11 @@ Banner Section Eight
 .banner-section-eight .count-employers {
   position: relative;
   color: #202124;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -1318,6 +1413,8 @@ Banner Section Eight
   line-height: 25px;
   color: var(--primary-color);
   font-weight: 400;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   margin-left: 20px;
   margin-right: 40px;
@@ -1537,4 +1634,5 @@ Banner Section Ten
 .banner-section-ten .job-search-form .theme-btn {
   color: #ffffff !important;
   background-color: #D93025;
-}/*# sourceMappingURL=banner-section.css.map */
+}
+/*# sourceMappingURL=banner-section.css.map */

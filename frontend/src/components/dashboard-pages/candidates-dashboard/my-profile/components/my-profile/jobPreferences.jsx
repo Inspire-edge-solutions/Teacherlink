@@ -384,7 +384,7 @@ const JobPreference = () => {
                 ...prev,
                 teachingDesignation: selected ? selected.map(item => item.value) : []
               }))}
-              className={`custom-select ${!jobDetails.teachingDesignation ? 'required' : ''}`}
+              className={`custom-select ${jobDetails.teachingDesignation ? 'required' : ''}`}
             />
           </div>
 
@@ -740,9 +740,9 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.organizationType. Ed_TechCompanies.offline === null ? '' : preferences.organizationType. Ed_TechCompanies.offline}
-                        onChange={(e) => handlePreferenceChange('organizationType', ' Ed_TechCompanies', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
-                      required
+                        value={preferences.organizationType.Ed_TechCompanies.offline === null ? '' : preferences.organizationType.Ed_TechCompanies.offline}
+                        onChange={(e) => handlePreferenceChange('organizationType', 'Ed_TechCompanies', 'offline', e.target.value === '' ? null : e.target.value === 'true')}
+                        required
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>
@@ -752,9 +752,9 @@ const JobPreference = () => {
                     <td>
                       <select 
                         className="form-select"
-                        value={preferences.organizationType. Ed_TechCompanies.online === null ? '' : preferences.organizationType. Ed_TechCompanies.online}
-                        onChange={(e) => handlePreferenceChange('organizationType', ' Ed_TechCompanies', 'online', e.target.value === '' ? null : e.target.value === 'true')}
-                      required
+                        value={preferences.organizationType.Ed_TechCompanies.online === null ? '' : preferences.organizationType.Ed_TechCompanies.online}
+                        onChange={(e) => handlePreferenceChange('organizationType', 'Ed_TechCompanies', 'online', e.target.value === '' ? null : e.target.value === 'true')}
+                        required
                       >
                         <option value="">Select</option>
                         <option value="true">Yes</option>

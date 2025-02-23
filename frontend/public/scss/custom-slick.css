@@ -4,14 +4,18 @@
   height: 8px;
   background: #bfc8cb;
   border-radius: 10px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
+
 .slick-dots li button {
   padding: 0;
 }
+
 .slick-dots li button::before {
   display: none;
 }
+
 .slick-dots li.slick-active {
   width: 20px;
   background: #202124;
@@ -25,6 +29,7 @@
 .gap-x25 .slick-slide {
   padding: 0 15px;
 }
+
 .gap-x25 .slick-list {
   margin: 0 -15px;
 }
@@ -43,12 +48,15 @@
   margin-right: 10px;
   font-weight: 600;
   font-size: 12px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
+
 .slick-arrow:hover, .slick-arrow:focus {
   background: var(--primary-color);
   color: #fff;
 }
+
 .slick-arrow::before {
   display: none;
 }
@@ -56,10 +64,12 @@
 .arrow-center-between .slick-prev {
   left: 25px;
 }
+
 .arrow-center-between .slick-next {
   right: 25px;
 }
 
 .arrow-rounded .slick-arrow {
   border-radius: 50%;
-}/*# sourceMappingURL=custom-slick.css.map */
+}
+/*# sourceMappingURL=custom-slick.css.map */

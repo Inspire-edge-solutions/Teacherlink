@@ -13,8 +13,14 @@ Product Tabs
 
 .prod-tabs .tab-btns {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   z-index: 1;
 }
@@ -25,9 +31,14 @@ Product Tabs
   font-size: 18px;
   line-height: 32px;
   color: #202124;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   cursor: pointer;
+  -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
   border-bottom: 2px solid transparent;
   margin: 0 20px;
@@ -60,11 +71,15 @@ Product Tabs
 }
 
 .prod-tabs .content .list-style-two {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   max-width: 500px;
 }
 
 .prod-tabs .content .list-style-two li {
   width: 50%;
-}/*# sourceMappingURL=tabs.css.map */
+}
+/*# sourceMappingURL=tabs.css.map */

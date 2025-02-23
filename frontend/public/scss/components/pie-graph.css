@@ -26,6 +26,7 @@ Pie Graph
   font-size: 26px;
   line-height: 35px;
   color: #202124;
+  -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
   line-height: 1em;
   color: #363636;
@@ -42,4 +43,5 @@ Pie Graph
 .pie-graph.light h4,
 .pie-graph.light .inner-text {
   color: #ffffff;
-}/*# sourceMappingURL=pie-graph.css.map */
+}
+/*# sourceMappingURL=pie-graph.css.map */

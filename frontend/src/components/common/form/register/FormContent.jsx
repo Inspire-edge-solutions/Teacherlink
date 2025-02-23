@@ -110,65 +110,69 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const FormContent = ({ userType }) => {
+const FormContent = ({ user_type }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [number, setNumber] = useState("");
+  const [loading, setLoading] = useState(false); // Added loading state
   const navigate = useNavigate();
 
-  // Log userType to verify its value
-  //console.log("User Type:", userType);
-
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+    if (number.length !== 10) {
+      alert("Please enter a valid 10-digit mobile number.");
+      return;
+    }
 
-    // Create the user in Firebase with email and password only
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user; // Get the user object from Firebase
-        console.log(user);
+    setLoading(true);
 
-        // Prepare the payload for your backend API
-        const userData = {
-          name: name,
-          email: user.email,
-          password: password, // This might be a security risk if password is logged or reused
-          phone_number: number, // Custom field captured from your form
-          firebase_uid: user.uid, // Firebase User ID
-          user_type: userType, // Ensure userType is correctly passed
-        };
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-        console.log("User Data:", userData); // Log userData to verify its contents
+      console.log("Firebase User Created:", user);
 
-        // Send the data to your backend API using axios
-        return axios.post("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users", {
+      const userData = {
+        name,
+        email: user.email,
+        phone_number: number,
+        firebase_uid: user.uid,
+        user_type,
+      };
+
+      console.log("Sending User Data:", userData);
+
+      const response = await axios.post(
+        "https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users",
+        {
           route: "CreateUser",
           ...userData,
-        }, {
-          headers: {
-            "Content-Type": "application/json",
-          }
-        });
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          alert("Registration successful! Please login.");
-          navigate("/login",{state:{userType}});
-        } else {
-          console.error("Failed to submit data:", response.statusText);
+        },
+        {
+          headers: { "Content-Type": "application/json" },
         }
-      })
-      .catch((error) => {
-        console.error("Error submitting data:", error);
-      });
+      );
+
+      if (response.status === 200) {
+        alert("Registration successful! Please login.");
+        navigate("/login", { state: { user_type } });
+      } else {
+        console.error("Backend Error:", response.statusText);
+        alert("Failed to register. Please try again.");
+      }
+    } catch (error) {
+      console.error("Registration Error:", error);
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <>
     <form onSubmit={handleRegister}>
       <div className="form-group">
-        <label>Name :</label>
+        <label>Name:</label>
         <input
           type="text"
           placeholder="Enter name"
@@ -179,17 +183,18 @@ const FormContent = ({ userType }) => {
       </div>
 
       <div className="form-group">
-        <label>Email Address :</label>
+        <label>Email Address:</label>
         <input
           type="email"
-          placeholder="Enter email address, Example : abcd@gmail.com"
+          placeholder="Enter email address, e.g., abcd@gmail.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
       </div>
+
       <div className="form-group">
-        <label>Password :</label>
+        <label>Password:</label>
         <input
           type="password"
           placeholder="Enter password"
@@ -199,28 +204,24 @@ const FormContent = ({ userType }) => {
         />
       </div>
 
-      <label>Mobile Number :</label>
       <div className="form-group">
-          <input
-            type="text"
-            name="callingNumber"
-            value={number}
-            onChange={(e) => setNumber(e.target.value)}
-            placeholder="Mobile Number"
-            onInput={(e) => {
-            e.target.value = e.target.value.replace(/[^0-9]/g, '');
-          }}
-            maxLength="10"
-            required
-          />
-        </div>
+        <label>Mobile Number:</label>
+        <input
+          type="text"
+          value={number}
+          onChange={(e) => setNumber(e.target.value.replace(/[^0-9]/g, ""))}
+          placeholder="Mobile Number"
+          maxLength="10"
+          required
+        />
+      </div>
+
       <div className="form-group">
-        <button className="theme-btn btn-style-one" type="submit">
-          Register
+        <button className="theme-btn btn-style-one" type="submit" disabled={loading}>
+          {loading ? "Registering..." : "Register"}
         </button>
       </div>
     </form>
-    </>
   );
 };
 

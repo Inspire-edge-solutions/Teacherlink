@@ -1,14 +1,15 @@
 @font-face {
-  font-family: "icomoon";
+  font-family: 'icomoon';
   src: url("/fonts/icomoon.eot?l8rg88");
   src: url("/fonts/icomoon.eot?l8rg88#iefix") format("embedded-opentype"), url("/fonts/icomoon.ttf?l8rg88") format("truetype"), url("/fonts/icomoon.woff?l8rg88") format("woff"), url("/fonts/icomoon.svg?l8rg88#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
-[class^=icon-], [class*=" icon-"] {
+
+[class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: "icomoon" !important;
+  font-family: 'icomoon' !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -46,4 +47,5 @@
 
 .icon-doc:before {
   content: "\e902";
-}/*# sourceMappingURL=icons.css.map */
+}
+/*# sourceMappingURL=icons.css.map */

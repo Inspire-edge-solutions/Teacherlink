@@ -13,7 +13,10 @@
   outline: none;
   position: absolute;
   top: 50%;
+  -webkit-transition: -webkit-transform 0.3s ease-out, -webkit-box-shadow 0.3s ease-out;
+  transition: -webkit-transform 0.3s ease-out, -webkit-box-shadow 0.3s ease-out;
   transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, -webkit-transform 0.3s ease-out, -webkit-box-shadow 0.3s ease-out;
   width: 17px;
   position: absolute;
   left: 50%;
@@ -21,25 +24,31 @@
 }
 
 .input-range__slider:focus {
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .input-range__slider:active {
-  transform: scale(1.3);
+  -webkit-transform: scale(1.3);
+          transform: scale(1.3);
 }
 
 .input-range__slider:focus {
-  box-shadow: 0 0 0 5px rgba(63, 81, 181, 0.2);
+  -webkit-box-shadow: 0 0 0 5px rgba(63, 81, 181, 0.2);
+          box-shadow: 0 0 0 5px rgba(63, 81, 181, 0.2);
 }
 
 .input-range--disabled .input-range__slider {
   background: #cccccc;
   border: 1px solid #cccccc;
-  box-shadow: none;
-  transform: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  -webkit-transform: none;
+          transform: none;
 }
 
 .input-range__slider-container {
+  -webkit-transition: left 0.3s ease-out;
   transition: left 0.3s ease-out;
 }
 
@@ -47,7 +56,8 @@
   color: #aaaaaa;
   font-family: "Helvetica Neue", san-serif;
   font-size: 0.8rem;
-  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
   white-space: nowrap;
 }
 
@@ -86,6 +96,7 @@
   display: block;
   height: 5px;
   position: relative;
+  -webkit-transition: left 0.3s ease-out, width 0.3s ease-out;
   transition: left 0.3s ease-out, width 0.3s ease-out;
 }
 
@@ -114,8 +125,12 @@
 .nft__filter-price-box {
   width: 47px;
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .nft__filter-price-box input {
@@ -146,4 +161,5 @@
 
 .pricing_acontent .input-range {
   margin-top: 20px;
-}/*# sourceMappingURL=input-range-slider.css.map */
+}
+/*# sourceMappingURL=input-range-slider.css.map */

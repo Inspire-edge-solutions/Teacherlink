@@ -72,11 +72,12 @@ Page Title
 .page-breadcrumb li a {
   color: rgba(0, 0, 0, 0.75);
   text-transform: capitalize;
+  -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
 
 .page-breadcrumb li a:hover {
-  opacity: 0.9;
+  opacity: .9;
   color: #1370b5;
 }
 
@@ -101,6 +102,8 @@ Page Title
 
 .page-title .top-filters {
   margin-top: 30px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
 }
 
@@ -114,4 +117,5 @@ Page Title
 
 .page-title.bg-light:before {
   display: none;
-}/*# sourceMappingURL=page-title.css.map */
+}
+/*# sourceMappingURL=page-title.css.map */
