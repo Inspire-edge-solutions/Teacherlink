@@ -37,14 +37,11 @@ const index = () => {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="ls-widget">
-                               
-                                    <div className="widget-title">
-                                        <h4>Profile Details</h4>
-                                    </div>
-                                    <MyProfile />
-                                
-                            </div>
-                           
+                                <div className="widget-title">
+                                    <h4>Profile Details</h4>
+                                </div>
+                                <MyProfile />
+                            </div> 
                         </div>
                     </div>
                     {/* End .row */}
@@ -52,7 +49,6 @@ const index = () => {
                 {/* End dashboard-outer */}
             </section>
             {/* <!-- End Dashboard --> */}
-
             <CopyrightFooter />
             {/* <!-- End Copyright --> */}
         </div>

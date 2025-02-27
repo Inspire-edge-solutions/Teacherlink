@@ -304,6 +304,282 @@ Dashboard
 
 ***/
 
+.page-wrapper.dashboard {
+  padding-left: 270px;
+  background: #f5f7fc;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  
+  @media (max-width: 1023px) {
+    padding-left: 0;
+  }
+}
+
+// Sidebar Styles
+.user-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 270px;
+  background: #ffffff;
+  border-right: 1px solid #ecedf2;
+  z-index: 999;
+  transition: all 0.3s ease;
+  
+  @media (max-width: 1023px) {
+    transform: translateX(-100%);
+    
+    &.sidebar_open {
+      transform: translateX(0);
+    }
+  }
+
+  .pro-header {
+    display: none;
+    padding: 20px;
+    border-bottom: 1px solid #ecedf2;
+    
+    @media (max-width: 1023px) {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .fix-icon {
+      cursor: pointer;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #f5f7fc;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background: #e9ecef;
+      }
+
+      svg {
+        width: 18px;
+        height: 18px;
+        color: #696969;
+      }
+    }
+  }
+
+  .sidebar-inner {
+    padding: 20px;
+    height: calc(100% - 70px);
+    overflow-y: auto;
+
+    @media (min-width: 1024px) {
+      height: 100%;
+      padding-top: 30px;
+    }
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #f0f5f7;
+      border-radius: 10px;
+    }
+  }
+
+  .navigation {
+    li {
+      position: relative;
+      margin-bottom: 2px;
+
+      a {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        line-height: 20px;
+        color: #696969;
+        font-weight: 400;
+        padding: 10px 15px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+
+        &:hover, &.active {
+          background: #f5f7fc;
+          color: #1967d2;
+        }
+
+        svg {
+          width: 16px;
+          height: 16px;
+          min-width: 16px;
+        }
+      }
+    }
+  }
+}
+
+// Dashboard Content Styles
+.user-dashboard {
+  padding: 20px;
+  width: 100%;
+  
+  .dashboard-outer {
+    padding: 20px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+
+    @media (max-width: 767px) {
+      padding: 15px;
+    }
+  }
+}
+
+// Stats Cards
+.stats-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
+  height: 100%;
+
+  .title {
+    font-size: 15px;
+    color: #696969;
+    margin-bottom: 10px;
+  }
+
+  .count {
+    font-size: 24px;
+    font-weight: 500;
+    color: #202124;
+  }
+}
+
+// Graph Widget
+.graph-widget {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
+  width: 100%;
+  overflow-x: auto;
+
+  .widget-title {
+    margin-bottom: 20px;
+
+    h4 {
+      font-size: 18px;
+      font-weight: 500;
+      color: #202124;
+    }
+  }
+}
+
+// Notification Widget
+.notification-widget {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
+
+  .notification-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #ecedf2;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .content {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      .icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f5f7fc;
+
+        svg {
+          width: 20px;
+          height: 20px;
+          color: #1967d2;
+        }
+      }
+
+      .text {
+        flex: 1;
+
+        h5 {
+          font-size: 15px;
+          margin-bottom: 5px;
+        }
+
+        span {
+          font-size: 13px;
+          color: #696969;
+        }
+      }
+    }
+  }
+}
+
+// Breadcrumb Styles
+.dashboard-breadcrumb {
+  margin-bottom: 30px;
+
+  .title {
+    font-size: 24px;
+    font-weight: 500;
+    color: #202124;
+    margin-bottom: 10px;
+  }
+}
+
+// Menu Toggler
+.menu-toggler {
+  display: none;
+  
+  @media (max-width: 1023px) {
+    display: block;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1000;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #1967d2;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.15);
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
 .dashboard {
   position: relative;
   background-color: #f5f7fc;
@@ -313,6 +589,7 @@ Dashboard
 
 .dashboard .main-header {
   background: #ffffff;
+  z-index: -1;
 }
 
 .dashboard .dashboard-outer {
@@ -869,7 +1146,7 @@ User Sidebar
   left: 0;
   bottom: 0;
   height: calc(100%);
-  width: 365px;
+  width: 325px;
   padding-top: 5px;
   background: #ffffff;
   overflow: auto;
@@ -914,7 +1191,7 @@ User Sidebar
 
 .user-sidebar .sidebar-inner {
   position: relative;
-  padding: 60px 60px;
+  padding: 40px 20px;
 }
 
 .user-sidebar .sidebar-header {
@@ -1738,4 +2015,43 @@ Chat Widget
 
 .notification-list li.success .colored {
   color: rgba(52, 168, 83, 1);
+}
+
+// Row Adjustments
+.row {
+  margin-right: -10px;
+  margin-left: -10px;
+
+  > [class*='col-'] {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}
+
+// Responsive Adjustments
+@media (max-width: 767px) {
+  .page-wrapper.dashboard {
+    padding-left: 0;
+  }
+
+  .user-dashboard {
+    padding: 10px;
+  }
+
+  .stats-card {
+    margin-bottom: 15px;
+  }
+
+  .graph-widget {
+    margin-bottom: 15px;
+    padding: 15px;
+  }
+}
+
+// Fix for horizontal scrolling
+.container-fluid {
+  padding-right: 15px;
+  padding-left: 15px;
+  width: 100%;
+  max-width: 100%;
 }

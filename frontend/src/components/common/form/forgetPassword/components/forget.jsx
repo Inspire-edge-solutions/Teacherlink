@@ -1,158 +1,361 @@
+// import React, { useState } from 'react';
+// import { Form, Button, Container, Alert } from 'react-bootstrap';
+// import { useNavigate } from 'react-router-dom';
+// import axios from 'axios';
+// import './forget.css';
+
+// const ForgetPassword = () => {
+//   const [step, setStep] = useState(1);
+//   const [email, setEmail] = useState('');
+//   const [otp, setOtp] = useState('');
+//   const [newPassword, setNewPassword] = useState('');
+//   const [confirmPassword, setConfirmPassword] = useState('');
+//   const [error, setError] = useState('');
+//   const [success, setSuccess] = useState('');
+//   const [loading, setLoading] = useState(false);
+//   const [isCompleted, setIsCompleted] = useState(false);
+//   const navigate = useNavigate();
+
+//   const handleSendOTP = async (e) => {
+//     e.preventDefault();
+//     try {
+//       setError('');
+//       setLoading(true);
+
+//       const response = await axios.post(
+//         'https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users/ChangePassword',
+//         { email }
+//       );
+      
+//       setSuccess('OTP has been sent to your email');
+//       setStep(2);
+//     } catch (error) {
+//       setError(error.response?.data?.message || 'Failed to send OTP');
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const handleVerifyOTP = async (e) => {
+//     e.preventDefault();
+//     try {
+//       setError('');
+//       setLoading(true);
+
+//       const response = await axios.post(
+//         'https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users/ForgotPassword',
+//         { email, otp }
+//       );
+
+//       setSuccess('OTP verified successfully');
+//       setStep(3);
+//     } catch (error) {
+//       setError(error.response?.data?.message || 'Invalid OTP');
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const handleResetPassword = async (e) => {
+//     e.preventDefault();
+//     if (newPassword !== confirmPassword) {
+//       setError('Passwords do not match');
+//       return;
+//     }
+
+//     try {
+//       setError('');
+//       setLoading(true);
+
+//       const response = await axios.post(
+//         'https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users/ResetPassword',
+//         { email, otp, newPassword }
+//       );
+
+//       setSuccess('Password reset successful');
+//       setIsCompleted(true);
+//     } catch (error) {
+//       setError(error.response?.data?.message || 'Failed to reset password');
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <Container className="my-5 py-5">
+//       <div className="forget-password-container">
+//         <h3 className="forget-password-title">Reset Password</h3>
+        
+//         {error && <Alert variant="danger">{error}</Alert>}
+//         {success && <Alert variant="success">{success}</Alert>}
+
+//         {!isCompleted ? (
+//           <>
+//             {step === 1 && (
+//               <Form onSubmit={handleSendOTP} className="forget-password-form">
+//                 <Form.Group className="mb-3">
+//                   <Form.Label>Enter your registered email:</Form.Label>
+//                   <Form.Control
+//                     type="email"
+//                     value={email}
+//                     onChange={(e) => setEmail(e.target.value)}
+//                     placeholder="Enter your registered email"
+//                     required
+//                   />
+//                 </Form.Group>
+//                 <div className="button-group">
+//                   <button 
+//                     className="theme-btn btn-style-three" 
+//                     type="submit"
+//                     disabled={loading}
+//                   >
+//                     {loading ? 'Sending...' : 'Send OTP'}
+//                   </button>
+//                 </div>
+//               </Form>
+//             )}
+
+//             {step === 2 && (
+//               <Form onSubmit={handleVerifyOTP} className="forget-password-form">
+//                 <Form.Group className="mb-3">
+//                   <Form.Label>Enter OTP</Form.Label>
+//                   <Form.Control
+//                     type="text"
+//                     value={otp}
+//                     onChange={(e) => setOtp(e.target.value)}
+//                     placeholder="Enter OTP sent to your email"
+//                     required
+//                   />
+//                 </Form.Group>
+//                 <div className="button-group">
+//                   <button 
+//                     className="theme-btn btn-style-three" 
+//                     type="submit"
+//                     disabled={loading}
+//                   >
+//                     {loading ? 'Verifying...' : 'Verify OTP'}
+//                   </button>
+//                 </div>
+//               </Form>
+//             )}
+
+//             {step === 3 && (
+//               <Form onSubmit={handleResetPassword} className="forget-password-form">
+//                 <Form.Group className="mb-3">
+//                   <Form.Label>New Password</Form.Label>
+//                   <Form.Control
+//                     type="password"
+//                     value={newPassword}
+//                     onChange={(e) => setNewPassword(e.target.value)}
+//                     placeholder="Enter new password"
+//                     required
+//                   />
+//                 </Form.Group>
+//                 <Form.Group className="mb-3">
+//                   <Form.Label>Confirm Password</Form.Label>
+//                   <Form.Control
+//                     type="password"
+//                     value={confirmPassword}
+//                     onChange={(e) => setConfirmPassword(e.target.value)}
+//                     placeholder="Confirm new password"
+//                     required
+//                   />
+//                 </Form.Group>
+//                 <div className="button-group">
+//                   <button 
+//                     className="theme-btn btn-style-three" 
+//                     type="submit"
+//                     disabled={loading}
+//                   >
+//                     {loading ? 'Resetting...' : 'Reset Password'}
+//                   </button>
+//                 </div>
+//               </Form>
+//             )}
+//           </>
+//         ) : (
+//           <div className="text-center">
+//             <p>Your password has been reset successfully!</p>
+//             <button 
+//               className="theme-btn btn-style-three" 
+//               type="button"
+//               onClick={() => navigate('/login')}
+//             >
+//               Back to Login
+//             </button>
+//           </div>
+//         )}
+//       </div>
+//     </Container>
+//   );
+// };
+
+// export default ForgetPassword;
+
+
 import React, { useState } from 'react';
+import { Form, Button, Container, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-//import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
 import './forget.css';
 
 const ForgetPassword = () => {
-    const navigate = useNavigate(); // Initialize useNavigate
-    const [step, setStep] = useState(1);
-    const [email, setEmail] = useState('');
-    const [otp, setOtp] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState(''); // State for error messages
-    const [success, setSuccess] = useState(''); // State for success messages
+  const [step, setStep] = useState(1);
+  const [email, setEmail] = useState('');
+  const [otp, setOtp] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const navigate = useNavigate();
 
-    const handleEmailSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/otp/create", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email }), // Send the email in the request body
-            });
+  // Endpoints for OTP and user operations
+  const otpBaseURL = 'https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/otp';
+  const userBaseURL = 'https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users';
 
-            if (!response.ok) {
-                throw new Error('Failed to send OTP. Please try again.');
-            }
+  // Send OTP via CreateOTP endpoint
+  const handleSendOTP = async (e) => {
+    e.preventDefault();
+    try {
+      setError('');
+      setLoading(true);
+      const response = await axios.post(`${otpBaseURL}/create`, { email });
+      setSuccess(response.data.message || 'OTP has been sent to your email');
+      setStep(2);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to send OTP');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            setStep(2);
-            setError(''); // Clear any previous error messages
-        } catch (err) {
-            setError(err.message); // Set error message
-        }
-    };
+  // Verify OTP via GetOTP endpoint
+  const handleVerifyOTP = async (e) => {
+    e.preventDefault();
+    try {
+      setError('');
+      setLoading(true);
+      const response = await axios.post(`${otpBaseURL}/verify`, { email, otp });
+      setSuccess(response.data.message || 'OTP verified successfully');
+      setStep(3);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Invalid OTP');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    const handleOtpSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/otp/verify", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, otp }), // Send email and OTP in the request body
-            });
+  // Reset password via ResetPassword endpoint
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    try {
+      setError('');
+      setLoading(true);
+      const response = await axios.post(`${userBaseURL}/ResetPassword`, { email, otp, newPassword });
+      setSuccess(response.data.message || 'Password reset successful');
+      setIsCompleted(true);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to reset password');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            if (!response.ok) {
-                throw new Error('Failed to verify OTP. Please try again.');
-            }
-
-            setStep(3);
-            setError(''); // Clear any previous error messages
-        } catch (err) {
-            setError(err.message); // Set error message
-        }
-    };
-
-    const handlePasswordSubmit = async (e) => {
-        e.preventDefault();
-        if (newPassword !== confirmPassword) {
-            setError("Passwords do not match.");
-            return;
-        }
-        try {
-            const response = await fetch("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users", {
-                method: 'POST',
-                route : 'ChangePassword',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email,newPassword,confirmPassword }), // Send email and new password in the request body
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to change password. Please try again.');
-            }
-
-            setSuccess('Password changed successfully!');
-            setError(''); // Clear any previous error messages
-
-            // Redirect to login page
-            navigate('/login'); // Change '/login' to your actual login route
-        } catch (err) {
-            setError(err.message); // Set error message
-        }
-    };
-
-    return (
-        <div className="container-fluid d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-            <div className="col-md-6">
-                <div className="card">
-                    <div className="card-body">
-                        {error && <div className="alert alert-danger">{error}</div>} {/* Display error message */}
-                        {success && <div className="alert alert-success">{success}</div>} {/* Display success message */}
-                        {step === 1 && (
-                            <form onSubmit={handleEmailSubmit}>
-                                <h2 className="card-title">Enter your registered email</h2>
-                                <div className="mb-3">
-                                    <input 
-                                        type="email" 
-                                        className="form-control" 
-                                        value={email} 
-                                        onChange={(e) => setEmail(e.target.value)} 
-                                        required 
-                                    />
-                                </div>
-                                <button type="submit" className='btn btn-primary'>Send OTP</button>
-                            </form>
-                        )}
-                        {step === 2 && (
-                            <form onSubmit={handleOtpSubmit}>
-                                <h2 className="card-title">Enter OTP</h2>
-                                <div className="mb-3">
-                                    <input 
-                                        type="text" 
-                                        className="form-control" 
-                                        value={otp} 
-                                        onChange={(e) => setOtp(e.target.value)} 
-                                        required 
-                                    />
-                                </div>
-                                <button type="submit" className='btn btn-primary'>Verify OTP</button>
-                            </form>
-                        )}
-                        {step === 3 && (
-                            <form onSubmit={handlePasswordSubmit}>
-                                <h2 className="card-title">Set New Password</h2>
-                                <div className="mb-3">
-                                    <input 
-                                        type="password" 
-                                        className="form-control" 
-                                        value={newPassword} 
-                                        onChange={(e) => setNewPassword(e.target.value)} 
-                                        required 
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <input 
-                                        type="password" 
-                                        className="form-control" 
-                                        value={confirmPassword} 
-                                        onChange={(e) => setConfirmPassword(e.target.value)} 
-                                        required 
-                                    />
-                                </div>
-                                <button type="submit" className='btn btn-primary'>Reset Password</button>
-                            </form>
-                        )}
-                    </div>
+  return (
+    <Container className="my-5 py-5">
+      <div className="forget-password-container">
+        <h3 className="forget-password-title">Reset Password</h3>
+        {error && <Alert variant="danger">{error}</Alert>}
+        {success && <Alert variant="success">{success}</Alert>}
+        {!isCompleted ? (
+          <>
+            {step === 1 && (
+              <Form onSubmit={handleSendOTP} className="forget-password-form">
+                <Form.Group className="mb-3">
+                  <Form.Label>Enter your registered email:</Form.Label>
+                  <Form.Control
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your registered email"
+                    required
+                  />
+                </Form.Group>
+                <div className="button-group">
+                  <Button variant="primary" type="submit" disabled={loading}>
+                    {loading ? 'Sending...' : 'Send OTP'}
+                  </Button>
                 </div>
-            </div>
-        </div>
-    );
+              </Form>
+            )}
+
+            {step === 2 && (
+              <Form onSubmit={handleVerifyOTP} className="forget-password-form">
+                <Form.Group className="mb-3">
+                  <Form.Label>Enter OTP:</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    placeholder="Enter OTP sent to your email"
+                    required
+                  />
+                </Form.Group>
+                <div className="button-group">
+                  <Button variant="primary" type="submit" disabled={loading}>
+                    {loading ? 'Verifying...' : 'Verify OTP'}
+                  </Button>
+                </div>
+              </Form>
+            )}
+
+            {step === 3 && (
+              <Form onSubmit={handleResetPassword} className="forget-password-form">
+                <Form.Group className="mb-3">
+                  <Form.Label>New Password:</Form.Label>
+                  <Form.Control
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Enter new password"
+                    required
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Confirm Password:</Form.Label>
+                  <Form.Control
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm new password"
+                    required
+                  />
+                </Form.Group>
+                <div className="button-group">
+                  <Button variant="primary" type="submit" disabled={loading}>
+                    {loading ? 'Resetting...' : 'Reset Password'}
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </>
+        ) : (
+          <div className="text-center">
+            <p>Your password has been reset successfully!</p>
+            <Button variant="primary" onClick={() => navigate('/login')}>
+              Back to Login
+            </Button>
+          </div>
+        )}
+      </div>
+    </Container>
+  );
 };
 
 export default ForgetPassword;

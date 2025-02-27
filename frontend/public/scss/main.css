@@ -1,0 +1,90 @@
+@use 'sass:math' as math;
+@use 'sass:map' as maps;
+@use 'sass:meta' as meta;
+@use './base/_variable' as *;
+@use './base/_mixins' as *;
+@use './base/base' as *;
+@use './base/typography' as type;
+@use './base/utilities' as utils;
+@use './base/responsive' as resp;
+@use './base/forms' as forms;
+@use './components/message-box' as message;
+@use './components/banner-box' as banner;
+@use './components/banner-section' as sections;
+@use './components/dashboard' as dash;
+@use './components/about' as about;
+@use './components/accordion' as accord;
+@use './components/ads' as ads;
+@use './components/button' as *;
+@use './components/callout' as callout;
+@use './components/clients' as clients;
+@use './components/companies' as company;
+@use './components/contact' as contact;
+@use './components/feature' as feature;
+@use './components/footer' as footer;
+@use './components/fun-fact' as facts;
+@use './components/header' as header;
+@use './components/job' as job;
+@use './components/list' as list;
+@use './components/login' as login;
+@use './components/map' as map-comp;
+@use './components/menu' as menu;
+@use './components/page-title' as title;
+@use './components/pie-graph' as graph;
+@use './components/portfolio' as portfolio;
+@use './components/preloader' as loader;
+@use './components/progress-bar' as progress;
+@use './components/registr-banner' as reg-banner;
+@use './components/resume' as resume;
+@use './components/section-title' as sec-title;
+@use './components/select' as select;
+@use './components/sidebar' as sidebar;
+@use './components/testimonials' as testimonials;
+@use './components/tooltip' as tooltip;
+@use './components/uploadings' as upload;
+@use './components/sections/app' as app;
+@use './components/sections/browse' as browse;
+@use './components/sections/candidates' as candidates;
+@use './components/sections/cta' as cta;
+@use './components/sections/faq' as faq;
+@use './components/sections/invoice' as invoice;
+@use './components/sections/jobseeker' as jobseeker;
+@use './components/sections/ls-section' as ls;
+@use './components/sections/news' as news;
+@use './components/sections/pricing' as pricing;
+@use './components/sections/process' as process;
+@use './components/sections/recruiter' as recruiter;
+@use './components/sections/steps' as steps;
+@use './components/sections/subscribe' as subscribe;
+@use './components/sections/tnc' as tnc;
+@use './layout/blog-sidebar' as blog-side;
+@use './layout/blog-single' as blog-single;
+@use './layout/shop/cart' as shop-cart;
+@use './layout/shop/order' as shop-order;
+@use './layout/shop/products' as shop-products;
+@use './layout/shop/single' as shop-single;
+@use './layout/shop/tabs' as shop-tabs;
+@use './components/new/index-11' as index11;
+@use './components/new/index-12' as index12;
+@use './components/new/index-13' as index13;
+@use './components/new/index-14' as index14;
+@use './components/new/index-15' as index15;
+@use './components/new/index-16' as index16;
+@use './components/new/index-17' as index17;
+@use './input-range-slider';
+@use './custom-nextjs';
+/*** 
+====================================================================
+59. Responsive
+====================================================================
+***/
+@use './base/responsive.scss';
+/* Rest of your styles... */
+/* After this point you can add other styles */
+:root {
+  --primary-color: #1967d2;
+  --primary-hover-bg-color: #0146a6;
+  --primary-2nd-color: #f9ab00;
+  --primary-2nd-hover-bg-color: #e9a000;
+}
+/*# sourceMappingURL=main.css.map */

@@ -1,3 +1,5 @@
+@use '../../base/mixins' as *;
+
 .main-header.alternate.-type-14 {
   .theme-btn.btn-style-three {
     background-color: transparent;
@@ -288,6 +290,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    
+    svg {
+      width: 32px;
+      height: 32px;
+    }
 
     &.-purple {
       background-color: rgba(#867bf2, 0.2);

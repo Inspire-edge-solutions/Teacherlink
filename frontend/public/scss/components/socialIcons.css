@@ -3,6 +3,27 @@
 Social Icons
 ==========================
 ***/
+.social-icon-one li a,
+.social-icon-two li a,
+.social-icon-three li a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.social-icon-one li a svg,
+.social-icon-two li a svg,
+.social-icon-three li a svg {
+  width: 18px;
+  height: 18px;
+}
+
 .social-icon-one {
   position: relative;
   display: -webkit-box;

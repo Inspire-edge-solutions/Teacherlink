@@ -56,7 +56,6 @@ const Tutions = () => {
   return (
     <div>
       <div className="form-group">
-        <label htmlFor="tutionTypes">Select Tution Types</label>
         <Select
           isMulti
           options={tutionTypes}

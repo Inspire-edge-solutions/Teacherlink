@@ -115,7 +115,7 @@
 }
 
 .home10 .theme-btn.btn-style-one {
-    @extend .btn-style-eight;
+    @extend .btn-style-eight !optional;
 }
 
 .banner-style-two.dark {

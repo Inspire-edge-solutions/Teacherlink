@@ -1,0 +1,35 @@
+// Colors
+$primary-color: #1967d2;
+$primary-hover-bg-color: #0146a6;
+$primary-2nd-color: #f9ab00;
+$primary-2nd-hover-bg-color: #e9a000;
+
+// Breakpoints
+$breakpoints: (
+  xxs: 420px,
+  xs: 576px,
+  sm: 768px,
+  md: 992px,
+  lg: 1200px
+);
+
+// Font families
+$font-family-base: "Jost", sans-serif;
+
+// Other global variables
+$transition-base: all 300ms ease;
+$border-radius: 8px;
+
+:root {
+  --primary-color: #{$primary-color};
+  --primary-hover-bg-color: #{$primary-hover-bg-color};
+  --primary-2nd-color: #{$primary-2nd-color};
+  --primary-2nd-hover-bg-color: #{$primary-2nd-hover-bg-color};
+}
+
+:export {
+  primaryColor: $primary-color;
+  primaryHoverBgColor: $primary-hover-bg-color;
+  primary2ndColor: $primary-2nd-color;
+  primary2ndHoverBgColor: $primary-2nd-hover-bg-color;
+}

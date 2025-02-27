@@ -1,10 +1,9 @@
-
-
 import { Link } from "react-router-dom";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import candidatesuData from "../../data/candidatesMenuData";
 import { isActiveLink } from "../../utils/linkActiveChecker";
+import { getIcon } from "../../utils/iconMapping";
 
 import { useDispatch, useSelector } from "react-redux";
 import { menuToggle } from "../../features/toggle/toggleSlice";
@@ -27,7 +26,7 @@ const DashboardCandidatesSidebar = () => {
       {/* Start sidebar close icon */}
       <div className="pro-header text-end pb-0 mb-0 show-1023">
         <div className="fix-icon" onClick={menuToggleHandler}>
-          <span className="flaticon-close"></span>
+          {getIcon('icon-close')}
         </div>
       </div>
       {/* End sidebar close icon */}
@@ -43,7 +42,7 @@ const DashboardCandidatesSidebar = () => {
               onClick={menuToggleHandler}
             >
               <Link to={item.routePath}>
-                <i className={`la ${item.icon}`}></i> {item.name}
+                {getIcon(item.icon)} {item.name}
               </Link>
             </li>
           ))}

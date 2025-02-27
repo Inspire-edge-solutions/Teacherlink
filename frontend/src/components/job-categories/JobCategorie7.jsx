@@ -8,7 +8,7 @@ const JobCategorie7 = () => {
         <div className="col-xl-auto col-lg-3 col-md-6 col-sm-12" key={item.id}>
           <Link to="/job-list-v8" className="icon-item -type-3">
             <div className="icon-wrap">
-              <div className={`icon ${item.icon}`}></div>
+              <item.icon />
             </div>
 
             <div className="content">

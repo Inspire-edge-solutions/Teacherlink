@@ -636,51 +636,44 @@ const Experience = ({ excludeAdditionalDetails, excludeTeachingCurriculum,exclud
               <div className="form-group col-lg-6 col-md-12">
                 <label>Worked till</label>
                 <div className="date-selector">
-                  {/* Similar month/year selectors as above */}
                   <select
-                  value={baseExperience.work_till_month}
-                  onChange={(e) => {
-                    const newEntries = [...experienceEntries];
-                    newEntries[index] = {
-                      ...newEntries[index],
-                      workPeriod: {
-                        ...newEntries[index].work_till_month,
-                        month: e.target.value
-                      }
-                    };
-                    setExperienceEntries(newEntries);
-                  }}
-                  required
-                >
-                  <option value="">Month</option>
-                  {Array.from({ length: 12 }, (_, i) => (
-                    <option key={i} value={i + 1}>
-                      {new Date(2000, i, 1).toLocaleString('default', { month: 'long' })}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  value={baseExperience.work_till_year}
-                  onChange={(e) => {
-                    const newEntries = [...experienceEntries];
-                    newEntries[index] = {
-                      ...newEntries[index],
-                      workPeriod: {
-                        ...newEntries[index].work_till_year,
-                        year: e.target.value
-                      }
-                    };
-                    setExperienceEntries(newEntries);
-                  }}
-                  required
-                >
-                  <option value="">Year</option>
-                  {Array.from({ length: 50 }, (_, i) => (
-                    <option key={i} value={new Date().getFullYear() - i}>
-                      {new Date().getFullYear() - i}
-                    </option>
-                  ))}
-                </select>
+                    value={experienceEntries[index]?.work_till_month || ""}
+                    onChange={(e) => {
+                      const newEntries = [...experienceEntries];
+                      newEntries[index] = {
+                        ...newEntries[index],
+                        work_till_month: e.target.value
+                      };
+                      setExperienceEntries(newEntries);
+                    }}
+                    required
+                  >
+                    <option value="">Month</option>
+                    {Array.from({ length: 12 }, (_, i) => (
+                      <option key={i} value={i + 1}>
+                        {new Date(2000, i, 1).toLocaleString('default', { month: 'long' })}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    value={experienceEntries[index]?.work_till_year || ""}
+                    onChange={(e) => {
+                      const newEntries = [...experienceEntries];
+                      newEntries[index] = {
+                        ...newEntries[index],
+                        work_till_year: e.target.value
+                      };
+                      setExperienceEntries(newEntries);
+                    }}
+                    required
+                  >
+                    <option value="">Year</option>
+                    {Array.from({ length: 50 }, (_, i) => (
+                      <option key={i} value={new Date().getFullYear() - i}>
+                        {new Date().getFullYear() - i}
+                      </option>
+                    ))}
+                  </select>
                 </div>  
               </div>
             )}

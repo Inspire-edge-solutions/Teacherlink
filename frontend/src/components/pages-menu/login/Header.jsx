@@ -75,7 +75,7 @@ const Header = () => {
           {/* Nav Outer */}
           <div className="nav-outer">
             {/* Logo positioned at the top right */}
-            <div className="logo-box" >
+            <div className="logo-box">
               <Link to="/">
                 <img
                   src="/images/teacherlink-logo.png"

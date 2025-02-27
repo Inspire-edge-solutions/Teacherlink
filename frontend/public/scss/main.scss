@@ -1,125 +1,108 @@
-/* 
-TeacherLink | Job Portal & Job Board ReactJs Template
+@use 'sass:math' as math;
+@use 'sass:map' as maps;
+@use 'sass:meta' as meta;
 
-Template Name: TeacherLink
-Author: Inspire Edge Solutions
-Version: 1.4.0
+// Base styles - remove underscores to match actual filenames
+@use './base/_variable' as *;
+@use './base/_mixins' as *;
+@use './base/base' as *;
+@use './base/typography' as type;
+@use './base/utilities' as utils;
+@use './base/responsive' as resp;
+@use './base/forms' as forms;
 
+// Components - with unique namespaces
+@use './components/message-box' as message;
+@use './components/banner-box' as banner;
+@use './components/banner-section' as sections;
+@use './components/dashboard' as dash;
+@use './components/about' as about;
+@use './components/accordion' as accord;
+@use './components/ads' as ads;
+@use './components/button' as *;
+@use './components/callout' as callout;
+@use './components/clients' as clients;
+@use './components/companies' as company;
+@use './components/contact' as contact;
+@use './components/feature' as feature;
+@use './components/footer' as footer;
+@use './components/fun-fact' as facts;
+@use './components/header' as header;
+@use './components/job' as job;
+@use './components/list' as list;
+@use './components/login' as login;
+@use './components/map' as map-comp;
+@use './components/menu' as menu;
+@use './components/page-title' as title;
+@use './components/pie-graph' as graph;
+@use './components/portfolio' as portfolio;
+@use './components/preloader' as loader;
+@use './components/progress-bar' as progress;
+@use './components/registr-banner' as reg-banner;
+@use './components/resume' as resume;
+@use './components/section-title' as sec-title;
+@use './components/select' as select;
+@use './components/sidebar' as sidebar;
+@use './components/testimonials' as testimonials;
+@use './components/tooltip' as tooltip;
+@use './components/uploadings' as upload;
 
-/*** 
+// Section components
+@use './components/sections/app' as app;
+@use './components/sections/browse' as browse;
+@use './components/sections/candidates' as candidates;
+@use './components/sections/cta' as cta;
+@use './components/sections/faq' as faq;
+@use './components/sections/invoice' as invoice;
+@use './components/sections/jobseeker' as jobseeker;
+@use './components/sections/ls-section' as ls;
+@use './components/sections/news' as news;
+@use './components/sections/pricing' as pricing;
+@use './components/sections/process' as process;
+@use './components/sections/recruiter' as recruiter;
+@use './components/sections/steps' as steps;
+@use './components/sections/subscribe' as subscribe;
+@use './components/sections/tnc' as tnc;
 
-====================================================================
-Fonts
-====================================================================
+// Layout components
+@use './layout/blog-sidebar' as blog-side;
+@use './layout/blog-single' as blog-single;
+@use './layout/shop/cart' as shop-cart;
+@use './layout/shop/order' as shop-order;
+@use './layout/shop/products' as shop-products;
+@use './layout/shop/single' as shop-single;
+@use './layout/shop/tabs' as shop-tabs;
 
-***/
-@import "./icons.scss";
-@import "./flaticon.scss";
-@import "./fontawesome-all.scss";
-@import "./line-awesome.scss";
-@import "./custom-slick.scss";
-@import "node_modules/react-modal-video/scss/modal-video.scss";
+// New components
+@use './components/new/index-11' as index11;
+@use './components/new/index-12' as index12;
+@use './components/new/index-13' as index13;
+@use './components/new/index-14' as index14;
+@use './components/new/index-15' as index15;
+@use './components/new/index-16' as index16;
+@use './components/new/index-17' as index17;
 
-/*** 
-
-====================================================================
-Reset
-====================================================================
-
-***/
-
-/*** 
-
-====================================================================
-Global Settings
-====================================================================
-
-***/
-
-@import "./base/base.scss";
-@import "./base/forms.scss";
-@import "./base/typography.scss";
-@import "./base/utilities.scss";
-
-@import "./components/about.scss";
-@import "./components/accordion.scss";
-@import "./components/ads.scss";
-@import "./components/banner-box.scss";
-@import "./components/button.scss";
-@import "./components/Callout.scss";
-@import "./components/clients.scss";
-@import "./components/companies.scss";
-@import "./components/contact.scss";
-@import "./components/dashboard.scss";
-@import "./components/feature.scss";
-@import "./components/footer.scss";
-@import "./components/fun-fact.scss";
-@import "./components/header.scss";
-@import "./components/job.scss";
-@import "./components/list.scss";
-@import "./components/login.scss";
-@import "./components/map.scss";
-@import "./components/menu.scss";
-
-@import "./components/message-box.scss";
-@import "./components/page-title.scss";
-@import "./components/pie-graph.scss";
-@import "./components/portfolio.scss";
-@import "./components/preloader.scss";
-@import "./components/progress-bar.scss";
-@import "./components/registr-banner.scss";
-@import "./components/resume.scss";
-@import "./components/section-title.scss";
-@import "./components/select.scss";
-@import "./components/sidebar.scss";
-@import "./components/social.scss";
-@import "./components/socialIcons.scss";
-@import "./components/table.scss";
-@import "./components/tabs.scss";
-@import "./components/testimonials.scss";
-@import "./components/tooltip.scss";
-@import "./components/uploadings.scss";
-
-@import "./components/sections/app.scss";
-@import "./components/sections/browse.scss";
-@import "./components/sections/candidates.scss";
-@import "./components/sections/cta.scss";
-@import "./components/sections/faq.scss";
-@import "./components/sections/invoice.scss";
-@import "./components/sections/jobseeker.scss";
-@import "./components/sections/ls-section.scss";
-@import "./components/sections/news.scss";
-@import "./components/sections/pricing.scss";
-@import "./components/sections/process.scss";
-@import "./components/sections/recruiter.scss";
-@import "./components/sections/steps.scss";
-@import "./components/sections/subscribe.scss";
-@import "./components/sections/tnc.scss";
-@import "./components/job-search.scss";
-
-@import "./layout/blog-sidebar.scss";
-@import "./layout/blog-single.scss";
-@import "./layout/shop/cart.scss";
-@import "./layout/shop/order.scss";
-@import "./layout/shop/products.scss";
-@import "./layout/shop/single.scss";
-@import "./layout/shop/tabs.scss";
-
-@import "./components/new/index-11.scss";
-@import "./components/new/index-12.scss";
-@import "./components/new/index-13.scss";
-@import "./components/new/index-14.scss";
-@import "./components/new/index-15.scss";
-@import "./components/new/index-16.scss";
-@import "./components/new/index-17.scss";
-
-@import "./components/shame.scss";
+// Other imports
+@use './input-range-slider';
+@use './custom-nextjs';
 
 /*** 
 ====================================================================
 59. Responsive
 ====================================================================
 ***/
-@import "./base/responsive.scss";
-@import "./input-range-slider";
-@import "./custom-nextjs.scss";
+@use './base/responsive.scss';
+
+// @use 'sass:meta';
+// @if meta.function-exists('image-url') {
+//   // code
+// }
+
+/* Rest of your styles... */
+/* After this point you can add other styles */
+:root {
+    --primary-color: #1967d2;
+    --primary-hover-bg-color: #0146a6;
+    --primary-2nd-color: #f9ab00;
+    --primary-2nd-hover-bg-color: #e9a000;
+}

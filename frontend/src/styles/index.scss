@@ -1,34 +1,78 @@
-@import "slick-carousel/slick/slick.css";
-@import "slick-carousel/slick/slick-theme.scss";
-@import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-@import "public/scss/main.scss";
+// Import variables with absolute path
+@use '../public/scss/base/_variable' as *;
 
-// Header color overrides - add after all imports to ensure highest precedence
-.main-header {
-  a, span, 
-  .navigation li > a,
-  .navigation li > span {
-    color: rgb(0, 0, 0) !important;
+// Import Sass utilities once at the top
+@use 'sass:math';
+@use 'sass:map';
+@use 'sass:meta';
+
+// Third party imports
+@use 'slick-carousel/slick/slick.css';
+@use 'slick-carousel/slick/slick-theme.css';
+@use 'bootstrap/dist/css/bootstrap.min.css';
+@use 'aos/dist/aos.css';
+
+// Main styles
+@use '../../public/scss/main';
+
+// Global styles
+body {
+  a {
+    text-decoration: none !important;
+  }
+}
+
+// Icon styles
+.icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  svg {
+    width: 24px;
+    height: 24px;
     
-    &:hover {
-      color: var(--primary-color) !important;
+    @media (max-width: 768px) {
+      width: 20px;
+      height: 20px;
     }
   }
+}
 
-  .nav-outer .main-menu .navigation {
-    > li {
-      &, 
-      > span,
-      > a,
-      &.dropdown > span,
-      &.dropdown > a {
-        color: rgb(0, 0, 0) !important;
-      }
+// Legacy icon class compatibility
+[class^="icon-"], 
+[class^="flaticon-"],
+[class*=" icon-"],
+[class*=" flaticon-"] {
+  &::before {
+    display: none;
+  }
+  
+  svg {
+    display: inline-block;
+  }
+}
 
-      &.current > a,
-      &:hover > a {
-        color: var(--primary-color) !important;
-      }
+// Header specific icon styles
+.main-header {
+  .icon-user,
+  .icon-menu,
+  .icon-close {
+    svg {
+      width: 18px;
+      height: 18px;
     }
+  }
+}
+
+.icon-green {
+  color: #4CAF50;  // or your theme color
+}
+
+// Social icons specific styles
+.social-links {
+  svg {
+    width: 16px;
+    height: 16px;
   }
 }

@@ -1,8 +1,27 @@
 import { Link } from "react-router-dom";
 import MobileSidebar from "./mobile-sidebar";
-
+import { getIcon } from "../../utils/iconMapping";
+import { Modal, Offcanvas } from 'bootstrap';
 
 const MobileMenu = () => {
+  const handleLoginClick = (e) => {
+    e.preventDefault();
+    const loginModal = document.getElementById('loginPopupModal');
+    if (loginModal) {
+      const modal = new Modal(loginModal);
+      modal.show();
+    }
+  };
+
+  const handleMenuClick = (e) => {
+    e.preventDefault();
+    const menuCanvas = document.getElementById('offcanvasMenu');
+    if (menuCanvas) {
+      const offcanvas = new Offcanvas(menuCanvas);
+      offcanvas.show();
+    }
+  };
+
   return (
     // <!-- Main Header-->
     <header className="main-header main-header-mobile">
@@ -30,25 +49,23 @@ const MobileMenu = () => {
 
           <div className="outer-box">
             <div className="login-box">
-              <a
-                href="#"
+              <button
                 className="call-modal"
-                data-bs-toggle="modal"
-                data-bs-target="#loginPopupModal"
+                onClick={handleLoginClick}
+                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
               >
-                <span className="icon icon-user"></span>
-              </a>
+                <span className="icon-user">{getIcon('icon-user')}</span>
+              </button>
             </div>
             {/* login popup end */}
 
-            <a
-              href="#"
+            <button
               className="mobile-nav-toggler"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasMenu"
+              onClick={handleMenuClick}
+              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
             >
-              <span className="flaticon-menu-1"></span>
-            </a>
+              <span className="icon-menu">{getIcon('icon-menu')}</span>
+            </button>
             {/* right humberger menu */}
           </div>
         </div>

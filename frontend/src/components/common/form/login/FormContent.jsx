@@ -79,73 +79,63 @@
 
 // export default FormContent;
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { auth } from "../../../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../../../contexts/AuthContext";
 import LoginWithSocial from "./LoginWithSocial";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const FormContent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false); // Track loading state
+  const [loading, setLoading] = useState(false);
+  const [loginAttempted, setLoginAttempted] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { user } = useAuth();
 
-  const fetchUserData = async (firebase_uid) => {
-    try {
-      const response = await axios.get(
-        `https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users/${firebase_uid}?route=GetUser`,
-        
-      );
+  useEffect(() => {
+    // Only navigate if we have a user, login was attempted, and we're on the login page
+    if (user?.user_type && loginAttempted && location.pathname === '/login') {
+      console.log("Navigating with user type:", user.user_type);
       
-      const { user_type } = response.data; // Ensure correct property access
-      console.log("User Type:", user_type);
-
-      // Navigate based on user type
-      if (user_type === "Candidate") {
-        navigate("/candidates-dashboard/dashboard");
-      } else if (user_type === "Employer") {
-        navigate("/employers-dashboard/dashboard");
-      } else {
-        console.error("Unknown user type:", user_type);
+      if (user.user_type === 'Employer') {
+        navigate('/employers-dashboard/dashboard', { replace: true });
+      } else if (user.user_type === 'Teacher' || user.user_type === 'Candidate') {
+        navigate('/candidates-dashboard/dashboard', { replace: true });
       }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      alert("Failed to fetch user data. Please try again.");
-    } finally {
-      setLoading(false); // Reset loading state
+      // Reset login attempt after navigation
+      setLoginAttempted(false);
     }
-  };
+  }, [user, loginAttempted, navigate, location.pathname]);
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Show loading state
+    setLoading(true);
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const firebase_uid = userCredential.user.uid; // Get the Firebase user ID
-      
-      console.log("Firebase UID:", firebase_uid);
-      await fetchUserData(firebase_uid);
+      await signInWithEmailAndPassword(auth, email, password);
+      setLoginAttempted(true); // Set login attempt flag
     } catch (error) {
-      console.error("Login Error:", error);
+      console.error("Login error:", error);
       alert(error.message);
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
   return (
     <div className="form-inner">
       <h3>Login to TeacherLink</h3>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Email</label>
           <input
             type="email"
-            placeholder="Enter Email address"
+            name="email"
+            placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -156,7 +146,8 @@ const FormContent = () => {
           <label>Password</label>
           <input
             type="password"
-            placeholder="Enter Password"
+            name="password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -164,26 +155,29 @@ const FormContent = () => {
         </div>
 
         <div className="form-group">
-          <button className="theme-btn btn-style-one" type="submit" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
+          <button
+            className="theme-btn btn-style-one"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </div>
       </form>
-
+      <div className="text">
+        Forgot Password? <Link to="/forgetpassword">Reset Password</Link>
+      </div>
       <div className="bottom-box">
         <div className="text">
-          Don&apos;t have an account? <Link to="/register">Signup</Link>
+          Don't have an account?{" "}
+          <Link to="/register">Signup</Link>
         </div>
-        
+
         <div className="divider">
           <span>or</span>
         </div>
 
         <LoginWithSocial />
-      </div>
-
-      <div className="text">
-        Forgot Password? <Link to="/forgetpassword">Reset Password</Link>
       </div>
     </div>
   );

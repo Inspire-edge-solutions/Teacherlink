@@ -1,4 +1,4 @@
-
+import { getIcon } from '../../utils/iconMapping';
 
 const AppSection2 = () => {
   const featureList = [
@@ -61,7 +61,7 @@ const AppSection2 = () => {
                 {featureList.map((item) => (
                   <div className="item" key={item.id}>
                     <div className="icon-wrap">
-                      <span className={`icon ${item.icon}`}></span>
+                      {getIcon(item.icon, { size: 24 })}
                     </div>
                     <div className="content">
                       <h4>{item.title}</h4>

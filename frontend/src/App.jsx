@@ -7,19 +7,15 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import { AuthProvider } from "./contexts/AuthContext";
-
-if (typeof window !== "undefined") {
-  import("bootstrap");
-}
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from './contexts/AuthContext';
+import { ProtectedRoute } from './components/common/form/ProtectedRoute';
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import HomePage13 from "./pages/home/home-13";
 import JobListPage3 from "./pages/job-list/job-list-v3";
 import JobListPage4 from "./pages/job-list/job-list-v4";
 import JobListPage5 from "./pages/job-list/job-list-v5";
 import JobListPage6 from "./pages/job-list/job-list-v6";
 import JobListPage7 from "./pages/job-list/job-list-v7";
-
 import JobSingleDynamicV1 from "./pages/job-single/job-single-v1";
 import JobSingleDynamicV2 from "./pages/job-single/job-single-v2";
 import JobSingleDynamicV3 from "./pages/job-single/job-single-v3";
@@ -75,11 +71,9 @@ import ShortListedJobsPage from "./pages/candidates-dashboard/short-listed-jobs"
 import LoginPage from "./pages/others/login";
 import RegisterPage from "./pages/others/register";
 import ForgetPasswordPage from "./pages/forget-password";
-import ShopListPage from "./pages/shop/shop-list";
-import ShopSingleDyanmic from "./pages/shop/shop-single";
-import CartPage from "./pages/shop/cart";
-import CheckoutPage from "./pages/shop/checkout";
-import OrderCompletedPage from "./pages/shop/order-completed";
+
+
+
 function App() {
   useEffect(() => {
     Aos.init({
@@ -88,133 +82,111 @@ function App() {
     });
   }, []);
 
-
   return (
-    <>
-      <Provider store={store}>
-        <AuthProvider>
+    <Router>
+      <AuthProvider>
+        <Provider store={store}>
           <div className="page-wrapper">
-            <BrowserRouter>
-              <Routes>
-                <Route path="/">
-                  <Route index element={<HomePage13 />} />
-                  <Route path="home-13" element={<HomePage13 />} />
-                  
-                  <Route path="forgetPassword" element={<ForgetPasswordPage />} />
-                 
-                  <Route path="job-list-v3" element={<JobListPage3 />} />
-                  <Route path="job-list-v4" element={<JobListPage4 />} />
-                  <Route path="job-list-v5" element={<JobListPage5 />} />
-                  <Route path="job-list-v6" element={<JobListPage6 />} />
-                  <Route path="job-list-v7" element={<JobListPage7 />} />
-                  
-                  <Route path="job-single-v1/:id" element={<JobSingleDynamicV1 />} />
-                  <Route path="job-single-v2/:id" element={<JobSingleDynamicV2 />} />
-                  <Route path="job-single-v3/:id" element={<JobSingleDynamicV3 />} />
-                  <Route path="job-single-v4/:id" element={<JobSingleDynamicV4 />} />
-                  <Route path="job-single-v5/:id" element={<JobSingleDynamicV5 />} />
+            <Routes>
+              {/* Public routes */}
+              <Route path="/" element={<HomePage13 />} />
+              <Route path="about" element={<AboutPage />} />
+              <Route path="pricing" element={<PricingPage />} />
+              <Route path="faq" element={<FaqPage />} />
+              <Route path="terms" element={<TermsPage />} />
+              <Route path="invoice" element={<InvoicePage />} />
+              <Route path="contact" element={<ContactPage />} />
+              <Route path="login" element={<LoginPage />} />
+              <Route path="register" element={<RegisterPage />} />
+              <Route path="forgetPassword" element={<ForgetPasswordPage />} />
+              <Route path="job-list-v3" element={<JobListPage3 />} />
+              <Route path="job-list-v4" element={<JobListPage4 />} />
+              <Route path="job-list-v5" element={<JobListPage5 />} />
+              <Route path="job-list-v6" element={<JobListPage6 />} />
+              <Route path="job-list-v7" element={<JobListPage7 />} />
+              <Route path="job-single-v1/:id" element={<JobSingleDynamicV1 />} />
+              <Route path="job-single-v2/:id" element={<JobSingleDynamicV2 />} />
+              <Route path="job-single-v3/:id" element={<JobSingleDynamicV3 />} />
+              <Route path="job-single-v4/:id" element={<JobSingleDynamicV4 />} />
+              <Route path="job-single-v5/:id" element={<JobSingleDynamicV5 />} />
+              <Route path="employers-list-v1" element={<EmployerListPage1 />} />
+              <Route path="employers-list-v2" element={<EmployerListPage2 />} />
+              <Route path="employers-list-v3" element={<EmployerListPage3 />} />
+              <Route path="employers-list-v4" element={<EmployerListPage4 />} />
+              <Route path="employers-single-v1/:id" element={<EmployersSingleV1 />} />
+              <Route path="employers-single-v2/:id" element={<EmployersSingleV2 />} />
+              <Route path="employers-single-v3/:id" element={<EmployersSingleV3 />} />
+              <Route path="candidates-list-v1" element={<CandidateListPage1 />} />
+              <Route path="candidates-list-v2" element={<CandidateListPage2 />} />
+              <Route path="candidates-list-v3" element={<CandidateListPage3 />} />
+              <Route path="candidates-list-v4" element={<CandidateListPage4 />} />
+              <Route path="candidates-list-v5" element={<CandidateListPage5 />} />
+              <Route path="candidates-single-v1/:id" element={<CandidateSingleDynamicV1 />} />
+              <Route path="candidates-single-v2/:id" element={<CandidateSingleDynamicV2 />} />
+              <Route path="candidates-single-v3/:id" element={<CandidateSingleDynamicV3 />} />
+              <Route path="blog-list-v1" element={<BlogListpage1 />} />
+              <Route path="blog-list-v2" element={<BlogListpage2 />} />
+              <Route path="blog-list-v3" element={<BlogListpage3 />} />
+              <Route path="blog-details/:id" element={<BlogDetailsDynamic />} />
 
-                  <Route path="employers-list-v1" element={<EmployerListPage1 />} />
-                  <Route path="employers-list-v2" element={<EmployerListPage2 />} />
-                  <Route path="employers-list-v3" element={<EmployerListPage3 />} />
-                  <Route path="employers-list-v4" element={<EmployerListPage4 />} />
-
-                  <Route path="employers-single-v1/:id" element={<EmployersSingleV1 />} />
-                  <Route path="employers-single-v2/:id" element={<EmployersSingleV2 />} />
-                  <Route path="employers-single-v3/:id" element={<EmployersSingleV3 />} />
-
-                  <Route path="candidates-list-v1" element={<CandidateListPage1 />} />
-                  <Route path="candidates-list-v2" element={<CandidateListPage2 />} />
-                  <Route path="candidates-list-v3" element={<CandidateListPage3 />} />
-                  <Route path="candidates-list-v4" element={<CandidateListPage4 />} />
-                  <Route path="candidates-list-v5" element={<CandidateListPage5 />} />
-
-                  <Route path="candidates-single-v1/:id" element={<CandidateSingleDynamicV1 />} />
-                  <Route path="candidates-single-v2/:id" element={<CandidateSingleDynamicV2 />} />
-                  <Route path="candidates-single-v3/:id" element={<CandidateSingleDynamicV3 />} />
-
-                  <Route path="blog-list-v1" element={<BlogListpage1 />} />
-                  <Route path="blog-list-v2" element={<BlogListpage2 />} />
-                  <Route path="blog-list-v3" element={<BlogListpage3 />} />
-                  <Route path="blog-details/:id" element={<BlogDetailsDynamic />} />
-
-                  <Route path="about" element={<AboutPage />} />
-                  <Route path="pricing" element={<PricingPage />} />
-                  <Route path="faq" element={<FaqPage />} />
-                  <Route path="terms" element={<TermsPage />} />
-                  <Route path="invoice" element={<InvoicePage />} />
-                  <Route path="contact" element={<ContactPage />} />
-                  <Route path="login" element={<LoginPage />} />
-                  <Route path="register" element={<RegisterPage />} />
-                  
-                  <Route path="404" element={<NotFoundPage />} />
-                  <Route path="*" element={<NotFoundPage />} />
-
-                  <Route path="employers-dashboard" >
-                    <Route path="dashboard" element={<DashboardEmploeeDBPage/>} />
-                    <Route path="company-profile" element={<CompanyProfileEmploeeDBPage/>} />
-                    <Route path="post-jobs" element={<PostJobsEmploeeDBPage/>} />
-                    <Route path="manage-jobs" element={<ManageJobsEmploeeDBPage/>} />
-                    <Route path="all-applicants" element={<AllApplicantsEmploeesPage/>} />
-                    <Route path="shortlisted-resumes" element={<ShortListedResumeEmploeeDBPage/>} />
-                    <Route path="packages" element={<PackageEmploeeDBPage/>} />
-                    <Route path="messages" element={<MessageEmploeeDBPage/>} />
-                    <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage/>} />
-                    <Route path="change-password" element={<ChangePasswordEmploeeDBPage/>} />
-            
-                    
-                  </Route>
-                 
-                  <Route path="candidates-dashboard" >
-                    <Route path="dashboard" element={<DashboardPage/>} />
-                    <Route path="applied-jobs" element={<AppliedJobsPage/>} />
-                    <Route path="change-password" element={<ChangePasswordPage/>} />
-                    <Route path="cv-manager" element={<CVMannagerPage/>} />
-                    <Route path="job-alerts" element={<JobAlertPage/>} />
-                    <Route path="messages" element={<MessageesPage/>} />
-                    <Route path="my-profile" element={<MyProfilePage/>} />
-                    <Route path="my-resume" element={<MyResumePage/>} />
-                    <Route path="packages" element={<PackagePage/>} />
-                    <Route path="short-listed-jobs" element={<ShortListedJobsPage/>} />
-
-                  </Route>
-
-                  <Route path="shop" >
-
-                    <Route path="shop-list" element={<ShopListPage/>} />
-                    <Route path="shop-single/:id" element={<ShopSingleDyanmic/>} />
-                    <Route path="cart" element={<CartPage/>} />
-                    <Route path="checkout" element={<CheckoutPage/>} />
-                    <Route path="order-completed" element={<OrderCompletedPage/>} />
-                  </Route>
-
+              {/* Protected Employer Routes */}
+              <Route element={<ProtectedRoute requiredUserType="Employer" />}>
+                <Route path="employers-dashboard">
+                  <Route index element={<Navigate to="dashboard" replace />} />
+                  <Route path="dashboard" element={<DashboardEmploeeDBPage />} />
+                  <Route path="company-profile" element={<CompanyProfileEmploeeDBPage />} />
+                  <Route path="post-jobs" element={<PostJobsEmploeeDBPage />} />
+                  <Route path="manage-jobs" element={<ManageJobsEmploeeDBPage />} />
+                  <Route path="all-applicants" element={<AllApplicantsEmploeesPage />} />
+                  <Route path="shortlisted-resumes" element={<ShortListedResumeEmploeeDBPage />} />
+                  <Route path="packages" element={<PackageEmploeeDBPage />} />
+                  <Route path="messages" element={<MessageEmploeeDBPage />} />
+                  <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage />} />
+                  <Route path="change-password" element={<ChangePasswordEmploeeDBPage />} />
                 </Route>
-              </Routes>
-              <ScrollTopBehaviour/>
-            </BrowserRouter>
+              </Route>
 
-           
+              {/* Protected Candidate Routes */}
+              <Route element={<ProtectedRoute requiredUserType="Teacher" />}>
+                <Route path="candidates-dashboard">
+                  <Route index element={<Navigate to="dashboard" replace />} />
+                  <Route path="dashboard" element={<DashboardPage />} />
+                  <Route path="my-profile" element={<MyProfilePage />} />
+                  <Route path="my-resume" element={<MyResumePage />} />
+                  <Route path="applied-jobs" element={<AppliedJobsPage />} />
+                  <Route path="job-alerts" element={<JobAlertPage />} />
+                  <Route path="shortlisted-jobs" element={<ShortListedJobsPage />} />
+                  <Route path="cv-manager" element={<CVMannagerPage />} />
+                  <Route path="packages" element={<PackagePage />} />
+                  <Route path="messages" element={<MessageesPage />} />
+                  <Route path="change-password" element={<ChangePasswordPage />} />
+                </Route>
+              </Route>
 
-            {/* Toastify */}
-            <ToastContainer
-              position="bottom-right"
-              autoClose={500}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="colored"
-            />
-            {/* <!-- Scroll To Top --> */}
-            <ScrollToTop />
+              {/* 404 Route */}
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+            <ScrollTopBehaviour/>
           </div>
-        </AuthProvider>
-      </Provider>
-     
-    </>
+
+          {/* Toastify */}
+          <ToastContainer
+            position="bottom-right"
+            autoClose={500}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
+          {/* <!-- Scroll To Top --> */}
+          <ScrollToTop />
+        </Provider>
+      </AuthProvider>
+    </Router>
   )
 }
 
