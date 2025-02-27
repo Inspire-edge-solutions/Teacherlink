@@ -1,7 +1,7 @@
 import { React,useState } from "react";
 import axios from 'axios';
 
-const PersonalDetails = ({dateOfBirth}) => {
+const PersonalDetails = ({ className, dateOfBirth }) => {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -21,7 +21,7 @@ const PersonalDetails = ({dateOfBirth}) => {
   const [showWhatsappHint, setShowWhatsappHint] = useState(false);
 
   const handleFocusWhatsapp = () => {
-    setWhatsappType('number');
+    setWhatsappType('text');
     setShowWhatsappHint(true);
   };
 
@@ -42,12 +42,6 @@ const PersonalDetails = ({dateOfBirth}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate phone numbers
-    if (formData.callingNumber.length !== 10 || formData.whatsappNumber.length !== 10) {
-        alert('Phone numbers must be 10 digits');
-        return;
-    }
     try {
         const response = await axios.post(
             'https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/personal',
@@ -59,8 +53,6 @@ const PersonalDetails = ({dateOfBirth}) => {
                 }
             }
         );
-
-        //console.log('API Response:', response.data); // Log the actual response data
 
         if (response.status === 200 || response.status === 201) {
             alert('Personal details saved successfully!');
@@ -79,7 +71,7 @@ const PersonalDetails = ({dateOfBirth}) => {
   };
 
   return (
-    <div className="default-form">
+    <div className={`personal-details ${className}`}>
       <div className="row">
         <h3>Personal Details</h3>
 
@@ -91,6 +83,7 @@ const PersonalDetails = ({dateOfBirth}) => {
             onChange={handleInputChange}
             placeholder="Full Name"
             required
+            maxLength="50"
           />
         </div>
 
@@ -101,13 +94,14 @@ const PersonalDetails = ({dateOfBirth}) => {
             value={formData.email}
             onChange={handleInputChange}
             placeholder="Email address"
+            maxLength="50"
             required
           />
         </div>
 
         {/* Gender Radio Buttons */}
         <div className="form-group col-lg-6 col-md-12">
-          <div className="radio-group">
+          <div className={`radio-group ${!formData.gender ? 'required' : ''}`}>
             <h6>Gender:</h6>
             <div className="radio-option">
               <input
@@ -157,7 +151,7 @@ const PersonalDetails = ({dateOfBirth}) => {
             onFocus={handleFocus}
             onBlur={handleBlur}
             max={new Date().toISOString().split('T')[0]} // Prevent future dates
-            required
+            
           />
         </div>
         )}
@@ -170,6 +164,9 @@ const PersonalDetails = ({dateOfBirth}) => {
             value={formData.callingNumber}
             onChange={handleInputChange}
             placeholder="Mobile Number (calling)"
+            onInput={(e) => {
+              e.target.value = e.target.value.replace(/[^0-9]/g, '');
+          }}
             maxLength="10"
             required
           />
@@ -185,16 +182,24 @@ const PersonalDetails = ({dateOfBirth}) => {
             onFocus={handleFocusWhatsapp}
             onBlur={handleBlurWhatsapp}
             placeholder="Mobile Number (WhatsApp)"
-            maxLength="10"
+            onInput={(e) => {
+              // Allow only digits and enforce maxLength
+              const newValue = e.target.value.replace(/[^0-9]/g, '');
+              if (newValue.length <= 10) {
+                  e.target.value = newValue; // Set the value only if it is within maxLength
+              } else {
+                  e.target.value = newValue.slice(0, 10); // Limit to 10 digits
+              }
+          }}
             required
           />
-          {showWhatsappHint && (
-            <small>
-              Mobile number for calling and WhatsApp can be same
-            </small>
-          )}
         </div>
 
+        {showWhatsappHint && (
+          <small>
+            Mobile number for calling and WhatsApp can be same
+          </small>
+        )}
         {/* Submit Button */}
         <div className="form-group col-12">
           <button type="submit" className="theme-btn btn-style-one">

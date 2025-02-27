@@ -619,6 +619,7 @@ const AdditionalInfo = () => {
         </div>
 
         {/* Spouse Need Job */}
+        {formData.maritalStatus === "Married" && (
         <div className="form-group col-lg-6 col-md-12">
           <select 
             className="chosen-single form-select"
@@ -630,6 +631,7 @@ const AdditionalInfo = () => {
             <option value="No">No</option>
           </select>
         </div>
+        )}
 
         {/* Conditional Spouse Fields */}
         {formData.spouseNeedJob === 'Yes' && (
@@ -767,7 +769,7 @@ const AdditionalInfo = () => {
           <input
             type="text"
             className="form-control"
-            placeholder="Preferable Timings"
+            placeholder="Preferable Timings to contact"
             maxLength={40}
             value={formData.preferableTimings}
             onChange={(e) => handleChange('preferableTimings', e.target.value)}

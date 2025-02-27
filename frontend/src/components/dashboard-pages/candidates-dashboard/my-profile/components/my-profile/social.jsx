@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import './profile-styles.css';
 
 const Social = ({ isEasyMode }) => {
   const [socialLinks, setSocialLinks] = useState({
@@ -56,7 +57,7 @@ const Social = ({ isEasyMode }) => {
             placeholder="Facebook - www.facebook.com/your-id"
             value={socialLinks.facebook}
             onChange={handleChange}
-            required
+      
           />
         </div>
         <div className="form-group col-lg-6 col-md-12">
@@ -66,7 +67,7 @@ const Social = ({ isEasyMode }) => {
             placeholder="LinkedIn - www.linkedin.com/your-id"
             value={socialLinks.linkedin}
             onChange={handleChange}
-            required
+          
           />
         </div>
         <div className="form-group col-lg-6 col-md-12">
@@ -76,7 +77,7 @@ const Social = ({ isEasyMode }) => {
             placeholder="Instagram - www.instagram.com/your-id"
             value={socialLinks.instagram}
             onChange={handleChange}
-            required
+      
           />
         </div>
         

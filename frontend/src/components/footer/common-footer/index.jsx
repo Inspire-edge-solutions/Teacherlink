@@ -22,15 +22,15 @@ const index = ({ footerStyle = "" }) => {
                 </div>
                 <p className="phone-num">
                   <span>Call us on </span>
-                  <a href="thebeehost@support.com">+91 9606889003</a>
+                  <a href="https://inspireedgesolutions.com/">+91 9606889003</a>
                 </p>
                 <p className="address">
                   13/2, Standage road, Pulikeshi nagar,
                   <br /> Bengaluru, Karnataka, India 560005 <br />
                   <label>Email : </label>
                   <strong>
-                  <a href="mailto:info@Inspire Edge Solutions.com" className="email"> 
-                    info@Inspire Edge Solutions.com
+                  <a href="mailto:info@inspireedgeSolutions.com" className="email"> 
+                    info@Inspireedgesolutions.com
                   </a>
                   </strong>
                 </p>
