@@ -147,7 +147,7 @@ function App() {
               </Route>
 
               {/* Protected Candidate Routes */}
-              <Route element={<ProtectedRoute requiredUserType="Teacher" />}>
+              <Route element={<ProtectedRoute requiredUserType="Candidate" />}>
                 <Route path="candidates-dashboard">
                   <Route index element={<Navigate to="dashboard" replace />} />
                   <Route path="dashboard" element={<DashboardPage />} />
