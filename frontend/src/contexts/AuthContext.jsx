@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
           
           const response = await axios({
             method: 'get',
-            url: `https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users/${firebaseUser.uid}`,
+            url: `https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/users/${firebaseUser.uid}`,
             params: {
               route: 'GetUser'
             },

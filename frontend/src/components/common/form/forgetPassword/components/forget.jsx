@@ -17,8 +17,8 @@ const ForgetPassword = () => {
   const navigate = useNavigate();
 
   // Endpoints for OTP and user operations
-  const otpBaseURL = 'https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/otp';
-  const userBaseURL = 'https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users';
+  const otpBaseURL = 'https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/otp';
+  const userBaseURL = 'https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/users';
 
   // Step 1: Send OTP via CreateOTP endpoint
   const handleSendOTP = async (e) => {
@@ -74,7 +74,7 @@ const ForgetPassword = () => {
       console.log('Sending payload:', payload); // Debug log
 
       const response = await axios.post(
-        `${userBaseURL}/ForgotPassword`,
+        `${userBaseURL}`,
         JSON.stringify(payload),  // Make sure payload is stringified
         {
           headers: {

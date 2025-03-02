@@ -103,7 +103,7 @@ const FormContent = () => {
       
       if (user.user_type === 'Employer') {
         navigate('/employers-dashboard/dashboard', { replace: true });
-      } else if (user.user_type === 'Teacher' || user.user_type === 'Candidate') {
+      } else if (user.user_type === 'Candidate') {
         navigate('/candidates-dashboard/dashboard', { replace: true });
       }
       // Reset login attempt after navigation

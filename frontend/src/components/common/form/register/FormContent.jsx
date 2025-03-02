@@ -144,7 +144,7 @@ const FormContent = ({ user_type }) => {
       console.log("Sending User Data:", userData);
 
       const response = await axios.post(
-        "https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/users",
+        "https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/users",
         {
           route: "CreateUser",
           ...userData,
