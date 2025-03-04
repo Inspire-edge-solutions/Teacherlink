@@ -27,6 +27,7 @@ const LogoUpload = () => {
                         required
                         onChange={imageFileHandler}
                     />
+                    
                     <label
                         className="uploadButton-button ripple-effect"
                         htmlFor="upload-image"
@@ -35,9 +36,11 @@ const LogoUpload = () => {
                     </label>
                     <span className="uploadButton-file-name"></span>
                 </div>
+                
                 <div className="text">
                     Max file size is 1MB, Minimum dimension: 330x300 And Suitable files are .jpg & .png
                 </div>
+                
 
                 {/* Video Upload Section */}
                 <div className="uploadButton mt-4">
@@ -62,6 +65,11 @@ const LogoUpload = () => {
                     Max file size is 10MB, Suitable files are .mp4, .webm & .mov
                 </div>
             </div>
+            <div className="photoVideo">
+            <button className="theme-btn btn-style-three">Save Photo</button>
+            <button className="theme-btn btn-style-three">Save demo video</button>
+            </div>
+            
         </>
     );
 };

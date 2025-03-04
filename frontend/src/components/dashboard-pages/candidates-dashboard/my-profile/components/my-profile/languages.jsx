@@ -14,7 +14,7 @@ const Languages = () => {
   useEffect(() => {
     const fetchLanguages = async () => {
       try {
-        const response = await axios.get('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/languages');
+        const response = await axios.get('https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/languages');
         const filteredLanguages = response.data.filter(lang => lang.category === 'languages in India');
         setAvailableLanguages(filteredLanguages);
       } catch (error) {

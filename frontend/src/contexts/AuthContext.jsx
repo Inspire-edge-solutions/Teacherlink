@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
               'Content-Type': 'application/json'
             }
           });
-          
+          console.log("Firebase UID:", firebaseUser.uid);
           console.log("API Response:", response.data);
 
           // Create a merged user object with the correct user_type

@@ -202,8 +202,8 @@ const PersonalDetails = ({ className, dateOfBirth }) => {
         )}
         {/* Submit Button */}
         <div className="form-group col-12">
-          <button type="submit" className="theme-btn btn-style-one">
-            Save details
+          <button type="submit" className="theme-btn btn-style-three">
+            Save personal details
           </button>
         </div>
       </div>

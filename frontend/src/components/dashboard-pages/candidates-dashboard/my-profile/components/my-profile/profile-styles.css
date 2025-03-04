@@ -12,7 +12,7 @@
 .radio-option {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
 }
 
 
@@ -651,4 +651,10 @@ input:required , select:required , textarea:required{
 .custom-select.required {
   border: 2px solid orchid !important;
   border-radius: 8px !important;
+}
+.photoVideo{
+  display:flex;
+  justify-content: space-between;
+  padding: 5px;
+  margin-bottom: 10px;
 }
