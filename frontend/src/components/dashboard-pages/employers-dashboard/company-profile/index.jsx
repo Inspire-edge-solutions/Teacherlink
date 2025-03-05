@@ -37,8 +37,9 @@ const index = () => {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="ls-widget">
-                                <div className="widget-title">
+                                <div className="widget-title d-flex justify-content-between">
                                     <h4>Profile Details</h4>
+                                    <button className="theme-btn btn-style-two">view profile</button>
                                 </div>
                                 <MyProfile />
                             </div> 

@@ -27,7 +27,6 @@
 import React, { useState } from "react";
 import OrgDetails from "./OrgDetails";
 import LogoCoverUploader from "./LogoCoverUploader";
-import SocialNetworkBox from "../SocialNetworkBox";
 import ContactInfoBox from "../ContactInfoBox";
 
 const FormInfoBox = () => {
@@ -95,10 +94,10 @@ const FormInfoBox = () => {
 
   return (
     <form className="default-form" onSubmit={handleSubmit}>
+      
       <div className="row">
         <LogoCoverUploader onChange={handleImagesChange} />
         <OrgDetails onChange={handleOrgDetailsChange} />
-        <SocialNetworkBox onChange={handleSocialChange} />
         <ContactInfoBox onChange={handleContactInfoChange} />
         <div className="form-group col-lg-6 col-md-12">
           <button type="submit" className="theme-btn btn-style-one">

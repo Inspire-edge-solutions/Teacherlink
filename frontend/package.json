@@ -23,6 +23,7 @@
     "country-state-city": "^3.2.1",
     "firebase": "^11.1.0",
     "google-map-react": "^2.2.1",
+    "maplibre-gl": "^5.2.0",
     "photoswipe": "^5.4.2",
     "prop-types": "^15.8.1",
     "rc-slider": "^11.1.7",

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -14,11 +14,53 @@ const ForgetPassword = () => {
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [passwordValidation, setPasswordValidation] = useState({
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    special: false,
+    match: false
+  });
   const navigate = useNavigate();
 
   // Endpoints for OTP and user operations
   const otpBaseURL = 'https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/otp';
   const userBaseURL = 'https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/users';
+
+  // Password validation function
+  const validatePassword = (password) => {
+    const validations = {
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /[0-9]/.test(password),
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+    };
+    
+    return validations;
+  };
+
+  // Update password validation state when password or confirm password changes
+  useEffect(() => {
+    const validations = validatePassword(newPassword);
+    setPasswordValidation(prev => ({
+      ...validations,
+      match: newPassword === confirmPassword
+    }));
+  }, [newPassword, confirmPassword]);
+
+  // Password change handler
+  const handlePasswordChange = (e) => {
+    const newPwd = e.target.value;
+    setNewPassword(newPwd);
+  };
+
+  // Confirm password change handler
+  const handleConfirmPasswordChange = (e) => {
+    const confirmPwd = e.target.value;
+    setConfirmPassword(confirmPwd);
+  };
 
   // Step 1: Send OTP via CreateOTP endpoint
   const handleSendOTP = async (e) => {
@@ -55,27 +97,36 @@ const ForgetPassword = () => {
   // Step 3: Reset password via ForgotPassword endpoint
   const handleResetPassword = async (e) => {
     e.preventDefault();
+    
+    // Validate password strength
+    const validations = validatePassword(newPassword);
+    if (!Object.values(validations).every(Boolean)) {
+      setError('Password does not meet the required criteria');
+      return;
+    }
+
+    // Check if passwords match
     if (newPassword !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
+
     try {
       setError('');
       setLoading(true);
       
-      // Create the payload object
       const payload = {
-        email: email.trim(), // Ensure email has no whitespace
+        email: email.trim(),
         otp: otp.trim(),
         newPassword: newPassword,
         route: "ForgotPassword"
       };
 
-      console.log('Sending payload:', payload); // Debug log
+      console.log('Sending payload:', payload);
 
       const response = await axios.post(
         `${userBaseURL}`,
-        JSON.stringify(payload),  // Make sure payload is stringified
+        JSON.stringify(payload),
         {
           headers: {
             'Content-Type': 'application/json'
@@ -86,9 +137,8 @@ const ForgetPassword = () => {
       setSuccess(response.data.message || 'Password reset successful');
       setIsCompleted(true);
     } catch (err) {
-      console.error('Reset password error:', err); // Debug log
+      console.error('Reset password error:', err);
       setError(err.response?.data?.message || 'Failed to reset password');
-      
     } finally {
       setLoading(false);
     }
@@ -149,20 +199,47 @@ const ForgetPassword = () => {
                   <Form.Control
                     type="password"
                     value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
+                    onChange={handlePasswordChange}
                     placeholder="Enter new password"
                     required
+                    isInvalid={newPassword && !passwordValidation.length}
                   />
+                  <Form.Text className="text-muted">
+                    Password must contain:
+                    <ul className="password-requirements">
+                      <li style={{ color: passwordValidation.length ? 'green' : 'red' }}>
+                        At least 8 characters
+                      </li>
+                      <li style={{ color: passwordValidation.uppercase ? 'green' : 'red' }}>
+                        One uppercase letter
+                      </li>
+                      <li style={{ color: passwordValidation.lowercase ? 'green' : 'red' }}>
+                        One lowercase letter
+                      </li>
+                      <li style={{ color: passwordValidation.number ? 'green' : 'red' }}>
+                        One number
+                      </li>
+                      <li style={{ color: passwordValidation.special ? 'green' : 'red' }}>
+                        One special character
+                      </li>
+                    </ul>
+                  </Form.Text>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Confirm Password:</Form.Label>
                   <Form.Control
                     type="password"
                     value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    onChange={handleConfirmPasswordChange}
                     placeholder="Confirm new password"
                     required
+                    isInvalid={confirmPassword && !passwordValidation.match}
                   />
+                  {confirmPassword && (
+                    <Form.Text className={passwordValidation.match ? 'text-success' : 'text-danger'}>
+                      {passwordValidation.match ? 'Passwords matched' : 'Passwords do not match'}
+                    </Form.Text>
+                  )}
                 </Form.Group>
                 <div className="button-group">
                   <Button variant="primary" type="submit" disabled={loading}>

@@ -1,5 +1,5 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import LoginWithSocial from "./LoginWithSocial";
+import LoginWithSocial from "../login/LoginWithSocial";
 import Form from "./FormContent";
 import { Link } from "react-router-dom";
 import { useState } from "react";

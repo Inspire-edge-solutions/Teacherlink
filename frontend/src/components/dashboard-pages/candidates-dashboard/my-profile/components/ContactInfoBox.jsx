@@ -1,55 +1,175 @@
+import React, { useState } from 'react';
 import Map from "../../../Map";
 
 const ContactInfoBox = () => {
-  return (
-    <form className="default-form">
-      <div className="row">
+    const [searchQuery, setSearchQuery] = useState('');
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
+    const [selectedLocation, setSelectedLocation] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-        {/* <!-- Input --> */}
-        <div className="form-group col-lg-6 col-md-12">
-          <input
-            type="text"
-            name="name"
-            placeholder="Find your location on map"
-            
-          />
-        </div>
+    const handleSearch = async () => {
+        if (!searchQuery) return;
 
-        {/* <!-- Input --> */}
-        <div className="form-group col-lg-3 col-md-12">
-          
-          <input type="text" name="name" placeholder="Latitude"  />
-        </div>
+        setIsLoading(true);
+        setError(null);
 
-        {/* <!-- Input --> */}
-        <div className="form-group col-lg-3 col-md-12">
-         
-          <input type="text" name="name" placeholder="Longitude" />
-        </div>
+        try {
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/geocode?text=${encodeURIComponent(searchQuery)}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
 
-        {/* <!-- Input --> */}
-        <div className="form-group col-lg-12 col-md-12">
-          <button className="theme-btn btn-style-three">Search Location</button>
-        </div>
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
 
-        <div className="form-group col-lg-12 col-md-12">
-          <div className="map-outer">
-            <div style={{ height: "420px", width: "100%" }}>
-              <Map />
+            const data = await response.json();
+
+            if (data.Results && data.Results.length > 0) {
+                const location = data.Results[0];
+                setLatitude(location.Place.Geometry.Point[1]);
+                setLongitude(location.Place.Geometry.Point[0]);
+                setSelectedLocation({
+                    coordinates: [location.Place.Geometry.Point[0], location.Place.Geometry.Point[1]],
+                    label: location.Place.Label
+                });
+            } else {
+                setError('No results found for this location');
+            }
+        } catch (error) {
+            console.error('Error searching location:', error);
+            setError('Failed to search location. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleSave = async () => {
+        if (!latitude || !longitude) {
+            alert('Please search for a location first');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/location`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({
+                    latitude,
+                    longitude,
+                    label: selectedLocation?.label
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to save location');
+            }
+
+            const data = await response.json();
+            alert('Location saved successfully!');
+        } catch (error) {
+            console.error('Error saving location:', error);
+            alert('Failed to save location. Please try again.');
+        }
+    };
+
+    return (
+        <div className="default-form">
+            <div className="row">
+                {/* Search Input */}
+                <div className="form-group col-lg-6 col-md-12">
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Find your location on map"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                        disabled={isLoading}
+                    />
+                </div>
+
+                {/* Latitude Input */}
+                <div className="form-group col-lg-3 col-md-12">
+                    <input
+                        type="text"
+                        name="latitude"
+                        placeholder="Latitude"
+                        value={latitude}
+                        onChange={(e) => setLatitude(e.target.value)}
+                        readOnly
+                    />
+                </div>
+
+                {/* Longitude Input */}
+                <div className="form-group col-lg-3 col-md-12">
+                    <input
+                        type="text"
+                        name="longitude"
+                        placeholder="Longitude"
+                        value={longitude}
+                        onChange={(e) => setLongitude(e.target.value)}
+                        readOnly
+                    />
+                </div>
+
+                {/* Search Button */}
+                <div className="form-group col-lg-12 col-md-12">
+                    <button 
+                        type="button"
+                        className="theme-btn btn-style-three"
+                        onClick={handleSearch}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Searching...' : 'Search Location'}
+                    </button>
+                </div>
+
+                {/* Error Message */}
+                {error && (
+                    <div className="form-group col-lg-12 col-md-12">
+                        <div className="alert alert-danger" role="alert">
+                            {error}
+                        </div>
+                    </div>
+                )}
+
+                {/* Map */}
+                <div className="form-group col-lg-12 col-md-12">
+                    <div className="map-outer">
+                        <div style={{ height: "420px", width: "100%" }}>
+                            <Map 
+                                initialCenter={selectedLocation?.coordinates}
+                                initialZoom={selectedLocation ? 15 : 11}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Save Button */}
+                <div className="form-group col-lg-12 col-md-12">
+                    <button 
+                        type="button"
+                        className="theme-btn btn-style-three"
+                        onClick={handleSave}
+                        disabled={!selectedLocation}
+                    >
+                        Save Location
+                    </button>
+                </div>
             </div>
-          </div>
         </div>
-        {/* End MapBox */}
-
-        {/* <!-- Input --> */}
-        <div className="form-group col-lg-12 col-md-12">
-          <button type="submit" className="theme-btn btn-style-three">
-            Save Location
-          </button>
-        </div>
-      </div>
-    </form>
-  );
+    );
 };
 
 export default ContactInfoBox;

@@ -115,8 +115,31 @@ const FormContent = ({ user_type }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [number, setNumber] = useState("");
-  const [loading, setLoading] = useState(false); // Added loading state
+  const [loading, setLoading] = useState(false);
+  const [passwordValidation, setPasswordValidation] = useState({
+    minLength: false,
+    hasUpperCase: false,
+    hasLowerCase: false,
+    hasNumber: false,
+    hasSpecialChar: false
+  });
   const navigate = useNavigate();
+
+  const validatePassword = (password) => {
+    setPasswordValidation({
+      minLength: password.length >= 8,
+      hasUpperCase: /[A-Z]/.test(password),
+      hasLowerCase: /[a-z]/.test(password),
+      hasNumber: /\d/.test(password),
+      hasSpecialChar: /[!@#$%^&*]/.test(password)
+    });
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    validatePassword(newPassword);
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -199,9 +222,27 @@ const FormContent = ({ user_type }) => {
           type="password"
           placeholder="Enter password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handlePasswordChange}
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$"
           required
         />
+        <div className="password-requirements" style={{ fontSize: '0.8rem', marginTop: '5px' }}>
+          <p style={{ color: passwordValidation.minLength ? 'green' : 'red' }}>
+            ✓ At least 8 characters
+          </p>
+          <p style={{ color: passwordValidation.hasUpperCase ? 'green' : 'red' }}>
+            ✓ At least one uppercase letter
+          </p>
+          <p style={{ color: passwordValidation.hasLowerCase ? 'green' : 'red' }}>
+            ✓ At least one lowercase letter
+          </p>
+          <p style={{ color: passwordValidation.hasNumber ? 'green' : 'red' }}>
+            ✓ At least one number
+          </p>
+          <p style={{ color: passwordValidation.hasSpecialChar ? 'green' : 'red' }}>
+            ✓ At least one special character (!@#$%^&*)
+          </p>
+        </div>
       </div>
 
       <div className="form-group">

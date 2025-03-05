@@ -1,0 +1,176 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 15px;
+}
+
+.modal-content {
+  background-color: #1b2132;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.role-selection-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.role-selection-title {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.role-selection-buttons {
+  margin-bottom: 20px;
+}
+
+.role-selection-buttons .row {
+  margin: 0 -10px;
+}
+
+.role-selection-buttons .col-lg-6 {
+  padding: 0 10px;
+}
+
+.role-selection-buttons button {
+  width: 100%;
+  margin-bottom: 10px;
+  min-height: 44px;
+}
+
+.role-selection-buttons .selected {
+  background-color: #1967d2;
+  color: white;
+  border-color: #1967d2;
+}
+
+.form-group {
+  text-align: left;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.form-group label {
+  color: #ffffff;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.phone-input {
+  width: 100%;
+  padding: 12px 20px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid #484848;
+  background: #ffffff;
+  font-size: 15px;
+  color: #202124;
+  height: 50px;
+}
+
+.phone-input:focus {
+  outline: none;
+  border-color: #1967d2;
+}
+
+.phone-input.error {
+  border-color: #ff0000;
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: left;
+}
+
+/* Google button styling */
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #202124;
+  font-size: 15px;
+  font-weight: 500;
+  border: 1px solid #dadce0;
+  transition: all 0.3s ease;
+  min-height: 44px;
+}
+
+.google-btn:hover {
+  background: #f8f9fa;
+  border-color: #dadce0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.submit-btn-container {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.submit-btn-container button {
+  width: 100%;
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: #1967d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 44px;
+}
+
+.submit-btn-container button:hover {
+  background-color: #1557b0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Mobile specific styles */
+@media (max-width: 767px) {
+  .modal-content {
+    padding: 15px;
+  }
+
+  .role-selection-buttons .col-lg-6 {
+    margin-bottom: 10px;
+  }
+
+  .submit-btn-container {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 0;
+  }
+
+  .phone-input {
+    font-size: 16px; /* Prevents zoom on mobile */
+  }
+}

@@ -3,7 +3,12 @@ import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import axios from 'axios';
 
-const AuthContext = createContext({});
+// Define a more complete context type
+const AuthContext = createContext({
+  user: null,
+  loading: true,
+  setUser: (user) => {}
+});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -53,8 +58,15 @@ export const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
+  // Create a value object with all the context values
+  const value = {
+    user,
+    loading,
+    setUser
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={value}>
       {!loading && children}
     </AuthContext.Provider>
   );
