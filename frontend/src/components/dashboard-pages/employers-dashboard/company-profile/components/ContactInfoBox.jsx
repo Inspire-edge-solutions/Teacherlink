@@ -21,10 +21,9 @@ const ContactInfoBox = () => {
                 {
                     method: 'GET',
                     headers: {
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Credentials': true,
-                        'Access-Control-Allow-Headers': 'Content-Type,x-api-key,Accept',
-                        'Access-Control-Allow-Methods': 'GET,OPTIONS'
+                        'Content-Type': 'application/json',
+                        'x-api-key': import.meta.env.VITE_AWS_LOCATION_API_KEY,
+                        'Accept': 'application/json'
                     }
                 }
             );

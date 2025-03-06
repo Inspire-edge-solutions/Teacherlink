@@ -3,51 +3,6 @@ import axios from "axios";
 import Select from "react-select";
 import csc from "countries-states-cities";
 import { useAuth } from "../../../../../../contexts/AuthContext";
-// Base experience template (no user_id in MySQL; used only for DynamoDB)
-const baseExperience = {
-  firebase_id: user.uid, // (actual user id if available)
-  adminCurriculum: "",
-  jobCategory: "", // "fullTime" / "partTime"
-  jobProcess: "",  // "regular", "online", "hybrid"
-  jobType: "",     // "teaching", "administration", "teachingAndAdministration", "nonEducation"
-  otherAdminDesignation: "",
-  otherTeachingAdminCoreExpertise: "",
-  paySlip: null, // Will hold Base64 if a file is chosen
-  teachingAdminSubjects: [],
-  teachingDesignation: "",
-  teachingSubjects: [],
-  workProfile: "",
-  adminDesignation: "",
-  city: null,    // Will store entire option object
-  country: null, // Will store entire option object
-  currentlyWorking: false,
-  designation: "",
-  industryType: "",
-  organizationName: "",
-  otherAdminCurriculum: "",
-  otherTeachingAdminCurriculum: "",
-  otherTeachingAdminDesignation: "",
-  otherTeachingAdminSubjects: "",
-  otherTeachingCoreExpertise: "",
-  otherTeachingCurriculum: "",
-  otherTeachingDesignation: "",
-  otherTeachingSubjects: "",
-  salary: "",
-  state: null, // Will store entire option object
-  teachingAdminCoreExpertise: [],
-  teachingAdminCurriculum: "",
-  teachingAdminDesignations: [],
-  teachingAdminGrades: [],
-  teachingCoreExpertise: [],
-  teachingCurriculum: "",
-  teachingGrades: [],
-  work_from_month: "",
-  work_from_year: "",
-  work_till_month: "",
-  work_till_year: ""
-};
-
-const { user } = useAuth();
 
 const Experience = ({
   excludeAdditionalDetails,
@@ -55,6 +10,52 @@ const Experience = ({
   excludeAdminCurriculum,
   excludeTeachingAdminCurriculum
 }) => {
+  const { user } = useAuth();
+
+  // Base experience template (no user_id in MySQL; used only for DynamoDB)
+  const baseExperience = {
+    firebase_id: user?.uid || "", // Use optional chaining to safely access uid
+    adminCurriculum: "",
+    jobCategory: "", // "fullTime" / "partTime"
+    jobProcess: "",  // "regular", "online", "hybrid"
+    jobType: "",     // "teaching", "administration", "teachingAndAdministration", "nonEducation"
+    otherAdminDesignation: "",
+    otherTeachingAdminCoreExpertise: "",
+    paySlip: null, // Will hold Base64 if a file is chosen
+    teachingAdminSubjects: [],
+    teachingDesignation: "",
+    teachingSubjects: [],
+    workProfile: "",
+    adminDesignation: "",
+    city: null,    // Will store entire option object
+    country: null, // Will store entire option object
+    currentlyWorking: false,
+    designation: "",
+    industryType: "",
+    organizationName: "",
+    otherAdminCurriculum: "",
+    otherTeachingAdminCurriculum: "",
+    otherTeachingAdminDesignation: "",
+    otherTeachingAdminSubjects: "",
+    otherTeachingCoreExpertise: "",
+    otherTeachingCurriculum: "",
+    otherTeachingDesignation: "",
+    otherTeachingSubjects: "",
+    salary: "",
+    state: null, // Will store entire option object
+    teachingAdminCoreExpertise: [],
+    teachingAdminCurriculum: "",
+    teachingAdminDesignations: [],
+    teachingAdminGrades: [],
+    teachingCoreExpertise: [],
+    teachingCurriculum: "",
+    teachingGrades: [],
+    work_from_month: "",
+    work_from_year: "",
+    work_till_month: "",
+    work_till_year: ""
+  };
+
   // MySQL-like aggregated experience details
   const [workExperience, setWorkExperience] = useState({
     total: { years: "0", months: "0" },
