@@ -2,8 +2,12 @@ import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import csc from 'countries-states-cities';
 import axios from 'axios';
+import { useAuth } from "../../../../../../contexts/AuthContext";
 
 const JobPreference = () => {
+
+  const { user } = useAuth();
+
   const [preferences, setPreferences] = useState({
     jobShift: {
       Full_time: { offline: null, online: null },
@@ -153,6 +157,8 @@ const JobPreference = () => {
     event.preventDefault();
 
     const payload = {
+
+      firebase_id: user.uid,
       // Job Shift Preferences
       full_time_offline: preferences.jobShift.Full_time.offline,
       full_time_online: preferences.jobShift.Full_time.online,

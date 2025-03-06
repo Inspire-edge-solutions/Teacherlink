@@ -17,10 +17,22 @@ const ContactInfoBox = () => {
 
         try {
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/geocode?text=${encodeURIComponent(searchQuery)}`
+                `${import.meta.env.VITE_API_URL}?text=${encodeURIComponent(searchQuery)}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Credentials': true,
+                        'Access-Control-Allow-Headers': 'Content-Type,x-api-key,Accept',
+                        'Access-Control-Allow-Methods': 'GET,OPTIONS'
+                    }
+                }
             );
 
             if (!response.ok) {
+                if (response.status === 403) {
+                    throw new Error('Access denied. Please check your API key configuration.');
+                }
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 

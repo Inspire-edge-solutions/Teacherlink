@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Select from "react-select";
 import csc from "countries-states-cities";
-
+import { useAuth } from "../../../../../../contexts/AuthContext";
 // Base experience template (no user_id in MySQL; used only for DynamoDB)
 const baseExperience = {
-  user_id: "guest", // Default value for DynamoDB (update with actual user id if available)
+  firebase_id: user.uid, // (actual user id if available)
   adminCurriculum: "",
   jobCategory: "", // "fullTime" / "partTime"
   jobProcess: "",  // "regular", "online", "hybrid"
@@ -47,6 +47,8 @@ const baseExperience = {
   work_till_year: ""
 };
 
+const { user } = useAuth();
+
 const Experience = ({
   excludeAdditionalDetails,
   excludeTeachingCurriculum,
@@ -72,7 +74,6 @@ const Experience = ({
       }
     }
   });
-
   // Array of individual experiences
   const [experienceEntries, setExperienceEntries] = useState([]);
 
@@ -157,7 +158,7 @@ const Experience = ({
         transformedData.filter((item) => item.category === "Curriculum") || []
       );
     } catch (error) {
-      console.error("Error fetching designations:", error);
+      console.error("Error fetching drop down data list:", error);
     }
   };
 
@@ -185,12 +186,9 @@ const Experience = ({
       country: entry.country ? entry.country.label : "",
       state: entry.state ? entry.state.label : "",
       city: entry.city ? entry.city.label : ""
-      // Do NOT delete the paySlip field here so that the backend can upload it.
     }));
   };
   
-  
-
   // Submit the entire experience data
   const submitExperienceData = async () => {
     if (experienceEntries.length === 0) {
@@ -206,33 +204,20 @@ const Experience = ({
         total_experience_months: workExperience.total.months,
         teaching_experience_years: workExperience.teaching.years,
         teaching_experience_months: workExperience.teaching.months,
+        teaching_exp_fulltime_years: workExperience.details.teaching.fullTime.years,
+        teaching_exp_fulltime_months: workExperience.details.teaching.fullTime.months,
+        teaching_exp_partime_years: workExperience.details.teaching.partTime.years,
+        teaching_exp_partime_months: workExperience.details.teaching.partTime.months,
 
-        teaching_exp_fulltime_years:
-          workExperience.details.teaching.fullTime.years,
-        teaching_exp_fulltime_months:
-          workExperience.details.teaching.fullTime.months,
-        teaching_exp_partime_years:
-          workExperience.details.teaching.partTime.years,
-        teaching_exp_partime_months:
-          workExperience.details.teaching.partTime.months,
+        administration_fulltime_years:workExperience.details.administration.fullTime.years,
+        administration_fulltime_months:workExperience.details.administration.fullTime.months,
+        administration_partime_years:workExperience.details.administration.partTime.years,
+        administration_parttime_months:workExperience.details.administration.partTime.months,
 
-        administration_fulltime_years:
-          workExperience.details.administration.fullTime.years,
-        administration_fulltime_months:
-          workExperience.details.administration.fullTime.months,
-        administration_partime_years:
-          workExperience.details.administration.partTime.years,
-        administration_parttime_months:
-          workExperience.details.administration.partTime.months,
-
-        anyrole_fulltime_years:
-          workExperience.details.nonEducation.fullTime.years,
-        anyrole_fulltime_months:
-          workExperience.details.nonEducation.fullTime.months,
-        anyrole_partime_years:
-          workExperience.details.nonEducation.partTime.years,
-        anyrole_parttime_months:
-          workExperience.details.nonEducation.partTime.months,
+        anyrole_fulltime_years:workExperience.details.nonEducation.fullTime.years,
+        anyrole_fulltime_months:workExperience.details.nonEducation.fullTime.months,
+        anyrole_partime_years:workExperience.details.nonEducation.partTime.years,
+        anyrole_parttime_months:workExperience.details.nonEducation.partTime.months,
 
         // Booleans for Other Teaching Experiences; converting to "1"/"0" strings
         Ed_Tech_Company: otherTeachingExp.edTechCompany,

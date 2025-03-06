@@ -12,7 +12,7 @@ const Map = ({ initialCenter, initialZoom }) => {
   useEffect(() => {
     if (map.current) return; // initialize map only once
 
-    const apiKey = import.meta.env.VITE_TEACHERLINKMAP;
+    const apiKey = import.meta.env.VITE_AWS_LOCATION_API_KEY;
     const region = "ap-south-1";
     const style = "Standard";
     const colorScheme = "Light";

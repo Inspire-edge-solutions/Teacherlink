@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import "./profile-styles.css";
 import axios from "axios";
+import { useAuth } from "../../../../../../contexts/AuthContext";
 
 const Education = ({
   isEasyMode,
@@ -43,6 +44,8 @@ const Education = ({
     percentage: "",
     mode: ""
   });
+
+  const { user } = useAuth();
   const [coreSubjectsOptions, setCoreSubjectsOptions] = useState([]);
   const [degrees, setDegrees] = useState([]);
   const [masterDegrees, setMasterDegrees] = useState([]);
@@ -1436,6 +1439,7 @@ const Education = ({
 
     // Construct the payload based on our education_details table fields.
     const payload = {
+      firebase_id: user.uid,
       // Data for Grade 10 (mandatory)
       grade10: {
         syllabus: grade10Data.syllabus,

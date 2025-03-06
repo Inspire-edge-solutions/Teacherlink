@@ -1,9 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 import './profile-styles.css';
+import { useAuth } from "../../../../../../contexts/AuthContext";
 
 const Social = ({ isEasyMode }) => {
+
+  const { user } = useAuth();
+
   const [socialLinks, setSocialLinks] = useState({
+    firebase_id: user.uid,
     facebook: '',
     linkedin: '',
     instagram: '',
@@ -96,7 +101,6 @@ const Social = ({ isEasyMode }) => {
             Save Links
           </button>
         </div>
-       
         </>
         )}
          </div>

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAuth } from "../../../../../../contexts/AuthContext";
 
 const PersonalDetails = ({ className, dateOfBirth }) => {
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     // Optional: if you want to pass user_id from the client, include it.
     // Otherwise, leave it empty so the backend can insert null.
-    user_id: "",
+    firebase_id: user.uid,
     fullName: "",
     email: "",
     gender: "",

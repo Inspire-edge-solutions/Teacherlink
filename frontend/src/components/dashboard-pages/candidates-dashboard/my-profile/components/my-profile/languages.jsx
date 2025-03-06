@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from "../../../../../../contexts/AuthContext";
 
 const Languages = () => {
+
+  const { user } = useAuth();
+
   const [languages, setLanguages] = useState([{
     language: '',
     speak: false,
@@ -55,7 +59,8 @@ const Languages = () => {
     try {
       const response = await axios.post(
         'https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/languages',
-        { languages: JSON.stringify(languages) },
+        { languages: JSON.stringify(languages), 
+          firebase_id: user.uid },
         {
           headers: { 'Content-Type': 'application/json' }
         }
