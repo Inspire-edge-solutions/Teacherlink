@@ -153,17 +153,22 @@ Buttons Styles
   background-color: #e2eaf8;
 }
 
-/* Btn Style Seven */
-
+/* Btn Style Eight */
 .btn-style-eight {
   position: relative;
+  display: inline-block;
   text-align: center;
-  white-space: nowrap;
-  color: var(--primary-color);
-  line-height: 20px;
-  border-radius: 8px;
-  font-weight: 400;
   padding: 15px 35px;
+  background-color: var(--primary-color);
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: var(--primary-hover-bg-color);
+  }
 }
 
 .theme-btn.large {

@@ -1,7 +1,9 @@
 import Register from "../register/Register";
-import FormContent2 from "./FormContent";
+import FormContent from "./FormContent";
+import { getIcon } from "../../../../utils/iconMapping";
 
 const LoginPopup = () => {
+  
   return (
     <>
       <div className="modal fade" id="loginPopupModal">
@@ -11,7 +13,9 @@ const LoginPopup = () => {
               type="button"
               className="closed-modal"
               data-bs-dismiss="modal"
-            ></button>
+            >
+              {getIcon('icon-close')}
+            </button>
             {/* End close modal btn */}
 
             <div className="modal-body">
@@ -19,7 +23,7 @@ const LoginPopup = () => {
               <div id="login-modal">
                 {/* <!-- Login Form --> */}
                 <div className="login-form default-form">
-                  <FormContent2 />
+                  <FormContent />
                 </div>
                 {/* <!--End Login Form --> */}
               </div>
@@ -39,7 +43,9 @@ const LoginPopup = () => {
               type="button"
               className="closed-modal"
               data-bs-dismiss="modal"
-            ></button>
+            >
+              {getIcon('icon-close')}
+            </button>
             {/* End close modal btn */}
 
             <div className="modal-body">

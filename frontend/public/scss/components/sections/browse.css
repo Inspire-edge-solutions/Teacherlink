@@ -38,6 +38,7 @@ Browse Jobs
 .links-list li a {
   display: inline-block;
   color: #696969;
+  -webkit-transition: all 200ms ease;
   transition: all 200ms ease;
 }
 
@@ -50,6 +51,7 @@ Browse Jobs
   margin-top: -1px;
   content: "";
   border-bottom: 2px solid var(--primary-color);
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -58,6 +60,8 @@ Browse Jobs
 }
 
 .links-list li:hover a {
+  -webkit-transform: translateX(25px);
   transform: translateX(25px);
   color: var(--primary-color);
-}/*# sourceMappingURL=browse.css.map */
+}
+/*# sourceMappingURL=browse.css.map */

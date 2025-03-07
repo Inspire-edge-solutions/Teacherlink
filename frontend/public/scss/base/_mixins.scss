@@ -1,0 +1,12 @@
+// Breakpoint mixins
+@mixin media-below($breakpoint) {
+  @if $breakpoint == xl {
+    @media (max-width: 1199px) { @content; }
+  } @else if $breakpoint == lg {
+    @media (max-width: 991px) { @content; }
+  } @else if $breakpoint == md {
+    @media (max-width: 767px) { @content; }
+  } @else if $breakpoint == sm {
+    @media (max-width: 575px) { @content; }
+  }
+}

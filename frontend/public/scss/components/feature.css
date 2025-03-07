@@ -29,10 +29,12 @@ Features Section
 .feature-block .image img {
   display: block;
   width: 100%;
+  -webkit-transition: all 400ms ease;
   transition: all 400ms ease;
 }
 
 .feature-block .inner-box:hover .image img {
+  -webkit-transform: scale(1.2);
   transform: scale(1.2);
 }
 
@@ -75,4 +77,5 @@ Features Section
   height: 100%;
   width: 100%;
   z-index: 9;
-}/*# sourceMappingURL=feature.css.map */
+}
+/*# sourceMappingURL=feature.css.map */

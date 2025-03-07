@@ -1,0 +1,67 @@
+@use '../public/scss/base/_variable' as *;
+@use 'sass:math';
+@use 'sass:map';
+@use 'sass:meta';
+@use 'slick-carousel/slick/slick.css';
+@use 'slick-carousel/slick/slick-theme.css';
+@use 'bootstrap/dist/css/bootstrap.min.css';
+@use 'aos/dist/aos.css';
+@use '../../public/scss/main';
+body a {
+  text-decoration: none !important;
+}
+
+.icon-wrap {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.icon-wrap svg {
+  width: 24px;
+  height: 24px;
+}
+
+@media (max-width: 768px) {
+  .icon-wrap svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+[class^="icon-"]::before,
+[class^="flaticon-"]::before,
+[class*=" icon-"]::before,
+[class*=" flaticon-"]::before {
+  display: none;
+}
+
+[class^="icon-"] svg,
+[class^="flaticon-"] svg,
+[class*=" icon-"] svg,
+[class*=" flaticon-"] svg {
+  display: inline-block;
+}
+
+.main-header .icon-user svg,
+.main-header .icon-menu svg,
+.main-header .icon-close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.icon-green {
+  color: #4CAF50;
+}
+
+.social-links svg {
+  width: 16px;
+  height: 16px;
+}
+/*# sourceMappingURL=index.css.map */

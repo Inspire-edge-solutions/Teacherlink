@@ -1,3 +1,5 @@
+import { getIcon } from '../../utils/iconMapping';
+
 const FeaturedBlock2 = () => {
   const blockContent = [
     {
@@ -25,7 +27,7 @@ const FeaturedBlock2 = () => {
         <div className="col-lg-3 col-md-6" key={item.id}>
           <div className={`features -type-1 ${item.featureLine}`}>
             <div className="icon-wrap">
-              <div className={`icon ${item.icon}`}></div>
+              {getIcon(item.icon, { size: 24 })}
             </div>
             <div className="title">{item.text}</div>
           </div>

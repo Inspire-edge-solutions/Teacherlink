@@ -66,8 +66,9 @@ Callout Two
   top: 0;
   height: 100%;
   width: 60%;
-  background-color: rgb(89, 171, 102);
+  background-color: #59ab66;
   content: "";
+  -webkit-transform: skew(-15deg);
   transform: skew(-15deg);
 }
 
@@ -104,6 +105,7 @@ Callout Two
   color: #000000;
   border-radius: 50%;
   min-width: auto;
+  -webkit-box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -160,9 +162,18 @@ Callout Three
   height: 100%;
   width: auto;
   padding: 45px 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
 }
 
@@ -173,6 +184,7 @@ Callout Three
   width: 120%;
   right: -15%;
   left: initial;
+  -webkit-transform: skew(-15deg);
   transform: skew(-15deg);
   background-color: #f36737;
   content: "";
@@ -210,4 +222,5 @@ Callout Three
 
 .pull-left {
   float: left;
-}/*# sourceMappingURL=Callout.css.map */
+}
+/*# sourceMappingURL=Callout.css.map */

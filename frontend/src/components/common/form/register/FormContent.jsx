@@ -110,60 +110,92 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const FormContent = () => {
+const FormContent = ({ user_type }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [number, setNumber] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [passwordValidation, setPasswordValidation] = useState({
+    minLength: false,
+    hasUpperCase: false,
+    hasLowerCase: false,
+    hasNumber: false,
+    hasSpecialChar: false
+  });
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const validatePassword = (password) => {
+    setPasswordValidation({
+      minLength: password.length >= 8,
+      hasUpperCase: /[A-Z]/.test(password),
+      hasLowerCase: /[a-z]/.test(password),
+      hasNumber: /\d/.test(password),
+      hasSpecialChar: /[!@#$%^&*]/.test(password)
+    });
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    validatePassword(newPassword);
+  };
+
+  const handleRegister = async (e) => {
     e.preventDefault();
+    if (number.length !== 10) {
+      alert("Please enter a valid 10-digit mobile number.");
+      return;
+    }
 
-    // Create the user in Firebase with email and password only
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user; // Get the user object from Firebase
-        console.log(user);
+    setLoading(true);
 
-        // Prepare the payload for your backend API
-        const userData = {
-          firebaseUid: user.uid, // Firebase User ID
-          name: name,
-          email: user.email,
-          password: password, // This might be a security risk if password is logged or reused
-          number: number, // Custom field captured from your form
-        };
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-        // Send the data to your backend API using axios
-        return axios.post("https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/login", {
-          route: "RegisterUser",
+      console.log("Firebase User Created:", user);
+
+      const userData = {
+        name,
+        email: user.email,
+        phone_number: number,
+        firebase_uid: user.uid,
+        user_type,
+      };
+
+      console.log("Sending User Data:", userData);
+
+      const response = await axios.post(
+        "https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/users",
+        {
+          route: "CreateUser",
           ...userData,
-        }, {
-          headers: {
-            "Content-Type": "application/json",
-          }
-        });
-  
-        // Handle success
-        if (response.status === 200) {
-          alert("Registration successful! Please login.");
-          navigate("/login");
-        } else {
-          // Handle backend errors
-          alert(`Backend Error: ${response.statusText}`);
+        },
+        {
+          headers: { "Content-Type": "application/json" },
         }
-      })
-      .catch((error) => {
-        // Handle errors from Firebase, Axios or the fetch call
-        alert(`Error: ${error.message}`);
-      });
+      );
+
+      if (response.status === 200) {
+        alert("Registration successful! Please login.");
+        navigate("/login", { state: { user_type } });
+      } else {
+        console.error("Backend Error:", response.statusText);
+        alert("Failed to register. Please try again.");
+      }
+    } catch (error) {
+      console.error("Registration Error:", error);
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <form onSubmit={handleRegister}>sddfsdfsdf
       <div className="form-group">
-        <label>Name :</label>
+        <label>Name:</label>
         <input
           type="text"
           placeholder="Enter name"
@@ -174,39 +206,60 @@ const FormContent = () => {
       </div>
 
       <div className="form-group">
-        <label>Email Address :</label>
+        <label>Email Address:</label>
         <input
           type="email"
-          placeholder="Enter email address, Example : abcd@gmail.com"
+          placeholder="Enter email address, e.g., abcd@gmail.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
       </div>
+
       <div className="form-group">
-        <label>Password :</label>
+        <label>Password:</label>
         <input
           type="password"
           placeholder="Enter password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handlePasswordChange}
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$"
+          required
+        />
+        <div className="password-requirements" style={{ fontSize: '0.8rem', marginTop: '5px' }}>
+          <p style={{ color: passwordValidation.minLength ? 'green' : 'red' }}>
+            ✓ At least 8 characters
+          </p>
+          <p style={{ color: passwordValidation.hasUpperCase ? 'green' : 'red' }}>
+            ✓ At least one uppercase letter
+          </p>
+          <p style={{ color: passwordValidation.hasLowerCase ? 'green' : 'red' }}>
+            ✓ At least one lowercase letter
+          </p>
+          <p style={{ color: passwordValidation.hasNumber ? 'green' : 'red' }}>
+            ✓ At least one number
+          </p>
+          <p style={{ color: passwordValidation.hasSpecialChar ? 'green' : 'red' }}>
+            ✓ At least one special character (!@#$%^&*)
+          </p>
+        </div>
+      </div>
+
+      <div className="form-group">
+        <label>Mobile Number:</label>
+        <input
+          type="text"
+          value={number}
+          onChange={(e) => setNumber(e.target.value.replace(/[^0-9]/g, ""))}
+          placeholder="Mobile Number"
+          maxLength="10"
           required
         />
       </div>
 
       <div className="form-group">
-        <label>Mobile number :</label>
-        <input
-          type="number"
-          placeholder="Enter mobile number"
-          value={number}
-          onChange={(e) => setNumber(e.target.value)}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <button className="theme-btn btn-style-one" type="submit">
-          Register
+        <button className="theme-btn btn-style-one" type="submit" disabled={loading}>
+          {loading ? "Registering..." : "Register"}
         </button>
       </div>
     </form>

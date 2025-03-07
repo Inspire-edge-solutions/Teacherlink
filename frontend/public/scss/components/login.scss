@@ -167,44 +167,16 @@ Login Popup
 }
 
 .modal a.close-modal {
-  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 40px;
   height: 40px;
-  right: 10px;
-  top: 10px;
-  background: #f0f5f7;
-  border-radius: 8px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  color: #f0f5f7;
-  text-indent: 0;
-  font-size: 0;
-}
-
-.modal a.close-modal:before {
-  font-family: Flaticon;
-  content: "\f175";
-  position: relative;
-  font-size: 12px;
-  color: #000;
-  width: 40px;
-  font-weight: 700;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+  
+  svg {
+    font-size: 12px;
+    color: #000;
+  }
 }
 
 /***
@@ -425,38 +397,53 @@ Login Section
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #f0f5f7;
-  text-indent: 0;
-  font-size: 0;
-  z-index: 5;
+  color: #696969;
+  cursor: pointer;
   transition: 0.3s;
+  z-index: 1000;
+  border: none;
 
   &::before {
-    font-family: Flaticon;
-    content: "\f175";
-    position: relative;
-    font-size: 12px;
-    color: #000;
-    width: 40px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.3s;
+    display: none;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    display: block;
   }
 
   &:hover {
     background: var(--primary-color);
-    &::before {
+    color: #fff;
+  }
+}
+
+.modal-header {
+  border: none;
+  position: relative;
+  padding: 0;
+  
+  .btn-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    opacity: 1;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: #f0f5f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &:hover {
+      background-color: var(--primary-color);
       color: #fff;
     }
   }
 }
 
-// custom bootstrap modal
-.modal-header {
-  border: none;
-}
 .login-modal {
   max-width: 500px;
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);

@@ -1,17 +1,27 @@
 .uploading-outer {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
   padding-bottom: 30px;
   border-bottom: 1px solid #f1f3f7;
   margin-bottom: 30px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
 .uploading-outer .uploadButton {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -27,14 +37,24 @@
 }
 
 .uploadButton .uploadButton-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   cursor: pointer;
   height: 120px;
   width: 200px;
   border-radius: 5px;
+  -webkit-transition: 0.3s;
   transition: 0.3s;
   margin: 0;
   color: #1b2032;
@@ -47,6 +67,8 @@
 }
 
 .uploadButton .uploadButton-file-name {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   padding: 0 10px;
   padding-left: 18px;
@@ -64,6 +86,7 @@
   content: "\f15c";
   color: #9fa9b8;
   font-size: 20px;
+  -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 
@@ -78,30 +101,38 @@
 
 .post-job-steps {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
-  justify-content: space-evenly;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
 .post-job-steps .step {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
-  margin-right: 40px;
+  margin-right: 90px;
   margin-bottom: 50px;
 }
 
 .post-job-steps .step .icon {
   position: relative;
   display: inline-block;
-  height: 40px;
-  width: 40px;
-  font-size: 1rem;
+  height: 80px;
+  width: 80px;
+  font-size: 40px;
   background: rgba(25, 103, 210, 0.15);
   color: var(--primary-color);
   border-radius: 50%;
-  line-height: 50px;
+  line-height: 80px;
   text-align: center;
   margin-right: 30px;
 }
@@ -158,9 +189,16 @@
   background: #f5f7fc;
   border-radius: 8px;
   padding: 25px 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-bottom: 30px;
 }
@@ -174,7 +212,11 @@
 
 .aplicants-upper-bar .aplicantion-status {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -185,6 +227,7 @@
   color: var(--primary-color);
   margin-left: 115px;
 }
+
 .aplicants-upper-bar .aplicantion-status li.react-tabs__tab--selected {
   background: rgba(25, 103, 210, 0.07);
   padding: 2px 10px;
@@ -219,8 +262,14 @@
 
 .resume-outer .upper-title {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
@@ -238,14 +287,24 @@
   line-height: 20px;
   color: var(--primary-color);
   font-weight: 400;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
-  color: rgb(217, 48, 37);
+  color: #d93025;
 }
 
 .add-info-btn .icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   height: 25px;
   width: 25px;
@@ -254,7 +313,7 @@
   border-radius: 50%;
   margin-right: 10px;
   background: #f9e0df;
-  color: rgb(217, 48, 37);
+  color: #d93025;
   border-radius: 60px;
 }
 
@@ -299,13 +358,17 @@
   text-align: center;
   border-radius: 50%;
   background: #f9e0df;
-  color: rgb(217, 48, 37);
+  color: #d93025;
   z-index: 2;
 }
 
 .resume-block .title-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
   align-items: flex-start;
   margin-bottom: 30px;
 }
@@ -325,11 +388,15 @@
 .resume-block .info-box span {
   font-size: 16px;
   line-height: 22px;
-  color: rgb(217, 48, 37);
+  color: #d93025;
 }
 
 .resume-block .edit-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -342,11 +409,13 @@
   font-weight: 500;
   border-radius: 20px;
   background: rgba(217, 48, 37, 0.15);
-  color: rgb(217, 48, 37);
+  color: #d93025;
 }
 
 .resume-block .edit-btns {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   margin-left: 20px;
 }
@@ -361,25 +430,26 @@
   border-radius: 8px;
   margin-right: 10px;
   min-width: auto;
-  color: rgb(25, 103, 210);
+  color: #1967d2;
 }
 
 .resume-outer.theme-blue .resume-block .edit-box .year,
 .resume-outer.theme-blue .resume-block .name {
   background: #eff4fc;
-  color: rgb(25, 103, 210);
+  color: #1967d2;
 }
 
 .resume-outer.theme-blue .resume-block .info-box span {
-  color: rgb(25, 103, 210);
+  color: #1967d2;
 }
 
 .resume-outer.theme-yellow .resume-block .edit-box .year,
 .resume-outer.theme-yellow .resume-block .name {
   background: #fef2d9;
-  color: rgb(249, 171, 0);
+  color: #f9ab00;
 }
 
 .resume-outer.theme-yellow .resume-block .info-box span {
-  color: rgb(249, 171, 0);
-}/*# sourceMappingURL=resume.css.map */
+  color: #f9ab00;
+}
+/*# sourceMappingURL=resume.css.map */

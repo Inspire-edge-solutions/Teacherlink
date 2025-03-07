@@ -108,7 +108,7 @@ const EmployersSingleV1 = () => {
                   className="modal fade"
                   id="privateMessage"
                   tabIndex="-1"
-                  aria-hidden="true"
+                  // aria-hidden="true"
                 >
                   <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div className="apply-modal-content modal-content">

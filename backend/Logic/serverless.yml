@@ -28,9 +28,11 @@ provider:
         - s3:PutObject
         - s3:GetObject
         - s3:DeleteObject
+        - geo:SearchPlaceIndexForText
       Resource:
         - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}
         - arn:aws:s3:::${self:provider.environment.S3_BUCKET}/*
+        - arn:aws:geo:${self:provider.region}:*:place-index/TeacherLinkPlaceIndex
 
   iam:
     role:

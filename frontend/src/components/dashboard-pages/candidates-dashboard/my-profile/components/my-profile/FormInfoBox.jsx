@@ -22,7 +22,10 @@ const FormInfoBox = () => {
     <div>
       
       <div className="view-toggle m-4">
+        <div className="d-flex justify-content-between">
       <h3>My profile</h3>
+      <button className="theme-btn btn-style-two">view profile</button>
+      </div>
         <div className="radio-group d-flex align-items-flex-start gap-6">
         <h4>Select how you want to fill your details : </h4>
         <label className="radio-label">

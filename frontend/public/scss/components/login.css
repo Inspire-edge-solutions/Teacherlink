@@ -13,7 +13,8 @@ Login Popup
   padding: 30px 40px 20px;
   background: #fff;
   border-radius: 8px;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 #login-modal .social-btn-two {
@@ -38,8 +39,14 @@ Login Popup
 
 .login-from .form-group {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   margin-bottom: 18px;
 }
@@ -61,10 +68,10 @@ Login Popup
   text-decoration: underline;
 }
 
-.login-from .form-group input[type=text],
-.login-from .form-group input[type=email],
-.login-from .form-group input[type=password],
-.login-from .form-group input[type=url],
+.login-from .form-group input[type="text"],
+.login-from .form-group input[type="email"],
+.login-from .form-group input[type="password"],
+.login-from .form-group input[type="url"],
 .login-from .form-group select,
 .login-from .form-group textarea {
   position: relative;
@@ -79,10 +86,11 @@ Login Popup
   border: 2px solid #e6e8ed;
   padding: 10px 20px;
   border-radius: 8px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
-.login-from .form-group input[type=submit],
+.login-from .form-group input[type="submit"],
 .login-from .form-group button {
   width: 100%;
   min-width: auto;
@@ -102,6 +110,9 @@ Login Popup
 }
 
 .login-from .bottom-text {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
 }
 
@@ -117,6 +128,9 @@ Login Popup
 }
 
 .login-from.register .form-group.full-width {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   text-align: left;
   margin-bottom: 8px;
@@ -124,7 +138,11 @@ Login Popup
 
 .login-from.register .checkbox-wrap {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   width: 100%;
   margin-bottom: 10px;
@@ -148,32 +166,22 @@ Login Popup
 }
 
 .modal a.close-modal {
-  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   width: 40px;
   height: 40px;
-  right: 10px;
-  top: 10px;
-  background: #f0f5f7;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #f0f5f7;
-  text-indent: 0;
-  font-size: 0;
 }
 
-.modal a.close-modal:before {
-  font-family: Flaticon;
-  content: "\f175";
-  position: relative;
+.modal a.close-modal svg {
   font-size: 12px;
   color: #000;
-  width: 40px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /***
@@ -186,8 +194,14 @@ Login Section
 .login-section {
   position: relative;
   min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   padding: 120px 0 50px;
   overflow: auto;
@@ -208,9 +222,15 @@ Login Section
   position: relative;
   margin-left: 42%;
   width: 58%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: flex-start;
   align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -231,8 +251,14 @@ Login Section
 
 .login-form .field-outer {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   margin-top: 32px;
   margin-bottom: 32px;
@@ -316,8 +342,12 @@ Login Section
 
 .login-form .bottom-box .btn-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .social-btn-two {
@@ -372,44 +402,77 @@ Login Section
   top: 10px;
   background: #f0f5f7;
   border-radius: 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #f0f5f7;
-  text-indent: 0;
-  font-size: 0;
-  z-index: 5;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #696969;
+  cursor: pointer;
+  -webkit-transition: 0.3s;
   transition: 0.3s;
+  z-index: 1000;
+  border: none;
 }
+
 .closed-modal::before {
-  font-family: Flaticon;
-  content: "\f175";
-  position: relative;
-  font-size: 12px;
-  color: #000;
-  width: 40px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.3s;
+  display: none;
 }
+
+.closed-modal svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
 .closed-modal:hover {
   background: var(--primary-color);
-}
-.closed-modal:hover::before {
   color: #fff;
 }
 
 .modal-header {
   border: none;
+  position: relative;
+  padding: 0;
+}
+
+.modal-header .btn-close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  opacity: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #f0f5f7;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.modal-header .btn-close:hover {
+  background-color: var(--primary-color);
+  color: #fff;
 }
 
 .login-modal {
   max-width: 500px;
-  box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
+          box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   border-radius: 8px;
 }
+
 .login-modal .modal-body {
   padding: 0;
-}/*# sourceMappingURL=login.css.map */
+}
+/*# sourceMappingURL=login.css.map */

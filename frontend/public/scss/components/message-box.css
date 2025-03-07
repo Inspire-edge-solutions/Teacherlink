@@ -4,7 +4,11 @@ Message Box
 .message-box {
   position: relative;
   padding: 25px 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   min-height: 75px;
   border-radius: 4px;
@@ -20,6 +24,7 @@ Message Box
 .message-box a {
   color: inherit;
   text-decoration: underline;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -34,10 +39,16 @@ Message Box
   text-align: center;
   display: -webkit-box;
   color: inherit;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   text-decoration: none;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -49,7 +60,7 @@ Message Box
   width: 1px;
   font-size: 11px;
   font-weight: 700;
-  font-family: "Flaticon";
+  font-family: 'Flaticon';
 }
 
 /* Message Info */
@@ -74,4 +85,5 @@ Message Box
 .message-box.error {
   background-color: #ECC8C5;
   color: #AB3331;
-}/*# sourceMappingURL=message-box.css.map */
+}
+/*# sourceMappingURL=message-box.css.map */

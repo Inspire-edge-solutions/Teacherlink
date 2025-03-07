@@ -9,14 +9,6 @@ a {
   color: var(--primary-color);
 }
 
-$breakpoints: (
-  xxs: 420px,
-  xs: 576px,
-  sm: 768px,
-  md: 992px,
-  lg: 1200px,
-);
-
 @mixin media-below($breakpoint) {
   $breakpoint-value: map-get($breakpoints, $breakpoint);
 

@@ -30,13 +30,16 @@ Candidates Section
   padding: 30px 30px;
   background: #ffffff;
   border: 1px solid #ecedf2;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 8px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
   text-align: center;
 }
 
 .candidate-block .inner-box:hover {
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
 }
 
@@ -73,8 +76,14 @@ Candidates Section
 
 .candidate-block .location {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   font-size: 14px;
   color: #696969;
@@ -114,18 +123,27 @@ Candidates Section Two
 
 .candidate-block-two .inner-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   padding: 25px 30px;
   background: #ffffff;
   border: 1px solid #ecedf2;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 8px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .candidate-block-two .inner-box:hover {
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
 }
 
@@ -191,17 +209,25 @@ Candidates Section Two
 
 .candidate-block-three .inner-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   padding: 30px 30px;
   background: #ffffff;
   border: 1px solid #ecedf2;
   border-radius: 8px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .candidate-block-three .inner-box:hover {
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
 }
 
@@ -209,8 +235,15 @@ Candidates Section Two
   position: relative;
   padding-left: 110px;
   min-height: 90px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
 }
 
@@ -245,8 +278,13 @@ Candidates Section Two
 
 .candidate-block-three .candidate-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-bottom: 5px;
 }
@@ -285,7 +323,10 @@ Candidates Section Two
 
 .candidate-block-three .post-tags {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
@@ -322,6 +363,7 @@ Candidates Section Two
   background: #ecedf2;
   opacity: 0;
   visibility: hidden;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -332,13 +374,21 @@ Candidates Section Two
 
 .candidate-block-three .option-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
 .option-list {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -359,6 +409,7 @@ Candidates Section Two
   color: var(--primary-color);
   line-height: 30px;
   text-align: center;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -366,6 +417,7 @@ Candidates Section Two
 .option-list li a:before {
   position: absolute;
   left: 50%;
+  -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
   bottom: 100%;
   margin-bottom: 10px;
@@ -379,6 +431,7 @@ Candidates Section Two
   border-radius: 4px;
   opacity: 0;
   visibility: hidden;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -387,6 +440,7 @@ Candidates Section Two
   position: absolute;
   left: 50%;
   top: -10px;
+  -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
@@ -394,6 +448,7 @@ Candidates Section Two
   content: "";
   opacity: 0;
   visibility: hidden;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -460,11 +515,13 @@ Candidates Section Two
   background: #ffffff;
   border-radius: 8px;
   text-align: center;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
   border: 1px solid #ecedf2;
 }
 
 .candidate-block-four .inner-box:hover {
+  -webkit-box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
 }
 
@@ -474,8 +531,15 @@ Candidates Section Two
   top: 0;
   padding: 20px 20px;
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
   align-items: flex-start;
 }
 
@@ -487,6 +551,7 @@ Candidates Section Two
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto 12px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -501,6 +566,7 @@ Candidates Section Two
 
 .candidate-block-four .name a {
   color: #202124;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -519,9 +585,16 @@ Candidates Section Two
 
 .candidate-block-four .job-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   margin-bottom: 17px;
 }
@@ -551,9 +624,15 @@ Candidates Section Two
 
 .candidate-block-four .post-tags {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -ms-flex-item-align: center;
   align-self: center;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-bottom: 20px;
 }
@@ -621,10 +700,17 @@ Candidate Detail Section
 
 .candidate-block-five .inner-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   border-radius: 8px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -632,13 +718,22 @@ Candidate Detail Section
   position: relative;
   padding-left: 120px;
   min-height: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
 }
 
 .candidate-block-five .inner-box .btn-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
@@ -673,8 +768,13 @@ Candidate Detail Section
 
 .candidate-block-five .candidate-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-bottom: 5px;
 }
@@ -713,7 +813,10 @@ Candidate Detail Section
 
 .candidate-block-five .post-tags {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
@@ -748,13 +851,18 @@ Candidate Detail Section
   color: var(--primary-color);
   border-radius: 7px;
   background: rgba(25, 103, 210, 0.07);
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
   margin-left: 20px;
 }
 
 .candidate-block-five .option-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -808,14 +916,23 @@ Candidate Detail Section
 
 .candidate-block-six .content {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
 .candidate-block-six .post-tags {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -845,13 +962,20 @@ Candidate Detail Section
 
 .candidate-block-six .btn-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
 .candidate-block-six .candidate-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
@@ -890,13 +1014,18 @@ Candidate Detail Section
   color: var(--primary-color);
   border-radius: 7px;
   background: rgba(25, 103, 210, 0.07);
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
   margin-left: 20px;
 }
 
 .candidate-block-six .option-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -919,4 +1048,5 @@ Candidate Detail Section
 
 .candidate-detail-section .contact-widget .widget-content .default-form .form-group {
   margin-bottom: 20px;
-}/*# sourceMappingURL=candidates.css.map */
+}
+/*# sourceMappingURL=candidates.css.map */

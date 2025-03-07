@@ -19,7 +19,7 @@ const Index = () => {
       <LoginPopup />
       {/* End Login Popup Modal */}
 
-      <DashboardHeader />
+      {/* <DashboardHeader /> */}
       {/* End Header */}
 
       <MobileMenu />

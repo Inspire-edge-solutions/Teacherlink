@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from "../../../../../../contexts/AuthContext";
 
 const Languages = () => {
+
+  const { user } = useAuth();
+
   const [languages, setLanguages] = useState([{
     language: '',
     speak: false,
@@ -14,7 +18,7 @@ const Languages = () => {
   useEffect(() => {
     const fetchLanguages = async () => {
       try {
-        const response = await axios.get('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/languages');
+        const response = await axios.get('https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/languages');
         const filteredLanguages = response.data.filter(lang => lang.category === 'languages in India');
         setAvailableLanguages(filteredLanguages);
       } catch (error) {
@@ -55,7 +59,8 @@ const Languages = () => {
     try {
       const response = await axios.post(
         'https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/languages',
-        { languages: JSON.stringify(languages) },
+        { languages: JSON.stringify(languages), 
+          firebase_id: user.uid },
         {
           headers: { 'Content-Type': 'application/json' }
         }

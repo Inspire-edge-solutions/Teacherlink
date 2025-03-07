@@ -4,6 +4,23 @@ Social Icons
 ==========================
 ***/
 
+.social-icon-one,
+.social-icon-two,
+.social-icon-three {
+  li {
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
+
 .social-icon-one {
   position: relative;
   display: -webkit-box;

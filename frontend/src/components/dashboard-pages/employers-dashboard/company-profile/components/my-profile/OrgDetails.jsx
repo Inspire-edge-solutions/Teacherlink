@@ -1,279 +1,1045 @@
-import React, { useState, useEffect } from "react";
-import { Country, State, City } from "country-state-city";
-import "./profileStyles.css";
-import "react-toastify/dist/ReactToastify.css";
-import { createOrganization } from "components/dashboard-pages/employers-dashboard/company-profile/components/my-profile/ApiService";
-import { toast } from "react-toastify";
-import { useAuth } from "contexts/AuthContext";
+// import React, { useState, useEffect } from 'react';
+// import { Country, State, City } from 'country-state-city';
+// import Select from 'react-select';
+// import './profileStyles.css';
+// import 'react-toastify/dist/ReactToastify.css';
 
-const OrgDetails = () => {
-  // Get the authenticated user from the AuthContext
-  const { user } = useAuth();
+// const OrgDetails = () => {
+//   const [selectedType, setSelectedType] = useState('');
+//   const [orgDetails, setOrgDetails] = useState({
+//     name: '',
+//     websiteUrl: '',
+//     photos: '',
+//     video: '',
+//     panNumber: '',
+//     panName: '',
+//     gstin: '',
+//     contactPerson: {
+//       name: '',
+//       gender: '',
+//       designation: [],
+//       otherDesignation: '',
+//       phone1: '',
+//       phone2: '',
+//       email: ''
+//     }
+//   });
+//   const [countries, setCountries] = useState([]);
+//   const [states, setStates] = useState([]);
+//   const [cities, setCities] = useState([]);
+//   const [designations, setDesignations] = useState([]);
+//   const [isOwner, setIsOwner] = useState('');
+//   const [reportingAuthority, setReportingAuthority] = useState({
+//     name: '',
+//     gender: '',
+//     designation: [],
+//     otherDesignation: '',
+//     phone1: '',
+//     phone2: '',
+//     email: ''
+//   });
 
-  // We'll use user?.uid as the firebase_uid
-  const firebase_uid = user?.uid; // Adjust if your merged user uses a different property name
+//   const [parents, setParents] = useState({
+//     country: '',
+//     state: '',
+//     city: '',
+//     address: '',
+//     pincode: '',
+//     contactPerson: {
+//       name: '',
+//       gender: '',
+//       designation: [],
+//       otherDesignation: '',
+//       phone1: '',
+//       phone2: '',
+//       email: ''
+//     }
+//   });
 
-  // Organization details state
-  const [selectedType, setSelectedType] = useState("");
+//   useEffect(() => {
+//     const allCountries = Country.getAllCountries();
+//     console.log('Countries:', allCountries);
+//     setCountries(allCountries);
+//   }, []);
+
+//   useEffect(() => {
+//     if (orgDetails.country) {
+//       console.log('Selected country:', orgDetails.country);
+//       const countryStates = State.getStatesOfCountry(orgDetails.country);
+//       console.log('States:', countryStates);
+//       setStates(countryStates);
+//       setOrgDetails(prev => ({ ...prev, state: '', city: '' }));
+//       setCities([]);
+//     }
+//   }, [orgDetails.country]);
+
+//   useEffect(() => {
+//     if (orgDetails.state && orgDetails.country) {
+//       console.log('Selected state:', orgDetails.state);
+//       const stateCities = City.getCitiesOfState(orgDetails.country, orgDetails.state);
+//       console.log('Cities:', stateCities);
+//       setCities(stateCities);
+//       setOrgDetails(prev => ({ ...prev, city: '' }));
+//     }
+//   }, [orgDetails.state, orgDetails.country]);
+
+//   const orgTypes = [
+//     'School / College/ University',
+//     'Coaching Centers/ Institutes',
+//     'Ed Tech company',
+//     'Parent/ Guardian looking for Tuitions'
+//   ];
+
+//   const handleTypeChange = (e) => {
+//     setSelectedType(e.target.value);
+//   };
+
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+
+//     // Check if the input belongs to the parentGuardianDetails
+//     if (isParentGuardian() && name in parents) {
+//       setParents(prev => ({
+//         ...prev,
+//         [name]: value // Update the specific field in parentGuardianDetails
+//       }));
+//     } else {
+//       setOrgDetails(prev => ({
+//         ...prev,
+//         [name]: value // Update the general orgDetails fields
+//       }));
+//     }
+//   };
+
+//   const isParentGuardian = () => {
+//     return selectedType === 'Parent/ Guardian looking for Tuitions';
+//   };
+
+//   const shouldShowAdditionalFields = () => {
+//     return ['School / College/ University', 'Coaching Centers/ Institutes', 'Ed Tech company'].includes(selectedType);
+//   };
+
+//   const handleDesignationSelect = (selectedOptions, type) => {
+//     const selectedValues = selectedOptions ? selectedOptions.map(option => option.value) : [];
+
+//     if (type === 'reportingAuthority') {
+//       setReportingAuthority(prev => ({
+//         ...prev,
+//         designation: selectedValues
+//       }));
+//     } else {
+//       setOrgDetails(prev => ({
+//         ...prev,
+//         contactPerson: {
+//           ...prev.contactPerson,
+//           designation: selectedValues
+//         }
+//       }));
+//     }
+//   };
+
+//   const handleContactPersonChange = (e) => {
+//     const { name, value } = e.target;
+//     setOrgDetails(prev => ({
+//       ...prev,
+//       contactPerson: {
+//         ...prev.contactPerson,
+//         [name]: value
+//       }
+//     }));
+//   };
+
+//   const handleReportingAuthorityChange = (e) => {
+//     const { name, value } = e.target;
+//     setReportingAuthority(prev => ({
+//       ...prev,
+//       [name]: value
+//     }));
+//   };
+
+//   const fetchDesignations = async () => {
+//     try {
+//       const response = await fetch('https://7eerqdly08.execute-api.ap-south-1.amazonaws.com/staging/constants');
+//       const data = await response.json();
+//       const transformedData = data.map(item => ({
+//         category: item.category,
+//         value: item.value,
+//         label: item.label
+//       }));
+//       setDesignations(transformedData.filter(item => item.category === "Administration") || []);
+//     } catch (error) {
+//       console.error("Error fetching designations:", error);
+//     }
+//   };
+//   useEffect(() => {
+//     fetchDesignations();
+//   }, []);
+
+
+//   return (
+//     <div className='default-form'>
+//     <div className="row">
+//     <div className="form-group col-lg-6 col-md-12">
+//       <select 
+//       required
+//         className="form-control"
+//         value={selectedType}
+//         onChange={handleTypeChange}
+//       >
+//         <option value="">Select Organization/Entity Type</option>
+//         {orgTypes.map((type, index) => (
+//           <option key={index} value={type}>
+//             {type}
+//           </option>
+//         ))}
+//       </select>
+//       </div>
+
+//       {shouldShowAdditionalFields() && (
+//         <>
+//         <div className="row">
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//               type="text"
+//               placeholder="Name of the Organization/ Entity"
+//               className="form-control"
+//               name="name"
+//               value={orgDetails.name}
+//               onChange={handleInputChange}
+//               required
+//             />
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//               type="url"
+//               placeholder="Website URL"
+//               className="form-control"
+//               name="websiteUrl"
+//               value={orgDetails.websiteUrl}
+//               onChange={handleInputChange}
+//             />
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <label>Institution Photos</label>
+//             <input
+//               type="file"
+//               className="form-control"
+//               name="photos"
+//               accept="image/*"
+//               multiple
+//               onChange={handleInputChange}
+//             />
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//               type="url"
+//               className="form-control"
+//               name="video"
+//               placeholder="Enter YouTube video URL"
+//               value={orgDetails.video}
+//               onChange={handleInputChange}
+//             />
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//               type="text"
+//               placeholder="PAN Number"
+//               className="form-control"
+//               name="panNumber"
+//               value={orgDetails.panNumber}
+//               onChange={handleInputChange}
+//             />
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//               type="text"
+//               placeholder="Name on PAN Card"
+//               className="form-control"
+//               name="panName"
+//               value={orgDetails.panName}
+//               onChange={handleInputChange}
+//             />
+//           </div>
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//               type="text"
+//               placeholder="GSTIN"
+//               className="form-control"
+//               name="gstin"
+//               value={orgDetails.gstin}
+//               onChange={handleInputChange}
+//             />
+//           </div>
+
+//           <div>
+//             <h4>Account operated by (Contact Person) </h4>
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//               type="text"
+//               className="form-control"
+//               name="name"
+//               value={orgDetails.contactPerson.name}
+//               onChange={handleContactPersonChange}
+//               maxLength="20"
+//               placeholder="Name"
+//               required
+//             />
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//         <div className="radio-group ">
+//           <h6>Gender</h6>
+//           <div className="radio-option">
+//             <input 
+//               type="radio" 
+//               id="male" 
+//               name="gender" 
+//               value="male" 
+//               required 
+//             />
+//             <label htmlFor="male">Male</label>
+//           </div>
+//           <div className="radio-option">
+//             <input 
+//               type="radio" 
+//               id="female" 
+//               name="gender" 
+//               value="female" 
+//             />
+//             <label htmlFor="female">Female</label>
+//           </div>
+//           <div className="radio-option">
+//             <input 
+//               type="radio" 
+//               id="transgender" 
+//               name="gender" 
+//               value="transgender" 
+//             />
+//             <label htmlFor="transgender">Transgender</label>
+//           </div>
+//         </div>
+//       </div>
+//       <div className="form-group col-lg-6 col-md-12">
+//           <Select
+//           isMulti
+//           options={designations}
+//           value={designations.filter(option => 
+//           orgDetails.contactPerson.designation.includes(option.value)
+//           )}
+//           onChange={(selectedOptions) => handleDesignationSelect(selectedOptions, 'contactPerson')}
+//           className={`custom-select ${orgDetails.contactPerson.designation.length === 0 ? 'required' : ''}`}
+//           placeholder="Designation"
+//           isClearable
+//           />
+//         </div>
+//                   {orgDetails.contactPerson.designation.includes('Others') && (
+//                     <div className="form-group col-lg-6 col-md-12">
+//                       <input
+//                         type="text"
+//                         value={orgDetails.contactPerson.otherDesignation || ''}  
+//                         onChange={(e) => setOrgDetails({ 
+//                           ...orgDetails, 
+//                           contactPerson: { 
+//                             ...orgDetails.contactPerson, 
+//                             otherDesignation: e.target.value 
+//                           } 
+//                         })}
+//                         placeholder="Specify other designation"
+//                         required
+//                       />
+//                     </div>
+//                   )}
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//             required
+//               type="tel"
+//               className="form-control"
+//               name="phone1"
+//               value={reportingAuthority.phone1}
+//               onChange={handleReportingAuthorityChange}
+//               placeholder="Contact Number-1 (Calling)"
+//               onInput={(e) => {
+//                 e.target.value = e.target.value.replace(/[^0-9]/g, '');
+//             }}
+//               maxLength="10"
+//               title="Please enter exactly 10 digits"
+//             />
+//             <small className="text-muted">Verification by OTP at the time of registration</small>
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//             required
+//               type="tel"
+//               className="form-control"
+//               name="phone2"
+//               value={reportingAuthority.phone2}
+//               onChange={handleReportingAuthorityChange}
+//               placeholder="Contact Number-2 (WhatsApp)"
+//               onInput={(e) => {
+//                 e.target.value = e.target.value.replace(/[^0-9]/g, '');
+//             }}
+//               maxLength="10"
+//               title="Please enter exactly 10 digits"
+//             />
+//             <small className="text-muted">Verification by OTP at the time of registration</small>
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//             required
+//               type="email"
+//               className="form-control"
+//               name="email"
+//               value={reportingAuthority.email}
+//               onChange={handleReportingAuthorityChange}
+//               placeholder="Email"
+//             />
+//             <small className="text-muted">Email verification will be done by OTP</small>
+//           </div>
+
+
+//           </div>
+
+//       <div className="form-group col-lg-6 col-md-12">
+//         <h6>Are you the owner or the main head of the organization?</h6>
+//         <div className="radio-group">
+//           <div className="radio-option">
+//             <input 
+//               type="radio" 
+//               id="ownerYes" 
+//               name="isOwner" 
+//               value="yes"
+//               checked={isOwner === 'yes'}
+//               onChange={(e) => setIsOwner(e.target.value)}
+//             />
+//             <label htmlFor="ownerYes">Yes</label>
+//           </div>
+//           <div className="radio-option">
+//             <input 
+//               type="radio" 
+//               id="ownerNo" 
+//               name="isOwner" 
+//               value="no"
+//               checked={isOwner === 'no'}
+//               onChange={(e) => setIsOwner(e.target.value)}
+//             />
+//             <label htmlFor="ownerNo">No</label>
+//           </div>
+//         </div>
+//       </div>
+
+//       {isOwner === 'no' && (
+//         <div className="row">
+//           <div className="col-12">
+//             <h4>Your Reporting Authority</h4>
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//             required
+//               type="text"
+//               className="form-control"
+//               name="name"
+//               value={reportingAuthority.name}
+//               onChange={handleReportingAuthorityChange}
+//               placeholder="Name"
+//               maxLength="20"
+//               pattern="[A-Za-z\s]+"
+//             />
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <div className="radio-group">
+//               <h6>Gender</h6>
+//               <div className="radio-option">
+//                 <input 
+//                   type="radio" 
+//                   id="raGenderMale" 
+//                   name="gender" 
+//                   value="Male"
+//                   checked={reportingAuthority.gender === 'Male'}
+//                   onChange={handleReportingAuthorityChange}
+//                 />
+//                 <label htmlFor="raGenderMale">Male</label>
+//               </div>
+//               <div className="radio-option">
+//                 <input 
+//                   type="radio" 
+//                   id="raGenderFemale" 
+//                   name="gender" 
+//                   value="Female"
+//                   checked={reportingAuthority.gender === 'Female'}
+//                   onChange={handleReportingAuthorityChange}
+//                 />
+//                 <label htmlFor="raGenderFemale">Female</label>
+//               </div>
+//               <div className="radio-option">
+//                 <input 
+//                   type="radio" 
+//                   id="raGenderTransgender" 
+//                   name="gender" 
+//                   value="Transgender"
+//                   checked={reportingAuthority.gender === 'Transgender'}
+//                   onChange={handleReportingAuthorityChange}
+//                 />
+//                 <label htmlFor="raGenderTransgender">Transgender</label>
+//               </div>
+//             </div>
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//           <Select
+//           isMulti
+//           options={designations}
+//           value={designations.filter(option => 
+//           reportingAuthority.designation.includes(option.value)
+//           )}
+//           onChange={(selectedOptions) => handleDesignationSelect(selectedOptions, 'reportingAuthority')}
+//           className={`custom-select ${reportingAuthority.designation.length === 0 ? 'required' : ''}`}
+//           placeholder="Designation"
+//           isClearable
+//           />
+//         </div>
+//                   {reportingAuthority.designation.includes('Others') && (
+//                     <div className="form-group col-lg-6 col-md-12">
+//                       <input
+//                         type="text"
+//                         value={reportingAuthority.otherDesignation || ''}  
+//                         onChange={(e) => setReportingAuthority({ 
+//                           ...reportingAuthority, 
+//                           otherDesignation: e.target.value 
+//                           } 
+//                         )}
+//                         placeholder="Specify other designation"
+//                         required
+//                       />
+//                     </div>
+//                   )}
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//             required
+//               type="tel"
+//               className="form-control"
+//               name="phone1"
+//               value={reportingAuthority.phone1}
+//               onChange={handleReportingAuthorityChange}
+//               placeholder="Contact Number-1 (Calling)"
+//               onInput={(e) => {
+//                 e.target.value = e.target.value.replace(/[^0-9]/g, '');
+//             }}
+//               maxLength="10"
+//               title="Please enter exactly 10 digits"
+//             />
+//             <small className="text-muted">Verification by OTP at the time of registration</small>
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//             required
+//               type="tel"
+//               className="form-control"
+//               name="phone2"
+//               value={reportingAuthority.phone2}
+//               onChange={handleReportingAuthorityChange}
+//               placeholder="Contact Number-2 (WhatsApp)"
+//               onInput={(e) => {
+//                 e.target.value = e.target.value.replace(/[^0-9]/g, '');
+//             }}
+//               maxLength="10"
+//               title="Please enter exactly 10 digits"
+//             />
+//             <small className="text-muted">Verification by OTP at the time of registration</small>
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//             required
+//               type="email"
+//               className="form-control"
+//               name="email"
+//               value={reportingAuthority.email}
+//               onChange={handleReportingAuthorityChange}
+//               placeholder="Email"
+//             />
+//             <small className="text-muted">Email verification will be done by OTP</small>
+//           </div>
+//           <div className="row">
+//           <div className="form-group col-lg-6 col-md-12">
+//             <select
+            
+//               className="form-control"
+//               name="country"
+//               value={orgDetails.country || ''}
+//               onChange={handleInputChange}
+//             >
+//               <option value="">Country</option>
+//               {countries && countries.map((country) => (
+//                 <option key={country.isoCode} value={country.isoCode}>
+//                   {country.name}
+//                 </option>
+//               ))}
+//             </select>
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <select
+            
+//               className="form-control"
+//               name="state"
+//               value={orgDetails.state || ''}
+//               onChange={handleInputChange}
+//               disabled={!orgDetails.country}
+//             >
+//               <option value="">State</option>
+//               {states && states.map((state) => (
+//                 <option key={state.isoCode} value={state.isoCode}>
+//                   {state.name}
+//                 </option>
+//               ))}
+//             </select>
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <select
+            
+//               className="form-control"
+//               name="city"
+//               value={orgDetails.city || ''}
+//               onChange={handleInputChange}
+//               disabled={!orgDetails.state}
+//             >
+//               <option value="">City</option>
+//               {cities && cities.map((city) => (
+//                 <option key={city.name} value={city.name}>
+//                   {city.name}
+//                 </option>
+//               ))}
+//             </select>
+//           </div>
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//               type="text"
+//               className="form-control"
+//               name="address"
+//               value={orgDetails.address}
+//               onChange={handleInputChange}
+//               placeholder="Address:No./ Lane / Area"
+//             />
+//           </div>
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//               type="text"
+//               className="form-control"
+//               name="pincode"
+//               value={orgDetails.pincode}
+//               onChange={handleInputChange}
+//               placeholder="Pin code"
+//               onInput={(e) => {
+//                 e.target.value = e.target.value.replace(/[^0-9]/g, '');
+//             }}
+//               maxLength="6"
+//               required
+//             />
+//           </div>
+//           </div>
+//         </div>
+//       )}
+//       </>
+//     )}
+
+//       {isParentGuardian() && (
+//         <div className="row">
+//           <div className="form-group col-lg-6 col-md-12">
+//             <select
+//             required
+//               className="form-control"
+//               name="country"
+//               value={parents.country || ''}
+//               onChange={handleInputChange}
+//             >
+//               <option value="">Country</option>
+//               {countries && countries.map((country) => (
+//                 <option key={country.isoCode} value={country.isoCode}>
+//                   {country.name}
+//                 </option>
+//               ))}
+//             </select>
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <select
+//             required
+//               className="form-control"
+//               name="state"
+//               value={parents.state || ''}
+//               onChange={handleInputChange}
+//               disabled={!parents.country}
+//             >
+//               <option value="">State</option>
+//               {states && states.map((state) => (
+//                 <option key={state.isoCode} value={state.isoCode}>
+//                   {state.name}
+//                 </option>
+//               ))}
+//             </select>
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <select
+//             required
+//               className="form-control"
+//               name="city"
+//               value={parents.city || ''}
+//               onChange={handleInputChange}
+//               disabled={!parents.state}
+//             >
+//               <option value="">City</option>
+//               {cities && cities.map((city) => (
+//                 <option key={city.name} value={city.name}>
+//                   {city.name}
+//                 </option>
+//               ))}
+//             </select>
+//           </div>
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//               type="text"
+//               className="form-control"
+//               name="address"
+//               value={parents.address}
+//               onChange={handleInputChange}
+//               placeholder="Address:No./ Lane / Area"
+//             />
+//           </div>
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//             required
+//               type="text"
+//               className="form-control"
+//               name="pincode"
+//               value={parents.pincode}
+//               onChange={handleInputChange}
+//               placeholder="Pin code"
+//               onInput={(e) => {
+//                 e.target.value = e.target.value.replace(/[^0-9]/g, '');
+//             }}
+//               maxLength="6"
+//             />
+//           </div>
+//           <div>
+//             <h4>Account operated by (Contact Person) </h4>
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//             required
+//               type="text"
+//               className="form-control"
+//               name="name"
+//               value={parents.contactPerson.name}
+//               onChange={handleContactPersonChange}
+//               maxLength="20"
+//               placeholder="Name"
+//             />
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//         <div className="radio-group ">
+//           <h6>Gender</h6>
+//           <div className="radio-option">
+//             <input 
+//               type="radio" 
+//               id="male" 
+//               name="gender" 
+//               value="male" 
+//               required 
+//             />
+//             <label htmlFor="male">Male</label>
+//           </div>
+//           <div className="radio-option">
+//             <input 
+//               type="radio" 
+//               id="female" 
+//               name="gender" 
+//               value="female" 
+//             />
+//             <label htmlFor="female">Female</label>
+//           </div>
+//           <div className="radio-option">
+//             <input 
+//               type="radio" 
+//               id="transgender" 
+//               name="gender" 
+//               value="transgender" 
+//             />
+//             <label htmlFor="transgender">Transgender</label>
+//           </div>
+//         </div>
+//       </div>
+
+//       <div className="form-group col-lg-6 col-md-12">
+//           <Select
+//           isMulti
+//           options={designations}
+//           value={designations.filter(option => 
+//           parents.contactPerson.designation.includes(option.value)
+//           )}
+//           onChange={(selectedOptions) => handleDesignationSelect(selectedOptions, 'parents')}
+//           className={`custom-select ${parents.contactPerson.designation.length === 0 ? 'required' : ''}`}
+//           placeholder="Designation"
+//           isClearable
+//           />
+//         </div>
+//                   {parents.contactPerson.designation.includes('Others') && (
+//                     <div className="form-group col-lg-6 col-md-12">
+//                       <input
+//                         type="text"
+//                         value={reportingAuthority.otherDesignation || ''}  
+//                         onChange={(e) => setParents({ 
+//                           ...parents, 
+//                           contactPerson: { 
+//                             ...parents.contactPerson, 
+//                             otherDesignation: e.target.value 
+//                           } 
+//                         })}
+//                         placeholder="Specify other designation"
+//                         required
+//                       />
+//                     </div>
+//                   )}
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//             required
+//               type="tel"
+//               className="form-control"
+//               name="phone1"
+//               value={parents.contactPerson.phone1}
+//               onChange={handleContactPersonChange}
+//               onInput={(e) => {
+//                 e.target.value = e.target.value.replace(/[^0-9]/g, '');
+//             }}
+//               maxLength="10"
+//               placeholder="Contact Number-1 (Calling)"
+//             />
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//             required
+//               type="tel"
+//               className="form-control"
+//               name="phone2"
+//               value={parents.contactPerson.phone2}
+//               onChange={handleContactPersonChange}
+//               onInput={(e) => {
+//                 e.target.value = e.target.value.replace(/[^0-9]/g, '');
+//             }}
+//               maxLength="10"
+//               placeholder="Contact Number-2 (WhatsApp)"
+//             />
+//           </div>
+
+//           <div className="form-group col-lg-6 col-md-12">
+//             <input
+//             required
+//               type="email"
+//               className="form-control"
+//               name="email"
+//               value={parents.contactPerson.email}
+//               onChange={handleContactPersonChange}
+//               placeholder="Email"
+//             />
+//           </div>
+//         </div>
+//       )}
+//     </div>
+
+//     {shouldShowAdditionalFields() && (
+//       <div className="form-group col-12">
+//         <button 
+//           className="theme-btn btn-style-one"
+//         >
+//           Submit
+//         </button>
+//       </div>
+//     )}
+//     </div>
+//   );
+// };
+
+// export default OrgDetails;
+
+import React, { useState, useEffect } from 'react';
+import { Country, State, City } from 'country-state-city';
+import './profileStyles.css';
+import 'react-toastify/dist/ReactToastify.css';
+
+const OrgDetails = ({ onChange }) => {
+  // State for organization type and details
+  const [selectedType, setSelectedType] = useState('');
   const [orgDetails, setOrgDetails] = useState({
-    name: "",
-    websiteUrl: "",
-    video: "",
-    panNumber: "",
-    panName: "",
-    gstin: "",
-    country: "",
-    state: "",
-    city: "",
-    address: "",
-    pincode: "",
-    contactPerson: {
-      name: "",
-      gender: "",
-      designation: [],
-      phone1: "",
-      phone2: "",
-      email: "",
-    },
+    name: '',
+    websiteUrl: '',
+    panNumber: '',
+    panName: '',
+    gstin: '',
+    address: '',
+    pincode: '',
+    country: '',
+    state: '',
+    city: ''
   });
-  
-  // State for images (for file uploads)
-  const [images, setImages] = useState([]);
-  
-  // State for social network data
-  const [socialData, setSocialData] = useState({
-    facebook: "",
-    twitter: "",
-    linkedin: "",
-    instagram: "",
+  const [contactPerson, setContactPerson] = useState({
+    name: '',
+    gender: '',
+    designation: [],
+    phone1: '',
+    phone2: '',
+    email: ''
   });
-  
-  // Location (Country/State/City) states
+  const [reportingAuthority, setReportingAuthority] = useState({
+    name: '',
+    gender: '',
+    designation: [],
+    phone1: '',
+    phone2: '',
+    email: ''
+  });
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-  
-  // Other UI states
   const [showDesignationDropdown, setShowDesignationDropdown] = useState(false);
-  const [isOwner, setIsOwner] = useState("");
-  const [reporting_authority, setReportingAuthority] = useState({
-    name: "",
-    gender: "",
-    designation: [],
-    phone1: "",
-    phone2: "",
-    email: "",
-  });
-  
-  // State for storing fetched organization details from GET API
-  const [orgData, setOrgData] = useState(null);
-  const [loadingOrg, setLoadingOrg] = useState(false);
-  const [errorOrg, setErrorOrg] = useState(null);
-  
-  // Load country list on mount
+  const [isOwner, setIsOwner] = useState(''); // "yes" or "no"
+
+  // For multi-select designation options (used for both contact person and reporting authority)
+  const designationOptions = [
+    'Chairman',
+    'Director',
+    'Principal',
+    'Vice Principal'
+  ];
+
+  // Fetch countries on mount
   useEffect(() => {
     const allCountries = Country.getAllCountries();
     setCountries(allCountries);
   }, []);
-  
-  // Update states list when country changes
+
+  // Update states when country changes
   useEffect(() => {
     if (orgDetails.country) {
       const countryStates = State.getStatesOfCountry(orgDetails.country);
       setStates(countryStates);
-      setOrgDetails((prev) => ({ ...prev, state: "", city: "" }));
+      setOrgDetails(prev => ({ ...prev, state: '', city: '' }));
       setCities([]);
     }
   }, [orgDetails.country]);
-  
-  // Update cities list when state changes
+
+  // Update cities when state changes
   useEffect(() => {
     if (orgDetails.state && orgDetails.country) {
       const stateCities = City.getCitiesOfState(orgDetails.country, orgDetails.state);
       setCities(stateCities);
-      setOrgDetails((prev) => ({ ...prev, city: "" }));
+      setOrgDetails(prev => ({ ...prev, city: '' }));
     }
   }, [orgDetails.state, orgDetails.country]);
-  
-  const orgTypes = [
-    "School / College/ University",
-    "Coaching Centers/ Institutes",
-    "Ed Tech company",
-    "Parent/ Guardian looking for Tuitions",
-  ];
-  const designationOptions = ["Chairman", "Director", "Principal", "Vice Principal"];
-  
-  const isNonParentType = () =>
-    selectedType && selectedType !== "Parent/ Guardian looking for Tuitions";
-  
-  const handleTypeChange = (e) => setSelectedType(e.target.value);
-  
-  const handleInputChange = (e) => {
+
+  // Whenever any relevant state changes, notify the parent via onChange
+  // useEffect(() => {
+  //   if (onChange) {
+  //     if (selectedType === 'Parent/ Guardian looking for Tuitions') {
+  //       onChange({
+  //         type: selectedType,
+  //         parent_details: {
+  //           ...orgDetails,
+  //           contactPerson, // You can combine additional parent-specific fields here
+  //         }
+  //       });
+  //     } else {
+  //       onChange({
+  //         type: selectedType,
+  //         organization_details: {
+  //           ...orgDetails,
+  //           contactPerson, // Primary contact person details
+  //         },
+  //         reporting_authority: isOwner === 'no' ? reportingAuthority : null
+  //       });
+  //     }
+  //   }
+  // }, [selectedType, orgDetails, contactPerson, reportingAuthority, isOwner, onChange]);
+
+  // Handlers for input changes
+  const handleTypeChange = (e) => {
+    setSelectedType(e.target.value);
+  };
+
+  const handleOrgInputChange = (e) => {
     const { name, value } = e.target;
-    setOrgDetails((prev) => ({ ...prev, [name]: value }));
+    setOrgDetails(prev => ({ ...prev, [name]: value }));
   };
-  
-  const convertFileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const base64String = reader.result.split(",")[1];
-        resolve(base64String);
-      };
-      reader.onerror = (error) => reject(error);
-    });
-  };
-  
-  const handleFileChange = async (e) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      const fileArr = Array.from(files);
-      const convertedFiles = await Promise.all(
-        fileArr.map(async (file) => {
-          const base64 = await convertFileToBase64(file);
-          return { base64, fileName: file.name };
-        })
-      );
-      setImages(convertedFiles);
-    }
-  };
-  
-  const handleSocialChange = (e) => {
-    const { name, value } = e.target;
-    setSocialData((prev) => ({ ...prev, [name]: value }));
-  };
-  
+
   const handleContactPersonChange = (e) => {
     const { name, value } = e.target;
-    setOrgDetails((prev) => ({
-      ...prev,
-      contactPerson: { ...prev.contactPerson, [name]: value },
-    }));
+    setContactPerson(prev => ({ ...prev, [name]: value }));
   };
-  
-  const handleDesignationSelect = (designation) => {
-    setOrgDetails((prev) => ({
-      ...prev,
-      contactPerson: {
-        ...prev.contactPerson,
-        designation: prev.contactPerson.designation.includes(designation)
-          ? prev.contactPerson.designation.filter((d) => d !== designation)
-          : [...prev.contactPerson.designation, designation],
-      },
-    }));
-  };
-  
+
   const handleReportingAuthorityChange = (e) => {
     const { name, value } = e.target;
-    setReportingAuthority((prev) => ({ ...prev, [name]: value }));
+    setReportingAuthority(prev => ({ ...prev, [name]: value }));
   };
-  
-  const handleReportingAuthorityDesignationSelect = (designation) => {
-    setReportingAuthority((prev) => ({
-      ...prev,
-      designation: prev.designation.includes(designation)
-        ? prev.designation.filter((d) => d !== designation)
-        : [...prev.designation, designation],
-    }));
-  };
-  
-  // Submission handler: Builds payload and calls createOrganization API.
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!firebase_uid) {
-      toast.error("User is not authenticated. Please log in.");
-      return;
-    }
-    const payload = {
-      route: "CreateOrganization",
-      firebase_uid, // Use the uid from the auth context
-      type: selectedType,
-      organization_details: !selectedType.includes("Parent/ Guardian looking for Tuitions")
-        ? {
-            name: orgDetails.name,
-            websiteUrl: orgDetails.websiteUrl,
-            panNumber: orgDetails.panNumber,
-            panName: orgDetails.panName,
-            gstin: orgDetails.gstin,
-            address: orgDetails.address,
-            city: orgDetails.city,
-            state: orgDetails.state,
-            pincode: orgDetails.pincode,
-            country: orgDetails.country,
-            institution_photos: images,
-          }
-        : null,
-      parent_details: selectedType.includes("Parent/ Guardian looking for Tuitions")
-        ? {
-            address: orgDetails.address,
-            city: orgDetails.city,
-            state: orgDetails.state,
-            pincode: orgDetails.pincode,
-            country: orgDetails.country,
-          }
-        : null,
-      account_operated_by: orgDetails.contactPerson,
-      reporting_authority,
-      social: socialData,
-      images,
-      additional_owner: null,
-    };
-    console.log("Submitting payload:", payload);
-    const result = await createOrganization(payload);
-    if (result) {
-      toast.success("Organization created successfully!");
-      console.log("API response:", result);
-      // Optionally, reset form state here.
-    } else {
-      toast.error("Failed to create organization.");
+
+  // Handle multi-select designation for contact person and reporting authority
+  const handleDesignationSelect = (designation, target) => {
+    if (target === 'contactPerson') {
+      setContactPerson(prev => ({
+        ...prev,
+        designation: prev.designation.includes(designation)
+          ? prev.designation.filter(d => d !== designation)
+          : [...prev.designation, designation]
+      }));
+    } else if (target === 'reportingAuthority') {
+      setReportingAuthority(prev => ({
+        ...prev,
+        designation: prev.designation.includes(designation)
+          ? prev.designation.filter(d => d !== designation)
+          : [...prev.designation, designation]
+      }));
     }
   };
-  
-  // Function to fetch organization details using GET API.
-  const fetchOrganization = async () => {
-    if (!firebase_uid) {
-      toast.error("User is not authenticated. Please log in.");
-      return;
-    }
-    setLoadingOrg(true);
-    setErrorOrg(null);
-    try {
-      const response = await fetch(
-        `https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/organization/${firebase_uid}`,
-        { method: "GET", headers: { "Content-Type": "application/json" } }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch organization details");
-      }
-      const data = await response.json();
-      setOrgData(data);
-    } catch (err) {
-      setErrorOrg(err.message);
-    } finally {
-      setLoadingOrg(false);
-    }
-  };
-  
+
   return (
     <div className="default-form">
       <div className="row">
-        {/* Organization Type Selection */}
+        {/* Organization/Entity Type Selection */}
         <div className="form-group col-lg-6 col-md-12">
           <select className="form-control" value={selectedType} onChange={handleTypeChange}>
             <option value="">Select Organization/Entity Type</option>
-            {orgTypes.map((type, index) => (
-              <option key={index} value={type}>
-                {type}
-              </option>
+            {[
+              'School / College/ University',
+              'Coaching Centers/ Institutes',
+              'Ed Tech company',
+              'Parent/ Guardian looking for Tuitions'
+            ].map((type, index) => (
+              <option key={index} value={type}>{type}</option>
             ))}
           </select>
         </div>
-  
-        {/* Non-Parent Types: Render additional fields including owner question */}
-        {isNonParentType() && (
-          <div className="row">
-            {/* Organization basic details */}
+
+        {/* For non-Parent/Guardian types */}
+        {selectedType && selectedType !== 'Parent/ Guardian looking for Tuitions' && (
+          <>
+            {/* Organization Details */}
             <div className="form-group col-lg-6 col-md-12">
               <input
                 type="text"
@@ -281,7 +1047,7 @@ const OrgDetails = () => {
                 className="form-control"
                 name="name"
                 value={orgDetails.name}
-                onChange={handleInputChange}
+                onChange={handleOrgInputChange}
               />
             </div>
             <div className="form-group col-lg-6 col-md-12">
@@ -291,28 +1057,7 @@ const OrgDetails = () => {
                 className="form-control"
                 name="websiteUrl"
                 value={orgDetails.websiteUrl}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group col-lg-6 col-md-12">
-              <label>Institution Photos</label>
-              <input
-                type="file"
-                className="form-control"
-                name="photos"
-                accept="image/*"
-                multiple
-                onChange={handleFileChange}
-              />
-            </div>
-            <div className="form-group col-lg-6 col-md-12">
-              <input
-                type="url"
-                className="form-control"
-                name="video"
-                placeholder="Enter YouTube video URL"
-                value={orgDetails.video}
-                onChange={handleInputChange}
+                onChange={handleOrgInputChange}
               />
             </div>
             <div className="form-group col-lg-6 col-md-12">
@@ -322,7 +1067,7 @@ const OrgDetails = () => {
                 className="form-control"
                 name="panNumber"
                 value={orgDetails.panNumber}
-                onChange={handleInputChange}
+                onChange={handleOrgInputChange}
               />
             </div>
             <div className="form-group col-lg-6 col-md-12">
@@ -332,7 +1077,7 @@ const OrgDetails = () => {
                 className="form-control"
                 name="panName"
                 value={orgDetails.panName}
-                onChange={handleInputChange}
+                onChange={handleOrgInputChange}
               />
             </div>
             <div className="form-group col-lg-6 col-md-12">
@@ -342,312 +1087,68 @@ const OrgDetails = () => {
                 className="form-control"
                 name="gstin"
                 value={orgDetails.gstin}
-                onChange={handleInputChange}
+                onChange={handleOrgInputChange}
               />
             </div>
-            {/* Owner Question */}
-            <div className="form-group col-lg-6 col-md-12">
-              <h6>Are you the owner or the main head of the organization?</h6>
-              <div className="radio-group">
-                <div className="radio-option">
-                  <input
-                    type="radio"
-                    id="ownerYes"
-                    name="isOwner"
-                    value="yes"
-                    checked={isOwner === "yes"}
-                    onChange={(e) => setIsOwner(e.target.value)}
-                  />
-                  <label htmlFor="ownerYes">Yes</label>
-                </div>
-                <div className="radio-option">
-                  <input
-                    type="radio"
-                    id="ownerNo"
-                    name="isOwner"
-                    value="no"
-                    checked={isOwner === "no"}
-                    onChange={(e) => setIsOwner(e.target.value)}
-                  />
-                  <label htmlFor="ownerNo">No</label>
-                </div>
-              </div>
-            </div>
-            {/* Reporting Authority Fields (if not owner) */}
-            {isOwner === "no" && (
-              <div className="row">
-                <div className="col-12">
-                  <h4>Your Reporting Authority</h4>
-                </div>
-                <div className="form-group col-lg-6 col-md-12">
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="name"
-                    value={orgDetails.contactPerson.name}
-                    onChange={handleContactPersonChange}
-                    maxLength="20"
-                    placeholder="Name"
-                  />
-                </div>
-                <div className="form-group col-lg-6 col-md-12">
-                  <div className="radio-group">
-                    <h6>Gender</h6>
-                    <div className="radio-option">
-                      <input
-                        type="radio"
-                        id="male"
-                        name="gender"
-                        value="male"
-                        required
-                        onChange={handleContactPersonChange}
-                      />
-                      <label htmlFor="male">Male</label>
-                    </div>
-                    <div className="radio-option">
-                      <input
-                        type="radio"
-                        id="female"
-                        name="gender"
-                        value="female"
-                        onChange={handleContactPersonChange}
-                      />
-                      <label htmlFor="female">Female</label>
-                    </div>
-                    <div className="radio-option">
-                      <input
-                        type="radio"
-                        id="transgender"
-                        name="gender"
-                        value="transgender"
-                        onChange={handleContactPersonChange}
-                      />
-                      <label htmlFor="transgender">Transgender</label>
-                    </div>
-                  </div>
-                </div>
-                <div className="form-group col-lg-6 col-md-12">
-                  <div className="custom-multiselect">
-                    <div
-                      className="select-header form-control"
-                      onClick={() => setShowDesignationDropdown(!showDesignationDropdown)}
-                    >
-                      {orgDetails.contactPerson.designation.length > 0
-                        ? orgDetails.contactPerson.designation.join(", ")
-                        : "Select Designation(s)"}
-                    </div>
-                    {showDesignationDropdown && (
-                      <div className="select-options">
-                        {designationOptions.map((designation, index) => (
-                          <div
-                            key={index}
-                            className="select-option"
-                            onClick={() => handleDesignationSelect(designation)}
-                          >
-                            <input
-                              type="checkbox"
-                              checked={orgDetails.contactPerson.designation.includes(designation)}
-                              readOnly
-                            />
-                            <span>{designation}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="form-group col-lg-6 col-md-12">
-                  <input
-                    type="tel"
-                    className="form-control"
-                    name="phone1"
-                    value={orgDetails.contactPerson.phone1}
-                    onChange={handleContactPersonChange}
-                    placeholder="Contact Number-1 (Calling)"
-                    onInput={(e) =>
-                      (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-                    }
-                    maxLength="10"
-                  />
-                </div>
-                <div className="form-group col-lg-6 col-md-12">
-                  <input
-                    type="tel"
-                    className="form-control"
-                    name="phone2"
-                    value={orgDetails.contactPerson.phone2}
-                    onChange={handleContactPersonChange}
-                    placeholder="Contact Number-2 (WhatsApp)"
-                    onInput={(e) =>
-                      (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-                    }
-                    maxLength="10"
-                  />
-                </div>
-                <div className="form-group col-lg-6 col-md-12">
-                  <input
-                    type="email"
-                    className="form-control"
-                    name="email"
-                    value={orgDetails.contactPerson.email}
-                    onChange={handleContactPersonChange}
-                    placeholder="Email"
-                  />
-                </div>
-                {/* Location fields for non-parent types */}
-                <div className="row">
-                  <div className="form-group col-lg-6 col-md-12">
-                    <select
-                      className="form-control"
-                      name="country"
-                      value={orgDetails.country || ""}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Country</option>
-                      {countries.map((country) => (
-                        <option key={country.isoCode} value={country.isoCode}>
-                          {country.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group col-lg-6 col-md-12">
-                    <select
-                      className="form-control"
-                      name="state"
-                      value={orgDetails.state || ""}
-                      onChange={handleInputChange}
-                      disabled={!orgDetails.country}
-                    >
-                      <option value="">State</option>
-                      {states.map((state) => (
-                        <option key={state.isoCode} value={state.isoCode}>
-                          {state.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group col-lg-6 col-md-12">
-                    <select
-                      className="form-control"
-                      name="city"
-                      value={orgDetails.city || ""}
-                      onChange={handleInputChange}
-                      disabled={!orgDetails.state}
-                    >
-                      <option value="">City</option>
-                      {cities.map((city) => (
-                        <option key={city.name} value={city.name}>
-                          {city.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group col-lg-6 col-md-12">
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="pincode"
-                      value={orgDetails.pincode}
-                      onChange={handleInputChange}
-                      placeholder="Pin code"
-                      onInput={(e) =>
-                        (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-                      }
-                      maxLength="6"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-  
-        {/* Parent/ Guardian Fields */}
-        {selectedType === "Parent/ Guardian looking for Tuitions" && (
-          <div className="row">
-            {/* Location Fields */}
             <div className="form-group col-lg-6 col-md-12">
               <input
                 type="text"
+                placeholder="Address: No./ Lane / Area"
                 className="form-control"
                 name="address"
                 value={orgDetails.address}
-                onChange={handleInputChange}
-                placeholder="Address: No./ Lane / Area"
+                onChange={handleOrgInputChange}
               />
-            </div>
-            <div className="form-group col-lg-6 col-md-12">
-              <select
-                className="form-control"
-                name="country"
-                value={orgDetails.country || ""}
-                onChange={handleInputChange}
-              >
-                <option value="">Country</option>
-                {countries.map((country) => (
-                  <option key={country.isoCode} value={country.isoCode}>
-                    {country.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group col-lg-6 col-md-12">
-              <select
-                className="form-control"
-                name="state"
-                value={orgDetails.state || ""}
-                onChange={handleInputChange}
-                disabled={!orgDetails.country}
-              >
-                <option value="">State</option>
-                {states.map((state) => (
-                  <option key={state.isoCode} value={state.isoCode}>
-                    {state.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group col-lg-6 col-md-12">
-              <select
-                className="form-control"
-                name="city"
-                value={orgDetails.city || ""}
-                onChange={handleInputChange}
-                disabled={!orgDetails.state}
-              >
-                <option value="">City</option>
-                {cities.map((city) => (
-                  <option key={city.name} value={city.name}>
-                    {city.name}
-                  </option>
-                ))}
-              </select>
             </div>
             <div className="form-group col-lg-6 col-md-12">
               <input
                 type="text"
+                placeholder="Pin code"
                 className="form-control"
                 name="pincode"
                 value={orgDetails.pincode}
-                onChange={handleInputChange}
-                placeholder="Pin code"
-                onInput={(e) =>
-                  (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-                }
+                onChange={handleOrgInputChange}
+                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, ''); }}
                 maxLength="6"
               />
             </div>
-            {/* Contact Person Fields for Parent/ Guardian */}
-            <div>
-              <h4>Account operated by (Contact Person)</h4>
+            <div className="form-group col-lg-4 col-md-12">
+              <select className="form-control" name="country" value={orgDetails.country || ''} onChange={handleOrgInputChange}>
+                <option value="">Country</option>
+                {countries.map(country => (
+                  <option key={country.isoCode} value={country.isoCode}>{country.name}</option>
+                ))}
+              </select>
             </div>
+            <div className="form-group col-lg-4 col-md-12">
+              <select className="form-control" name="state" value={orgDetails.state || ''} onChange={handleOrgInputChange} disabled={!orgDetails.country}>
+                <option value="">State</option>
+                {states.map(state => (
+                  <option key={state.isoCode} value={state.isoCode}>{state.name}</option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group col-lg-4 col-md-12">
+              <select className="form-control" name="city" value={orgDetails.city || ''} onChange={handleOrgInputChange} disabled={!orgDetails.state}>
+                <option value="">City</option>
+                {cities.map(city => (
+                  <option key={city.name} value={city.name}>{city.name}</option>
+                ))}
+              </select>
+            </div>
+          </>
+        )}
+
+        {/* Contact Person details (applies for both types) */}
+        {selectedType && (
+          <>
             <div className="form-group col-lg-6 col-md-12">
+              <h4>Account operated by (Contact Person)</h4>
               <input
                 type="text"
                 className="form-control"
                 name="name"
-                value={orgDetails.contactPerson.name}
+                value={contactPerson.name}
                 onChange={handleContactPersonChange}
                 maxLength="20"
                 placeholder="Name"
@@ -657,60 +1158,29 @@ const OrgDetails = () => {
               <div className="radio-group">
                 <h6>Gender</h6>
                 <div className="radio-option">
-                  <input
-                    type="radio"
-                    id="parentGenderMale"
-                    name="gender"
-                    value="male"
-                    onChange={handleContactPersonChange}
-                  />
-                  <label htmlFor="parentGenderMale">Male</label>
+                  <input type="radio" id="male" name="gender" value="male" onChange={handleContactPersonChange} checked={contactPerson.gender === 'male'} />
+                  <label htmlFor="male">Male</label>
                 </div>
                 <div className="radio-option">
-                  <input
-                    type="radio"
-                    id="parentGenderFemale"
-                    name="gender"
-                    value="female"
-                    onChange={handleContactPersonChange}
-                  />
-                  <label htmlFor="parentGenderFemale">Female</label>
+                  <input type="radio" id="female" name="gender" value="female" onChange={handleContactPersonChange} checked={contactPerson.gender === 'female'} />
+                  <label htmlFor="female">Female</label>
                 </div>
                 <div className="radio-option">
-                  <input
-                    type="radio"
-                    id="parentGenderTransgender"
-                    name="gender"
-                    value="transgender"
-                    onChange={handleContactPersonChange}
-                  />
-                  <label htmlFor="parentGenderTransgender">Transgender</label>
+                  <input type="radio" id="transgender" name="gender" value="transgender" onChange={handleContactPersonChange} checked={contactPerson.gender === 'transgender'} />
+                  <label htmlFor="transgender">Transgender</label>
                 </div>
               </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
               <div className="custom-multiselect">
-                <div
-                  className="select-header form-control"
-                  onClick={() => setShowDesignationDropdown(!showDesignationDropdown)}
-                >
-                  {orgDetails.contactPerson.designation.length > 0
-                    ? orgDetails.contactPerson.designation.join(", ")
-                    : "Select Designation(s)"}
+                <div className="select-header form-control" onClick={() => setShowDesignationDropdown(!showDesignationDropdown)}>
+                  {contactPerson.designation.length > 0 ? contactPerson.designation.join(', ') : 'Select Designation(s)'}
                 </div>
                 {showDesignationDropdown && (
                   <div className="select-options">
                     {designationOptions.map((designation, index) => (
-                      <div
-                        key={index}
-                        className="select-option"
-                        onClick={() => handleDesignationSelect(designation)}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={orgDetails.contactPerson.designation.includes(designation)}
-                          readOnly
-                        />
+                      <div key={index} className="select-option" onClick={() => handleDesignationSelect(designation, 'contactPerson')}>
+                        <input type="checkbox" checked={contactPerson.designation.includes(designation)} readOnly />
                         <span>{designation}</span>
                       </div>
                     ))}
@@ -723,12 +1193,10 @@ const OrgDetails = () => {
                 type="tel"
                 className="form-control"
                 name="phone1"
-                value={orgDetails.contactPerson.phone1}
+                value={contactPerson.phone1}
                 onChange={handleContactPersonChange}
                 placeholder="Contact Number-1 (Calling)"
-                onInput={(e) =>
-                  (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-                }
+                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, ''); }}
                 maxLength="10"
               />
             </div>
@@ -737,12 +1205,10 @@ const OrgDetails = () => {
                 type="tel"
                 className="form-control"
                 name="phone2"
-                value={orgDetails.contactPerson.phone2}
+                value={contactPerson.phone2}
                 onChange={handleContactPersonChange}
                 placeholder="Contact Number-2 (WhatsApp)"
-                onInput={(e) =>
-                  (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-                }
+                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, ''); }}
                 maxLength="10"
               />
             </div>
@@ -751,151 +1217,148 @@ const OrgDetails = () => {
                 type="email"
                 className="form-control"
                 name="email"
-                value={orgDetails.contactPerson.email}
+                value={contactPerson.email}
+                onChange={handleContactPersonChange}
+                placeholder="Email"
+              />
+            </div>
+          </>
+        )}
+
+        {/* For Parent/Guardian type, show only address and basic contact fields */}
+        {selectedType && selectedType === 'Parent/ Guardian looking for Tuitions' && (
+          <div className="row">
+            <div className="form-group col-lg-6 col-md-12">
+              <select className="form-control" name="country" value={orgDetails.country || ''} onChange={handleOrgInputChange}>
+                <option value="">Country</option>
+                {countries.map(country => (
+                  <option key={country.isoCode} value={country.isoCode}>{country.name}</option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group col-lg-6 col-md-12">
+              <select className="form-control" name="state" value={orgDetails.state || ''} onChange={handleOrgInputChange} disabled={!orgDetails.country}>
+                <option value="">State</option>
+                {states.map(state => (
+                  <option key={state.isoCode} value={state.isoCode}>{state.name}</option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group col-lg-6 col-md-12">
+              <select className="form-control" name="city" value={orgDetails.city || ''} onChange={handleOrgInputChange} disabled={!orgDetails.state}>
+                <option value="">City</option>
+                {cities.map(city => (
+                  <option key={city.name} value={city.name}>{city.name}</option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group col-lg-6 col-md-12">
+              <input
+                type="text"
+                className="form-control"
+                name="address"
+                value={orgDetails.address}
+                onChange={handleOrgInputChange}
+                placeholder="Address: No./ Lane / Area"
+              />
+            </div>
+            <div className="form-group col-lg-6 col-md-12">
+              <input
+                type="text"
+                className="form-control"
+                name="pincode"
+                value={orgDetails.pincode}
+                onChange={handleOrgInputChange}
+                placeholder="Pin code"
+                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, ''); }}
+                maxLength="6"
+              />
+            </div>
+            <div>
+              <h4>Account operated by (Contact Person)</h4>
+            </div>
+            <div className="form-group col-lg-6 col-md-12">
+              <input
+                type="text"
+                className="form-control"
+                name="name"
+                value={contactPerson.name}
+                onChange={handleContactPersonChange}
+                maxLength="20"
+                placeholder="Name"
+              />
+            </div>
+            <div className="form-group col-lg-6 col-md-12">
+              <div className="radio-group">
+                <h6>Gender</h6>
+                <div className="radio-option">
+                  <input type="radio" id="male" name="gender" value="male" onChange={handleContactPersonChange} checked={contactPerson.gender === 'male'} />
+                  <label htmlFor="male">Male</label>
+                </div>
+                <div className="radio-option">
+                  <input type="radio" id="female" name="gender" value="female" onChange={handleContactPersonChange} checked={contactPerson.gender === 'female'} />
+                  <label htmlFor="female">Female</label>
+                </div>
+                <div className="radio-option">
+                  <input type="radio" id="transgender" name="gender" value="transgender" onChange={handleContactPersonChange} checked={contactPerson.gender === 'transgender'} />
+                  <label htmlFor="transgender">Transgender</label>
+                </div>
+              </div>
+            </div>
+            <div className="form-group col-lg-6 col-md-12">
+              <div className="custom-multiselect">
+                <div className="select-header form-control" onClick={() => setShowDesignationDropdown(!showDesignationDropdown)}>
+                  {contactPerson.designation.length > 0 ? contactPerson.designation.join(', ') : 'Select Designation(s)'}
+                </div>
+                {showDesignationDropdown && (
+                  <div className="select-options">
+                    {designationOptions.map((designation, index) => (
+                      <div key={index} className="select-option" onClick={() => handleDesignationSelect(designation, 'contactPerson')}>
+                        <input type="checkbox" checked={contactPerson.designation.includes(designation)} readOnly />
+                        <span>{designation}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="form-group col-lg-6 col-md-12">
+              <input
+                type="tel"
+                className="form-control"
+                name="phone1"
+                value={contactPerson.phone1}
+                onChange={handleContactPersonChange}
+                placeholder="Contact Number-1 (Calling)"
+                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, ''); }}
+                maxLength="10"
+              />
+            </div>
+            <div className="form-group col-lg-6 col-md-12">
+              <input
+                type="tel"
+                className="form-control"
+                name="phone2"
+                value={contactPerson.phone2}
+                onChange={handleContactPersonChange}
+                placeholder="Contact Number-2 (WhatsApp)"
+                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, ''); }}
+                maxLength="10"
+              />
+            </div>
+            <div className="form-group col-lg-6 col-md-12">
+              <input
+                type="email"
+                className="form-control"
+                name="email"
+                value={contactPerson.email}
                 onChange={handleContactPersonChange}
                 placeholder="Email"
               />
             </div>
           </div>
         )}
-  
-        {/* Social network fields */}
-        <div className="row">
-          <div className="form-group col-lg-3 col-md-6">
-            <input
-              type="text"
-              name="facebook"
-              placeholder="Facebook"
-              value={socialData.facebook}
-              onChange={handleSocialChange}
-            />
-          </div>
-          <div className="form-group col-lg-3 col-md-6">
-            <input
-              type="text"
-              name="twitter"
-              placeholder="Twitter"
-              value={socialData.twitter}
-              onChange={handleSocialChange}
-            />
-          </div>
-          <div className="form-group col-lg-3 col-md-6">
-            <input
-              type="text"
-              name="linkedin"
-              placeholder="Linkedin"
-              value={socialData.linkedin}
-              onChange={handleSocialChange}
-            />
-          </div>
-          <div className="form-group col-lg-3 col-md-6">
-            <input
-              type="text"
-              name="instagram"
-              placeholder="Instagram"
-              value={socialData.instagram}
-              onChange={handleSocialChange}
-            />
-          </div>
-        </div>
       </div>
-  
-      {/* Buttons: Submit form and View Organization Details */}
-      <div className="form-group col-12" style={{ marginTop: "20px" }}>
-        <button className="theme-btn btn-style-one" onClick={handleSubmit}>
-          Submit
-        </button>
-        <button
-          className="theme-btn btn-style-one"
-          style={{ marginLeft: "20px" }}
-          onClick={fetchOrganization}
-        >
-          View Organization Details
-        </button>
-      </div>
-  
-      {/* Display Organization Details if fetched */}
-      {loadingOrg && <p>Loading organization details...</p>}
-      {errorOrg && <p style={{ color: "red" }}>Error: {errorOrg}</p>}
-      {orgData && (
-        <div className="org-data-display" style={{ marginTop: "20px", padding: "10px", border: "1px solid #ccc" }}>
-          <h3>Organization Profile</h3>
-          <p><strong>Firebase UID:</strong> {orgData.firebase_uid}</p>
-          <p><strong>Type:</strong> {orgData.type}</p>
-          {orgData.organization_details && (
-            <>
-              <h4>Organization Details</h4>
-              <p><strong>Name:</strong> {orgData.organization_details.name}</p>
-              <p>
-                <strong>Website:</strong>{" "}
-                <a href={orgData.organization_details.websiteUrl} target="_blank" rel="noopener noreferrer">
-                  {orgData.organization_details.websiteUrl}
-                </a>
-              </p>
-              <p><strong>PAN Number:</strong> {orgData.organization_details.panNumber}</p>
-              <p><strong>PAN Name:</strong> {orgData.organization_details.panName}</p>
-              <p><strong>GSTIN:</strong> {orgData.organization_details.gstin}</p>
-              <p><strong>Address:</strong> {orgData.organization_details.address}</p>
-              <p><strong>City:</strong> {orgData.organization_details.city}</p>
-              <p><strong>State:</strong> {orgData.organization_details.state}</p>
-              <p><strong>Pin Code:</strong> {orgData.organization_details.pincode}</p>
-              <p><strong>Country:</strong> {orgData.organization_details.country}</p>
-              {orgData.organization_details.institution_photos && orgData.organization_details.institution_photos.length > 0 && (
-                <div>
-                  <h5>Photos:</h5>
-                  <div style={{ display: "flex", flexWrap: "wrap" }}>
-                    {orgData.organization_details.institution_photos.map((photo, idx) => (
-                      <img
-                        key={idx}
-                        src={photo}
-                        alt={`Photo ${idx + 1}`}
-                        style={{ width: "150px", margin: "8px" }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </>
-          )}
-          {orgData.parent_details && (
-            <>
-              <h4>Parent/Guardian Details</h4>
-              <p><strong>Address:</strong> {orgData.parent_details.address}</p>
-              <p><strong>City:</strong> {orgData.parent_details.city}</p>
-              <p><strong>State:</strong> {orgData.parent_details.state}</p>
-              <p><strong>Pin Code:</strong> {orgData.parent_details.pincode}</p>
-              <p><strong>Country:</strong> {orgData.parent_details.country}</p>
-            </>
-          )}
-          {orgData.account_operated_by && (
-            <>
-              <h4>Contact Person</h4>
-              <p><strong>Name:</strong> {orgData.account_operated_by.name}</p>
-              <p><strong>Gender:</strong> {orgData.account_operated_by.gender}</p>
-              <p><strong>Designation:</strong> {orgData.account_operated_by.designation?.join(", ")}</p>
-              <p><strong>Phone 1:</strong> {orgData.account_operated_by.phone1}</p>
-              <p><strong>Phone 2:</strong> {orgData.account_operated_by.phone2}</p>
-              <p><strong>Email:</strong> {orgData.account_operated_by.email}</p>
-            </>
-          )}
-          {orgData.reporting_authority && (
-            <>
-              <h4>Reporting Authority</h4>
-              <p><strong>Name:</strong> {orgData.reporting_authority.name}</p>
-              <p><strong>Gender:</strong> {orgData.reporting_authority.gender}</p>
-              <p><strong>Designation:</strong> {orgData.reporting_authority.designation?.join(", ")}</p>
-              <p><strong>Phone 1:</strong> {orgData.reporting_authority.phone1}</p>
-              <p><strong>Phone 2:</strong> {orgData.reporting_authority.phone2}</p>
-              <p><strong>Email:</strong> {orgData.reporting_authority.email}</p>
-            </>
-          )}
-          <h4>Social Networks</h4>
-          <p><strong>Facebook:</strong> {orgData.facebook}</p>
-          <p><strong>Twitter:</strong> {orgData.twitter}</p>
-          <p><strong>LinkedIn:</strong> {orgData.linkedin}</p>
-          <p><strong>Instagram:</strong> {orgData.instagram}</p>
-        </div>
-      )}
     </div>
   );
 };

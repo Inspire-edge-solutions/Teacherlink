@@ -31,14 +31,24 @@ Blog Single
 
 .blog-single .post-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
 }
 
 .blog-single .post-info li {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   font-size: 14px;
   line-height: 24px;
@@ -108,12 +118,17 @@ Blog Single
 .blog-single .list-style-four {
   margin-top: 30px;
   margin-bottom: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
 .blog-single .list-style-four li {
   width: 50%;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 50%;
   flex: 0 0 50%;
 }
 
@@ -143,25 +158,40 @@ Blog Single
 
 .blog-single .other-options {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
   border-top: 1px solid #ecedf2;
   border-bottom: 1px solid #ecedf2;
   padding: 35px 0;
   margin: 45px 0;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
 .blog-single .social-share {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
 .blog-single .other-options .tags {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin: 15px 0;
 }
@@ -177,6 +207,7 @@ Blog Single
   padding: 5px 20px;
   border-radius: 4px;
   margin-right: 10px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -188,8 +219,14 @@ Blog Single
 /* Post Control */
 .post-control {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
   padding-bottom: 20px;
   border-bottom: 1px solid #ecedf2;
@@ -247,6 +284,7 @@ Blog Single
 .post-control h5 a {
   color: #202124;
   display: inline-block;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -303,8 +341,15 @@ Comments Area
 
 .comment-box .comment-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
   align-items: flex-start;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   margin-bottom: 20px;
 }
@@ -341,4 +386,5 @@ Comments Area
   position: relative;
   padding: 50px 50px;
   border: 1px solid #ecedf2;
-}/*# sourceMappingURL=blog-single.css.map */
+}
+/*# sourceMappingURL=blog-single.css.map */

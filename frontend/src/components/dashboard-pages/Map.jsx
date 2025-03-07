@@ -1,27 +1,112 @@
+import React, { useEffect, useRef, useState } from 'react';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import jobFeatures from "@/data/job-featured";
 
+const Map = ({ initialCenter, initialZoom }) => {
+  const mapContainer = useRef(null);
+  const map = useRef(null);
+  const [selectedMarker, setSelectedMarker] = useState(null);
+  const markers = useRef([]);
 
-import GoogleMapReact from "google-map-react";
+  useEffect(() => {
+    if (map.current) return; // initialize map only once
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+    const apiKey = import.meta.env.VITE_AWS_LOCATION_API_KEY;
+    const region = "ap-south-1";
+    const style = "Standard";
+    const colorScheme = "Light";
 
-export default function Map() {
-  const defaultProps = {
-    center: {
-      lat: 10.99835602,
-      lng: 77.01502627,
-    },
-    zoom: 11,
-  };
+    map.current = new maplibregl.Map({
+      container: mapContainer.current,
+      style: `https://maps.geo.${region}.amazonaws.com/v2/styles/${style}/descriptor?key=${apiKey}&color-scheme=${colorScheme}`,
+      center: initialCenter || [77.5946, 12.9716], // Use provided center or default to Bengaluru
+      zoom: initialZoom || 11,
+    });
+
+    // Add navigation controls
+    map.current.addControl(new maplibregl.NavigationControl(), 'top-left');
+
+    // Wait for map to load before adding markers
+    map.current.on('load', () => {
+      // Add markers for each job
+      jobFeatures.slice(0, 6).forEach((job) => {
+        const el = document.createElement('div');
+        el.className = 'marker';
+        el.style.width = '20px';
+        el.style.height = '20px';
+        el.style.backgroundColor = '#ff4d4d';
+        el.style.borderRadius = '50%';
+        el.style.cursor = 'pointer';
+
+        const marker = new maplibregl.Marker(el)
+          .setLngLat([Number(job.long), Number(job.lat)])
+          .addTo(map.current);
+
+        // Add click event
+        el.addEventListener('click', () => {
+          setSelectedMarker(job);
+          marker.togglePopup();
+        });
+
+        markers.current.push(marker);
+      });
+    });
+
+    // Cleanup on unmount
+    return () => {
+      markers.current.forEach(marker => marker.remove());
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
+    };
+  }, [initialCenter, initialZoom]);
 
   return (
-    // Important! Alwys set the container height explicitlya
-
-    <GoogleMapReact
-      bootstrapURLKeys={{ key: "" }}
-      defaultCenter={defaultProps.center}
-      defaultZoom={defaultProps.zoom}
-    >
-      <AnyReactComponent lat={59.955413} lng={30.337844} text="My Marker" />
-    </GoogleMapReact>
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <div 
+        ref={mapContainer} 
+        style={{ 
+          width: '100%', 
+          height: '100%',
+          position: 'relative'
+        }} 
+      />
+      {selectedMarker && (
+        <div 
+          style={{
+            position: 'absolute',
+            top: '20px',
+            right: '20px',
+            background: 'white',
+            padding: '15px',
+            borderRadius: '8px',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+            maxWidth: '300px',
+            zIndex: 1
+          }}
+        >
+          <h4>{selectedMarker.jobTitle}</h4>
+          <p>{selectedMarker.company}</p>
+          <p>{selectedMarker.location}</p>
+          <button 
+            onClick={() => setSelectedMarker(null)}
+            style={{
+              position: 'absolute',
+              top: '5px',
+              right: '5px',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer'
+            }}
+          >
+            ×
+          </button>
+        </div>
+      )}
+    </div>
   );
-}
+};
+
+export default Map;

@@ -1,3 +1,5 @@
+@use '../../base/mixins' as *;
+
 @include media-below(md) {
   .md\:d-none {
     display: none;

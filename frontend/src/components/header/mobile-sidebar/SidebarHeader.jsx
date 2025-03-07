@@ -1,5 +1,5 @@
-
 import { Link } from "react-router-dom";
+import { getIcon } from "../../../utils/iconMapping";
 
 const SidebarHeader = () => {
   return (
@@ -10,7 +10,7 @@ const SidebarHeader = () => {
       {/* End logo */}
 
       <div className="fix-icon" data-bs-dismiss="offcanvas" aria-label="Close">
-        <span className="flaticon-close"></span>
+        {getIcon('icon-close')}
       </div>
       {/* icon close */}
     </div>

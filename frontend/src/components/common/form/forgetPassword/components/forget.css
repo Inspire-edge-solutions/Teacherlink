@@ -1,0 +1,30 @@
+.forget-password-container {
+  margin: 80px auto;
+  padding: 2rem;
+  max-width: 400px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.forget-password-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.forget-password-form {
+  width: 100%;
+}
+
+.button-group {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.back-to-login {
+  text-decoration: none;
+}
+
+.back-to-login:hover {
+  text-decoration: underline;
+}

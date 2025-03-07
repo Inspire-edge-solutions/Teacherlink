@@ -79,38 +79,63 @@
 
 // export default FormContent;
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { auth } from "../../../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../../../contexts/AuthContext";
 import LoginWithSocial from "./LoginWithSocial";
-import { useNavigate } from "react-router-dom";
 
 const FormContent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [loginAttempted, setLoginAttempted] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { user } = useAuth();
 
-  const handleLogin = async (e) => {
+  useEffect(() => {
+    // Only navigate if we have a user, login was attempted, and we're on the login page
+    if (user?.user_type && loginAttempted && location.pathname === '/login') {
+      console.log("Navigating with user type:", user.user_type);
+      
+      if (user.user_type === 'Employer') {
+        navigate('/employers-dashboard/dashboard', { replace: true });
+      } else if (user.user_type === 'Candidate') {
+        navigate('/candidates-dashboard/dashboard', { replace: true });
+      }
+      // Reset login attempt after navigation
+      setLoginAttempted(false);
+    }
+  }, [user, loginAttempted, navigate, location.pathname]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      alert("Login successful!");
-      navigate("/");
+      setLoginAttempted(true); // Set login attempt flag
     } catch (error) {
+      console.error("Login error:", error);
       alert(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="form-inner">
       <h3>Login to TeacherLink</h3>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Email</label>
           <input
             type="email"
-            placeholder="Enter Email address"
+            name="email"
+            placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -121,7 +146,8 @@ const FormContent = () => {
           <label>Password</label>
           <input
             type="password"
-            placeholder="Enter Password"
+            name="password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -129,23 +155,30 @@ const FormContent = () => {
         </div>
 
         <div className="form-group">
-          <button  className="theme-btn btn-style-one" type="submit">
-            Login
+          <button
+            className="theme-btn btn-style-one"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </div>
       </form>
+      <div className="text">
+        Forgot Password? <Link to="/forgetpassword">Reset Password</Link>
+      </div>
       <div className="bottom-box">
-    <div className="text">
-           Don&apos;t have an account? <Link to="/register">Signup</Link>
-         </div>
+        <div className="text">
+          Don't have an account?{" "}
+          <Link to="/register">Signup</Link>
+        </div>
 
-         <div className="divider">
-           <span>or</span>
-         </div>
+        <div className="divider">
+          <span>or</span>
+        </div>
 
-         <LoginWithSocial />
-       </div>
-
+        <LoginWithSocial />
+      </div>
     </div>
   );
 };

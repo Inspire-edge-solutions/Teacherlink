@@ -1,12 +1,16 @@
-
-
-
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import LoginWithSocial from "./LoginWithSocial";
+import LoginWithSocial from "../login/LoginWithSocial";
 import Form from "./FormContent";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Register = () => {
+  const [user_type, setUser_type] = useState("Candidate");
+
+  const handleUserType = (type) => {
+    setUser_type(type);
+  };
+
   return (
     <div className="form-inner">
       <h3>Create a Free TeacherLink Account</h3>
@@ -14,13 +18,13 @@ const Register = () => {
       <Tabs>
         <div className="form-group register-dual">
           <TabList className="btn-box row">
-            <Tab className="col-lg-6 col-md-12">
-              <button className="theme-btn btn-style-four">
+            <Tab className="col-lg-6 col-md-12" onClick={() => handleUserType("Candidate")}>
+              <button className="theme-btn btn-style-four" >
                 <i className="la la-user"></i> Candidate
               </button>
             </Tab>
 
-            <Tab className="col-lg-6 col-md-12">
+            <Tab className="col-lg-6 col-md-12" onClick={() => handleUserType("Employer")}>
               <button className="theme-btn btn-style-four">
                 <i className="la la-briefcase"></i> Employer
               </button>
@@ -30,12 +34,12 @@ const Register = () => {
         {/* End .form-group */}
 
         <TabPanel>
-          <Form />
+          <Form user_type={user_type} />
         </TabPanel>
         {/* End cadidates Form */}
 
         <TabPanel>
-          <Form />
+          <Form user_type={user_type} />
         </TabPanel>
         {/* End Employer Form */}
       </Tabs>

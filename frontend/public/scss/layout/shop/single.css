@@ -34,9 +34,15 @@ Shop Single
   border: 1px solid #ecedf2;
   text-align: center;
   height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .product-details .image-column .image img {
@@ -104,6 +110,7 @@ Shop Single
 .product-details .basic-details .item-price del {
   font-size: 14px;
   line-height: 19px;
+  -webkit-text-decoration-line: line-through;
   text-decoration-line: line-through;
   color: #696969;
   margin-left: 10px;
@@ -184,7 +191,11 @@ Shop Single
 
 .product-details .product-meta li {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   font-size: 15px;
   line-height: 30px;
@@ -195,4 +206,5 @@ Shop Single
   display: block;
   margin-right: 10px;
   min-width: 90px;
-}/*# sourceMappingURL=single.css.map */
+}
+/*# sourceMappingURL=single.css.map */

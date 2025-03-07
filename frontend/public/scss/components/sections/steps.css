@@ -38,6 +38,7 @@ steps Section
   text-align: center;
   padding: 25px 30px 30px;
   background: #ffffff;
+  -webkit-box-shadow: 0px 40px 30px rgba(25, 25, 46, 0.04);
   box-shadow: 0px 40px 30px rgba(25, 25, 46, 0.04);
   border-radius: 8px;
 }
@@ -59,8 +60,15 @@ steps Section
 .steps-section .content-column .inner-column {
   position: relative;
   height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   padding-left: 100px;
 }
@@ -100,8 +108,14 @@ steps Section
   height: 40px;
   width: 40px;
   margin-top: -20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   font-weight: 500;
   font-size: 18px;
@@ -121,4 +135,5 @@ steps Section
   opacity: 0.2;
   border-radius: 40px;
   content: "";
-}/*# sourceMappingURL=steps.css.map */
+}
+/*# sourceMappingURL=steps.css.map */

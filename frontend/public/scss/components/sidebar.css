@@ -21,7 +21,11 @@
 
 .sidebar .btn-box {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   margin-bottom: 20px;
 }
@@ -31,19 +35,26 @@
 }
 
 .sidebar .btn-box .bookmark-btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   height: 50px;
   width: 50px;
   line-height: 50px;
   text-align: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   font-size: 16px;
   cursor: pointer;
   color: var(--primary-color);
   border-radius: 7px;
   background: rgba(25, 103, 210, 0.07);
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
   margin-left: 20px;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 50px;
   flex: 0 0 50px;
 }
 
@@ -107,9 +118,16 @@
 
 .company-widget .company-info li {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   font-weight: 500;
   font-size: 16px;
@@ -126,7 +144,11 @@
 }
 
 .company-widget .social-links {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -135,6 +157,7 @@
   line-height: 26px;
   color: #696969;
   margin-left: 17px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -155,7 +178,7 @@
 }
 
 .company-widget .btn-box .theme-btn:hover {
-  background: rgb(25, 103, 210);
+  background: #1967d2;
 }
 
 .sidebar-widget.contact-widget .theme-btn {
@@ -197,8 +220,14 @@ Job Detail Section / Style two
 
 .social-media-widget {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
@@ -207,7 +236,11 @@ Job Detail Section / Style two
 }
 
 .social-media-widget .social-links {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -216,6 +249,7 @@ Job Detail Section / Style two
   line-height: 26px;
   color: #696969;
   margin-left: 17px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -250,22 +284,33 @@ Job Detail Section / Style two
   height: 17px;
   background: #ffffff;
   border: 2px solid var(--primary-color);
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 20px;
   cursor: pointer;
 }
 
 .range-slider-one .input-outer {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   margin-top: 15px;
 }
 
 .range-slider-one .amount-outer {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   min-width: 70px;
   padding: 0 10px;
   height: 30px;
@@ -287,4 +332,5 @@ Job Detail Section / Style two
 
 .range-slider-one.salary-range .ui-state-default {
   display: block !important;
-}/*# sourceMappingURL=sidebar.css.map */
+}
+/*# sourceMappingURL=sidebar.css.map */

@@ -3,10 +3,37 @@
 Social Icons
 ==========================
 ***/
+.social-icon-one li a,
+.social-icon-two li a,
+.social-icon-three li a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.social-icon-one li a svg,
+.social-icon-two li a svg,
+.social-icon-three li a svg {
+  width: 18px;
+  height: 18px;
+}
+
 .social-icon-one {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
 }
 
@@ -26,6 +53,7 @@ Social Icons
   line-height: 43px;
   text-align: center;
   border-radius: 50%;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -36,8 +64,14 @@ Social Icons
 /* Social Icon Two*/
 .social-icon-two {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
 }
 
@@ -57,6 +91,7 @@ Social Icons
   line-height: 43px;
   text-align: center;
   border-radius: 50%;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -68,8 +103,13 @@ Social Icons
 /* Social Icon Three*/
 .social-icon-three {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
@@ -81,7 +121,11 @@ Social Icons
 
 .social-icon-three li a {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   padding-left: 65px;
   min-height: 45px;
@@ -95,11 +139,14 @@ Social Icons
   top: 0;
   font-size: 14px;
   border: 2px solid #f7f8f9;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   color: #32383d;
   height: 45px;
   width: 45px;
   line-height: 43px;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
@@ -110,8 +157,13 @@ Social Icons
 /* Social Icon Four*/
 .social-icon-four {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -124,9 +176,11 @@ Social Icons
   font-size: 13px;
   line-height: 24px;
   color: #ffffff;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 
 .social-icon-four li a:hover {
   color: #ffa737;
-}/*# sourceMappingURL=socialIcons.css.map */
+}
+/*# sourceMappingURL=socialIcons.css.map */

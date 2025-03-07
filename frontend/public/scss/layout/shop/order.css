@@ -51,8 +51,14 @@ CheckOut Page
 
 .checkout-form .coupen-outer .form-grou {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -69,6 +75,7 @@ CheckOut Page
   background-color: #ffffff;
   border-radius: 10px;
   border: 2px solid #e6e8ed;
+  -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
   margin-right: 22px;
 }
@@ -241,7 +248,7 @@ Order Slip
   display: inline-block;
   height: 80px;
   width: 80px;
-  color: rgb(25, 103, 210);
+  color: #1967d2;
   background: rgba(25, 103, 210, 0.1);
   border-radius: 50%;
   line-height: 80px;
@@ -266,20 +273,32 @@ Order Slip
 
 .order-confirmation .order-info {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   padding: 40px 40px 0;
   background: #F5F7FC;
   border-radius: 8px;
   margin-bottom: 60px;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
 .order-confirmation .order-info li {
   position: relative;
   margin-right: 40px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   font-size: 15px;
   line-height: 20px;
@@ -304,4 +323,5 @@ Order Slip
   border: 1px solid #ECEDF2;
   border-radius: 8px;
   padding: 50px 60px 60px;
-}/*# sourceMappingURL=order.css.map */
+}
+/*# sourceMappingURL=order.css.map */
