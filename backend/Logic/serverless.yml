@@ -8,13 +8,14 @@ provider:
   deploymentBucket:
     name: teacherlink-deployments-ap-south-1  # Your S3 bucket for deployments
   environment:
-    DB_HOST: inspire-edge-db.cnawwwkeyq7q.ap-south-1.rds.amazonaws.com
-    DB_USER: teacherlink_user
-    DB_PASSWORD: Inspireedge2024
-    DB_NAME: teacherlink
-    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
-    DYNAMODB_TABLE: Inspire-dynamic-data
-    S3_BUCKET: teacherlink-deployments-ap-south-1
+    DB_HOST: ${var.DB_HOST}
+    DB_USER: ${var.DB_USER}
+    DB_PASSWORD: ${var.DB_PASSWORD}
+    DB_NAME: ${var.DB_NAME}
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: ${var.AWS_NODEJS_CONNECTION_REUSE_ENABLED}
+    DYNAMODB_TABLE: ${var.DYNAMODB_TABLE}
+    S3_BUCKET: ${var.S3_BUCKET}
+    AWS_LOCATION_API_KEY: ${env:AWS_LOCATION_API_KEY}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -50,13 +51,6 @@ provider:
             - arn:aws:s3:::teacherlink
             - arn:aws:s3:::teacherlink/*
 
-        # Allow SES access
-        - Effect: Allow
-          Action:
-            - ses:SendEmail
-            - ses:SendRawEmail
-          Resource: "*"
-
         # Allow RDS connection
         - Effect: Allow
           Action:
@@ -72,8 +66,15 @@ provider:
             - logs:*
           Resource: "*"
 
+        # Allow AWS Location Service access (for geocoding / Google Maps alternative)
+        - Effect: Allow
+          Action:
+            - geo:SearchPlaceIndexForText
+          Resource: arn:aws:geo:${self:provider.region}:*:place-index/TeacherLinkPlaceIndex
+
 plugins:
   - serverless-offline
+  - serverless-dotenv-plugin
 
 custom:
   serverless-offline:
@@ -82,34 +83,43 @@ custom:
     useChildProcesses: true
 
 functions:
+  geocode:
+    handler: src/handlers/geocoding.geocodeLocation
+    events:
+      - http:
+          path: /geocode
+          method: get
+          cors: true
+      - http:
+          path: /geocode
+          method: options
+          cors: true
+
   users:
-    handler: src/handlers/users.handler
+    handler: src/handlers/users.lambdaHandler
     environment: ${file(src/env/${self:provider.stage}.yml)}
     timeout: 29
     events:
       - http:
           path: users
-          method: any
+          method: POST
+      - http:
+          path: users/{id}
+          method: GET
+      - http:
+          path: users/{id}
+          method: PUT
+      - http:
+          path: users/{id}
+          method: DELETE
 
-  institutions:
-    handler: src/handlers/Institution.handler
+  logingoogle:
+    handler: src/handlers/logingoogle.handler
     environment: ${file(src/env/${self:provider.stage}.yml)}
     timeout: 29
     events:
       - http:
-          path: institutions
-          method: any
-
-  login:
-    handler: src/handlers/login.handler
-    environment: ${file(src/env/${self:provider.stage}.yml)}
-    timeout: 29
-    events:
-      - http:
-          path: register
-          method: post
-      - http:
-          path: login
+          path: logingoogle
           method: post
 
   createOrganization:
@@ -157,22 +167,24 @@ functions:
           path: languages
           method: get
 
-  socialmedia:
-    handler: src/handlers/socialmedia.handler
+  createOTP:
+    handler: src/handlers/createOTP.createOTP
     events:
       - http:
-          path: socialmedia
+          path: otp/create
           method: post
           cors: true
+  
+  getOTP:
+    handler: src/handlers/getOTP.getOTP
+    events:
       - http:
-          path: socialmedia/{id}
-          method: get
+          path: otp/verify
+          method: post
           cors: true
-      - http:
-          path: socialmedia/{id}
-          method: put
-          cors: true
-      - http:
-          path: socialmedia/{id}
-          method: delete
-          cors: true
+
+package:
+  exclude:
+    - test/**
+    - .git/**
+    - README.md
