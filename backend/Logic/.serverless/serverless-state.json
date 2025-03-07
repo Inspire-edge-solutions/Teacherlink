@@ -33,11 +33,13 @@
             "dynamodb:Query",
             "s3:PutObject",
             "s3:GetObject",
-            "s3:DeleteObject"
+            "s3:DeleteObject",
+            "geo:SearchPlaceIndexForText"
           ],
           "Resource": [
             "arn:aws:dynamodb:ap-south-1:*:table/${var.DYNAMODB_TABLE}",
-            "arn:aws:s3:::${var.S3_BUCKET}/*"
+            "arn:aws:s3:::${var.S3_BUCKET}/*",
+            "arn:aws:geo:ap-south-1:*:place-index/TeacherLinkPlaceIndex"
           ]
         }
       ],
@@ -250,7 +252,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1741325771691-2025-03-07T05:36:11.691Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1741346567660-2025-03-07T11:22:47.660Z/teacher-link.zip"
               },
               "Handler": "src/handlers/geocoding.geocodeLocation",
               "Runtime": "nodejs18.x",
@@ -286,7 +288,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1741325771691-2025-03-07T05:36:11.691Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1741346567660-2025-03-07T11:22:47.660Z/teacher-link.zip"
               },
               "Handler": "src/handlers/users.lambdaHandler",
               "Runtime": "nodejs18.x",
@@ -322,7 +324,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1741325771691-2025-03-07T05:36:11.691Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1741346567660-2025-03-07T11:22:47.660Z/teacher-link.zip"
               },
               "Handler": "src/handlers/logingoogle.handler",
               "Runtime": "nodejs18.x",
@@ -358,7 +360,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1741325771691-2025-03-07T05:36:11.691Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1741346567660-2025-03-07T11:22:47.660Z/teacher-link.zip"
               },
               "Handler": "src/handlers/organization.handler",
               "Runtime": "nodejs18.x",
@@ -394,7 +396,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1741325771691-2025-03-07T05:36:11.691Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1741346567660-2025-03-07T11:22:47.660Z/teacher-link.zip"
               },
               "Handler": "src/handlers/handler.handler",
               "Runtime": "nodejs18.x",
@@ -430,7 +432,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1741325771691-2025-03-07T05:36:11.691Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1741346567660-2025-03-07T11:22:47.660Z/teacher-link.zip"
               },
               "Handler": "src/handlers/Education.handler",
               "Runtime": "nodejs18.x",
@@ -466,7 +468,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1741325771691-2025-03-07T05:36:11.691Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1741346567660-2025-03-07T11:22:47.660Z/teacher-link.zip"
               },
               "Handler": "src/handlers/languages.handler",
               "Runtime": "nodejs18.x",
@@ -502,7 +504,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1741325771691-2025-03-07T05:36:11.691Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1741346567660-2025-03-07T11:22:47.660Z/teacher-link.zip"
               },
               "Handler": "src/handlers/createOTP.createOTP",
               "Runtime": "nodejs18.x",
@@ -538,7 +540,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "teacherlink-deployments-ap-south-1",
-                "S3Key": "serverless/teacher-link/staging/1741325771691-2025-03-07T05:36:11.691Z/teacher-link.zip"
+                "S3Key": "serverless/teacher-link/staging/1741346567660-2025-03-07T11:22:47.660Z/teacher-link.zip"
               },
               "Handler": "src/handlers/getOTP.getOTP",
               "Runtime": "nodejs18.x",
@@ -569,94 +571,94 @@
               "GetOTPLogGroup"
             ]
           },
-          "GeocodeLambdaVersion8yV8nj9nEvy8KmNqY6bb6PuqehqEU0vqGaFJHxjzM": {
+          "GeocodeLambdaVersionWA8PIYYWg3EdTiDLHE3XnyfgywWSmRGc374FLGjiLgQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GeocodeLambdaFunction"
               },
-              "CodeSha256": "R9D3MyjiuTIIMSFJ6CvxMZwLXt3yaFyX/I5TnsBjYmU="
+              "CodeSha256": "dUiTyMT4NFH+2AgbU//2Ny5s/GPK1OmyYtsGKHVNdPs="
             }
           },
-          "UsersLambdaVersionde4gTUKODHNEU0hAOdHi4z9i7LmwaGAMxtg6TVUCE": {
+          "UsersLambdaVersionXW8yz14c4wbgbrS8lkkIdnwDpLzEhSmx8DNeFbnWNA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UsersLambdaFunction"
               },
-              "CodeSha256": "R9D3MyjiuTIIMSFJ6CvxMZwLXt3yaFyX/I5TnsBjYmU="
+              "CodeSha256": "dUiTyMT4NFH+2AgbU//2Ny5s/GPK1OmyYtsGKHVNdPs="
             }
           },
-          "LogingoogleLambdaVersion9jdLaoQrBZp6JVZumO1yEHCE6CiOZIfu7YzBoOgjQ": {
+          "LogingoogleLambdaVersioniqXIBUFQdHnnpSnxBhy3E4U9NQIF4tJ8Z2LARU8krs": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "LogingoogleLambdaFunction"
               },
-              "CodeSha256": "R9D3MyjiuTIIMSFJ6CvxMZwLXt3yaFyX/I5TnsBjYmU="
+              "CodeSha256": "dUiTyMT4NFH+2AgbU//2Ny5s/GPK1OmyYtsGKHVNdPs="
             }
           },
-          "CreateOrganizationLambdaVersionbMnnXKNFt6bBxzfMh4ID4C8hT27Tb6JQ3Fxs8s09yU": {
+          "CreateOrganizationLambdaVersionOYSJ9JcYVSAp21pkbb24Tha5tRXtKBCQACoKGIzcB8": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateOrganizationLambdaFunction"
               },
-              "CodeSha256": "R9D3MyjiuTIIMSFJ6CvxMZwLXt3yaFyX/I5TnsBjYmU="
+              "CodeSha256": "dUiTyMT4NFH+2AgbU//2Ny5s/GPK1OmyYtsGKHVNdPs="
             }
           },
-          "DesignationdataLambdaVersionjXiDaUhkP6nh09W04KyqOrlZYUt9GWxD58VX524EhiE": {
+          "DesignationdataLambdaVersionjF48vXZKEuHmIcizguoOLbjVd8CxC2IvUAQGtfphFY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "DesignationdataLambdaFunction"
               },
-              "CodeSha256": "R9D3MyjiuTIIMSFJ6CvxMZwLXt3yaFyX/I5TnsBjYmU="
+              "CodeSha256": "dUiTyMT4NFH+2AgbU//2Ny5s/GPK1OmyYtsGKHVNdPs="
             }
           },
-          "EducationdataLambdaVersionTAJ3mIZBoNLaBix9aXyjzDnmEQqZ1i4wU0QXOCeIk": {
+          "EducationdataLambdaVersion1leTpHrXKhbQAgQbDU6o3XyVoSLUg1He8pvh7qbw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "EducationdataLambdaFunction"
               },
-              "CodeSha256": "R9D3MyjiuTIIMSFJ6CvxMZwLXt3yaFyX/I5TnsBjYmU="
+              "CodeSha256": "dUiTyMT4NFH+2AgbU//2Ny5s/GPK1OmyYtsGKHVNdPs="
             }
           },
-          "LanguagesdataLambdaVersionAuVutS0DsFw5XwgU1vyWoDzy5jyL4LhajW0U62cnc": {
+          "LanguagesdataLambdaVersionlLFKwhG9ma0wlswF3UHioRPAFICHsAnL2mnXZLxbQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "LanguagesdataLambdaFunction"
               },
-              "CodeSha256": "R9D3MyjiuTIIMSFJ6CvxMZwLXt3yaFyX/I5TnsBjYmU="
+              "CodeSha256": "dUiTyMT4NFH+2AgbU//2Ny5s/GPK1OmyYtsGKHVNdPs="
             }
           },
-          "CreateOTPLambdaVersionWhhFE0Xh6Sc884qDN5EK6kg7NnMhHChvtfZeUhCy4": {
+          "CreateOTPLambdaVersionrLcvrSLBkkQCX8mRk1CcfZCZ5Gff3Z20idneoemkTU": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateOTPLambdaFunction"
               },
-              "CodeSha256": "R9D3MyjiuTIIMSFJ6CvxMZwLXt3yaFyX/I5TnsBjYmU="
+              "CodeSha256": "dUiTyMT4NFH+2AgbU//2Ny5s/GPK1OmyYtsGKHVNdPs="
             }
           },
-          "GetOTPLambdaVersion8KewZ24QuszyFbeelf6iYnqwUPBg1YgMXm8YNUsI": {
+          "GetOTPLambdaVersionWtrTM2LVKecCVl8RMQmEXUFTZlOowYVw73mG61hKY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetOTPLambdaFunction"
               },
-              "CodeSha256": "R9D3MyjiuTIIMSFJ6CvxMZwLXt3yaFyX/I5TnsBjYmU="
+              "CodeSha256": "dUiTyMT4NFH+2AgbU//2Ny5s/GPK1OmyYtsGKHVNdPs="
             }
           },
           "ApiGatewayRestApi": {
@@ -1827,7 +1829,7 @@
               "GetOTPLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1741325722794": {
+          "ApiGatewayDeployment1741346514646": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -2204,7 +2206,7 @@
           "GeocodeLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GeocodeLambdaVersion8yV8nj9nEvy8KmNqY6bb6PuqehqEU0vqGaFJHxjzM"
+              "Ref": "GeocodeLambdaVersionWA8PIYYWg3EdTiDLHE3XnyfgywWSmRGc374FLGjiLgQ"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-GeocodeLambdaFunctionQualifiedArn"
@@ -2213,7 +2215,7 @@
           "UsersLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UsersLambdaVersionde4gTUKODHNEU0hAOdHi4z9i7LmwaGAMxtg6TVUCE"
+              "Ref": "UsersLambdaVersionXW8yz14c4wbgbrS8lkkIdnwDpLzEhSmx8DNeFbnWNA"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-UsersLambdaFunctionQualifiedArn"
@@ -2222,7 +2224,7 @@
           "LogingoogleLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "LogingoogleLambdaVersion9jdLaoQrBZp6JVZumO1yEHCE6CiOZIfu7YzBoOgjQ"
+              "Ref": "LogingoogleLambdaVersioniqXIBUFQdHnnpSnxBhy3E4U9NQIF4tJ8Z2LARU8krs"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-LogingoogleLambdaFunctionQualifiedArn"
@@ -2231,7 +2233,7 @@
           "CreateOrganizationLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateOrganizationLambdaVersionbMnnXKNFt6bBxzfMh4ID4C8hT27Tb6JQ3Fxs8s09yU"
+              "Ref": "CreateOrganizationLambdaVersionOYSJ9JcYVSAp21pkbb24Tha5tRXtKBCQACoKGIzcB8"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-CreateOrganizationLambdaFunctionQualifiedArn"
@@ -2240,7 +2242,7 @@
           "DesignationdataLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "DesignationdataLambdaVersionjXiDaUhkP6nh09W04KyqOrlZYUt9GWxD58VX524EhiE"
+              "Ref": "DesignationdataLambdaVersionjF48vXZKEuHmIcizguoOLbjVd8CxC2IvUAQGtfphFY"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-DesignationdataLambdaFunctionQualifiedArn"
@@ -2249,7 +2251,7 @@
           "EducationdataLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "EducationdataLambdaVersionTAJ3mIZBoNLaBix9aXyjzDnmEQqZ1i4wU0QXOCeIk"
+              "Ref": "EducationdataLambdaVersion1leTpHrXKhbQAgQbDU6o3XyVoSLUg1He8pvh7qbw"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-EducationdataLambdaFunctionQualifiedArn"
@@ -2258,7 +2260,7 @@
           "LanguagesdataLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "LanguagesdataLambdaVersionAuVutS0DsFw5XwgU1vyWoDzy5jyL4LhajW0U62cnc"
+              "Ref": "LanguagesdataLambdaVersionlLFKwhG9ma0wlswF3UHioRPAFICHsAnL2mnXZLxbQ"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-LanguagesdataLambdaFunctionQualifiedArn"
@@ -2267,7 +2269,7 @@
           "CreateOTPLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateOTPLambdaVersionWhhFE0Xh6Sc884qDN5EK6kg7NnMhHChvtfZeUhCy4"
+              "Ref": "CreateOTPLambdaVersionrLcvrSLBkkQCX8mRk1CcfZCZ5Gff3Z20idneoemkTU"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-CreateOTPLambdaFunctionQualifiedArn"
@@ -2276,7 +2278,7 @@
           "GetOTPLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetOTPLambdaVersion8KewZ24QuszyFbeelf6iYnqwUPBg1YgMXm8YNUsI"
+              "Ref": "GetOTPLambdaVersionWtrTM2LVKecCVl8RMQmEXUFTZlOowYVw73mG61hKY"
             },
             "Export": {
               "Name": "sls-teacher-link-staging-GetOTPLambdaFunctionQualifiedArn"
@@ -2383,7 +2385,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "GeocodeLambdaVersion8yV8nj9nEvy8KmNqY6bb6PuqehqEU0vqGaFJHxjzM"
+        "versionLogicalId": "GeocodeLambdaVersionWA8PIYYWg3EdTiDLHE3XnyfgywWSmRGc374FLGjiLgQ"
       },
       "users": {
         "handler": "src/handlers/users.lambdaHandler",
@@ -2427,7 +2429,7 @@
         "memory": 1024,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "UsersLambdaVersionde4gTUKODHNEU0hAOdHi4z9i7LmwaGAMxtg6TVUCE"
+        "versionLogicalId": "UsersLambdaVersionXW8yz14c4wbgbrS8lkkIdnwDpLzEhSmx8DNeFbnWNA"
       },
       "logingoogle": {
         "handler": "src/handlers/logingoogle.handler",
@@ -2450,7 +2452,7 @@
         "memory": 1024,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "LogingoogleLambdaVersion9jdLaoQrBZp6JVZumO1yEHCE6CiOZIfu7YzBoOgjQ"
+        "versionLogicalId": "LogingoogleLambdaVersioniqXIBUFQdHnnpSnxBhy3E4U9NQIF4tJ8Z2LARU8krs"
       },
       "createOrganization": {
         "handler": "src/handlers/organization.handler",
@@ -2562,7 +2564,7 @@
         "memory": 1024,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "CreateOrganizationLambdaVersionbMnnXKNFt6bBxzfMh4ID4C8hT27Tb6JQ3Fxs8s09yU"
+        "versionLogicalId": "CreateOrganizationLambdaVersionOYSJ9JcYVSAp21pkbb24Tha5tRXtKBCQACoKGIzcB8"
       },
       "Designationdata": {
         "handler": "src/handlers/handler.handler",
@@ -2598,7 +2600,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "DesignationdataLambdaVersionjXiDaUhkP6nh09W04KyqOrlZYUt9GWxD58VX524EhiE"
+        "versionLogicalId": "DesignationdataLambdaVersionjF48vXZKEuHmIcizguoOLbjVd8CxC2IvUAQGtfphFY"
       },
       "Educationdata": {
         "handler": "src/handlers/Education.handler",
@@ -2617,7 +2619,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "EducationdataLambdaVersionTAJ3mIZBoNLaBix9aXyjzDnmEQqZ1i4wU0QXOCeIk"
+        "versionLogicalId": "EducationdataLambdaVersion1leTpHrXKhbQAgQbDU6o3XyVoSLUg1He8pvh7qbw"
       },
       "Languagesdata": {
         "handler": "src/handlers/languages.handler",
@@ -2636,7 +2638,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "LanguagesdataLambdaVersionAuVutS0DsFw5XwgU1vyWoDzy5jyL4LhajW0U62cnc"
+        "versionLogicalId": "LanguagesdataLambdaVersionlLFKwhG9ma0wlswF3UHioRPAFICHsAnL2mnXZLxbQ"
       },
       "createOTP": {
         "handler": "src/handlers/createOTP.createOTP",
@@ -2672,7 +2674,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "CreateOTPLambdaVersionWhhFE0Xh6Sc884qDN5EK6kg7NnMhHChvtfZeUhCy4"
+        "versionLogicalId": "CreateOTPLambdaVersionrLcvrSLBkkQCX8mRk1CcfZCZ5Gff3Z20idneoemkTU"
       },
       "getOTP": {
         "handler": "src/handlers/getOTP.getOTP",
@@ -2708,7 +2710,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "GetOTPLambdaVersion8KewZ24QuszyFbeelf6iYnqwUPBg1YgMXm8YNUsI"
+        "versionLogicalId": "GetOTPLambdaVersionWtrTM2LVKecCVl8RMQmEXUFTZlOowYVw73mG61hKY"
       }
     },
     "configValidationMode": "warn",
@@ -2735,17 +2737,17 @@
         ],
         "artifactsS3KeyDirname": "serverless/teacher-link/staging/code-artifacts",
         "deploymentBucket": "teacherlink-deployments-ap-south-1",
-        "artifact": "C:\\Users\\DELL\\Desktop\\Teacherlink\\backend\\Logic\\.serverless\\teacher-link.zip",
-        "artifactDirectoryName": "serverless/teacher-link/staging/1741325771691-2025-03-07T05:36:11.691Z"
+        "artifact": "C:\\Users\\DELL\\Desktop\\Teacherlink\\backend\\logic\\.serverless\\teacher-link.zip",
+        "artifactDirectoryName": "serverless/teacher-link/staging/1741346567660-2025-03-07T11:22:47.660Z"
       }
     },
     "appId": null,
     "orgId": null,
     "layers": {},
-    "artifact": "C:\\Users\\DELL\\Desktop\\Teacherlink\\backend\\Logic\\.serverless\\teacher-link.zip"
+    "artifact": "C:\\Users\\DELL\\Desktop\\Teacherlink\\backend\\logic\\.serverless\\teacher-link.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/teacher-link/staging/1741325771691-2025-03-07T05:36:11.691Z",
+    "artifactDirectoryName": "serverless/teacher-link/staging/1741346567660-2025-03-07T11:22:47.660Z",
     "artifact": "teacher-link.zip"
   }
 }
