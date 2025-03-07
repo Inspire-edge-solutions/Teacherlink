@@ -1,7 +1,6 @@
 import OrgDetails from "./OrgDetails";
 import LogoCoverUploader from "./LogoCoverUploader";
 import ContactInfoBox from "../ContactInfoBox";
-import SocialNetworkBox from "../SocialNetworkBox";
 
 const FormInfoBox = () => {
 
@@ -10,7 +9,7 @@ const FormInfoBox = () => {
             <div className="row">
                 <LogoCoverUploader />
                 <OrgDetails />
-                <SocialNetworkBox />
+                {/* <SocialNetworkBox /> */}
                 <ContactInfoBox />
                
                 {/* <div className="form-group col-lg-6 col-md-12">

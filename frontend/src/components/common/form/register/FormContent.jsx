@@ -143,7 +143,7 @@ const FormContent = () => {
           headers: {
             "Content-Type": "application/json",
           }
-        );
+        });
   
         // Handle success
         if (response.status === 200) {
@@ -161,7 +161,7 @@ const FormContent = () => {
   };
 
   return (
-    <form onSubmit={handleRegister}>
+    <form onSubmit={handleRegister}>sddfsdfsdf
       <div className="form-group">
         <label>Name :</label>
         <input
