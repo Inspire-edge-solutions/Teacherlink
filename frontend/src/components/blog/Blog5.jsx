@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import blogContent from "../../data/blogs";
-
+import { BsArrowRight } from 'react-icons/bs';
 const Blog5 = () => {
   return (
     <>
@@ -22,7 +22,7 @@ const Blog5 = () => {
               <div>12 Comment</div>
               <Link to={`/blog-details/${item.id}`} className="button -arrow">
                 Read More
-                <span className="fa fa-angle-right"></span>
+                <span className="icon"><BsArrowRight /></span>
               </Link>
             </div>
           </div>

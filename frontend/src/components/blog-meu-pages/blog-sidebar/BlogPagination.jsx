@@ -1,10 +1,12 @@
+import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
+
 const BlogPagination = () => {
   return (
     <nav className="ls-pagination">
       <ul>
         <li className="prev">
           <a href="#">
-            <i className="fa fa-arrow-left"></i>
+            <i className="icon"><BsArrowLeft /></i>
           </a>
         </li>
         {/* End li */}
@@ -28,7 +30,7 @@ const BlogPagination = () => {
 
         <li className="next">
           <a href="#">
-            <i className="fa fa-arrow-right"></i>
+            <i className="icon"><BsArrowRight /></i>
           </a>
         </li>
       </ul>

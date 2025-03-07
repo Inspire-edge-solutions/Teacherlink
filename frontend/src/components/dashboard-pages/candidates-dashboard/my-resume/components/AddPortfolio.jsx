@@ -1,3 +1,5 @@
+import { BsCloudUpload } from 'react-icons/bs';
+
 const AddPortfolio = () => {
   return (
     <div className="uploading-outer">
@@ -11,6 +13,7 @@ const AddPortfolio = () => {
           multiple
         />
         <label className="uploadButton-button ripple-effect" htmlFor="upload">
+          <span className="icon"><BsCloudUpload /></span>
           Add Portfolio
         </label>
         <span className="uploadButton-file-name"></span>

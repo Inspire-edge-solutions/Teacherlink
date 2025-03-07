@@ -82,11 +82,10 @@
   line-height: 22px;
 }
 
-.uploadButton .uploadButton-button:before {
-  font-family: "Flaticon";
-  content: "\f15c";
+.uploadButton .uploadButton-button .icon {
   color: #9fa9b8;
   font-size: 20px;
+  margin-bottom: 10px;
   -webkit-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;

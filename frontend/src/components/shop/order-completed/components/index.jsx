@@ -1,11 +1,12 @@
 import OrderInfo from "./OrderInfo";
 import OrderTable from "./OrderTable";
+import { BsCheck } from 'react-icons/bs';
 
 const index = () => {
   return (
     <>
       <div className="upper-box">
-        <span className="icon fa fa-check"></span>
+        <span className="icon"><BsCheck /></span>
         <h4>Your order is completed!</h4>
         <div className="text">Thank you. Your order has been received.</div>
       </div>

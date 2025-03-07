@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-
+import { BsFileEarmarkArrowUp } from 'react-icons/bs';
 const Subscribe2 = () => {
   return (
     <section className="subscribe-section-two -type-4">
@@ -28,7 +28,7 @@ const Subscribe2 = () => {
                   to="/candidates-dashboard/cv-manager"
                   className="btn-cv"
                 >
-                  <i className="icon fa fa-file-upload"></i>
+                  <i className="icon"><BsFileEarmarkArrowUp /></i>
                   Upload Your CV
                 </Link>
               </div>

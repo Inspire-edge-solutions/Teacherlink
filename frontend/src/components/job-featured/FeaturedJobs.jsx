@@ -1,7 +1,8 @@
-
 import { Link } from 'react-router-dom'
 import JobFeaturedFilter from './JobFeaturedFilter'
 import { useState } from 'react'
+import { BsChevronDown } from 'react-icons/bs'
+
 const categories = [
     "Residential",
     "Commercial",
@@ -22,7 +23,7 @@ export default function FeaturedJobs() {
         </div>
 
         <div className="select-box-outer">
-          <span className="icon fa fa-angle-down"></span>
+          <span className="icon"><BsChevronDown /></span>
             <select onChange={(e)=>setCurrentCategory(e.target.value)} >
                 <option value="">All Categories</option>
                 {categories.map((elm , i )=><option key={i} value={elm}>{elm}</option>)}

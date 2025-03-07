@@ -220,7 +220,7 @@ const ForgetPassword = () => {
                         One number
                       </li>
                       <li style={{ color: passwordValidation.special ? 'green' : 'red' }}>
-                        One special character
+                        One special character (!@#$%^&*)
                       </li>
                     </ul>
                   </Form.Text>

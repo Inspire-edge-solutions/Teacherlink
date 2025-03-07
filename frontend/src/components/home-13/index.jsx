@@ -12,6 +12,7 @@ import JobFeatured9 from "../job-featured/JobFeatured9";
 import Pricing3 from "../pricing/Pricing3";
 import TopCompany from "../top-company/TopCompany";
 import Header from "./Header";
+import { BsChevronRight } from 'react-icons/bs';
 
 const index = () => {
   return (
@@ -52,7 +53,7 @@ const index = () => {
             <div className="col-auto">
               <a href="#" className="button-icon -arrow text-dark-blue">
                 Browse All
-                <span className="fa fa-angle-right ms-1"></span>
+                <span className="ms-1"><BsChevronRight /></span>
               </a>
             </div>
           </div>
@@ -128,14 +129,13 @@ const index = () => {
                   Some of the companies we have helped recruit excellent
                   applicants over the years.
                 </div>
-              </div>
-            </div> */}
+              </div> */}
             
 
             {/* <div className="col-auto">
               <a href="#" className="button -arrow text-dark-blue">
                 Browse
-                <span className="fa fa-angle-right ms-1"></span>
+                <span className="icon"><BsArrowRight /></span>
               </a>
             </div>
           </div> */}
@@ -155,7 +155,7 @@ const index = () => {
           <div className="row justify-content-center">
             <div className="col-lg-6">
               <div className="sec-title -type-2 text-center">
-                <h2>Choose a plan that’s right for you.</h2>
+                <h2>Choose a plan that's right for you.</h2>
                 <div className="text">
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna

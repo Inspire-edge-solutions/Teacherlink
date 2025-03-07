@@ -1,7 +1,5 @@
-
-
-
 import { useState } from "react";
+import { BsCloudUpload } from 'react-icons/bs';
 
 // validation chaching
 function checkFileTypes(files) {
@@ -61,6 +59,7 @@ const CvUploader = () => {
                         onChange={cvManagerHandler}
                     />
                     <label className="cv-uploadButton" htmlFor="upload">
+                        <span className="icon"><BsCloudUpload /></span>
                         <span className="title">Drop files here to upload</span>
                         <span className="text">
                             To upload file size is (Max 5Mb) and allowed file

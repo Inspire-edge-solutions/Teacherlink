@@ -1,7 +1,5 @@
-
-
-
 import { useEffect, useState } from "react";
+import { BsArrowUp } from 'react-icons/bs';
 
 export default function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
@@ -35,7 +33,7 @@ export default function ScrollToTop() {
       {isVisible && (
         <>
           <div className="scroll-to-top scroll-to-target" onClick={scrollToTop}>
-            <span className="fa fa-angle-up"></span>
+            <span><BsArrowUp /></span>
           </div>
         </>
       )}
