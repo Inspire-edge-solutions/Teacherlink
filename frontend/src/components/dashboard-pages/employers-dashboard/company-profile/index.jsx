@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import MobileMenu from "../../../header/MobileMenu";
 import DashboardHeader from "../../../header/DashboardHeader";
 import LoginPopup from "../../../common/form/login/LoginPopup";
@@ -6,8 +7,11 @@ import BreadCrumb from "../../BreadCrumb";
 import MyProfile from "./components/my-profile";
 import CopyrightFooter from "../../CopyrightFooter";
 import MenuToggler from "../../MenuToggler";
+import ViewProfile from "./components/my-profile/ViewProfile";
 
-const index = () => {
+const Index = () => {
+    const [showProfile, setShowProfile] = useState(false);
+
     return (
         <div className="page-wrapper dashboard">
             <span className="header-span"></span>
@@ -39,9 +43,24 @@ const index = () => {
                             <div className="ls-widget">
                                 <div className="widget-title d-flex justify-content-between">
                                     <h4>Profile Details</h4>
-                                    <button className="theme-btn btn-style-two">view profile</button>
+                                    {showProfile ? (
+                                        <button 
+                                            className="theme-btn btn-style-two" 
+                                            onClick={() => setShowProfile(false)}
+                                            style={{ marginBottom: "20px" }}
+                                        >
+                                            Back to Dashboard
+                                        </button>
+                                    ) : (
+                                        <button 
+                                            className="theme-btn btn-style-two"
+                                            onClick={() => setShowProfile(true)}
+                                        >
+                                            view profile
+                                        </button>
+                                    )}
                                 </div>
-                                <MyProfile />
+                                {showProfile ? <ViewProfile /> : <MyProfile />}
                             </div> 
                         </div>
                     </div>
@@ -57,4 +76,4 @@ const index = () => {
     );
 };
 
-export default index;
+export default Index;

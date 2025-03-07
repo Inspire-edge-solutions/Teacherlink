@@ -49,11 +49,6 @@ const FormInfoBox = () => {
     setFormData((prev) => ({ ...prev, ...data }));
   };
 
-  // Handler for changes from SocialNetworkBox component.
-  const handleSocialChange = (data) => {
-    setFormData((prev) => ({ ...prev, social: data }));
-  };
-
   // Handler for changes from LogoCoverUploader component.
   const handleImagesChange = (imagesData) => {
     setFormData((prev) => ({ ...prev, images: imagesData }));
