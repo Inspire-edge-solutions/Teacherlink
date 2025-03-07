@@ -15,7 +15,7 @@ import {
   addSort,
 } from "../../../features/filter/employerFilterSlice";
 import { useDispatch, useSelector } from "react-redux";
-
+import { BsBookmark, BsGeoAltFill, BsBriefcase } from "react-icons/bs";
 
 const FilterTopBox = () => {
   const {
@@ -91,11 +91,11 @@ const FilterTopBox = () => {
               </h4>
               <ul className="job-info">
                 <li>
-                  <span className="icon flaticon-map-locator"></span>{" "}
+                  <span className="icon"><BsGeoAltFill /></span>{" "}
                   {company.location}
                 </li>
                 <li>
-                  <span className="icon flaticon-briefcase"></span>{" "}
+                  <span className="icon"><BsBriefcase /></span>{" "}
                   {company.jobType}
                 </li>
               </ul>
@@ -107,7 +107,7 @@ const FilterTopBox = () => {
           </div>
 
           <button className="bookmark-btn">
-            <span className="flaticon-bookmark"></span>
+            <span className="icon"><BsBookmark /></span>
           </button>
         </div>
       </div>

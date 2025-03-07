@@ -1,3 +1,5 @@
+import { BsTrash } from "react-icons/bs";
+
 const AlertDataTable = () => {
   return (
     <table className="default-table manage-job-table">
@@ -23,7 +25,7 @@ const AlertDataTable = () => {
           <td>Weekly</td>
           <td>
             <button>
-              <i className="la la-trash colored"></i>
+              <i className="icon"><BsTrash /></i>
             </button>
           </td>
         </tr>
@@ -39,7 +41,7 @@ const AlertDataTable = () => {
           <td>Weekly</td>
           <td>
             <button>
-              <i className="la la-trash colored"></i>
+                <i className="icon"><BsTrash /></i>
             </button>
           </td>
         </tr>
@@ -55,7 +57,7 @@ const AlertDataTable = () => {
           <td>Weekly</td>
           <td>
             <button>
-              <i className="la la-trash colored"></i>
+                  <i className="icon"><BsTrash /></i>
             </button>
           </td>
         </tr>
@@ -71,7 +73,7 @@ const AlertDataTable = () => {
           <td>Weekly</td>
           <td>
             <button>
-              <i className="la la-trash colored"></i>
+                  <i className="icon"><BsTrash /></i>
             </button>
           </td>
         </tr>
@@ -87,7 +89,7 @@ const AlertDataTable = () => {
           <td>Weekly</td>
           <td>
             <button>
-              <i className="la la-trash colored"></i>
+            <i className="icon"><BsTrash /></i>
             </button>
           </td>
         </tr>
@@ -103,7 +105,7 @@ const AlertDataTable = () => {
           <td>Weekly</td>
           <td>
             <button>
-              <i className="la la-trash colored"></i>
+              <i className="icon"><BsTrash /></i>
             </button>
           </td>
         </tr>

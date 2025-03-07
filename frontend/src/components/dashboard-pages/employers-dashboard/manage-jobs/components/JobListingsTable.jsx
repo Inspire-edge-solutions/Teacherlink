@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import jobs from "../../../../../data/job-featured.js";
-
+import { BsBriefcase, BsGeoAltFill, BsEye, BsPencil, BsTrash } from "react-icons/bs"; 
 
 const JobListingsTable = () => {
   return (
@@ -57,11 +57,11 @@ const JobListingsTable = () => {
                           </h4>
                           <ul className="job-info">
                             <li>
-                              <span className="icon flaticon-briefcase"></span>
+                              <span className="icon"><BsBriefcase /></span>
                               Segment
                             </li>
                             <li>
-                              <span className="icon flaticon-map-locator"></span>
+                              <span className="icon"><BsGeoAltFill /></span>
                               London, UK
                             </li>
                           </ul>
@@ -82,17 +82,17 @@ const JobListingsTable = () => {
                       <ul className="option-list">
                         <li>
                           <button data-text="View Aplication">
-                            <span className="la la-eye"></span>
+                            <span className="icon"><BsEye /></span>
                           </button>
                         </li>
                         <li>
                           <button data-text="Reject Aplication">
-                            <span className="la la-pencil"></span>
+                            <span className="icon"><BsPencil /></span>
                           </button>
                         </li>
                         <li>
                           <button data-text="Delete Aplication">
-                            <span className="la la-trash"></span>
+                            <span className="icon"><BsTrash /></span>
                           </button>
                         </li>
                       </ul>

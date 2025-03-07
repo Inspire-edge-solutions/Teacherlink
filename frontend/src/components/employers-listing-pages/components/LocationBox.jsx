@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addLocation } from "../../../features/filter/employerFilterSlice";
-
+import { BsGeoAltFill } from "react-icons/bs";
 const LocationBox = () => {
     const { location } = useSelector((state) => state.employerFilter);
     const [getLocation, setLocation] = useState(location);
@@ -28,7 +28,7 @@ const LocationBox = () => {
                 value={getLocation}
                 onChange={locationHandler}
             />
-            <span className="icon flaticon-map-locator"></span>
+            <span className="icon"><BsGeoAltFill /></span>
         </>
     );
 };

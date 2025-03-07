@@ -1,3 +1,4 @@
+import { BsApple, BsGooglePlay } from "react-icons/bs";
 const FooterApps = () => {
   return (
     <div className="widget-content">
@@ -5,7 +6,7 @@ const FooterApps = () => {
         <div className="text">Click and Get started in seconds</div>
         <a href="#" className="app-btn">
           <div className="app-icon">
-            <i className="fab fa-apple"></i>
+              <i className="icon"><BsApple /></i>
           </div>
           <div className="inner">
             <div className="sub">Download on the</div>
@@ -14,7 +15,7 @@ const FooterApps = () => {
         </a>
         <a href="#" className="app-btn">
           <div className="app-icon">
-            <i className="fab fa-apple"></i>
+            <i className="icon"><BsGooglePlay /></i>
           </div>
           <div className="inner">
             <div className="sub">Get in on</div>

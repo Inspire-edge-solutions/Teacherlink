@@ -1,10 +1,12 @@
+import { BsPlus, BsPencil, BsTrash } from "react-icons/bs";
+
 const Experiences = () => {
   return (
     <div className="resume-outer theme-blue">
       <div className="upper-title">
         <h4>Work & Experience</h4>
         <button className="add-info-btn">
-          <span className="icon flaticon-plus"></span> Add Work
+          <span className="icon"><BsPlus /></span> Add Work
         </button>
       </div>
       {/* <!-- Resume BLock --> */}
@@ -20,10 +22,10 @@ const Experiences = () => {
               <span className="year">2012 - 2014</span>
               <div className="edit-btns">
                 <button>
-                  <span className="la la-pencil"></span>
+                  <span className="icon"><BsPencil /></span>
                 </button>
                 <button>
-                  <span className="la la-trash"></span>
+                  <span className="icon"><BsTrash /></span>
                 </button>
               </div>
             </div>
@@ -49,10 +51,10 @@ const Experiences = () => {
               <span className="year">2012 - 2014</span>
               <div className="edit-btns">
                 <button>
-                  <span className="la la-pencil"></span>
+                  <span className="icon"><BsPencil /></span>
                 </button>
                 <button>
-                  <span className="la la-trash"></span>
+                  <span className="icon"><BsTrash /></span>
                 </button>
               </div>
             </div>

@@ -15,7 +15,7 @@ import {
   addPerPage,
   addSort,
 } from "../../../features/filter/employerFilterSlice";
-
+import { BsBookmark, BsGeoAltFill, BsBriefcase } from "react-icons/bs";  
 
 const FilterTopBox = () => {
   const {
@@ -76,7 +76,7 @@ const FilterTopBox = () => {
       >
         <div className="inner-box">
           <button className="bookmark-btn">
-            <span className="flaticon-bookmark"></span>
+            <span className="icon"><BsBookmark /></span>
           </button>
 
           <div className="content-inner">
@@ -95,11 +95,11 @@ const FilterTopBox = () => {
             </h4>
             <ul className="job-info flex-column">
               <li className="me-0">
-                <span className="icon flaticon-map-locator"></span>
+                <span className="icon"><BsGeoAltFill /></span>
                 {company.location}
               </li>
               <li className="me-0">
-                <span className="icon flaticon-briefcase"></span>
+                <span className="icon"><BsBriefcase /></span>
                 {company.jobType}
               </li>
             </ul>

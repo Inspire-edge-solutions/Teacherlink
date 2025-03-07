@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addKeyword } from "../../../features/filter/employerFilterSlice";
-
+import { BsSearch } from "react-icons/bs";
 const SearchBox = () => {
     const { keyword } = useSelector((state) => state.employerFilter);
     const [getKeyWord, setkeyWord] = useState(keyword);
@@ -28,7 +28,7 @@ const SearchBox = () => {
                 value={getKeyWord}
                 onChange={keywordHandler}
             />
-            <span className="icon flaticon-search-3"></span>
+            <span className="icon"><BsSearch /></span>
         </>
     );
 };

@@ -1,9 +1,11 @@
+import { BsFacebook, BsTwitter, BsInstagram, BsLinkedin } from "react-icons/bs";
+
 const Social = () => {
   const socialContent = [
-    { id: 1, icon: "fa-facebook-f", link: "https://www.facebook.com/" },
-    { id: 2, icon: "fa-twitter", link: "https://www.twitter.com/" },
-    { id: 3, icon: "fa-instagram", link: "https://www.instagram.com/" },
-    { id: 4, icon: "fa-linkedin-in", link: "https://www.linkedin.com/" },
+    { id: 1, icon: <BsFacebook />, link: "https://www.facebook.com/" },
+    { id: 2, icon: <BsTwitter />, link: "https://www.twitter.com/" },
+    { id: 3, icon: <BsInstagram />, link: "https://www.instagram.com/" },
+    { id: 4, icon: <BsLinkedin />, link: "https://www.linkedin.com/" },
   ];
   return (
     <div className="social-links">
@@ -14,7 +16,7 @@ const Social = () => {
           rel="noopener noreferrer"
           key={item.id}
         >
-          <i className={`fab ${item.icon}`}></i>
+          {item.icon}
         </a>
       ))}
     </div>

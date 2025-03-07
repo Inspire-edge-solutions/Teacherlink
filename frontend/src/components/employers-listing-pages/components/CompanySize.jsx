@@ -1,3 +1,5 @@
+import { BsBriefcase } from "react-icons/bs";
+
 const CompanySize = () => {
   return (
     <>
@@ -8,7 +10,7 @@ const CompanySize = () => {
         <option>Industrial</option>
         <option>Apartments</option>
       </select>
-      <span className="icon flaticon-briefcase"></span>
+      <span className="icon"><BsBriefcase /></span>
     </>
   );
 };

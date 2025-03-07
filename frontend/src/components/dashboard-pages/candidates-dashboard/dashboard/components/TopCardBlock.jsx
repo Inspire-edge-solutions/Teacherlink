@@ -1,29 +1,31 @@
+import { BsBriefcase, BsFileText, BsChatLeftText, BsBookmark } from "react-icons/bs";
+
 const TopCardBlock = () => {
   const cardContent = [
     {
       id: 1,
-      icon: "flaticon-briefcase",
+      icon: <BsBriefcase />,
       countNumber: "22",
       metaName: "Applied Jobs",
       uiClass: "ui-blue",
     },
     {
       id: 2,
-      icon: "la-file-invoice",
+      icon: <BsFileText />,
       countNumber: "9382",
       metaName: "Job Alerts",
       uiClass: "ui-red",
     },
     {
       id: 3,
-      icon: "la-comment-o",
+      icon: <BsChatLeftText />,
       countNumber: "74",
       metaName: "Messages",
       uiClass: "ui-yellow",
     },
     {
       id: 4,
-      icon: "la-bookmark-o",
+      icon: <BsBookmark />,
       countNumber: "32",
       metaName: "Shortlist",
       uiClass: "ui-green",
@@ -39,7 +41,7 @@ const TopCardBlock = () => {
         >
           <div className={`ui-item ${item.uiClass}`}>
             <div className="left">
-              <i className={`icon la ${item.icon}`}></i>
+              {item.icon}
             </div>
             <div className="right">
               <h4>{item.countNumber}</h4>

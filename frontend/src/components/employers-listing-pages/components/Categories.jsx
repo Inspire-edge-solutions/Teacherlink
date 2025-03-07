@@ -1,4 +1,4 @@
-
+import { BsBriefcase } from "react-icons/bs";
 
 import { useDispatch, useSelector } from "react-redux";
 import { addCategory } from "../../../features/filter/employerFilterSlice";
@@ -27,7 +27,7 @@ const Categories = () => {
                     </option>
                 ))}
             </select>
-            <span className="icon flaticon-briefcase"></span>
+            <span className="icon"><BsBriefcase /></span>
         </>
     );
 };

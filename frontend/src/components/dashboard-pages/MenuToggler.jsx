@@ -4,7 +4,7 @@
 
 import { useDispatch } from "react-redux";
 import { menuToggle } from "../../features/toggle/toggleSlice";
-
+import { BsList } from "react-icons/bs";
 const MenuToggler = () => {
   const dispatch = useDispatch();
   // menu togggle handler
@@ -19,7 +19,7 @@ const MenuToggler = () => {
         type="button"
         className="theme-btn toggle-filters"
       >
-        <span className="flaticon-menu-1"></span> Menu
+        <span className="icon"><BsList /></span> Menu
       </button>
     </div>
   );

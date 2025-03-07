@@ -1,3 +1,5 @@
+import { BsSearch } from "react-icons/bs";
+
 const WidgetToFilterBox = () => {
   return (
     <div className="chosen-outer">
@@ -5,7 +7,7 @@ const WidgetToFilterBox = () => {
       <div className="search-box-one">
         <form method="post" action="blog.html">
           <div className="form-group">
-            <span className="icon flaticon-search-1"></span>
+            <span className="icon"><BsSearch /></span>
             <input
               type="search"
               name="search-field"

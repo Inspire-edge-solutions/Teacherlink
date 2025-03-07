@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import jobs from "../../../data/job-featured";
-
+import { BsBriefcase, BsGeoAltFill, BsClock, BsCurrencyDollar, BsBookmark } from "react-icons/bs"; 
 
 const RelatedJobs = () => {
   return (
@@ -18,21 +18,21 @@ const RelatedJobs = () => {
 
               <ul className="job-info">
                 <li>
-                  <span className="icon flaticon-briefcase"></span>
+                  <span className="icon"><BsBriefcase /></span>
                   {item.company}
                 </li>
                 {/* compnay info */}
                 <li>
-                  <span className="icon flaticon-map-locator"></span>
+                  <span className="icon"><BsGeoAltFill /></span>
                   {item.location}
                 </li>
                 {/* location info */}
                 <li>
-                  <span className="icon flaticon-clock-3"></span> {item.time}
+                  <span className="icon"><BsClock /></span> {item.time}
                 </li>
                 {/* time info */}
                 <li>
-                  <span className="icon flaticon-money"></span> {item.salary}
+                  <span className="icon"><BsCurrencyDollar /></span> {item.salary}
                 </li>
                 {/* salary info */}
               </ul>
@@ -47,7 +47,7 @@ const RelatedJobs = () => {
               </ul>
               {/* End .job-other-info */}
               <button className="bookmark-btn">
-                <span className="flaticon-bookmark"></span>
+                <span className="icon"><BsBookmark /></span>
               </button>
             </div>
           </div>
