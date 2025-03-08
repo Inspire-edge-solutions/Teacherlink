@@ -502,11 +502,12 @@ const Experience = ({
 
               {/* Job Category */}
               <div className="form-group col-lg-6 col-md-12">
-                <div className="radio-group" style={{ display: "flex", gap: 10 }}>
-                <label>Job Category :</label>
-                  <div>
+                <div className="radio-group single-line">
+                  <label>Job Category:</label>
+                  <div className="radio-option">
                     <input
                       type="radio"
+                      id={`jobCategory-fullTime-${index}`}
                       name={`jobCategory-${index}`}
                       value="fullTime"
                       checked={experience.jobCategory === "fullTime"}
@@ -516,11 +517,12 @@ const Experience = ({
                         setExperienceEntries(newArr);
                       }}
                     />
-                    <span style={{ marginLeft: 5 }}>Full Time</span>
+                    <label htmlFor={`jobCategory-fullTime-${index}`}>Full Time</label>
                   </div>
-                  <div>
+                  <div className="radio-option">
                     <input
                       type="radio"
+                      id={`jobCategory-partTime-${index}`}
                       name={`jobCategory-${index}`}
                       value="partTime"
                       checked={experience.jobCategory === "partTime"}
@@ -530,7 +532,7 @@ const Experience = ({
                         setExperienceEntries(newArr);
                       }}
                     />
-                    <span style={{ marginLeft: 5 }}>Part Time</span>
+                    <label htmlFor={`jobCategory-partTime-${index}`}>Part Time</label>
                   </div>
                 </div>
               </div>
@@ -559,12 +561,12 @@ const Experience = ({
 
               {/* Currently Working */}
               <div className="form-group col-lg-6 col-md-12">
-               
-                <div className="radio-group" style={{ display: "flex", gap: 10 }}>
-                <label>Are you currently working here?</label>
-                  <div>
+                <div className="radio-group single-line">
+                  <label>Are you currently working here?</label>
+                  <div className="radio-option">
                     <input
                       type="radio"
+                      id={`currentlyWorking-yes-${index}`}
                       name={`currentlyWorking-${index}`}
                       value="yes"
                       checked={experience.currentlyWorking === true}
@@ -574,11 +576,12 @@ const Experience = ({
                         setExperienceEntries(newArr);
                       }}
                     />
-                    <span style={{ marginLeft: 5 }}>Yes</span>
+                    <label htmlFor={`currentlyWorking-yes-${index}`}>Yes</label>
                   </div>
-                  <div>
+                  <div className="radio-option">
                     <input
                       type="radio"
+                      id={`currentlyWorking-no-${index}`}
                       name={`currentlyWorking-${index}`}
                       value="no"
                       checked={experience.currentlyWorking === false}
@@ -588,7 +591,7 @@ const Experience = ({
                         setExperienceEntries(newArr);
                       }}
                     />
-                    <span style={{ marginLeft: 5 }}>No</span>
+                    <label htmlFor={`currentlyWorking-no-${index}`}>No</label>
                   </div>
                 </div>
               </div>

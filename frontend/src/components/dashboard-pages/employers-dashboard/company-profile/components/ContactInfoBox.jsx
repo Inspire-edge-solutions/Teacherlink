@@ -17,7 +17,7 @@ const ContactInfoBox = () => {
 
         try {
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}?text=${encodeURIComponent(searchQuery)}`,
+                `${"https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/geocode"}?text=${encodeURIComponent(searchQuery)}`,
                 {
                     method: 'GET',
                     headers: {
@@ -133,6 +133,8 @@ const ContactInfoBox = () => {
                             <Map 
                                 initialCenter={selectedLocation?.coordinates}
                                 initialZoom={selectedLocation ? 15 : 11}
+                                marker={selectedLocation}
+                                markerLabel={selectedLocation?.label}
                             />
                         </div>
                     </div>

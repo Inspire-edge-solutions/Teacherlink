@@ -70,8 +70,8 @@ const Category = () => {
 
       {/* Employment Type - Radio Buttons */}
       <div className="form-group col-lg-12">
-        <label className="mb-3">Job Category:</label>
         <div className="radio-group">
+          <label>Job Category:</label>
           {jobCategoryOptions.map((option) => (
             <div key={option.value} className="radio-option">
               <input
@@ -81,11 +81,8 @@ const Category = () => {
                 value={option.value}
                 checked={jobPreferences.jobCategory?.value === option.value}
                 onChange={(e) => handleJobCategoryChange(e.target.value)}
-                className="radio-input"
               />
-              <label htmlFor={option.value} className="radio-label">
-                {option.label}
-              </label>
+              <label htmlFor={option.value}>{option.label}</label>
             </div>
           ))}
         </div>

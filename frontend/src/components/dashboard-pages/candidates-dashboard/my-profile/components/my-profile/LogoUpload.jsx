@@ -100,59 +100,82 @@ const LogoUpload = () => {
     };
 
     return (
-        <>
-            <div className="uploading-outer">
+        <div className="upload-container">
+            <div className="upload-sections-wrapper">
                 {/* Image Upload Section */}
-                <div className="uploadButton">
-                    <input
-                        className="uploadButton-input"
-                        type="file"
-                        name="attachments[]"
-                        accept="image/*"
-                        id="upload-image"
-                        required
-                        onChange={imageFileHandler}
-                    />
-                    <label className="uploadButton-button ripple-effect" htmlFor="upload-image">
-                        <span className="icon"><BsCloudUpload /></span>
-                        {imageFile ? imageFile.name : "Upload your profile image"}
-                    </label>
-                    <span className="uploadButton-file-name"></span>
+                <div className="upload-section">
+                    <div className="upload-box">
+                        <div className="uploadButton">
+                            <input
+                                className="uploadButton-input"
+                                type="file"
+                                name="attachments[]"
+                                accept="image/*"
+                                id="upload-image"
+                                required
+                                onChange={imageFileHandler}
+                            />
+                            <label className="uploadButton-button ripple-effect" htmlFor="upload-image">
+                                <span className="icon"><BsCloudUpload /></span>
+                                <span className="upload-text">
+                                    {imageFile ? imageFile.name : "Upload your profile image"}
+                                </span>
+                            </label>
+                        </div>
+                        <div className="upload-info">
+                            Max file size is 1MB, Minimum dimension: 330x300 and suitable files are .jpg &amp; .png
+                        </div>
+                        <button 
+                            className="theme-btn btn-style-three" 
+                            onClick={uploadPhoto} 
+                            disabled={uploading}
+                        >
+                            Save Photo
+                        </button>
+                    </div>
                 </div>
-                <div className="text">
-                    Max file size is 1MB, Minimum dimension: 330x300 and suitable files are .jpg &amp; .png
-                </div>
+
                 {/* Video Upload Section */}
-                <div className="uploadButton mt-4">
-                    <input
-                        className="uploadButton-input"
-                        type="file"
-                        name="attachments[]"
-                        accept="video/*"
-                        id="upload-video"
-                        required
-                        onChange={videoFileHandler}
-                    />
-                    <label className="uploadButton-button ripple-effect" htmlFor="upload-video">
-                        <span className="icon"><BsCloudUpload /></span>
-                        {videoFile ? videoFile.name : "Upload your demo video (not more than 5 minutes)"}
-                    </label>
-                    <span className="uploadButton-file-name"></span>
-                </div>
-                <div className="text">
-                    Max file size is 10MB, Suitable files are .mp4, .webm &amp; .mov
+                <div className="upload-section">
+                    <div className="upload-box">
+                        <div className="uploadButton">
+                            <input
+                                className="uploadButton-input"
+                                type="file"
+                                name="attachments[]"
+                                accept="video/*"
+                                id="upload-video"
+                                required
+                                onChange={videoFileHandler}
+                            />
+                            <label className="uploadButton-button ripple-effect" htmlFor="upload-video">
+                                <span className="icon"><BsCloudUpload /></span>
+                                <span className="upload-text">
+                                    {videoFile ? videoFile.name : "Upload your demo video (not more than 5 minutes)"}
+                                </span>
+                            </label>
+                        </div>
+                        <div className="upload-info">
+                            Max file size is 10MB, Suitable files are .mp4, .webm &amp; .mov
+                        </div>
+                        <button 
+                            className="theme-btn btn-style-three" 
+                            onClick={uploadVideo} 
+                            disabled={uploading}
+                        >
+                            Save demo video
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div className="photoVideo">
-                <button className="theme-btn btn-style-three" onClick={uploadPhoto} disabled={uploading}>
-                    Save Photo
-                </button>
-                <button className="theme-btn btn-style-three" onClick={uploadVideo} disabled={uploading}>
-                    Save demo video
-                </button>
-            </div>
-            {message && <div className="message">{message}</div>}
-        </>
+
+            {/* Message Section */}
+            {message && (
+                <div className="message">
+                    {message}
+                </div>
+            )}
+        </div>
     );
 };
 

@@ -179,7 +179,7 @@ const FormContent = ({ user_type }) => {
 
       if (response.status === 200) {
         alert("Registration successful! Please login.");
-        navigate("/login", { state: { user_type } });
+        window.location.href = "/login";
       } else {
         console.error("Backend Error:", response.statusText);
         alert("Failed to register. Please try again.");

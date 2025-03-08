@@ -3,11 +3,12 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import jobFeatures from "@/data/job-featured";
 
-const Map = ({ initialCenter, initialZoom }) => {
+const Map = ({ initialCenter, initialZoom, marker, markerLabel }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const markers = useRef([]);
+  const locationMarker = useRef(null); // Reference for the search location marker
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -56,12 +57,56 @@ const Map = ({ initialCenter, initialZoom }) => {
     // Cleanup on unmount
     return () => {
       markers.current.forEach(marker => marker.remove());
+      if (locationMarker.current) {
+        locationMarker.current.remove();
+      }
       if (map.current) {
         map.current.remove();
         map.current = null;
       }
     };
   }, [initialCenter, initialZoom]);
+
+  // Effect to handle marker updates
+  useEffect(() => {
+    if (!map.current || !marker) return;
+
+    // Remove existing location marker if it exists
+    if (locationMarker.current) {
+      locationMarker.current.remove();
+    }
+
+    // Create new marker element
+    const el = document.createElement('div');
+    el.className = 'location-marker';
+    el.style.width = '25px';
+    el.style.height = '25px';
+    el.style.backgroundColor = '#FF0000';
+    el.style.borderRadius = '50%';
+    el.style.border = '3px solid white';
+    el.style.boxShadow = '0 0 10px rgba(0,0,0,0.3)';
+
+    // Create and add new marker
+    locationMarker.current = new maplibregl.Marker(el)
+      .setLngLat(marker.coordinates)
+      .addTo(map.current);
+
+    // Add popup if label is provided
+    if (markerLabel) {
+      const popup = new maplibregl.Popup({ offset: 25 })
+        .setHTML(`<h4>${markerLabel}</h4>`);
+      
+      locationMarker.current.setPopup(popup);
+    }
+
+    // Fly to the marker location
+    map.current.flyTo({
+      center: marker.coordinates,
+      zoom: 15,
+      essential: true
+    });
+
+  }, [marker, markerLabel]);
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>

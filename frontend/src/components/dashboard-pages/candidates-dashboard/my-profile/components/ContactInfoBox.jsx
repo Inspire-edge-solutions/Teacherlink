@@ -17,16 +17,21 @@ const ContactInfoBox = () => {
 
         try {
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/geocode?text=${encodeURIComponent(searchQuery)}`,
+                `${"https://8ttpxl67x0.execute-api.ap-south-1.amazonaws.com/dev/map"}?text=${encodeURIComponent(searchQuery)}`,
                 {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'x-api-key': import.meta.env.VITE_AWS_LOCATION_API_KEY,
+                        'Accept': 'application/json'
                     }
                 }
             );
 
             if (!response.ok) {
+                if (response.status === 403) {
+                    throw new Error('Access denied. Please check your API key configuration.');
+                }
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
@@ -51,36 +56,13 @@ const ContactInfoBox = () => {
         }
     };
 
-    const handleSave = async () => {
+    const handleSave = () => {
         if (!latitude || !longitude) {
             alert('Please search for a location first');
             return;
         }
-
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/location`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify({
-                    latitude,
-                    longitude,
-                    label: selectedLocation?.label
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to save location');
-            }
-
-            const data = await response.json();
-            alert('Location saved successfully!');
-        } catch (error) {
-            console.error('Error saving location:', error);
-            alert('Failed to save location. Please try again.');
-        }
+        // Here you can add the logic to save the location to your backend
+        console.log('Saving location:', { latitude, longitude, label: selectedLocation?.label });
     };
 
     return (
@@ -91,7 +73,7 @@ const ContactInfoBox = () => {
                     <input
                         type="text"
                         name="search"
-                        placeholder="Find your location on map"
+                        placeholder="Find on Map"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
