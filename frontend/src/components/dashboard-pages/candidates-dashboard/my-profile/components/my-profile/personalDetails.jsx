@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../../../../../contexts/AuthContext";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PersonalDetails = ({ className, dateOfBirth }) => {
   const { user } = useAuth();
@@ -64,7 +66,7 @@ const PersonalDetails = ({ className, dateOfBirth }) => {
       );
 
       if (response.status === 200 || response.status === 201) {
-        alert("Personal details saved successfully!");
+        toast.success("Personal details saved successfully!");
       } else {
         throw new Error(response.data?.message || "Failed to save details");
       }
@@ -75,7 +77,7 @@ const PersonalDetails = ({ className, dateOfBirth }) => {
         status: error.response?.status,
         stack: error.stack
       });
-      alert(
+      toast.error(
         `Error: ${error.response?.data?.message || error.message || "Something went wrong"}`
       );
     }

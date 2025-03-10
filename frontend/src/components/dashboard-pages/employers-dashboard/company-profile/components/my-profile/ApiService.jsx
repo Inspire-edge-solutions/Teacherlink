@@ -1,13 +1,7 @@
-
 const BASE_URL = 'https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/organization';
 
-// Helper function to retrieve the Firebase ID token (if stored in localStorage)
-function getIdToken() {
-  // Make sure your login flow stores the token under this key.
-  return localStorage.getItem("idToken");
-}
-
-export const createOrganization = async (payload) => {
+// Now, each function accepts a token parameter from the calling component.
+export const createOrganization = async (payload, token) => {
   try {
     const response = await fetch(BASE_URL, {
       method: "POST",
@@ -27,8 +21,8 @@ export const createOrganization = async (payload) => {
 
 export const getOrganization = async (id, token) => {
   try {
-    const idToken = getIdToken();
-    const response = await fetch(`${BASE_URL}/${id}`, {
+    const url = id ? `${BASE_URL}/${id}` : BASE_URL;
+    const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

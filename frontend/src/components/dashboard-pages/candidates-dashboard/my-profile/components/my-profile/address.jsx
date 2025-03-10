@@ -3,6 +3,9 @@ import axios from "axios";
 import Select from "react-select";
 import csc from "countries-states-cities"; // Package to get countries, states, and cities
 import { useAuth } from "../../../../../../contexts/AuthContext";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Address = ({ className }) => {
   const { user } = useAuth(); // Get the current user from AuthContext
@@ -85,7 +88,7 @@ const Address = ({ className }) => {
     e.preventDefault();
 
     if (!user?.uid) {
-      alert("Please log in to save your address.");
+      toast.error("Please log in to save your address.");
       return;
     }
 
@@ -135,13 +138,13 @@ const Address = ({ className }) => {
       );
 
       if (presentResponse.status === 200 || presentResponse.status === 201) {
-        alert("Address added successfully!");
+        toast.success("Address added successfully!");
       } else {
         throw new Error("Failed to save present address");
       }
     } catch (error) {
       console.error("Error details:", error.response?.data || error.message || "Unknown error");
-      alert(`Error: ${error.response?.data?.message || error.message || "Failed to save address"}`);
+      toast.error(`Error: ${error.response?.data?.message || error.message || "Failed to save address"}`);
     }
   };
 

@@ -3,6 +3,9 @@ import Select from 'react-select';
 import csc from 'countries-states-cities';
 import axios from 'axios';
 import { useAuth } from "../../../../../../contexts/AuthContext";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const JobPreference = () => {
 
@@ -240,11 +243,11 @@ const JobPreference = () => {
         payload,
         { headers: { 'Content-Type': 'application/json' } }
       );
-      alert("Job preferences saved successfully");
+      toast.success("Job preferences saved successfully");
       console.log('Success:', data);
     } catch (error) {
       console.error('Error:', error);
-      alert("error",error);
+      toast.error("error",error);
     }
   };
 

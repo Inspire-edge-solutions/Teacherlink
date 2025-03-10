@@ -3,6 +3,9 @@ import axios from "axios";
 import Select from "react-select";
 import csc from "countries-states-cities";
 import { useAuth } from "../../../../../../contexts/AuthContext";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Experience = ({
   excludeAdditionalDetails,
@@ -193,7 +196,7 @@ const Experience = ({
   // Submit the entire experience data
   const submitExperienceData = async () => {
     if (experienceEntries.length === 0) {
-      alert("Please add at least one work experience.");
+      toast.error("Please add at least one work experience.");
       return;
     }
 
@@ -242,10 +245,10 @@ const Experience = ({
         }
       );
       console.log("Data submitted successfully:", response.data);
-      alert("Data submitted successfully");
+      toast.success("Experience data submitted successfully");
     } catch (error) {
       console.error("Error submitting data:", error);
-      alert("Error submitting data");
+      toast.error("Error submitting data");
     }
   };
 

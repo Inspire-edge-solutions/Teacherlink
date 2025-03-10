@@ -2,6 +2,9 @@ import { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../../../../../contexts/AuthContext";
 import { BsCloudUpload } from 'react-icons/bs';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const LogoUpload = () => {
     const { user } = useAuth();
@@ -57,11 +60,11 @@ const LogoUpload = () => {
                 headers: { "Content-Type": "application/json" },
             });
             console.log("Photo submitted successfully:", response.data);
-            alert("Photo submitted successfully");
+            toast.success("Photo submitted successfully");
             setMessage("Photo uploaded successfully!");
         } catch (error) {
             console.error("Error uploading photo:", error);
-            alert("Error uploading photo");
+            toast.error("Error uploading photo");
             setMessage("Photo upload error: " + error.message);
         } finally {
             setUploading(false);
@@ -88,11 +91,11 @@ const LogoUpload = () => {
                 headers: { "Content-Type": videoFile.type },
             });
             console.log("Video uploaded successfully");
-            alert("Video uploaded successfully");
+            toast.success("Video uploaded successfully");
             setMessage("Video uploaded successfully! Key: " + key);
         } catch (error) {
             console.error("Error uploading video:", error);
-            alert("Error uploading video");
+            toast.error("Error uploading video");
             setMessage("Video upload error: " + error.message);
         } finally {
             setUploading(false);
