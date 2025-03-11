@@ -491,7 +491,6 @@ async function getFirebaseUid(event) {
 // Lambda handler – entry point for CRUD operations
 export const handler = async (event) => {
   console.log("🔹 Organization Lambda invoked. Event:", JSON.stringify(event));
-
   try {
     console.log("🔹 Fetching secrets...");
     const secret = await getSecrets("inspireedge", "ap-south-1");
@@ -530,7 +529,6 @@ export const handler = async (event) => {
 
     // IMPORTANT: Verify the Firebase ID token and extract firebase_uid.
     const firebase_uid = await getFirebaseUid(event);
-    // Attach the verified uid to event.
     event.firebase_uid = firebase_uid;
 
     switch (route) {
@@ -681,7 +679,8 @@ async function createOrganization(conn, event) {
 // GET Organization – Retrieves organization details using the verified firebase_uid.
 async function getOrganization(conn, event) {
   try {
-    const firebase_uid = (event.pathParameters && event.pathParameters.firebase_uid) || event.firebase_uid;
+    const firebase_uid =
+      (event.pathParameters && event.pathParameters.firebase_uid) || event.firebase_uid;
     console.log("🔹 Fetching organization for firebase_uid:", firebase_uid);
     if (!firebase_uid) {
       console.error("❌ firebase_uid is required.");
@@ -805,7 +804,8 @@ async function updateOrganization(conn, event) {
 // DELETE Organization – Deletes organization details using the verified firebase_uid.
 async function deleteOrganization(conn, event) {
   try {
-    const firebase_uid = (event.pathParameters && event.pathParameters.firebase_uid) || event.firebase_uid;
+    const firebase_uid =
+      (event.pathParameters && event.pathParameters.firebase_uid) || event.firebase_uid;
     console.log("🔹 Deleting organization for firebase_uid:", firebase_uid);
     if (!firebase_uid) {
       console.error("❌ firebase_uid is required for deletion.");

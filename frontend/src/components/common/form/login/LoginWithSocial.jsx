@@ -42,6 +42,8 @@ import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './login.css';
 
 const LoginWithSocial = () => {
@@ -84,7 +86,7 @@ const LoginWithSocial = () => {
             : '/candidates-dashboard/dashboard');
         } catch (error) {
           console.error('Error setting user:', error);
-          alert('Error during login. Please try again.');
+          toast.error('Error during login. Please try again.');
         }
       } else {
         // New user, show role selection
@@ -93,7 +95,7 @@ const LoginWithSocial = () => {
       }
     } catch (error) {
       console.error('Login error:', error);
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -140,14 +142,14 @@ const LoginWithSocial = () => {
             : '/candidates-dashboard/dashboard');
         } catch (error) {
           console.error('Error setting user:', error);
-          alert('Error during registration. Please try again.');
+          toast.error('Error during registration. Please try again.');
         }
       } else {
         throw new Error(data.message || 'Login failed');
       }
     } catch (error) {
       console.error('Submission error:', error);
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 

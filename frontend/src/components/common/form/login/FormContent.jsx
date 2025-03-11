@@ -86,6 +86,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
 import LoginWithSocial from "./LoginWithSocial";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const FormContent = () => {
   const [email, setEmail] = useState("");
@@ -120,7 +122,7 @@ const FormContent = () => {
       setLoginAttempted(true); // Set login attempt flag
     } catch (error) {
       console.error("Login error:", error);
-      alert(error.message);
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }

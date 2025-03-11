@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from "../../../../../../contexts/AuthContext";
 
 const AdditionalInfo = () => {
@@ -60,7 +62,7 @@ const AdditionalInfo = () => {
 
     // Validate Aadhaar Number (12 digits)
     if (formData.aadhaarNo && formData.aadhaarNo.length !== 12) {
-      alert('Please enter a valid Aadhaar number (12 digits).');
+      toast.error('Please enter a valid Aadhaar number (12 digits).');
       return; // Prevent submission if Aadhaar number is invalid
     }
 
@@ -103,10 +105,10 @@ const AdditionalInfo = () => {
       await axios.post('https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/additional_info1', additionalInfo1Data);
       await axios.post('https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/additional_info2', additionalInfo2Data);
       
-      alert('Data submitted successfully!');
+      toast.success('Data submitted successfully!');
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('Error submitting form!');
+      toast.error('Error submitting form!');
     }
   };
   useEffect(() => {

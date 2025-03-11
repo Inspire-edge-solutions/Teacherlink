@@ -762,6 +762,8 @@ input:required , select:required , textarea:required{
 
 .upload-container {
     width: 100%;
+    margin: 5px;
+    margin-bottom: 15px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -823,10 +825,6 @@ input:required , select:required , textarea:required{
     text-align: center;
 }
 
-.theme-btn.btn-style-three {
-    width: 100%;
-    padding: 12px 20px;
-}
 
 .message {
     background: #f8f9fa;
@@ -880,11 +878,6 @@ input:required , select:required , textarea:required{
 
     .upload-info {
         font-size: 12px;
-    }
-
-    .theme-btn.btn-style-three {
-        padding: 10px 15px;
-        font-size: 14px;
     }
 }
 
@@ -980,7 +973,7 @@ input:required , select:required , textarea:required{
 .radio-option {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     cursor: pointer;
 }
 
