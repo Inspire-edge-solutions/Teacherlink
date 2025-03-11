@@ -159,7 +159,7 @@ const Address = ({ className }) => {
               required
               id="permanentCountry"
               name="permanentCountry"
-              placeholder="Country"
+              placeholder=" Permanent Country"
               className={`custom-select ${!formData.permanentAddress.country ? "required" : ""}`}
               options={countries}
               value={formData.permanentAddress.country}
@@ -176,7 +176,7 @@ const Address = ({ className }) => {
               required
               id="permanentState"
               name="permanentState"
-              placeholder="State/UT"
+              placeholder="Permanent State/UT"
               className={`custom-select ${!formData.permanentAddress.state ? "required" : ""}`}
               options={getStates(formData.permanentAddress.country?.value)}
               value={formData.permanentAddress.state}
@@ -192,7 +192,7 @@ const Address = ({ className }) => {
               required
               id="permanentCity"
               name="permanentCity"
-              placeholder="City"
+              placeholder="Permanent City"
               options={getCities(formData.permanentAddress.state?.value)}
               value={formData.permanentAddress.city}
               onChange={(option) => handleAddressChange("permanentAddress", "city", option)}
@@ -254,7 +254,7 @@ const Address = ({ className }) => {
                   required
                   id="presentCountry"
                   name="presentCountry"
-                  placeholder="Country"
+                  placeholder="Present Country"
                   className={`custom-select ${!formData.presentAddress.country ? "required" : ""}`}
                   options={countries}
                   value={formData.presentAddress.country}
@@ -271,7 +271,7 @@ const Address = ({ className }) => {
                   required
                   id="presentState"
                   name="presentState"
-                  placeholder="State/UT"
+                  placeholder="Present State/UT"
                   className={`custom-select ${!formData.presentAddress.state ? "required" : ""}`}
                   options={getStates(formData.presentAddress.country?.value)}
                   value={formData.presentAddress.state}
@@ -287,7 +287,7 @@ const Address = ({ className }) => {
                   required
                   id="presentCity"
                   name="presentCity"
-                  placeholder="City"
+                  placeholder="Present City"
                   options={getCities(formData.presentAddress.state?.value)}
                   value={formData.presentAddress.city}
                   onChange={(option) => handleAddressChange("presentAddress", "city", option)}

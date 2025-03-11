@@ -17,7 +17,7 @@ const Experience = ({
 
   // Base experience template (no user_id in MySQL; used only for DynamoDB)
   const baseExperience = {
-    firebase_id: user?.uid || "", // Use optional chaining to safely access uid
+    firebase_uid: user?.uid || "", // Use optional chaining to safely access uid
     adminCurriculum: "",
     jobCategory: "", // "fullTime" / "partTime"
     jobProcess: "",  // "regular", "online", "hybrid"
@@ -544,7 +544,7 @@ const Experience = ({
               <div className="form-group col-lg-6 col-md-12">
                 <select
                   className="form-select"
-                  value={`experience.jobType`}
+                  value={experience.jobType}
                   onChange={(e) => {
                     const newArr = [...experienceEntries];
                     newArr[index].jobType = e.target.value;
@@ -716,28 +716,27 @@ const Experience = ({
               <div className="form-group col-lg-6 col-md-12">
                 <label>Upload Pay Slip</label>
                 <input
-  type="file"
-  className="form-control"
-  onChange={async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const base64String = ev.target.result.split(",")[1];
-        console.log("Base64 length:", base64String.length); // Log to confirm non-zero length
-        const newArr = [...experienceEntries];
-        newArr[index].paySlip = base64String;
-        setExperienceEntries(newArr);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      const newArr = [...experienceEntries];
-      newArr[index].paySlip = null;
-      setExperienceEntries(newArr);
-    }
-  }}
-/>
-
+                type="file"
+                className="form-control"
+                onChange={async (e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                      const base64String = ev.target.result.split(",")[1];
+                      console.log("Base64 length:", base64String.length); // Log to confirm non-zero length
+                      const newArr = [...experienceEntries];
+                      newArr[index].paySlip = base64String;
+                      setExperienceEntries(newArr);
+                    };
+                    reader.readAsDataURL(file);
+                  } else {
+                    const newArr = [...experienceEntries];
+                    newArr[index].paySlip = null;
+                    setExperienceEntries(newArr);
+                  }
+                }}
+              />
               </div>
 
               {/* TEACHING FIELDS */}

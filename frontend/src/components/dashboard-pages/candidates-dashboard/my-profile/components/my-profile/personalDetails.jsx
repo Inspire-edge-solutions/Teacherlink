@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../../../../../contexts/AuthContext";
 import { toast } from 'react-toastify';
@@ -6,17 +6,18 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const PersonalDetails = ({ className, dateOfBirth }) => {
   const { user } = useAuth();
+  
+  
   const [formData, setFormData] = useState({
-    // Optional: if you want to pass user_id from the client, include it.
-    // Otherwise, leave it empty so the backend can insert null.
-    firebase_id: user.uid,
+    firebase_uid: user?.uid || "",
     fullName: "",
-    email: "",
+    email: user?.email || "",
     gender: "",
     dateOfBirth: "",
     callingNumber: "",
     whatsappNumber: ""
   });
+  const [loading, setLoading] = useState(true);
 
   const [date, setDate] = useState("text");
   const handleFocus = () => setDate("date");
@@ -83,6 +84,65 @@ const PersonalDetails = ({ className, dateOfBirth }) => {
     }
   };
 
+  // Fetch user profile data when component mounts
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (user?.uid) {
+        try {
+          // Try to fetch user profile data from your API
+          // You'll need to adjust this URL to match your actual API endpoint
+          const response = await axios.get(
+            `https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/users/profile/${firebase_uid.uid}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+              }
+            }
+          );
+          
+          console.log("Profile data:", response.data);
+          
+          if (response.data) {
+            // Update form data with profile data from API
+            setFormData({
+              firebase_uid: user.uid,
+              fullName: response.data.name || "",
+              email: response.data.email || user.email || "",
+              gender: response.data.gender || "",
+              dateOfBirth: response.data.dateOfBirth || response.data.dob || "",
+              callingNumber: response.data.phone_number || "",
+              whatsappNumber: response.data.whatsapp_number || response.data.phone_number || ""
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching profile data:", error);
+          // If API call fails, try to use any data available in the user object
+          setFormData({
+            firebase_uid: user.uid,
+            fullName: user.displayName || "",
+            email: user.email || "",
+            gender: "",
+            dateOfBirth: "",
+            callingNumber: "",
+            whatsappNumber: ""
+          });
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+
+    fetchUserProfile();
+  }, [user]);
+
+  // Show loading indicator while fetching data
+  if (loading) {
+    return <div className="text-center py-4">Loading profile data...</div>;
+  }
+
   return (
     <div className={`personal-details ${className}`}>
       <form onSubmit={handleSubmit}>
@@ -115,45 +175,20 @@ const PersonalDetails = ({ className, dateOfBirth }) => {
             />
           </div>
 
-          {/* Gender Radio Buttons */}
+          {/* Gender Dropdown (replacing radio buttons) */}
           <div className="form-group col-lg-6 col-md-12">
-            <div className={`radio-group ${!formData.gender ? "required" : ""}`}>
-              <h6>Gender:</h6>
-              <div className="radio-option">
-                <input
-                  type="radio"
-                  id="male"
-                  name="gender"
-                  value="male"
-                  checked={formData.gender === "male"}
-                  onChange={handleInputChange}
-                  required
-                />
-                <label htmlFor="male">Male</label>
-              </div>
-              <div className="radio-option">
-                <input
-                  type="radio"
-                  id="female"
-                  name="gender"
-                  value="female"
-                  checked={formData.gender === "female"}
-                  onChange={handleInputChange}
-                />
-                <label htmlFor="female">Female</label>
-              </div>
-              <div className="radio-option">
-                <input
-                  type="radio"
-                  id="transgender"
-                  name="gender"
-                  value="transgender"
-                  checked={formData.gender === "transgender"}
-                  onChange={handleInputChange}
-                />
-                <label htmlFor="transgender">Transgender</label>
-              </div>
-            </div>
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleInputChange}
+              className="form-select"
+              required
+            >
+              <option value="" disabled>Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="transgender">Transgender</option>
+            </select>
           </div>
 
           {dateOfBirth && (
@@ -163,7 +198,7 @@ const PersonalDetails = ({ className, dateOfBirth }) => {
                 name="dateOfBirth"
                 value={formData.dateOfBirth}
                 onChange={handleInputChange}
-                placeholder="Date of Birth - dd/mm/yyyy"
+                placeholder="Date of Birth"
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 max={new Date().toISOString().split("T")[0]}

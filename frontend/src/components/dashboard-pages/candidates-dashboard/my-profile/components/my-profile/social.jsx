@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import './profile-styles.css';
 import { useAuth } from "../../../../../../contexts/AuthContext";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Social = ({ isEasyMode }) => {
 
@@ -28,12 +30,13 @@ const Social = ({ isEasyMode }) => {
           'Content-Type': 'application/json',
         }
       });
-      alert('Data sent successfully');
+      toast.success('Social links saved successfully');
       console.log('Data sent successfully:', response.data);
       
       // Handle success (e.g., show a success message)
     } catch (error) {
       console.error('Error sending data:', error.response ? error.response.data : error.message);
+      toast.error('Error sending data');
       // Handle error (e.g., show an error message)
     }
   };

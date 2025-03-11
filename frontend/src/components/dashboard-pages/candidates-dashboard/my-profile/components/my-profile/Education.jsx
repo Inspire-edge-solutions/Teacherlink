@@ -1441,7 +1441,7 @@ const Education = ({
 
     // Construct the payload based on our education_details table fields.
     const payload = {
-      firebase_id: user.uid,
+      firebase_uid: user.uid,
       // Data for Grade 10 (mandatory)
       grade10: {
         syllabus: grade10Data.syllabus,

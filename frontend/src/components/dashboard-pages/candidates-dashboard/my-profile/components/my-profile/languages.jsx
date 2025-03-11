@@ -62,7 +62,7 @@ const Languages = () => {
       const response = await axios.post(
         'https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/languages',
         { languages: JSON.stringify(languages), 
-          firebase_id: user.uid },
+          firebase_uid: user.uid },
         {
           headers: { 'Content-Type': 'application/json' }
         }

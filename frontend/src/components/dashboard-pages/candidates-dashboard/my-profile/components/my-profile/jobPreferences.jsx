@@ -161,7 +161,7 @@ const JobPreference = () => {
 
     const payload = {
 
-      firebase_id: user.uid,
+      firebase_uid: user.uid,
       // Job Shift Preferences
       full_time_offline: preferences.jobShift.Full_time.offline,
       full_time_online: preferences.jobShift.Full_time.online,

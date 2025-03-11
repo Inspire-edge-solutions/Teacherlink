@@ -1,13 +1,13 @@
 const BASE_URL = 'https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/organization';
 
-// Now, each function accepts a token parameter from the calling component.
-export const createOrganization = async (payload, token) => {
+// createOrganization API call without token-based authorization
+export const createOrganization = async (payload) => {
   try {
     const response = await fetch(BASE_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        ...(token && { Authorization: "Bearer " + token }),
+        "Content-Type": "application/json"
+        // Token-based auth removed
       },
       body: JSON.stringify(payload)
     });
@@ -19,14 +19,12 @@ export const createOrganization = async (payload, token) => {
   }
 };
 
-export const getOrganization = async (id, token) => {
+export const getOrganization = async (id) => {
   try {
-    const url = id ? `${BASE_URL}/${id}` : BASE_URL;
-    const response = await fetch(url, {
+    const response = await fetch(`${BASE_URL}/${id}`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
-        ...(token && { Authorization: "Bearer " + token }),
+        "Content-Type": "application/json"
       }
     });
     if (!response.ok) throw new Error("Failed to get organization");
@@ -37,13 +35,12 @@ export const getOrganization = async (id, token) => {
   }
 };
 
-export const updateOrganization = async (id, payload, token) => {
+export const updateOrganization = async (id, payload) => {
   try {
     const response = await fetch(`${BASE_URL}/${id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
-        ...(token && { Authorization: "Bearer " + token }),
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(payload)
     });
@@ -55,13 +52,12 @@ export const updateOrganization = async (id, payload, token) => {
   }
 };
 
-export const deleteOrganization = async (id, token) => {
+export const deleteOrganization = async (id) => {
   try {
     const response = await fetch(`${BASE_URL}/${id}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
-        ...(token && { Authorization: "Bearer " + token }),
+        "Content-Type": "application/json"
       }
     });
     if (!response.ok) throw new Error("Failed to delete organization");

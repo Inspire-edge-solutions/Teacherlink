@@ -7,13 +7,10 @@ import { toast } from "react-toastify";
 import { useAuth } from "../../../../../../contexts/AuthContext"; // Import auth context
 
 const OrgDetails = () => {
-  // Get the authenticated user (with token) from the AuthContext
+  // Get the authenticated user (with firebase_uid) from AuthContext
   const { user } = useAuth();
-  // For display purposes, we get the firebase_uid and token from the user object.
+  // Use firebase_uid directly from the user object
   const firebase_uid = user?.uid;
-  const token = user?.token;
-
-  const [designations, setDesignations] = useState([]);
 
   // Organization details state
   const [selectedType, setSelectedType] = useState("");
@@ -29,6 +26,7 @@ const OrgDetails = () => {
     city: "",
     address: "",
     pincode: "",
+    // If user is owner, this contactPerson is the “account_operated_by”
     contactPerson: {
       name: "",
       gender: "",
@@ -39,10 +37,10 @@ const OrgDetails = () => {
     },
   });
 
-  // State for images (for file uploads)
+  // State for images (file uploads)
   const [images, setImages] = useState([]);
 
-  // State for social network data
+  // Social network data
   const [socialData, setSocialData] = useState({
     facebook: "",
     twitter: "",
@@ -50,15 +48,15 @@ const OrgDetails = () => {
     instagram: "",
   });
 
-  // Location (Country/State/City) states
+  // Country/State/City data
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
 
-  // Other UI states
-  const [showContactPersonDesignations, setShowContactPersonDesignations] = useState(false);
-  const [showReportingAuthorityDesignations, setShowReportingAuthorityDesignations] = useState(false);
-  const [isOwner, setIsOwner] = useState("");
+  // UI states
+  const [showDesignationDropdown, setShowDesignationDropdown] = useState(false);
+  const [isOwner, setIsOwner] = useState(""); // "yes" or "no"
+  // If user is not the owner, we fill out the reporting_authority here:
   const [reporting_authority, setReportingAuthority] = useState({
     name: "",
     gender: "",
@@ -93,49 +91,28 @@ const OrgDetails = () => {
     }
   }, [orgDetails.state, orgDetails.country]);
 
-  // Add useEffect to fetch designations when component mounts
-  useEffect(() => {
-    fetchDesignations();
-  }, []);
-
   const orgTypes = [
     "School / College/ University",
     "Coaching Centers/ Institutes",
     "Ed Tech company",
     "Parent/ Guardian looking for Tuitions",
   ];
-  const fetchDesignations = async () => {
-    try {
-      const response = await fetch(
-        "https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/constants"
-      );
-      const data = await response.json();
-      const transformedData = data.map((item) => ({
-        category: item.category,
-        value: item.value,
-        label: item.label
-      }));
-      setDesignations(
-        transformedData.filter((item) => item.category === "Administration") || []
-      );
-    } catch (error) {
-      console.error("Error fetching designations:", error);
-      toast.error("Error fetching designations");
-    }
-  };
+  const designationOptions = ["Chairman", "Director", "Principal", "Vice Principal"];
 
-
+  // Utility: check if the selected type is NOT parent/guardian
   const isNonParentType = () =>
     selectedType && selectedType !== "Parent/ Guardian looking for Tuitions";
 
+  // Handler for organization type selection
   const handleTypeChange = (e) => setSelectedType(e.target.value);
 
+  // Generic handler for fields in orgDetails (like name, website, address, etc.)
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setOrgDetails((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Helper: Convert file to base64 string.
+  // Helper: Convert file to Base64
   const convertFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -148,6 +125,7 @@ const OrgDetails = () => {
     });
   };
 
+  // File change handler for institution photos
   const handleFileChange = async (e) => {
     const files = e.target.files;
     if (files && files.length > 0) {
@@ -162,11 +140,13 @@ const OrgDetails = () => {
     }
   };
 
+  // Social data change handler
   const handleSocialChange = (e) => {
     const { name, value } = e.target;
     setSocialData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // If user is the owner, we store data in orgDetails.contactPerson
   const handleContactPersonChange = (e) => {
     const { name, value } = e.target;
     setOrgDetails((prev) => ({
@@ -175,44 +155,56 @@ const OrgDetails = () => {
     }));
   };
 
-  const handleDesignationSelect = (designationValue) => {
-    setOrgDetails((prev) => ({
-      ...prev,
-      contactPerson: {
-        ...prev.contactPerson,
-        designation: prev.contactPerson.designation.includes(designationValue)
-          ? prev.contactPerson.designation.filter((d) => d !== designationValue)
-          : [...prev.contactPerson.designation, designationValue],
-      },
-    }));
+  // Toggle designations for the contactPerson
+  const handleDesignationSelect = (designation) => {
+    setOrgDetails((prev) => {
+      const alreadySelected = prev.contactPerson.designation.includes(designation);
+      return {
+        ...prev,
+        contactPerson: {
+          ...prev.contactPerson,
+          designation: alreadySelected
+            ? prev.contactPerson.designation.filter((d) => d !== designation)
+            : [...prev.contactPerson.designation, designation],
+        },
+      };
+    });
   };
 
+  // If user is NOT the owner, we store data in reporting_authority
   const handleReportingAuthorityChange = (e) => {
     const { name, value } = e.target;
     setReportingAuthority((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleReportingAuthorityDesignationSelect = (designationValue) => {
-    setReportingAuthority((prev) => ({
-      ...prev,
-      designation: prev.designation.includes(designationValue)
-        ? prev.designation.filter((d) => d !== designationValue)
-        : [...prev.designation, designationValue],
-    }));
+  // Toggle designations for reporting_authority
+  const handleReportingAuthorityDesignationSelect = (designation) => {
+    setReportingAuthority((prev) => {
+      const alreadySelected = prev.designation.includes(designation);
+      return {
+        ...prev,
+        designation: alreadySelected
+          ? prev.designation.filter((d) => d !== designation)
+          : [...prev.designation, designation],
+      };
+    });
   };
 
-  // Submission handler: Build payload and call createOrganization API.
+  // Submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!firebase_uid) {
       toast.error("User is not authenticated. Please log in.");
       return;
     }
+
+    // Build the payload
     const payload = {
       route: "CreateOrganization",
-      firebase_uid, // Although the backend will override this with the verified uid, we include it for reference.
+      firebase_uid,
       type: selectedType,
-      organization_details: !selectedType.includes("Parent/ Guardian looking for Tuitions")
+      // For non-parent types, store organization details
+      organization_details: isNonParentType()
         ? {
             name: orgDetails.name,
             websiteUrl: orgDetails.websiteUrl,
@@ -227,7 +219,8 @@ const OrgDetails = () => {
             institution_photos: images,
           }
         : null,
-      parent_details: selectedType.includes("Parent/ Guardian looking for Tuitions")
+      // For parent/guardian, store parent_details
+      parent_details: !isNonParentType()
         ? {
             address: orgDetails.address,
             city: orgDetails.city,
@@ -236,18 +229,24 @@ const OrgDetails = () => {
             country: orgDetails.country,
           }
         : null,
-      account_operated_by: orgDetails.contactPerson,
-      reporting_authority,
+
+      // If user is owner => account_operated_by = contactPerson
+      // If user is not owner => account_operated_by is null, and we use reporting_authority
+      account_operated_by: isOwner === "yes" ? orgDetails.contactPerson : null,
+      reporting_authority: isOwner === "no" ? reporting_authority : null,
+
       social: socialData,
       images,
       additional_owner: null,
     };
+
     console.log("Submitting payload:", payload);
-    const result = await createOrganization(payload, token);
+
+    const result = await createOrganization(payload);
     if (result) {
       toast.success("Organization created successfully!");
       console.log("API response:", result);
-      // Optionally, reset form state here.
+      // Optionally reset form or navigate away
     } else {
       toast.error("Failed to create organization.");
     }
@@ -268,10 +267,10 @@ const OrgDetails = () => {
           </select>
         </div>
 
-        {/* Non-Parent Types: Render additional fields including owner question */}
+        {/* Non-Parent Types: Render additional fields */}
         {isNonParentType() && (
           <div className="row">
-            {/* Organization basic details */}
+            {/* Basic Organization Details */}
             <div className="form-group col-lg-6 col-md-12">
               <input
                 type="text"
@@ -343,6 +342,7 @@ const OrgDetails = () => {
                 onChange={handleInputChange}
               />
             </div>
+
             {/* Owner Question */}
             <div className="form-group col-lg-6 col-md-12">
               <h6>Are you the owner or the main head of the organization?</h6>
@@ -371,6 +371,7 @@ const OrgDetails = () => {
                 </div>
               </div>
             </div>
+
             {/* Reporting Authority Fields (if not owner) */}
             {isOwner === "no" && (
               <div className="row">
@@ -382,8 +383,8 @@ const OrgDetails = () => {
                     type="text"
                     className="form-control"
                     name="name"
-                    value={orgDetails.contactPerson.name}
-                    onChange={handleContactPersonChange}
+                    value={reporting_authority.name}
+                    onChange={handleReportingAuthorityChange}
                     maxLength="20"
                     placeholder="Name"
                   />
@@ -397,8 +398,8 @@ const OrgDetails = () => {
                         id="male"
                         name="gender"
                         value="male"
-                        required
-                        onChange={handleContactPersonChange}
+                        checked={reporting_authority.gender === "male"}
+                        onChange={handleReportingAuthorityChange}
                       />
                       <label htmlFor="male">Male</label>
                     </div>
@@ -408,7 +409,8 @@ const OrgDetails = () => {
                         id="female"
                         name="gender"
                         value="female"
-                        onChange={handleContactPersonChange}
+                        checked={reporting_authority.gender === "female"}
+                        onChange={handleReportingAuthorityChange}
                       />
                       <label htmlFor="female">Female</label>
                     </div>
@@ -418,7 +420,8 @@ const OrgDetails = () => {
                         id="transgender"
                         name="gender"
                         value="transgender"
-                        onChange={handleContactPersonChange}
+                        checked={reporting_authority.gender === "transgender"}
+                        onChange={handleReportingAuthorityChange}
                       />
                       <label htmlFor="transgender">Transgender</label>
                     </div>
@@ -428,26 +431,28 @@ const OrgDetails = () => {
                   <div className="custom-multiselect">
                     <div
                       className="select-header form-control"
-                      onClick={() => setShowContactPersonDesignations(!showContactPersonDesignations)}
+                      onClick={() => setShowDesignationDropdown(!showDesignationDropdown)}
                     >
-                      {orgDetails.contactPerson.designation.length > 0
-                        ? orgDetails.contactPerson.designation.join(", ")
+                      {reporting_authority.designation.length > 0
+                        ? reporting_authority.designation.join(", ")
                         : "Select Designation(s)"}
                     </div>
-                    {showContactPersonDesignations && (
+                    {showDesignationDropdown && (
                       <div className="select-options">
-                        {designations.map((designation) => (
+                        {designationOptions.map((designation, index) => (
                           <div
-                            key={designation.value}
+                            key={index}
                             className="select-option"
-                            onClick={() => handleDesignationSelect(designation.value)}
+                            onClick={() =>
+                              handleReportingAuthorityDesignationSelect(designation)
+                            }
                           >
                             <input
                               type="checkbox"
-                              checked={orgDetails.contactPerson.designation.includes(designation.value)}
+                              checked={reporting_authority.designation.includes(designation)}
                               readOnly
                             />
-                            <span>{designation.label}</span>
+                            <span>{designation}</span>
                           </div>
                         ))}
                       </div>
@@ -459,12 +464,14 @@ const OrgDetails = () => {
                     type="tel"
                     className="form-control"
                     name="phone1"
-                    value={orgDetails.contactPerson.phone1}
-                    onChange={handleContactPersonChange}
-                    placeholder="Contact Number-1 (Calling)"
-                    onInput={(e) =>
-                      (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
+                    value={reporting_authority.phone1}
+                    onChange={(e) =>
+                      setReportingAuthority((prev) => ({
+                        ...prev,
+                        phone1: e.target.value.replace(/[^0-9]/g, ""),
+                      }))
                     }
+                    placeholder="Contact Number-1 (Calling)"
                     maxLength="10"
                   />
                 </div>
@@ -473,12 +480,14 @@ const OrgDetails = () => {
                     type="tel"
                     className="form-control"
                     name="phone2"
-                    value={orgDetails.contactPerson.phone2}
-                    onChange={handleContactPersonChange}
-                    placeholder="Contact Number-2 (WhatsApp)"
-                    onInput={(e) =>
-                      (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
+                    value={reporting_authority.phone2}
+                    onChange={(e) =>
+                      setReportingAuthority((prev) => ({
+                        ...prev,
+                        phone2: e.target.value.replace(/[^0-9]/g, ""),
+                      }))
                     }
+                    placeholder="Contact Number-2 (WhatsApp)"
                     maxLength="10"
                   />
                 </div>
@@ -487,12 +496,15 @@ const OrgDetails = () => {
                     type="email"
                     className="form-control"
                     name="email"
-                    value={orgDetails.contactPerson.email}
-                    onChange={handleContactPersonChange}
+                    value={reporting_authority.email}
+                    onChange={handleReportingAuthorityChange}
                     placeholder="Email"
                   />
                 </div>
-                {/* Location fields for non-parent types */}
+
+                {/* Location fields if you also want them for reporting authority
+                    (optional — depends on your design)
+                 */}
                 <div className="row">
                   <div className="form-group col-lg-6 col-md-12">
                     <select
@@ -547,11 +559,13 @@ const OrgDetails = () => {
                       className="form-control"
                       name="pincode"
                       value={orgDetails.pincode}
-                      onChange={handleInputChange}
-                      placeholder="Pin code"
-                      onInput={(e) =>
-                        (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
+                      onChange={(e) =>
+                        setOrgDetails((prev) => ({
+                          ...prev,
+                          pincode: e.target.value.replace(/[^0-9]/g, ""),
+                        }))
                       }
+                      placeholder="Pin code"
                       maxLength="6"
                     />
                   </div>
@@ -628,11 +642,13 @@ const OrgDetails = () => {
                 className="form-control"
                 name="pincode"
                 value={orgDetails.pincode}
-                onChange={handleInputChange}
-                placeholder="Pin code"
-                onInput={(e) =>
-                  (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
+                onChange={(e) =>
+                  setOrgDetails((prev) => ({
+                    ...prev,
+                    pincode: e.target.value.replace(/[^0-9]/g, ""),
+                  }))
                 }
+                placeholder="Pin code"
                 maxLength="6"
               />
             </div>
@@ -660,6 +676,7 @@ const OrgDetails = () => {
                     id="parentGenderMale"
                     name="gender"
                     value="male"
+                    checked={orgDetails.contactPerson.gender === "male"}
                     onChange={handleContactPersonChange}
                   />
                   <label htmlFor="parentGenderMale">Male</label>
@@ -670,6 +687,7 @@ const OrgDetails = () => {
                     id="parentGenderFemale"
                     name="gender"
                     value="female"
+                    checked={orgDetails.contactPerson.gender === "female"}
                     onChange={handleContactPersonChange}
                   />
                   <label htmlFor="parentGenderFemale">Female</label>
@@ -680,6 +698,7 @@ const OrgDetails = () => {
                     id="parentGenderTransgender"
                     name="gender"
                     value="transgender"
+                    checked={orgDetails.contactPerson.gender === "transgender"}
                     onChange={handleContactPersonChange}
                   />
                   <label htmlFor="parentGenderTransgender">Transgender</label>
@@ -690,26 +709,26 @@ const OrgDetails = () => {
               <div className="custom-multiselect">
                 <div
                   className="select-header form-control"
-                  onClick={() => setShowContactPersonDesignations(!showContactPersonDesignations)}
+                  onClick={() => setShowDesignationDropdown(!showDesignationDropdown)}
                 >
                   {orgDetails.contactPerson.designation.length > 0
                     ? orgDetails.contactPerson.designation.join(", ")
                     : "Select Designation(s)"}
                 </div>
-                {showContactPersonDesignations && (
+                {showDesignationDropdown && (
                   <div className="select-options">
-                    {designations.map((designation) => (
+                    {designationOptions.map((designation, index) => (
                       <div
-                        key={designation.value}
+                        key={index}
                         className="select-option"
-                        onClick={() => handleDesignationSelect(designation.value)}
+                        onClick={() => handleDesignationSelect(designation)}
                       >
                         <input
                           type="checkbox"
-                          checked={orgDetails.contactPerson.designation.includes(designation.value)}
+                          checked={orgDetails.contactPerson.designation.includes(designation)}
                           readOnly
                         />
-                        <span>{designation.label}</span>
+                        <span>{designation}</span>
                       </div>
                     ))}
                   </div>
@@ -722,11 +741,16 @@ const OrgDetails = () => {
                 className="form-control"
                 name="phone1"
                 value={orgDetails.contactPerson.phone1}
-                onChange={handleContactPersonChange}
-                placeholder="Contact Number-1 (Calling)"
-                onInput={(e) =>
-                  (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
+                onChange={(e) =>
+                  setOrgDetails((prev) => ({
+                    ...prev,
+                    contactPerson: {
+                      ...prev.contactPerson,
+                      phone1: e.target.value.replace(/[^0-9]/g, ""),
+                    },
+                  }))
                 }
+                placeholder="Contact Number-1 (Calling)"
                 maxLength="10"
               />
             </div>
@@ -736,11 +760,16 @@ const OrgDetails = () => {
                 className="form-control"
                 name="phone2"
                 value={orgDetails.contactPerson.phone2}
-                onChange={handleContactPersonChange}
-                placeholder="Contact Number-2 (WhatsApp)"
-                onInput={(e) =>
-                  (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
+                onChange={(e) =>
+                  setOrgDetails((prev) => ({
+                    ...prev,
+                    contactPerson: {
+                      ...prev.contactPerson,
+                      phone2: e.target.value.replace(/[^0-9]/g, ""),
+                    },
+                  }))
                 }
+                placeholder="Contact Number-2 (WhatsApp)"
                 maxLength="10"
               />
             </div>
@@ -781,7 +810,7 @@ const OrgDetails = () => {
             <input
               type="text"
               name="linkedin"
-              placeholder="Linkedin"
+              placeholder="LinkedIn"
               value={socialData.linkedin}
               onChange={handleSocialChange}
             />
