@@ -135,91 +135,178 @@ export const lambdaHandler = async (event) => {
   }
 };
 
+// async function getUser(conn, event) {
+//     console.log("🔹 Authenticating user...");
+  
+//     // Log incoming path and query parameters for debugging
+//     console.log("🔹 Raw pathParameters:", JSON.stringify(event.pathParameters));
+//     console.log("🔹 Raw queryStringParameters:", JSON.stringify(event.queryStringParameters));
+//     console.log("🔹 Incoming event data:", JSON.stringify(event));
+  
+//     // Retrieve the Firebase UID from various sources
+//     const firebase_uid =
+//       event.firebase_uid ||
+//       (event.pathParameters && (event.pathParameters.firebase_uid || event.pathParameters.id)) ||
+//       (event.queryStringParameters && event.queryStringParameters.firebase_uid);
+  
+//     console.log("🔹 Using firebase_uid:", firebase_uid, " (type:", typeof firebase_uid, ")");
+  
+//     if (!firebase_uid) {
+//       console.error("❌ firebase_uid is missing in the request.");
+//       return {
+//         statusCode: 400,
+//         headers: {
+//           "Content-Type": "application/json",
+//           "Access-Control-Allow-Origin": "*",
+//           "Access-Control-Allow-Headers": "Content-Type, Accept, Accept-Language, Accept-Encoding",
+//           "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+//         },
+//         body: JSON.stringify({ message: "firebase_uid is required." })
+//       };
+//     }
+  
+//     try {
+//       // Query the database for the user record
+//       console.log("🔹 Querying database for firebase_uid:", firebase_uid);
+//       const [rows] = await conn.execute(
+//         "SELECT user_type FROM users WHERE firebase_uid = ?",
+//         [firebase_uid]
+//       );
+//       console.log("🔹 Database query result:", rows);
+  
+//       if (rows.length === 0) {
+//         console.error("❌ No user found with the provided firebase_uid:", firebase_uid);
+//         return {
+//           statusCode: 404,
+//           headers: {
+//             "Content-Type": "application/json",
+//             "Access-Control-Allow-Origin": "*",
+//             "Access-Control-Allow-Headers": "Content-Type, Accept, Accept-Language, Accept-Encoding",
+//             "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+//           },
+//           body: JSON.stringify({ message: "User not found. Please sign up first." })
+//         };
+//       }
+  
+//       const user_type = rows[0].user_type;
+//       console.log(`🔹 User authenticated as: ${user_type}`);
+  
+//       return {
+//         statusCode: 200,
+//         headers: {
+//           "Content-Type": "application/json",
+//           "Access-Control-Allow-Origin": "*",
+//           "Access-Control-Allow-Headers": "Content-Type, Accept, Accept-Language, Accept-Encoding",
+//           "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+//         },
+//         body: JSON.stringify({ message: "Authenticated", user_type })
+//       };
+//     } catch (err) {
+//       console.error("❌ Authentication error:", err);
+//       return {
+//         statusCode: 500,
+//         headers: {
+//           "Content-Type": "application/json",
+//           "Access-Control-Allow-Origin": "*",
+//           "Access-Control-Allow-Headers": "Content-Type, Accept, Accept-Language, Accept-Encoding",
+//           "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+//         },
+//         body: JSON.stringify({ message: err.message })
+//       };
+//     } finally {
+//       if (conn) {
+//         conn.release();
+//         console.log("🔹 Database connection released.");
+//       }
+//     }
+//   }
+
 async function getUser(conn, event) {
-    console.log("🔹 Authenticating user...");
-  
-    // Log incoming path and query parameters for debugging
-    console.log("🔹 Raw pathParameters:", JSON.stringify(event.pathParameters));
-    console.log("🔹 Raw queryStringParameters:", JSON.stringify(event.queryStringParameters));
-    console.log("🔹 Incoming event data:", JSON.stringify(event));
-  
-    // Retrieve the Firebase UID from various sources
-    const firebase_uid =
-      event.firebase_uid ||
-      (event.pathParameters && (event.pathParameters.firebase_uid || event.pathParameters.id)) ||
-      (event.queryStringParameters && event.queryStringParameters.firebase_uid);
-  
-    console.log("🔹 Using firebase_uid:", firebase_uid, " (type:", typeof firebase_uid, ")");
-  
-    if (!firebase_uid) {
-      console.error("❌ firebase_uid is missing in the request.");
+  console.log("🔹 Authenticating user...");
+
+  // Log incoming path and query parameters for debugging
+  console.log("🔹 Raw pathParameters:", JSON.stringify(event.pathParameters));
+  console.log("🔹 Raw queryStringParameters:", JSON.stringify(event.queryStringParameters));
+  console.log("🔹 Incoming event data:", JSON.stringify(event));
+
+  // Retrieve the Firebase UID from various sources
+  const firebase_uid =
+    event.firebase_uid ||
+    (event.pathParameters && (event.pathParameters.firebase_uid || event.pathParameters.id)) ||
+    (event.queryStringParameters && event.queryStringParameters.firebase_uid);
+
+  console.log("🔹 Using firebase_uid:", firebase_uid, " (type:", typeof firebase_uid, ")");
+
+  if (!firebase_uid) {
+    console.error("❌ firebase_uid is missing in the request.");
+    return {
+      statusCode: 400,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type, Accept, Accept-Language, Accept-Encoding",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+      },
+      body: JSON.stringify({ message: "firebase_uid is required." })
+    };
+  }
+
+  try {
+    // Query the database for the user record (selecting name and phone_number as well)
+    console.log("🔹 Querying database for firebase_uid:", firebase_uid);
+    const [rows] = await conn.execute(
+      "SELECT user_type, name, phone_number FROM users WHERE firebase_uid = ?",
+      [firebase_uid]
+    );
+    console.log("🔹 Database query result:", rows);
+
+    if (rows.length === 0) {
+      console.error("❌ No user found with the provided firebase_uid:", firebase_uid);
       return {
-        statusCode: 400,
+        statusCode: 404,
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Headers": "Content-Type, Accept, Accept-Language, Accept-Encoding",
           "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
         },
-        body: JSON.stringify({ message: "firebase_uid is required." })
+        body: JSON.stringify({ message: "User not found. Please sign up first." })
       };
     }
-  
-    try {
-      // Query the database for the user record
-      console.log("🔹 Querying database for firebase_uid:", firebase_uid);
-      const [rows] = await conn.execute(
-        "SELECT user_type FROM users WHERE firebase_uid = ?",
-        [firebase_uid]
-      );
-      console.log("🔹 Database query result:", rows);
-  
-      if (rows.length === 0) {
-        console.error("❌ No user found with the provided firebase_uid:", firebase_uid);
-        return {
-          statusCode: 404,
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "Content-Type, Accept, Accept-Language, Accept-Encoding",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
-          },
-          body: JSON.stringify({ message: "User not found. Please sign up first." })
-        };
-      }
-  
-      const user_type = rows[0].user_type;
-      console.log(`🔹 User authenticated as: ${user_type}`);
-  
-      return {
-        statusCode: 200,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Headers": "Content-Type, Accept, Accept-Language, Accept-Encoding",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
-        },
-        body: JSON.stringify({ message: "Authenticated", user_type })
-      };
-    } catch (err) {
-      console.error("❌ Authentication error:", err);
-      return {
-        statusCode: 500,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Headers": "Content-Type, Accept, Accept-Language, Accept-Encoding",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
-        },
-        body: JSON.stringify({ message: err.message })
-      };
-    } finally {
-      if (conn) {
-        conn.release();
-        console.log("🔹 Database connection released.");
-      }
+
+    const { user_type, name, phone_number } = rows[0];
+    console.log(`🔹 User authenticated as: ${user_type}`);
+
+    return {
+      statusCode: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type, Accept, Accept-Language, Accept-Encoding",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+      },
+      body: JSON.stringify({ message: "Authenticated", user_type, name, phone_number })
+    };
+  } catch (err) {
+    console.error("❌ Authentication error:", err);
+    return {
+      statusCode: 500,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type, Accept, Accept-Language, Accept-Encoding",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+      },
+      body: JSON.stringify({ message: err.message })
+    };
+  } finally {
+    if (conn) {
+      conn.release();
+      console.log("🔹 Database connection released.");
     }
   }
+}
+
   
 async function createUser(conn, event) {
   console.log("🔹 Creating user...");

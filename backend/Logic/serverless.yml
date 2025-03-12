@@ -74,6 +74,12 @@ provider:
             - geo:SearchPlaceIndexForText
           Resource: arn:aws:geo:${self:provider.region}:*:place-index/TeacherLinkPlaceIndex
 
+        # Allow public read access to organization_photos in the deployments bucket
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+          Resource: arn:aws:s3:::teacherlink-deployments-ap-south-1/organization_photos/*
+
 plugins:
   - serverless-offline
   - serverless-dotenv-plugin
@@ -182,6 +188,49 @@ functions:
     events:
       - http:
           path: otp/verify
+          method: post
+          cors: true
+
+  subscription:
+    handler: src/handlers/subscription.lambdaHandler
+    environment: ${file(src/env/${self:provider.stage}.yml)}
+    events:
+      - http:
+          path: subscription
+          method: post
+          cors: true
+      - http:
+          path: subscription/{firebase_uid}
+          method: get
+          cors: true
+      - http:
+          path: subscription/{firebase_uid}
+          method: delete
+          cors: true
+
+  referral:
+    handler: src/handlers/referral.lambdaHandler
+    environment: ${file(src/env/${self:provider.stage}.yml)}
+    events:
+      - http:
+          path: referral/create
+          method: post
+          cors: true
+      - http:
+          path: referral/redeem
+          method: post
+          cors: true
+      - http:
+          path: referral/RedeemMarketingToken
+          method: post
+          cors: true
+          
+  cost:
+    handler: src/handlers/cost.lambdaHandler
+    environment: ${file(src/env/${self:provider.stage}.yml)}
+    events:
+      - http:
+          path: cost/process
           method: post
           cors: true
 
