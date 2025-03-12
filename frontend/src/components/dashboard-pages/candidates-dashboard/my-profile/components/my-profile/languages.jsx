@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from "../../../../../../contexts/AuthContext";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Languages = () => {
 
@@ -60,21 +62,21 @@ const Languages = () => {
       const response = await axios.post(
         'https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/languages',
         { languages: JSON.stringify(languages), 
-          firebase_id: user.uid },
+          firebase_uid: user.uid },
         {
           headers: { 'Content-Type': 'application/json' }
         }
       );
 
       if (response.status === 200 || response.status === 201) {
-        alert('Languages saved successfully!');
+        toast.success('Languages saved successfully!');
       } else {
         throw new Error('Failed to save languages');
       }
 
     } catch (error) {
       console.error('Error details:', error.response?.data || error.message || 'Unknown error');
-      alert(`Error: ${error.response?.data?.message || error.message || 'Failed to save languages'}`);
+      toast.error(`Error: ${error.response?.data?.message || error.message || 'Failed to save languages'}`);
     }
   };
 
@@ -106,11 +108,17 @@ const Languages = () => {
                     onChange={(e) => handleLanguageChange(index, 'language', e.target.value)}
                   >
                     <option value="">Select Language</option>
-                    {availableLanguages.map((availableLang) => (
-                      <option key={availableLang.id} value={availableLang.value}>
-                        {availableLang.label}
-                      </option>
-                    ))}
+                    {availableLanguages
+                      .filter(availableLang => 
+                        !languages.some((l, i) => 
+                          i !== index && l.language === availableLang.value
+                        )
+                      )
+                      .map((availableLang) => (
+                        <option key={availableLang.id} value={availableLang.value}>
+                          {availableLang.label}
+                        </option>
+                      ))}
                   </select>
                 </td>
                 <td>

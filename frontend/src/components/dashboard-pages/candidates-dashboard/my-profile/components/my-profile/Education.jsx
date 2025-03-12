@@ -3,6 +3,8 @@ import Select from "react-select";
 import "./profile-styles.css";
 import axios from "axios";
 import { useAuth } from "../../../../../../contexts/AuthContext";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Education = ({
   isEasyMode,
@@ -472,15 +474,15 @@ const Education = ({
               </div>
               <div className="form-group col-lg-6 col-md-12">
               <Select
-  value={degrees.find((d) => d.value === data.courseName) || null}
-  onChange={(selectedOption) =>
-    handleEducationDataChange(index, "courseName", selectedOption.value)
-  }
-  options={degrees}
-  className={`custom-select ${data.courseName === "" ? "required" : ""}`}
-  placeholder="Degree Name"
-  required
-/>
+                  value={degrees.find((d) => d.value === data.courseName) || null}
+                  onChange={(selectedOption) =>
+                    handleEducationDataChange(index, "courseName", selectedOption.value)
+                  }
+                  options={degrees}
+                  className={`custom-select ${data.courseName === "" ? "required" : ""}`}
+                  placeholder="Degree Name"
+                  required
+                />
 
               </div>
               {degreeCollege && (
@@ -1439,7 +1441,7 @@ const Education = ({
 
     // Construct the payload based on our education_details table fields.
     const payload = {
-      firebase_id: user.uid,
+      firebase_uid: user.uid,
       // Data for Grade 10 (mandatory)
       grade10: {
         syllabus: grade10Data.syllabus,
@@ -1484,11 +1486,11 @@ const Education = ({
         payload,
         { headers: { "Content-Type": "application/json" } }
       );
-      alert("Education details saved successfully");
+      toast.success("Education details saved successfully");
       console.log("Success:", data);
     } catch (error) {
       console.error("Error saving education details:", error);
-      alert("Error saving education details");
+      toast.error("Error saving education details");
     }
   };
 

@@ -130,9 +130,11 @@ const ContactInfoBox = () => {
                 <div className="form-group col-lg-12 col-md-12">
                     <div className="map-outer">
                         <div style={{ height: "420px", width: "100%" }}>
-                            <Map 
+                        <Map 
                                 initialCenter={selectedLocation?.coordinates}
                                 initialZoom={selectedLocation ? 15 : 11}
+                                marker={selectedLocation}
+                                markerLabel={selectedLocation?.label}
                             />
                         </div>
                     </div>

@@ -34,9 +34,9 @@ const index = () => {
           {/* Collapsible sidebar button */}
 
           <div className="row">
-              <div className="ls-widget">
+              {/* <div className="ls-widget"> */}
                   <MyProfile />
-              </div>
+              {/* </div> */}
           </div>
           {/* End .row */}
         </div>

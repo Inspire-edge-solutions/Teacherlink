@@ -1,0 +1,65 @@
+service: jobPreferences-teacher
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+  environment:
+    TABLE_NAME_EXP: 'ExperienceTable'
+
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:GetItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - s3:PutObject
+      Resource:
+        - "arn:aws:dynamodb:ap-south-1:*:table/ExperienceTable"
+        - "arn:aws:s3:::my-firstapp-pay-slips/*"
+
+functions:
+  jobPreference:
+    handler: jobPreference.handler
+    events:
+      - http:
+          path: /jobPreference
+          method: any
+          cors: true
+
+  workExperience:
+    handler: workExperience.handler
+    events:
+      - http:
+          path: /workExperience
+          method: any
+          cors: true
+
+  jobPostInstitutes:
+    handler: jobPostInstitutes.handler
+    events:
+      - http:
+          path: /jobPostIntstitutes
+          method: any
+          cors: true
+
+  educationDetails:
+    handler: educationDetails.handler
+    events:
+      - http:
+          path: /educationDetails
+          method: any
+          cors: true
+  
+  unknown:
+    handler: unknown.filterJobs  
+    events:
+      - http:
+          path: /jobFilter  
+          method: any     
+          cors: true      
+
+plugins:
+  - serverless-offline

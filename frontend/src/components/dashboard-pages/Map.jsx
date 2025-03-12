@@ -1,17 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import jobFeatures from "@/data/job-featured";
 
 const Map = ({ initialCenter, initialZoom, marker, markerLabel }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [selectedMarker, setSelectedMarker] = useState(null);
-  const markers = useRef([]);
-  const locationMarker = useRef(null); // Reference for the search location marker
+  const locationMarker = useRef(null);
 
+  // Initialize map
   useEffect(() => {
-    if (map.current) return; // initialize map only once
+    if (map.current) return;
 
     const apiKey = import.meta.env.VITE_AWS_LOCATION_API_KEY;
     const region = "ap-south-1";
@@ -21,42 +19,13 @@ const Map = ({ initialCenter, initialZoom, marker, markerLabel }) => {
     map.current = new maplibregl.Map({
       container: mapContainer.current,
       style: `https://maps.geo.${region}.amazonaws.com/v2/styles/${style}/descriptor?key=${apiKey}&color-scheme=${colorScheme}`,
-      center: initialCenter || [77.5946, 12.9716], // Use provided center or default to Bengaluru
+      center: initialCenter || [77.5946, 12.9716],
       zoom: initialZoom || 11,
     });
 
-    // Add navigation controls
     map.current.addControl(new maplibregl.NavigationControl(), 'top-left');
 
-    // Wait for map to load before adding markers
-    map.current.on('load', () => {
-      // Add markers for each job
-      jobFeatures.slice(0, 6).forEach((job) => {
-        const el = document.createElement('div');
-        el.className = 'marker';
-        el.style.width = '20px';
-        el.style.height = '20px';
-        el.style.backgroundColor = '#ff4d4d';
-        el.style.borderRadius = '50%';
-        el.style.cursor = 'pointer';
-
-        const marker = new maplibregl.Marker(el)
-          .setLngLat([Number(job.long), Number(job.lat)])
-          .addTo(map.current);
-
-        // Add click event
-        el.addEventListener('click', () => {
-          setSelectedMarker(job);
-          marker.togglePopup();
-        });
-
-        markers.current.push(marker);
-      });
-    });
-
-    // Cleanup on unmount
     return () => {
-      markers.current.forEach(marker => marker.remove());
       if (locationMarker.current) {
         locationMarker.current.remove();
       }
@@ -65,41 +34,50 @@ const Map = ({ initialCenter, initialZoom, marker, markerLabel }) => {
         map.current = null;
       }
     };
-  }, [initialCenter, initialZoom]);
+  }, []);
 
-  // Effect to handle marker updates
+  // Handle marker updates
   useEffect(() => {
-    if (!map.current || !marker) return;
+    if (!map.current || !marker?.coordinates) return;
 
-    // Remove existing location marker if it exists
+    // Remove existing marker
     if (locationMarker.current) {
       locationMarker.current.remove();
     }
 
-    // Create new marker element
-    const el = document.createElement('div');
-    el.className = 'location-marker';
-    el.style.width = '25px';
-    el.style.height = '25px';
-    el.style.backgroundColor = '#FF0000';
-    el.style.borderRadius = '50%';
-    el.style.border = '3px solid white';
-    el.style.boxShadow = '0 0 10px rgba(0,0,0,0.3)';
+    // Create marker element
+    const markerElement = document.createElement('div');
+    markerElement.innerHTML = `
+      <svg 
+        viewBox="0 0 24 24" 
+        width="30" 
+        height="30" 
+        style="fill: #ff0000; filter: drop-shadow(0 2px 2px rgba(10, 9, 9, 0.3));"
+      >
+        <path d="M12 0C7.802 0 4 3.403 4 7.602C4 11.8 7.469 16.812 12 24C16.531 16.812 20 11.8 20 7.602C20 3.403 16.199 0 12 0ZM12 11C10.343 11 9 9.657 9 8C9 6.343 10.343 5 12 5C13.657 5 15 6.343 15 8C15 9.657 13.657 11 12 11Z"/>
+      </svg>
+    `;
+    markerElement.style.cursor = 'pointer';
 
     // Create and add new marker
-    locationMarker.current = new maplibregl.Marker(el)
+    locationMarker.current = new maplibregl.Marker({
+      element: markerElement,
+      anchor: 'bottom' // This ensures the point of the pin is at the exact location
+    })
       .setLngLat(marker.coordinates)
       .addTo(map.current);
 
-    // Add popup if label is provided
+    // Add popup if label exists
     if (markerLabel) {
-      const popup = new maplibregl.Popup({ offset: 25 })
+      const popup = new maplibregl.Popup({ 
+        offset: [0, -35],  // Offset adjusted for pin icon
+        className: 'custom-popup'
+      })
         .setHTML(`<h4>${markerLabel}</h4>`);
-      
       locationMarker.current.setPopup(popup);
     }
 
-    // Fly to the marker location
+    // Center map on marker
     map.current.flyTo({
       center: marker.coordinates,
       zoom: 15,
@@ -118,38 +96,6 @@ const Map = ({ initialCenter, initialZoom, marker, markerLabel }) => {
           position: 'relative'
         }} 
       />
-      {selectedMarker && (
-        <div 
-          style={{
-            position: 'absolute',
-            top: '20px',
-            right: '20px',
-            background: 'white',
-            padding: '15px',
-            borderRadius: '8px',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-            maxWidth: '300px',
-            zIndex: 1
-          }}
-        >
-          <h4>{selectedMarker.jobTitle}</h4>
-          <p>{selectedMarker.company}</p>
-          <p>{selectedMarker.location}</p>
-          <button 
-            onClick={() => setSelectedMarker(null)}
-            style={{
-              position: 'absolute',
-              top: '5px',
-              right: '5px',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer'
-            }}
-          >
-            ×
-          </button>
-        </div>
-      )}
     </div>
   );
 };

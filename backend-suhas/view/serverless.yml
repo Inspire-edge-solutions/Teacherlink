@@ -1,0 +1,50 @@
+service: aggregated-api
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+  environment:
+    AWS_LOCATION_API_KEY: ${env:AWS_LOCATION_API_KEY}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - geo:SearchPlaceIndexForText
+      Resource:
+        - arn:aws:geo:${self:provider.region}:*:place-index/TeacherLinkPlaceIndex
+
+functions:
+  geocodeLocation:
+    handler: view/geocode.geocodeLocation
+    events:
+      - http:
+          path: geocode
+          method: get
+          cors: true
+
+  aggregatedApi:
+    handler: easyView.getAllData
+    events:
+      - http:
+          path: easyView
+          method: get
+          cors: true
+
+  fullViewApi:
+    handler: fullView.getAllData
+    events:
+      - http:
+          path: fullView
+          method: get
+          cors: true
+
+  mapApi:
+    handler: map.getAllData
+    events:
+      - http:
+          path: map
+          method: get
+          cors: true
+
+plugins:
+  - serverless-offline

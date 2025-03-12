@@ -1,0 +1,26 @@
+{
+  "name": "view",
+  "version": "1.0.0",
+  "description": "Aggregated API using Serverless Framework",
+  "main": "easyView.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "offline": "serverless offline"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-location": "^3.758.0",
+    "aws-sdk": "^2.1692.0",
+    "axios": "^1.8.1",
+    "cors": "^2.8.5",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.13.0",
+    "serverless": "^4.7.0"
+  },
+  "devDependencies": {
+    "serverless-offline": "^14.4.0"
+  }
+}
