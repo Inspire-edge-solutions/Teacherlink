@@ -35,7 +35,12 @@ const index = () => {
 
           <div className="row">
               {/* <div className="ls-widget"> */}
-                  <MyProfile />
+                  <MyProfile>
+                    {/* This is where sub-components will render */}
+                    <div className="profile-content-area">
+                      {/* Common elements that appear on all sub-pages */}
+                    </div>
+                  </MyProfile>
               {/* </div> */}
           </div>
           {/* End .row */}

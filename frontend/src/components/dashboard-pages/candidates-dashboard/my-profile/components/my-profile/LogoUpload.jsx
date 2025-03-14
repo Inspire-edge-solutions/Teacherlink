@@ -145,9 +145,7 @@ const LogoUpload = () => {
                 </span>
               </label>
             </div>
-            <div className="upload-info">
-              Max file size is 1MB, Minimum dimension: 330x300 and suitable files are .jpg &amp; .png
-            </div>
+           
             <button
               className="theme-btn btn-style-three"
               onClick={uploadPhoto}

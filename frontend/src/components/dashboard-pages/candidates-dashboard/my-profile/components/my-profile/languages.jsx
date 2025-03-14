@@ -83,7 +83,6 @@ const Languages = () => {
   return (
     <>
     <div className="form-group">
-      <h3>Languages Known</h3>
       
       <div className="language-table">
         <table className="table">

@@ -4,7 +4,7 @@ import './profile-styles.css';
 import { useAuth } from "../../../../../../contexts/AuthContext";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import ContactInfoBox from "../ContactInfoBox";
 const Social = ({ isEasyMode }) => {
 
   const { user } = useAuth();
@@ -78,26 +78,6 @@ const Social = ({ isEasyMode }) => {
           
           />
         </div>
-        <div className="form-group col-lg-6 col-md-12">
-          <input
-            type="text"
-            name="instagram"
-            placeholder="Instagram - www.instagram.com/your-id"
-            value={socialLinks.instagram}
-            onChange={handleChange}
-      
-          />
-        </div>
-        
-        <div className="form-group col-lg-12 col-md-12">
-          <textarea
-            name="profile_summary"  // Updated field name
-            placeholder="Profile Summary - Write a brief description about yourself (max 100 words)"
-            value={socialLinks.profile_summary}
-            onChange={handleChange}
-            required
-          ></textarea>
-        </div>
         
         <div className="form-group col-lg-12 col-md-12">
           <button type="submit" className="theme-btn btn-style-three">
@@ -107,6 +87,7 @@ const Social = ({ isEasyMode }) => {
         </>
         )}
          </div>
+         <ContactInfoBox/>
     </form>
   );
 };

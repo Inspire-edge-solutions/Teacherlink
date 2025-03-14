@@ -1,392 +1,237 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from "../../../../../../contexts/AuthContext";
-import { 
-  FaGlobe, FaBuilding, FaMapMarkerAlt, FaHome, FaHashtag,
-  FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaGithub 
-} from 'react-icons/fa';
+import axios from 'axios';
+import { useAuth } from '../../../../../../contexts/AuthContext';
 
-function UserJobProfile() {
-  // ========== AUTHENTICATION ==========
+const Fullview = () => {
+  const [userProfile, setUserProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [debugInfo, setDebugInfo] = useState(null);
+  
   const { user } = useAuth();
-  if (!user || !user.uid) {
-    return <div>Please log in to view your profile.</div>;
-  }
 
-  // ========== STATE VARIABLES ==========
-  const [personal, setPersonal] = useState(null);
-  const [address, setAddress] = useState(null);
-  const [education, setEducation] = useState(null);
-  const [workExperience, setWorkExperience] = useState(null);
-  const [jobPreference, setJobPreference] = useState(null);
-  const [languages, setLanguages] = useState(null);
-  const [socialProfile, setSocialProfile] = useState(null);
-  const [additionalInfo, setAdditionalInfo] = useState(null);
-
-  // ========== API ENDPOINTS ==========
-  const personalAPI = "https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/personal";
-  const addressAPI = "https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/presentAddress";
-  const educationAPI = "https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/educationDetails";
-  const workExperienceAPI = "https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/workExperience";
-  const jobPreferenceAPI = "https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/jobPreference";
-  const languagesAPI = "https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/languages";
-  const socialProfileAPI = "https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/socialProfile";
-  const additionalInfo1API = "https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/additional_info1";
-  const additionalInfo2API = "https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/additional_info2";
-
-  // ========== HELPER FUNCTIONS ==========
-  function getLastRecord(data) {
-    if (!data) return null;
-    if (Array.isArray(data) && data.length > 0) {
-      return data[data.length - 1];
-    }
-    return Array.isArray(data) ? null : data;
-  }
-
-  function formatLabel(key) {
-    return key
-      .replace(/_/g, " ")
-      .replace(/\b\w/g, (l) => l.toUpperCase());
-  }
-
-  function formatDate(dateStr) {
-    if (!dateStr) return "";
-    return dateStr.includes("T") ? dateStr.split("T")[0] : dateStr;
-  }
-
-  /**
-   * Renders values as either text or JSX elements.
-   * For strings, if valid JSON, it parses and renders as a bullet list.
-   */
-  function renderValue(value, skipEmpty = true) {
-    if (value === null || value === undefined) return skipEmpty ? "" : "null";
-    if (typeof value === "string") {
-      const trimmed = value.trim();
-      if (skipEmpty && trimmed === "") return "";
-      try {
-        const parsed = JSON.parse(trimmed);
-        if (typeof parsed === "object" && parsed !== null) {
-          return renderValue(parsed, skipEmpty);
-        }
-      } catch (e) {
-        // Not a JSON string; continue with trimmed string
-      }
-      return trimmed;
-    }
-    if (Array.isArray(value)) {
-      let listItems = value.map((item, index) => {
-        const rendered = renderValue(item, skipEmpty);
-        return rendered !== "" || !skipEmpty ? <li key={index}>{rendered}</li> : null;
-      }).filter(item => item !== null);
-      return listItems.length > 0 ? <ul className="bullet-list">{listItems}</ul> : (skipEmpty ? "" : <ul></ul>);
-    }
-    if (typeof value === "object") {
-      let listItems = [];
-      Object.keys(value).forEach((k) => {
-        if (k === "id" || k === "user_id") return;
-        if (k.toLowerCase().includes("firebase")) return;
-        const subVal = renderValue(value[k], skipEmpty);
-        if (!skipEmpty || subVal !== "") {
-          listItems.push(<li key={k}>{formatLabel(k)}: {subVal}</li>);
-        }
-      });
-      return listItems.length > 0 ? <ul className="bullet-list">{listItems}</ul> : (skipEmpty ? "" : <ul></ul>);
-    }
-    return String(value);
-  }
-
-  function displayField(key, rawValue, skipEmpty = true) {
-    if (key === "id" || key === "user_id") return null;
-    const label = formatLabel(key);
-    let value = rawValue;
-    if (/date/i.test(key)) {
-      value = formatDate(rawValue);
-    }
-    const rendered = renderValue(value, skipEmpty);
-    if (skipEmpty && rendered === "") return null;
-    return (
-      <div className="info-row d-flex mb-2" key={key}>
-        <div className="info-label font-weight-bold mr-2">{label}:</div>
-        <div className="info-value">{rendered}</div>
-      </div>
-    );
-  }
-
-  /**
-   * Filter out keys containing "created" or "updated" (case-insensitive)
-   * from the education record.
-   */
-  function filterEducationRecord(record) {
-    if (!record || typeof record !== "object") return record;
-    const filtered = {};
-    Object.keys(record).forEach(key => {
-      const lowerKey = key.toLowerCase();
-      if (lowerKey.includes("created") || lowerKey.includes("updated")) return;
-      filtered[key] = record[key];
-    });
-    return filtered;
-  }
-
-  // Merge two objects; in case of duplicate keys, info2 takes precedence.
-  function mergeRecords(record1, record2) {
-    return { ...record1, ...record2 };
-  }
-
-  // ========== COMPONENTS TO RENDER RECORDS ==========
-  // RecordCard for Personal, Education, Work Experience, Additional Info, etc.
-  function RecordCard({ record, skipEmpty = true }) {
-    if (!record) return null;
-    const fields = Object.keys(record)
-      .map(key => displayField(key, record[key], skipEmpty))
-      .filter(x => x !== null);
-    if (fields.length === 0) return null;
-    return <div className="card p-3 mb-3 shadow-sm">{fields}</div>;
-  }
-
-  // RecordTable for Address, Job Preference, Social Profile, etc.
-  function RecordTable({ record, iconMap = {}, skipEmpty = true }) {
-    if (!record) return null;
-    const rows = Object.keys(record).map(key => {
-      if (key === "id" || key === "user_id") return null;
-      if (key.toLowerCase().includes("firebase")) return null;
-      let rawValue = record[key];
-      let rendered = renderValue(rawValue, skipEmpty);
-      if (/date/i.test(key)) {
-        rendered = formatDate(rawValue);
-      }
-      const label = formatLabel(key);
-      const icon = iconMap[label] ? <span className="mr-2">{iconMap[label]}</span> : null;
-      if (!skipEmpty || rendered !== "") {
-        return (
-          <tr key={key}>
-            <th className="bg-light">{icon}{label}</th>
-            <td>{rendered}</td>
-          </tr>
-        );
-      }
-      return null;
-    }).filter(x => x !== null);
-    if (rows.length === 0) return null;
-    return (
-      <table className="table table-bordered">
-        <tbody>{rows}</tbody>
-      </table>
-    );
-  }
-
-  // ========== FETCH DATA ON COMPONENT MOUNT ==========
   useEffect(() => {
-    async function fetchPersonal() {
-      try {
-        const response = await fetch(`${personalAPI}?firebase_uid=${user.uid}`);
-        const data = await response.json();
-        const latest = getLastRecord(data);
-        setPersonal(latest);
-      } catch (err) {
-        console.error("Error fetching personal details:", err);
+    const fetchUserProfile = async () => {
+      if (!user || !user.email) {
+        setError('User not authenticated');
+        setLoading(false);
+        return;
       }
-    }
-    async function fetchAddress() {
-      try {
-        const response = await fetch(`${addressAPI}?firebase_uid=${user.uid}`);
-        const data = await response.json();
-        const latest = getLastRecord(data);
-        setAddress(latest);
-      } catch (err) {
-        console.error("Error fetching address details:", err);
-      }
-    }
-    async function fetchEducation() {
-      try {
-        const response = await fetch(`${educationAPI}?firebase_uid=${user.uid}`);
-        const data = await response.json();
-        const latest = getLastRecord(data);
-        const filteredLatest = filterEducationRecord(latest);
-        setEducation(filteredLatest);
-      } catch (err) {
-        console.error("Error fetching education details:", err);
-      }
-    }
-    async function fetchWorkExperience() {
-      try {
-        const response = await fetch(`${workExperienceAPI}?firebase_uid=${user.uid}`);
-        const data = await response.json();
-        const combined = [
-          ...(data.mysqlData || []),
-          ...(data.dynamoData?.experienceEntries || [])
-        ];
-        const latest = getLastRecord(combined);
-        setWorkExperience(latest);
-      } catch (err) {
-        console.error("Error fetching work experience details:", err);
-      }
-    }
-    async function fetchJobPreference() {
-      try {
-        const response = await fetch(`${jobPreferenceAPI}?firebase_uid=${user.uid}`);
-        const data = await response.json();
-        const latest = getLastRecord(data);
-        setJobPreference(latest);
-      } catch (err) {
-        console.error("Error fetching job preference details:", err);
-      }
-    }
-    async function fetchLanguages() {
-      try {
-        const response = await fetch(`${languagesAPI}?firebase_uid=${user.uid}`);
-        const data = await response.json();
-        const latest = getLastRecord(data);
-        setLanguages(latest);
-      } catch (err) {
-        console.error("Error fetching languages details:", err);
-      }
-    }
-    async function fetchSocialProfile() {
-      try {
-        const response = await fetch(`${socialProfileAPI}?firebase_uid=${user.uid}`);
-        const data = await response.json();
-        const latest = getLastRecord(data);
-        setSocialProfile(latest);
-      } catch (err) {
-        console.error("Error fetching social profile details:", err);
-      }
-    }
-    async function fetchAdditionalInfo() {
-      try {
-        const [response1, response2] = await Promise.all([
-        fetch(`${additionalInfo1API}?firebase_uid=${user.uid}`),
-        fetch(`${additionalInfo2API}?firebase_uid=${user.uid}`)
-        ]);
-        const data1 = await response1.json();
-        const data2 = await response2.json();
-        const merged = mergeRecords(getLastRecord(data1) || {}, getLastRecord(data2) || {});
-        setAdditionalInfo(merged);
-      } catch (err) {
-        console.error("Error fetching additional information:", err);
-      }
-    }
 
-    fetchPersonal();
-    fetchAddress();
-    fetchEducation();
-    fetchWorkExperience();
-    fetchJobPreference();
-    fetchLanguages();
-    fetchSocialProfile();
-    fetchAdditionalInfo();
-  }, [user]);
+      try {
+        const userEmail = user.email.toLowerCase().trim(); // Normalize email
+        
+        // Fetch all profiles
+        const response = await axios.get('https://xx22er5s34.execute-api.ap-south-1.amazonaws.com/dev/fullapi');
+        console.log(response.data);
+        if (!response.data || response.data.length === 0) {
+          setError('No profiles received from API');
+          setLoading(false);
+          return;
+        }
 
-  // ========== ICON MAPPINGS ==========
-  // For Present Address
-  const addressIcons = {
-    "Country Name": <FaGlobe />,
-    "State Name": <FaBuilding />,
-    "City Name": <FaMapMarkerAlt />,
-    "House No And Street": <FaHome />,
-    "Pincode": <FaHashtag />
-  };
+        // Add debugging info
+        setDebugInfo({
+          userEmail: userEmail,
+          profileEmails: response.data.map(p => p.email),
+          profileCount: response.data.length
+        });
+        
+        // Try case-insensitive match first
+        let currentUserProfile = response.data.find(
+          profile => profile.email && profile.email.toLowerCase().trim() === userEmail
+        );
+        
+        // If still not found, try a more flexible matching (contains email)
+        if (!currentUserProfile) {
+          currentUserProfile = response.data.find(
+            profile => profile.email && profile.email.toLowerCase().includes(userEmail.split('@')[0].toLowerCase())
+          );
+        }
+        
+        // If no match, just use the first profile for testing (comment this out in production)
+        if (!currentUserProfile && response.data.length > 0) {
+          currentUserProfile = response.data[0];
+          console.log('Using first profile for testing');
+        }
+        
+        if (currentUserProfile) {
+          setUserProfile(currentUserProfile);
+        } else {
+          setError('User profile not found');
+        }
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to fetch profile: ' + err.message);
+        setLoading(false);
+      }
+    };
 
-  // For Social Profile
-  const socialIcons = {
-    "Facebook": <FaFacebook />,
-    "Twitter": <FaTwitter />,
-    "Linkedin": <FaLinkedin />,
-    "Instagram": <FaInstagram />,
-    "Github": <FaGithub />
-  };
+    fetchUserProfile();
+  }, [user]); // Add user as dependency to reload if user changes
 
-  // ========== RENDER ==========
+  if (loading) return (
+    <div className="loading-container">
+      <div className="spinner"></div>
+      <p>Loading your profile...</p>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="error-container">
+      <div className="error-icon">⚠️</div>
+      <p>{error}</p>
+      {debugInfo && (
+        <div className="debug-info" style={{ marginTop: '20px', padding: '10px', background: '#f5f5f5', fontSize: '12px' }}>
+          <p><strong>Debug Info:</strong></p>
+          <p>Your email: {debugInfo.userEmail}</p>
+          <p>Available emails in system: {debugInfo.profileCount > 0 ? 
+              debugInfo.profileEmails.map(email => <div key={email}>{email || 'NULL'}</div>) : 
+              'No emails found'}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+  
+  if (!userProfile) return (
+    <div className="not-found-container">
+      <h3>Profile not found</h3>
+      <p>We couldn't find your profile information. Please make sure your account is properly set up.</p>
+    </div>
+  );
+
   return (
-    <div>
-      {/* Inline CSS (alongside Bootstrap) */}
-      <style>{`
-        /* ===== GLOBAL RESETS & FONTS ===== */
-        * {
-          box-sizing: border-box;
-          margin: 0; 
-          padding: 0;
-          font-family: "Helvetica Neue", Arial, sans-serif;
-        }
-        body {
-          background-color: #f2f2f5;
-          color: #333;
-          line-height: 1.6;
-        }
-        /* ===== BULLET LISTS ===== */
-        .bullet-list {
-          list-style-type: disc;
-          margin: 6px 0 6px 24px;
-          padding: 0;
-        }
-        .bullet-list li {
-          margin-bottom: 4px;
-        }
-      `}</style>
+    <div className="profile-container">
+      <div className="profile-card">
+        
+        <div className="profile-section">
+          <h3>Personal Information</h3>
+          <div className="profile-details">
+            <div className="detail-item">
+              <span className="label">Email:</span>
+              <span className="value">{userProfile.email || 'N/A'}</span>
+            </div>
+            <div className="detail-item">
+              <span className="label">Gender:</span>
+              <span className="value">{userProfile.gender || 'N/A'}</span>
+            </div>
+            <div className="detail-item">
+              <span className="label">Date of Birth:</span>
+              <span className="value">
+                {userProfile.dateOfBirth ? new Date(userProfile.dateOfBirth).toLocaleDateString() : 'N/A'}
+              </span>
+            </div>
+          </div>
+        </div>
 
-      <div className="small-text-top-left position-fixed bg-white p-2 rounded shadow-sm" 
-           style={{ top: '10px', left: '10px', fontSize: '0.85rem', opacity: 0.9 }}>
-        Full View
-      </div>
-      <div className="container mt-4">
-        <div className="row mb-4" id="personalSection">
-          <div className="col-12">
-            <h2 className="bg-primary text-white p-2 rounded">Personal Information</h2>
-            <RecordCard record={personal} skipEmpty={true} />
-          </div>
-        </div>
-        <div className="row mb-4" id="addressSection">
-          <div className="col-12">
-            <h2 className="bg-primary text-white p-2 rounded">Present Address</h2>
-            <RecordTable record={address} iconMap={addressIcons} skipEmpty={true} />
-          </div>
-        </div>
-        <div className="row mb-4" id="educationSection">
-          <div className="col-12">
-            <h2 className="bg-primary text-white p-2 rounded">Education Details</h2>
-            <RecordCard record={education} skipEmpty={true} />
-          </div>
-        </div>
-        <div className="row mb-4" id="workExperienceSection">
-          <div className="col-12">
-            <h2 className="bg-primary text-white p-2 rounded">Work Experience</h2>
-            <RecordCard record={workExperience} skipEmpty={true} />
-          </div>
-        </div>
-        <div className="row mb-4" id="jobPreferenceSection">
-          <div className="col-12">
-            <h2 className="bg-primary text-white p-2 rounded">Job Preference</h2>
-            <RecordTable record={jobPreference} skipEmpty={true} />
-          </div>
-        </div>
-        <div className="row mb-4" id="languagesSection">
-          <div className="col-12">
-            <h2 className="bg-primary text-white p-2 rounded">Languages</h2>
-            {languages && (
-              <ul className="bullet-list">
-                {Object.keys(languages).map(key => {
-                  if (key === "id") return null;
-                  const value = languages[key];
-                  if (value === null || value === undefined || (typeof value === 'string' && value.trim() === "")) return null;
-                  return <li key={key}><strong>{formatLabel(key)}:</strong> {renderValue(value)}</li>;
-                })}
-              </ul>
+        <div className="profile-section">
+          <h3>Contact Information</h3>
+          <div className="profile-details">
+            <div className="detail-item">
+              <span className="label">Phone:</span>
+              <span className="value">{userProfile.callingNumber || 'N/A'}</span>
+            </div>
+            <div className="detail-item">
+              <span className="label">WhatsApp:</span>
+              <span className="value">{userProfile.whatsappNumber || 'N/A'}</span>
+            </div>
+            {userProfile.city_name && (
+              <div className="detail-item">
+                <span className="label">City:</span>
+                <span className="value">{userProfile.city_name}</span>
+              </div>
+            )}
+            {userProfile.state_name && (
+              <div className="detail-item">
+                <span className="label">State:</span>
+                <span className="value">{userProfile.state_name}</span>
+              </div>
+            )}
+            {userProfile.country_name && (
+              <div className="detail-item">
+                <span className="label">Country:</span>
+                <span className="value">{userProfile.country_name}</span>
+              </div>
             )}
           </div>
         </div>
-        <div className="row mb-4" id="socialProfileSection">
-          <div className="col-12">
-            <h2 className="bg-primary text-white p-2 rounded">Social Profile</h2>
-            <RecordTable record={socialProfile} iconMap={socialIcons} skipEmpty={true} />
+
+        {(userProfile.education_type || userProfile.syllabus || userProfile.schoolName) && (
+          <div className="profile-section">
+            <h3>Education</h3>
+            <div className="profile-details">
+              {userProfile.education_type && (
+                <div className="detail-item">
+                  <span className="label">Education Type:</span>
+                  <span className="value">{userProfile.education_type}</span>
+                </div>
+              )}
+              {userProfile.syllabus && (
+                <div className="detail-item">
+                  <span className="label">Syllabus:</span>
+                  <span className="value">{userProfile.syllabus}</span>
+                </div>
+              )}
+              {userProfile.schoolName && (
+                <div className="detail-item">
+                  <span className="label">School:</span>
+                  <span className="value">{userProfile.schoolName}</span>
+                </div>
+              )}
+              {userProfile.yearOfPassing && (
+                <div className="detail-item">
+                  <span className="label">Year of Passing:</span>
+                  <span className="value">{userProfile.yearOfPassing}</span>
+                </div>
+              )}
+              {userProfile.percentage && (
+                <div className="detail-item">
+                  <span className="label">Percentage:</span>
+                  <span className="value">{userProfile.percentage}%</span>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="row mb-4" id="additionalInfoSection">
-          <div className="col-12">
-            <h2 className="bg-primary text-white p-2 rounded">Additional Information</h2>
-            <RecordCard record={additionalInfo} skipEmpty={true} />
+        )}
+
+        {(userProfile.Job_Type || userProfile.expected_salary || userProfile.notice_period) && (
+          <div className="profile-section">
+            <h3>Career Information</h3>
+            <div className="profile-details">
+              {userProfile.Job_Type && (
+                <div className="detail-item">
+                  <span className="label">Job Type:</span>
+                  <span className="value">{userProfile.Job_Type}</span>
+                </div>
+              )}
+              {userProfile.expected_salary && (
+                <div className="detail-item">
+                  <span className="label">Expected Salary:</span>
+                  <span className="value">{userProfile.expected_salary}</span>
+                </div>
+              )}
+              {userProfile.notice_period && (
+                <div className="detail-item">
+                  <span className="label">Notice Period:</span>
+                  <span className="value">{userProfile.notice_period}</span>
+                </div>
+              )}
+              {userProfile.total_experience_years && (
+                <div className="detail-item">
+                  <span className="label">Total Experience:</span>
+                  <span className="value">
+                    {userProfile.total_experience_years} years
+                    {userProfile.total_experience_months && `, ${userProfile.total_experience_months} months`}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
-}
+};
 
-export default UserJobProfile;
+export default Fullview;

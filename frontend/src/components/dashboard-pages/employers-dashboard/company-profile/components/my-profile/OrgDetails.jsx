@@ -26,7 +26,7 @@ const OrgDetails = () => {
     city: "",
     address: "",
     pincode: "",
-    // If user is owner, this contactPerson is the “account_operated_by”
+    // If user is owner, this contactPerson is the "account_operated_by"
     contactPerson: {
       name: "",
       gender: "",
@@ -54,17 +54,20 @@ const OrgDetails = () => {
   const [cities, setCities] = useState([]);
 
   // UI states
-  const [showDesignationDropdown, setShowDesignationDropdown] = useState(false);
+  const [designations, setDesignations] = useState([]);
   const [isOwner, setIsOwner] = useState(""); // "yes" or "no"
   // If user is not the owner, we fill out the reporting_authority here:
   const [reporting_authority, setReportingAuthority] = useState({
-    name: "",
+    name: user?.name || "",
     gender: "",
     designation: [],
-    phone1: "",
+    phone1: user?.phone_number||"",
     phone2: "",
-    email: "",
+    email: user?.email || "",
   });
+
+  // Add this state for controlling dropdown visibility
+  const [designationDropdown, setDesignationDropdown] = useState(false);
 
   // Load country list on mount
   useEffect(() => {
@@ -97,7 +100,29 @@ const OrgDetails = () => {
     "Ed Tech company",
     "Parent/ Guardian looking for Tuitions",
   ];
-  const designationOptions = ["Chairman", "Director", "Principal", "Vice Principal"];
+  const fetchDesignations = async () => {
+    try {
+      const response = await fetch(
+        "https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/constants"
+      );
+      const data = await response.json();
+      const transformedData = data.map((item) => ({
+        category: item.category,
+        value: item.value,
+        label: item.label
+      }));
+      setDesignations(
+        transformedData.filter((item) => item.category === "Administration") || []
+      );
+    } catch (error) {
+      console.error("Error fetching drop down data list:", error);
+    }
+  };
+
+  // Ensure fetchDesignations is called to populate designations
+  useEffect(() => {
+    fetchDesignations();
+  }, []);
 
   // Utility: check if the selected type is NOT parent/guardian
   const isNonParentType = () =>
@@ -158,14 +183,14 @@ const OrgDetails = () => {
   // Toggle designations for the contactPerson
   const handleDesignationSelect = (designation) => {
     setOrgDetails((prev) => {
-      const alreadySelected = prev.contactPerson.designation.includes(designation);
+      const alreadySelected = prev.contactPerson.designation.includes(designation.value);
       return {
         ...prev,
         contactPerson: {
           ...prev.contactPerson,
           designation: alreadySelected
-            ? prev.contactPerson.designation.filter((d) => d !== designation)
-            : [...prev.contactPerson.designation, designation],
+            ? prev.contactPerson.designation.filter((d) => d !== designation.value)
+            : [...prev.contactPerson.designation, designation.value],
         },
       };
     });
@@ -251,6 +276,16 @@ const OrgDetails = () => {
       toast.error("Failed to create organization.");
     }
   };
+
+  // Use useEffect to update form data when user data is available
+  useEffect(() => {
+    if (user) {
+      setReportingAuthority(prevData => ({
+        ...prevData,
+        name: user.name || prevData.name
+      }));
+    }
+  }, [user]);
 
   return (
     <div className="default-form">
@@ -431,15 +466,15 @@ const OrgDetails = () => {
                   <div className="custom-multiselect">
                     <div
                       className="select-header form-control"
-                      onClick={() => setShowDesignationDropdown(!showDesignationDropdown)}
+                      onClick={() => setDesignationDropdown(!designationDropdown)}
                     >
                       {reporting_authority.designation.length > 0
-                        ? reporting_authority.designation.join(", ")
+                        ? reporting_authority.designation.map((d) => d.label).join(", ")
                         : "Select Designation(s)"}
                     </div>
-                    {showDesignationDropdown && (
+                    {designationDropdown && (
                       <div className="select-options">
-                        {designationOptions.map((designation, index) => (
+                        {designations.map((designation, index) => (
                           <div
                             key={index}
                             className="select-option"
@@ -449,10 +484,10 @@ const OrgDetails = () => {
                           >
                             <input
                               type="checkbox"
-                              checked={reporting_authority.designation.includes(designation)}
+                              checked={reporting_authority.designation.some((d) => d.value === designation.value)}
                               readOnly
                             />
-                            <span>{designation}</span>
+                            <span>{designation.label}</span>
                           </div>
                         ))}
                       </div>
@@ -709,15 +744,15 @@ const OrgDetails = () => {
               <div className="custom-multiselect">
                 <div
                   className="select-header form-control"
-                  onClick={() => setShowDesignationDropdown(!showDesignationDropdown)}
+                  onClick={() => setDesignationDropdown(!designationDropdown)}
                 >
                   {orgDetails.contactPerson.designation.length > 0
                     ? orgDetails.contactPerson.designation.join(", ")
                     : "Select Designation(s)"}
                 </div>
-                {showDesignationDropdown && (
+                {designationDropdown && (
                   <div className="select-options">
-                    {designationOptions.map((designation, index) => (
+                    {designations.map((designation, index) => (
                       <div
                         key={index}
                         className="select-option"

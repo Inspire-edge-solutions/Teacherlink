@@ -1,0 +1,90 @@
+/* Menu item styling */
+.navigation li {
+  position: relative;
+}
+
+.menu-item-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 10px;
+}
+
+.menu-item-link {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.menu-item-text {
+  margin-left: 8px;
+}
+
+/* Dropdown toggle button */
+.dropdown-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-toggle-btn:hover {
+  opacity: 0.8;
+}
+
+.dropdown-arrow {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-arrow.expanded {
+  transform: rotate(180deg);
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Sub-menu styling */
+.navigation .sub-menu {
+  padding-left: 15px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.navigation .sub-menu.show {
+  max-height: 500px;
+  opacity: 1;
+}
+
+.navigation .sub-menu li {
+  margin: 4px 0;
+  font-size: 0.95em;
+}
+
+.navigation .sub-menu a {
+  padding: 3px 0;
+  display: block;
+}
+
+.navigation .sub-active {
+  font-weight: bold;
+}
+
+.navigation .expanded > .menu-item-wrapper > .menu-item-link {
+  font-weight: bold;
+}

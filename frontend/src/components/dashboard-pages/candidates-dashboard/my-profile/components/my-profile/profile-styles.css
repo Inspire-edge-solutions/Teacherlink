@@ -617,9 +617,55 @@ select[multiple] {
   border-radius: 8px 0 0 8px;
 }
 
-/* File upload styling */
-input[type="file"] {
-  padding: 6px;
+/* File upload styling to match form fields */
+.uploadButton-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.file-upload-label {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  cursor: pointer;
+  height: 60px; /* Match your form field height */
+  padding: 0 20px !important;
+  font-size: 14px !important;
+  border: 1px solid #e6e6e6 !important;
+  border-radius: 8px !important;
+  background-color: #ffffff !important;
+  transition: all 0.3s ease;
+}
+
+.file-upload-label:hover {
+  border-color: #adadad !important;
+}
+
+.file-name {
+  color: #777;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-button {
+  background-color: #f0f0f0;
+  padding: 6px 15px;
+  border-radius: 4px;
+  color: #333;
+  margin-left: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
+}
+
+.file-upload-label:hover .file-button {
+  background-color: #e0e0e0;
+}
+
+/* When a file is selected */
+.file-selected .file-name {
+  color: #333;
 }
 
 /* Small helper text */
@@ -670,7 +716,7 @@ input[type="file"] {
   
   .radio-group {
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
   }
 }
 
@@ -729,7 +775,7 @@ input[type="file"] {
 
 .other-teaching-experience .radio-group {
   display: flex;
-  gap: 20px;
+  gap: 10px;
 }
 
 .other-teaching-experience .radio-group label {
@@ -743,7 +789,7 @@ input:required , select:required , textarea:required{
   border: 2px solid orchid !important;
 }
 .radio-group {
-  padding: 10px;
+  padding: 5px;
   border: 2px solid transparent; /* Default: no border */
 }
 .radio-group.required {
@@ -904,6 +950,84 @@ input:required , select:required , textarea:required{
     height: 18px;
     cursor: pointer;
 }
+.input-with-verification {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.verification-icon {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.verify-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background:rgb(223, 185, 14);
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.otp-verification {
+  display: flex;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.verify-otp-btn {
+  background:rgb(20, 234, 166);
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.custom-file-upload {
+  position: relative;
+  width: 100%;
+}
+
+.custom-file-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  width: 100%;
+}
+
+.file-placeholder {
+  color: #777;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-upload {
+  background-color: #f5f5f5;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: #333;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.custom-file-label:hover .btn-upload {
+  background-color: #e9e9e9;
+}
 
 /* Responsive styles */
 @media (max-width: 768px) {
@@ -967,7 +1091,7 @@ input:required , select:required , textarea:required{
 
 .radio-group {
     display: flex;
-    gap: 30px;
+    gap: 10px;
 }
 
 .radio-option {
@@ -978,8 +1102,8 @@ input:required , select:required , textarea:required{
 }
 
 .radio-option input[type="radio"] {
-    width: 18px;
-    height: 18px;
+    width: 10px;
+    height: 10px;
     cursor: pointer;
 }
 
@@ -1005,7 +1129,7 @@ input:required , select:required , textarea:required{
     }
 
     .radio-group {
-        gap: 20px;
+        gap: 10px;
     }
 }
 
@@ -1030,10 +1154,14 @@ input:required , select:required , textarea:required{
 
     .radio-group {
         flex-direction: column;
-        gap: 12px;
+        gap: 5px;
     }
 
     .radio-label {
         font-size: 14px;
     }
+}
+
+.input::placeholder{
+  color: black !important;
 }

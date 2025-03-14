@@ -3,21 +3,35 @@ import axios from "axios";
 import { useAuth } from "../../../../../../contexts/AuthContext";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-const PersonalDetails = ({ className, dateOfBirth }) => {
+import { FaCheckCircle} from 'react-icons/fa';
+const PersonalDetails = ({ className, dateOfBirth,uploadPhoto }) => {
   const { user } = useAuth();
-  
   
   const [formData, setFormData] = useState({
     firebase_uid: user?.uid || "",
-    fullName: "",
+    fullName: user?.name || "",
     email: user?.email || "",
     gender: "",
     dateOfBirth: "",
-    callingNumber: "",
+    callingNumber: user?.phone_number || "",
     whatsappNumber: ""
   });
-  const [loading, setLoading] = useState(true);
+
+  // Add verification states
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [phoneVerified, setPhoneVerified] = useState(false);
+  const [showEmailOtpInput, setShowEmailOtpInput] = useState(false);
+  const [showPhoneOtpInput, setShowPhoneOtpInput] = useState(false);
+  const [emailOtp, setEmailOtp] = useState('');
+  const [phoneOtp, setPhoneOtp] = useState('');
+  
+  // Check if user has verified email/phone
+  useEffect(() => {
+    // You would typically fetch this from your backend
+    // For now, we'll assume they're not verified initially
+    setEmailVerified(user?.emailVerified || false);
+    setPhoneVerified(user?.phoneVerified || false);
+  }, [user]);
 
   const [date, setDate] = useState("text");
   const handleFocus = () => setDate("date");
@@ -46,6 +60,125 @@ const PersonalDetails = ({ className, dateOfBirth }) => {
       ...prev,
       [name]: value
     }));
+  };
+
+  // OTP handling functions
+  const sendEmailOtp = async () => {
+    try {
+      // Replace with your actual API endpoint
+      const response = await axios.post(
+        "https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/otp/create",
+        { email: formData.email },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      );
+      
+      if (response.status === 200) {
+        toast.success("OTP sent to your email!");
+        setShowEmailOtpInput(true);
+      }
+    } catch (error) {
+      toast.error(`Failed to send email OTP: ${error.message}`);
+    }
+  };
+
+  const sendPhoneOtp = async () => {
+    try {
+      // Validate phone number
+      if (formData.callingNumber.length !== 10) {
+        toast.error("Please enter a valid 10-digit mobile number");
+        return;
+      }
+      
+      // Call your backend API that will use AWS SNS to send the SMS
+      const response = await axios.post(
+        "https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/send-phone-otp",
+        { 
+          phone: formData.callingNumber,
+          countryCode: "+91" // Adjust as needed
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      );
+      
+      if (response.status === 200) {
+        toast.success("OTP sent to your phone!");
+        setShowPhoneOtpInput(true);
+      }
+    } catch (error) {
+      console.error("Phone OTP error:", error);
+      toast.error(`Failed to send OTP: ${error.message}`);
+    }
+  };
+
+  const verifyPhoneOtp = async () => {
+    try {
+      if (!phoneOtp || phoneOtp.length < 4) {
+        toast.error("Please enter a valid OTP");
+        return;
+      }
+      
+      // Call your backend API to verify the OTP
+      const response = await axios.post(
+        "https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/verify-phone-otp",
+        { 
+          phone: formData.callingNumber,
+          otp: phoneOtp 
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      );
+      
+      if (response.status === 200) {
+        toast.success("Phone number verified successfully!");
+        setPhoneVerified(true);
+        setShowPhoneOtpInput(false);
+      } else {
+        toast.error("Invalid or expired OTP. Please try again.");
+      }
+    } catch (error) {
+      console.error("OTP verification error:", error);
+      toast.error(`Failed to verify: ${error.message}`);
+    }
+  };
+
+  const verifyEmailOtp = async () => {
+    try {
+      // Replace with your actual API endpoint
+      const response = await axios.post(
+        "https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/otp/verify",
+        { 
+          email: formData.email,
+          otp: emailOtp 
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      );
+      
+      if (response.status === 200) {
+        toast.success("Email verified successfully!");
+        setEmailVerified(true);
+        setShowEmailOtpInput(false);
+      }
+    } catch (error) {
+      toast.error(`Failed to verify email: ${error.message}`);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -84,70 +217,16 @@ const PersonalDetails = ({ className, dateOfBirth }) => {
     }
   };
 
-  // Fetch user profile data when component mounts
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      if (user?.uid) {
-        try {
-          // Try to fetch user profile data from your API
-          // You'll need to adjust this URL to match your actual API endpoint
-          const response = await axios.get(
-            `https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/users/profile/${firebase_uid.uid}`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-              }
-            }
-          );
-          
-          console.log("Profile data:", response.data);
-          
-          if (response.data) {
-            // Update form data with profile data from API
-            setFormData({
-              firebase_uid: user.uid,
-              fullName: response.data.name || "",
-              email: response.data.email || user.email || "",
-              gender: response.data.gender || "",
-              dateOfBirth: response.data.dateOfBirth || response.data.dob || "",
-              callingNumber: response.data.phone_number || "",
-              whatsappNumber: response.data.whatsapp_number || response.data.phone_number || ""
-            });
-          }
-        } catch (error) {
-          console.error("Error fetching profile data:", error);
-          // If API call fails, try to use any data available in the user object
-          setFormData({
-            firebase_uid: user.uid,
-            fullName: user.displayName || "",
-            email: user.email || "",
-            gender: "",
-            dateOfBirth: "",
-            callingNumber: "",
-            whatsappNumber: ""
-          });
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setLoading(false);
-      }
-    };
-
-    fetchUserProfile();
-  }, [user]);
-
-  // Show loading indicator while fetching data
-  if (loading) {
-    return <div className="text-center py-4">Loading profile data...</div>;
-  }
+  const handleFileChange = (e) => {
+    const fileName = e.target.files[0]?.name || "Upload your profile image";
+    document.querySelector('.file-placeholder').textContent = fileName;
+  };
 
   return (
     <div className={`personal-details ${className}`}>
       <form onSubmit={handleSubmit}>
         <div className="row">
-          <h3>Personal Details</h3>
+          <h6>Personal Details</h6>
           {/* Optionally, if you want to send user_id from the client, you can uncomment the next line */}
           {/* <input type="hidden" name="user_id" value={formData.user_id} /> */}
 
@@ -162,17 +241,73 @@ const PersonalDetails = ({ className, dateOfBirth }) => {
               maxLength="50"
             />
           </div>
+          {uploadPhoto && (
+          <div className="form-group col-lg-6 col-md-12">
+            <div className="uploadButton-input-wrap">
+              <input
+                className="uploadButton-input"
+                type="file"
+                name="attachments[]"
+                accept="image/*"
+                id="upload-image"
+                style={{ opacity: 0, position: 'absolute', zIndex: -1 }}
+                onChange={handleFileChange}
+              />
+              <label 
+                htmlFor="upload-image" 
+                className="form-control file-upload-label"
+              >
+                <span className="file-name">Upload your profile image</span>
+                <span className="file-button">Browse</span>
+              </label>
+            </div>
+          </div>
+          )}
 
           <div className="form-group col-lg-6 col-md-12">
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              placeholder="Email address"
-              maxLength="50"
-              required
-            />
+            <div className="input-with-verification">
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="Email address"
+                maxLength="50"
+                required
+                disabled={emailVerified}
+              />
+              {emailVerified ? (
+                <span className="verification-icon verified">
+                  <FaCheckCircle color="green" />
+                </span>
+              ) : (
+                <button 
+                  type="button" 
+                  className="verify-btn"
+                  onClick={sendEmailOtp}
+                >
+                  Verify
+                </button>
+              )}
+            </div>
+            {showEmailOtpInput && (
+              <div className="otp-verification">
+                <input
+                  type="text"
+                  placeholder="Enter OTP sent to your email"
+                  value={emailOtp}
+                  onChange={(e) => setEmailOtp(e.target.value)}
+                  maxLength="6"
+                />
+                <button 
+                  type="button" 
+                  className="verify-otp-btn"
+                  onClick={verifyEmailOtp}
+                >
+                  Submit
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Gender Dropdown (replacing radio buttons) */}
@@ -208,18 +343,52 @@ const PersonalDetails = ({ className, dateOfBirth }) => {
 
           {/* Calling Number */}
           <div className="form-group col-lg-6 col-md-12">
-            <input
-              type="text"
-              name="callingNumber"
-              value={formData.callingNumber}
-              onChange={handleInputChange}
-              placeholder="Mobile Number (calling)"
-              onInput={(e) => {
-                e.target.value = e.target.value.replace(/[^0-9]/g, "");
-              }}
-              maxLength="10"
-              required
-            />
+            <div className="input-with-verification">
+              <input
+                type="text"
+                name="callingNumber"
+                value={formData.callingNumber}
+                onChange={handleInputChange}
+                placeholder="Mobile Number (calling)"
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                }}
+                maxLength="10"
+                required
+                disabled={phoneVerified}
+              />
+              {phoneVerified ? (
+                <span className="verification-icon verified">
+                  <FaCheckCircle color="green" />
+                </span>
+              ) : (
+                <button 
+                  type="button" 
+                  className="verify-btn"
+                  onClick={sendPhoneOtp}
+                >
+                  Verify
+                </button>
+              )}
+            </div>
+            {showPhoneOtpInput && (
+              <div className="otp-verification">
+                <input
+                  type="text"
+                  placeholder="Enter OTP sent to your phone"
+                  value={phoneOtp}
+                  onChange={(e) => setPhoneOtp(e.target.value)}
+                  maxLength="6"
+                />
+                <button 
+                  type="button" 
+                  className="verify-otp-btn"
+                  onClick={verifyPhoneOtp}
+                >
+                  Submit
+                </button>
+              </div>
+            )}
           </div>
 
           {/* WhatsApp Number */}
@@ -249,13 +418,14 @@ const PersonalDetails = ({ className, dateOfBirth }) => {
               Mobile number for calling and WhatsApp can be same
             </small>
           )}
-
-          {/* Submit Button */}
           <div className="form-group col-12">
             <button type="submit" className="theme-btn btn-style-three">
               Save personal details
             </button>
           </div>
+
+          {/* Submit Button */}
+         
         </div>
       </form>
     </div>

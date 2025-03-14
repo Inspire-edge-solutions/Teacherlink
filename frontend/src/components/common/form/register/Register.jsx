@@ -18,6 +18,7 @@ const Register = () => {
       <Tabs>
         <div className="form-group register-dual">
           <TabList className="btn-box row">
+            <h3>Select your role : </h3>
             <Tab className="col-lg-6 col-md-12" onClick={() => handleUserType("Candidate")}>
               <button className="theme-btn btn-style-four" >
                 <i className="la la-user"></i> Candidate

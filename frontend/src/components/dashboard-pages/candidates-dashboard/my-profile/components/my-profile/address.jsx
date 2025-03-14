@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const Address = ({ className }) => {
+const Address = ({ className, permanentCity, presentCity }) => {
   const { user } = useAuth(); // Get the current user from AuthContext
   const [formData, setFormData] = useState({
     permanentAddress: {
@@ -153,7 +153,7 @@ const Address = ({ className }) => {
       <div className="row">
         {/* Permanent Address Section */}
         <div className="form-group col-lg-6 col-md-12">
-          <h3>Permanent Address</h3>
+          <h6>Address</h6>
           <div className="form-group">
             <Select
               required
@@ -187,54 +187,23 @@ const Address = ({ className }) => {
             />
           </div>
 
-          <div className="form-group">
-            <Select
-              required
-              id="permanentCity"
-              name="permanentCity"
-              placeholder="Permanent City"
-              options={getCities(formData.permanentAddress.state?.value)}
+          {permanentCity && (
+            <div className="form-group">
+              <Select
+                required
+                id="permanentCity"
+                name="permanentCity"
+                placeholder="Permanent City"
+                options={getCities(formData.permanentAddress.state?.value)}
               value={formData.permanentAddress.city}
               onChange={(option) => handleAddressChange("permanentAddress", "city", option)}
             />
           </div>
-
-          <div className="form-group">
-            <input
-              id="permanentHouseNo"
-              name="permanentHouseNo"
-              type="text"
-              placeholder="House No. & Street"
-              value={formData.permanentAddress.house_no_and_street}
-              onChange={(e) =>
-                handleAddressChange("permanentAddress", "house_no_and_street", e.target.value)
-              }
-              maxLength="50"
-            />
-          </div>
-
-          <div className="form-group">
-            <input
-              id="permanentPincode"
-              name="permanentPincode"
-              type="text"
-              placeholder="Pincode"
-              value={formData.permanentAddress.pincode}
-              onChange={(e) =>
-                handleAddressChange("permanentAddress", "pincode", e.target.value)
-              }
-              onInput={(e) => {
-                e.target.value = e.target.value.replace(/[^0-9]/g, "");
-              }}
-              maxLength="6"
-            />
-          </div>
+          )}
         </div>
 
         {/* Present Address Section */}
         <div className="form-group col-lg-6 col-md-12">
-          <h3>Present Address</h3>
-          <div className="form-group">
             <label>
               <input
                 id="sameAsPermanent"
@@ -242,10 +211,11 @@ const Address = ({ className }) => {
                 type="checkbox"
                 onChange={handleSameAsPermanent}
                 checked={formData.presentAddress.sameAsPermanent}
+                style={{ marginRight: "15px" }}
               />
               Same as permanent address
             </label>
-          </div>
+          
 
           {!formData.presentAddress.sameAsPermanent && (
             <>
@@ -254,7 +224,7 @@ const Address = ({ className }) => {
                   required
                   id="presentCountry"
                   name="presentCountry"
-                  placeholder="Present Country"
+                  placeholder="Present residing Country"
                   className={`custom-select ${!formData.presentAddress.country ? "required" : ""}`}
                   options={countries}
                   value={formData.presentAddress.country}
@@ -271,7 +241,7 @@ const Address = ({ className }) => {
                   required
                   id="presentState"
                   name="presentState"
-                  placeholder="Present State/UT"
+                  placeholder="Present residing State/UT"
                   className={`custom-select ${!formData.presentAddress.state ? "required" : ""}`}
                   options={getStates(formData.presentAddress.country?.value)}
                   value={formData.presentAddress.state}
@@ -281,49 +251,19 @@ const Address = ({ className }) => {
                   }}
                 />
               </div>
-
+              {presentCity && (
               <div className="form-group">
                 <Select
                   required
                   id="presentCity"
                   name="presentCity"
-                  placeholder="Present City"
+                  placeholder="Present residing City"
                   options={getCities(formData.presentAddress.state?.value)}
                   value={formData.presentAddress.city}
                   onChange={(option) => handleAddressChange("presentAddress", "city", option)}
                 />
               </div>
-
-              <div className="form-group">
-                <input
-                  id="presentHouseNo"
-                  name="presentHouseNo"
-                  type="text"
-                  placeholder="House No. & Street"
-                  value={formData.presentAddress.house_no_and_street}
-                  onChange={(e) =>
-                    handleAddressChange("presentAddress", "house_no_and_street", e.target.value)
-                  }
-                  maxLength="50"
-                />
-              </div>
-
-              <div className="form-group">
-                <input
-                  id="presentPincode"
-                  name="presentPincode"
-                  type="text"
-                  placeholder="Pincode"
-                  value={formData.presentAddress.pincode}
-                  onChange={(e) =>
-                    handleAddressChange("presentAddress", "pincode", e.target.value)
-                  }
-                  onInput={(e) => {
-                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                  }}
-                  maxLength="6"
-                />
-              </div>
+              )}
             </>
           )}
         </div>

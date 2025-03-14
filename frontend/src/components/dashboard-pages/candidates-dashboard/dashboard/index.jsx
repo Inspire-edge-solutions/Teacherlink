@@ -9,8 +9,10 @@ import CopyrightFooter from "../../CopyrightFooter";
 import JobApplied from "./components/JobApplied";
 import DashboardCandidatesHeader from "../../../header/DashboardCandidatesHeader";
 import MenuToggler from "../../MenuToggler";
+import { useAuth } from "../../../../contexts/AuthContext";
 
 const Index = () => {
+  const {user} = useAuth();
   return (
     <div className="page-wrapper dashboard">
       {/* <span className="header-span"></span> */}
@@ -31,7 +33,7 @@ const Index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="Howdy, Jerome!!" />
+          <BreadCrumb title={user ?`welcome ${user.name}` : "Dashboard Home!"} />
           {/* breadCrumb */}
 
           <MenuToggler />

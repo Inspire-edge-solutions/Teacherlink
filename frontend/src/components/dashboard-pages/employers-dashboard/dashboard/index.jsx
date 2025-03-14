@@ -9,8 +9,10 @@ import Notification from "./components/Notification";
 import Applicants from "./components/Applicants";
 import CopyrightFooter from "../../CopyrightFooter";
 import MenuToggler from "../../MenuToggler";
+import { useAuth } from "../../../../contexts/AuthContext";
 
 const Index = () => {
+  const {user} = useAuth();
   return (
     <div className="page-wrapper dashboard">
       {/* <span className="header-span"></span> */}
@@ -31,7 +33,7 @@ const Index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="Dashboard Home!" />
+          <BreadCrumb title={user ?`welcome ${user.name}` : "Dashboard Home!"} />
           {/* breadCrumb */}
 
           <MenuToggler />
