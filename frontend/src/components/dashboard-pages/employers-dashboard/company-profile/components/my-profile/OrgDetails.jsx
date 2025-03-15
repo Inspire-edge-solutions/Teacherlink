@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Select from 'react-select';
 import { Country, State, City } from "country-state-city";
 import "./profileStyles.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -377,6 +378,122 @@ const OrgDetails = () => {
                 onChange={handleInputChange}
               />
             </div>
+
+            <div>
+            <h4>Account operated by (Contact Person) </h4>
+          </div>
+
+          <div className="form-group col-lg-6 col-md-12">
+            <input
+              type="text"
+              className="form-control"
+              name="name"
+              
+              maxLength="20"
+              placeholder="Name"
+              required
+            />
+          </div>
+
+          <div className="form-group col-lg-6 col-md-12">
+        <div className="radio-group ">
+          <h6>Gender</h6>
+          <div className="radio-option">
+            <input 
+              type="radio" 
+              id="male" 
+              name="gender" 
+              value="male" 
+              required 
+            />
+            <label htmlFor="male">Male</label>
+          </div>
+          <div className="radio-option">
+            <input 
+              type="radio" 
+              id="female" 
+              name="gender" 
+              value="female" 
+            />
+            <label htmlFor="female">Female</label>
+          </div>
+          <div className="radio-option">
+            <input 
+              type="radio" 
+              id="transgender" 
+              name="gender" 
+              value="transgender" 
+            />
+            <label htmlFor="transgender">Transgender</label>
+          </div>
+        </div>
+      </div>
+      <div className="form-group col-lg-6 col-md-12">
+          <Select
+          isMulti
+          options={designations}
+          value={designations.filter(option => 
+          orgDetails.contactPerson.designation.includes(option.value)
+          )}
+         
+          className={`custom-select ${orgDetails.contactPerson.designation.length === 0 ? 'required' : ''}`}
+          placeholder="Designation"
+          isClearable
+          />
+        </div>
+                  {orgDetails.contactPerson.designation.includes('Others') && (
+                    <div className="form-group col-lg-6 col-md-12">
+                      <input
+                        type="text"
+                        placeholder="Specify other designation"
+                        required
+                      />
+                    </div>
+                  )}
+
+          <div className="form-group col-lg-6 col-md-12">
+            <input
+            required
+              type="tel"
+              className="form-control"
+              name="phone1"
+             
+              placeholder="Contact Number-1 (Calling)"
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            }}
+              maxLength="10"
+              title="Please enter exactly 10 digits"
+            />
+          </div>
+
+          <div className="form-group col-lg-6 col-md-12">
+            <input
+            required
+              type="tel"
+              className="form-control"
+              name="phone2"
+              
+              placeholder="Contact Number-2 (WhatsApp)"
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            }}
+              maxLength="10"
+              title="Please enter exactly 10 digits"
+            />
+          </div>
+
+          <div className="form-group col-lg-6 col-md-12">
+            <input
+            required
+              type="email"
+              className="form-control"
+              name="email"
+             
+              placeholder="Email"
+            />
+          </div>
+
 
             {/* Owner Question */}
             <div className="form-group col-lg-6 col-md-12">

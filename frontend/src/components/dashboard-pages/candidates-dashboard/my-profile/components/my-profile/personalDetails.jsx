@@ -4,7 +4,7 @@ import { useAuth } from "../../../../../../contexts/AuthContext";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaCheckCircle} from 'react-icons/fa';
-const PersonalDetails = ({ className, dateOfBirth,uploadPhoto }) => {
+const PersonalDetails = ({ className, dateOfBirth,photo }) => {
   const { user } = useAuth();
   
   const [formData, setFormData] = useState({
@@ -16,7 +16,9 @@ const PersonalDetails = ({ className, dateOfBirth,uploadPhoto }) => {
     callingNumber: user?.phone_number || "",
     whatsappNumber: ""
   });
-
+  const [imageFile, setImageFile] = useState(null);
+  // This will store the row 'id' after inserting the image row
+  const [profilePicId, setProfilePicId] = useState(null);
   // Add verification states
   const [emailVerified, setEmailVerified] = useState(false);
   const [phoneVerified, setPhoneVerified] = useState(false);
@@ -24,6 +26,20 @@ const PersonalDetails = ({ className, dateOfBirth,uploadPhoto }) => {
   const [showPhoneOtpInput, setShowPhoneOtpInput] = useState(false);
   const [emailOtp, setEmailOtp] = useState('');
   const [phoneOtp, setPhoneOtp] = useState('');
+
+  const imageFileHandler = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+  };
+   // Convert file to Base64 string (for image uploads).
+   const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
   
   // Check if user has verified email/phone
   useEffect(() => {
@@ -61,12 +77,51 @@ const PersonalDetails = ({ className, dateOfBirth,uploadPhoto }) => {
       [name]: value
     }));
   };
+ const IMAGE_API_URL =
+    "https://2mubkhrjf5.execute-api.ap-south-1.amazonaws.com/dev/upload-image";
+    const uploadPhoto = async () => {
+      if (!imageFile) {
+        setMessage("Please select a photo file.");
+        return;
+      }
+      try {
+        setUploading(true);
+        setMessage("");
+        const base64Data = await fileToBase64(imageFile);
+        const payload = {
+          file: base64Data,
+          fileType: imageFile.type,
+          firebase_uid: user.uid, // Updated as per Address component reference
+        };
+        // Send POST to /upload-image
+        const response = await axios.post(IMAGE_API_URL, payload, {
+          headers: { "Content-Type": "application/json" },
+        });
+        console.log("Photo submitted successfully:", response.data);
+        toast.success("Photo submitted successfully");
+        setMessage("Photo uploaded successfully!");
+  
+        // Store the row 'id' for later usage when uploading the video
+        if (response.data.id) {
+          setProfilePicId(response.data.id);
+        }
+      } catch (error) {
+        console.error("Error uploading photo:", error);
+        toast.error("Error uploading photo");
+        setMessage("Photo upload error: " + error.message);
+      } finally {
+        setUploading(false);
+      }
+    };
+
+
 
   // OTP handling functions
   const sendEmailOtp = async () => {
     try {
       // Replace with your actual API endpoint
       const response = await axios.post(
+       
         "https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/otp/create",
         { email: formData.email },
         {
@@ -241,7 +296,7 @@ const PersonalDetails = ({ className, dateOfBirth,uploadPhoto }) => {
               maxLength="50"
             />
           </div>
-          {uploadPhoto && (
+          {photo && (
           <div className="form-group col-lg-6 col-md-12">
             <div className="uploadButton-input-wrap">
               <input
@@ -251,14 +306,17 @@ const PersonalDetails = ({ className, dateOfBirth,uploadPhoto }) => {
                 accept="image/*"
                 id="upload-image"
                 style={{ opacity: 0, position: 'absolute', zIndex: -1 }}
-                onChange={handleFileChange}
+                onChange={imageFileHandler}
               />
               <label 
                 htmlFor="upload-image" 
                 className="form-control file-upload-label"
               >
-                <span className="file-name">Upload your profile image</span>
+                <span className="upload-text">
+                  {imageFile ? imageFile.name : "Upload your profile image"}
+                </span>
                 <span className="file-button">Browse</span>
+               
               </label>
             </div>
           </div>

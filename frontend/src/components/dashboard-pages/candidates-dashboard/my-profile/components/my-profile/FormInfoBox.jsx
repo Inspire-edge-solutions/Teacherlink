@@ -21,7 +21,7 @@ const FormInfoBox = () => {
   // Define steps for both modes
   const easyModeSteps = [
     { id: 1, components: [
-      { component: PersonalDetails, props: { dateOfBirth: false, uploadPhoto: false, className: "easy-view", hideLanguages: true } },
+      { component: PersonalDetails, props: { dateOfBirth: false, photo: false, className: "easy-view", hideLanguages: true } },
       { component: Address, props: { permanentCity: false, presentCity:false } },
     ], title: "Personal Details" },
     { id: 2, components: [
@@ -46,7 +46,7 @@ const FormInfoBox = () => {
     {
       id: 1,
       components: [
-        { component: PersonalDetails, props: { dateOfBirth: true, uploadPhoto: true, hideLanguages: false } },
+        { component: PersonalDetails, props: { dateOfBirth: true, photo: true, hideLanguages: false } },
         { component: Address, props: { permanentCity: true,presentCity:true } },
         { component: Languages }
       ],
