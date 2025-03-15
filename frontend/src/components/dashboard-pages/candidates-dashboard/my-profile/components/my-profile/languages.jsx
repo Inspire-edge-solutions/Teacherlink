@@ -20,7 +20,7 @@ const Languages = () => {
   useEffect(() => {
     const fetchLanguages = async () => {
       try {
-        const response = await axios.get('https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/languages');
+        const response = await axios.get(import.meta.env.VITE_LANGUAGE_API);
         const filteredLanguages = response.data.filter(lang => lang.category === 'languages in India');
         setAvailableLanguages(filteredLanguages);
       } catch (error) {
@@ -60,7 +60,7 @@ const Languages = () => {
 
     try {
       const response = await axios.post(
-        'https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/languages',
+        import.meta.env.VITE_LANGUAGES_API,
         { languages: JSON.stringify(languages), 
           firebase_uid: user.uid },
         {

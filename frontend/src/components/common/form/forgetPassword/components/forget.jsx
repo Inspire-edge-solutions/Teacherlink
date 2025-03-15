@@ -24,10 +24,6 @@ const ForgetPassword = () => {
   });
   const navigate = useNavigate();
 
-  // Endpoints for OTP and user operations
-  const otpBaseURL = 'https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/otp';
-  const userBaseURL = 'https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/users';
-
   // Password validation function
   const validatePassword = (password) => {
     const validations = {
@@ -68,7 +64,7 @@ const ForgetPassword = () => {
     try {
       setError('');
       setLoading(true);
-      const response = await axios.post(`${otpBaseURL}/create`, { email });
+      const response = await axios.post(`${import.meta.env.VITE_CREATEOTP_API}`, { email });
       setSuccess(response.data.message || 'OTP has been sent to your email');
       setStep(2);
     } catch (err) {
@@ -84,7 +80,7 @@ const ForgetPassword = () => {
     try {
       setError('');
       setLoading(true);
-      const response = await axios.post(`${otpBaseURL}/verify`, { email, otp });
+      const response = await axios.post(`${import.meta.env.VITE_VERIFYOTP_API}`, { email, otp });
       setSuccess(response.data.message || 'OTP verified successfully');
       setStep(3);
     } catch (err) {
@@ -125,7 +121,7 @@ const ForgetPassword = () => {
       console.log('Sending payload:', payload);
 
       const response = await axios.post(
-        `${userBaseURL}`,
+        `${import.meta.env.VITE_USERS_API}`,
         JSON.stringify(payload),
         {
           headers: {

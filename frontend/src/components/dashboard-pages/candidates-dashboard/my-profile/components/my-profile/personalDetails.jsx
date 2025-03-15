@@ -4,6 +4,8 @@ import { useAuth } from "../../../../../../contexts/AuthContext";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaCheckCircle} from 'react-icons/fa';
+
+
 const PersonalDetails = ({ className, dateOfBirth,photo }) => {
   const { user } = useAuth();
   
@@ -43,10 +45,12 @@ const PersonalDetails = ({ className, dateOfBirth,photo }) => {
   
   // Check if user has verified email/phone
   useEffect(() => {
-    // You would typically fetch this from your backend
-    // For now, we'll assume they're not verified initially
-    setEmailVerified(user?.emailVerified || false);
-    setPhoneVerified(user?.phoneVerified || false);
+    
+    // Set verification state based on user data
+    if (user) {
+      setEmailVerified(user?.emailVerified || false);
+      setPhoneVerified(user?.phoneVerified || false);
+    }
   }, [user]);
 
   const [date, setDate] = useState("text");
@@ -122,7 +126,7 @@ const PersonalDetails = ({ className, dateOfBirth,photo }) => {
       // Replace with your actual API endpoint
       const response = await axios.post(
        
-        "https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/otp/create",
+        import.meta.env.VITE_CREATEOTP_API,
         { email: formData.email },
         {
           headers: {
@@ -213,7 +217,7 @@ const PersonalDetails = ({ className, dateOfBirth,photo }) => {
     try {
       // Replace with your actual API endpoint
       const response = await axios.post(
-        "https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/otp/verify",
+        import.meta.env.VITE_VERIFYOTP_API,
         { 
           email: formData.email,
           otp: emailOtp 
@@ -272,10 +276,10 @@ const PersonalDetails = ({ className, dateOfBirth,photo }) => {
     }
   };
 
-  const handleFileChange = (e) => {
-    const fileName = e.target.files[0]?.name || "Upload your profile image";
-    document.querySelector('.file-placeholder').textContent = fileName;
-  };
+  // const handleFileChange = (e) => {
+  //   const fileName = e.target.files[0]?.name || "Upload your profile image";
+  //   document.querySelector('.file-placeholder').textContent = fileName;
+  // };
 
   return (
     <div className={`personal-details ${className}`}>

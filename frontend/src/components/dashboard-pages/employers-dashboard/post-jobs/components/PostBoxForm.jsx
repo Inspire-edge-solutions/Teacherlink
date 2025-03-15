@@ -1,4 +1,3 @@
-
 // import Category from "./Category";
 
 
@@ -21,12 +20,11 @@
 
 // export default PostBoxForm;
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import csc from "countries-states-cities";
 import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Map from "../../../Map"; // Adjust path as needed
 
 //------------------------------------------------
@@ -142,6 +140,83 @@ LocationMap.propTypes = {
 // 4) Main PostBoxForm component
 //------------------------------------------------
 const PostBoxForm = () => {
+  //-------------- API Data States --------------
+  const [languagesSpeak, setLanguagesSpeak] = useState([]);
+  const [languagesRead, setLanguagesRead] = useState([]);
+  const [languagesWrite, setLanguagesWrite] = useState([]);
+  const [designations, setDesignations] = useState([]);
+  const [designatedGrades, setDesignatedGrades] = useState([]);
+  const [coreExpertise, setCoreExpertise] = useState([]);
+  const [curriculum, setCurriculum] = useState([]);
+  const [subjectsList, setSubjectsList] = useState([]);
+  const [qualifications, setQualifications] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  //-------------- Fetch API Data --------------
+const languageList = async () => {
+  try {
+    const response = await axios.get(
+      import.meta.env.VITE_LANGUAGE_API
+    );
+    const transformedData = response.data.filter((item) => item.category === "languages in India") || [];
+    setLanguagesSpeak(transformedData);
+    setLanguagesRead(transformedData);
+    setLanguagesWrite(transformedData);
+  } catch (error) {
+    console.error("Error fetching languages:", error);
+  }
+};
+
+const subjectList = async () => {
+  try {
+    const response = await axios.get(
+      import.meta.env.VITE_EDUCATION_API
+    );
+    setSubjectsList(response.data);
+  } catch (error) {
+    console.error("Error fetching subjects:", error);
+  }
+};
+
+  const fetchDesignations = async () => {
+    try {
+      const response = await axios.get(
+        import.meta.env.VITE_CONSTANTS_API
+      );
+      
+      const transformedData = response.data.map((item) => ({
+        category: item.category,
+        value: item.value,
+        label: item.label
+      }));
+      
+      setDesignations(
+        transformedData.filter((item) => item.category === "Administration") || []
+      );
+      setCoreExpertise(
+        transformedData.filter((item) => item.category === "Core Expertise") || []
+      );
+      setDesignatedGrades(
+        transformedData.filter((item) => item.category === "Grades") || []
+      );
+      setCurriculum(
+        transformedData.filter((item) => item.category === "Curriculum") || []
+      );
+      setQualifications(
+        transformedData.filter((item) => item.category === "Degrees" || item.category === "MasterDegree") || []
+      );
+        
+    } catch (error) {
+      console.error("Error fetching drop down data list:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDesignations();
+    languageList();
+    subjectList();
+  }, []);
+  
   //-------------- Radio Buttons (job_type) --------------
   const [jobCategory, setJobCategory] = useState("full_time");
 
@@ -287,47 +362,6 @@ const PostBoxForm = () => {
 
   //-------------- Multi-Select Options --------------
   const multiSelectOptions = {
-    qualification: [
-      { value: "grade10", label: "Grade 10" },
-      { value: "grade12", label: "Grade 12" },
-      { value: "degree", label: "Degree" },
-      { value: "masters", label: "Masters" },
-      { value: "phd", label: "PhD" }
-    ],
-    core_subjects: [
-      { value: "physics", label: "Physics" },
-      { value: "chemistry", label: "Chemistry" },
-      { value: "biology", label: "Biology" },
-      { value: "accounting", label: "Accounting" },
-      { value: "computer_science", label: "Computer Science" }
-    ],
-    optional_subject: [
-      { value: "optional1", label: "Optional 1" },
-      { value: "optional2", label: "Optional 2" },
-      { value: "optional3", label: "Optional 3" }
-    ],
-    designations: [
-      { value: "english", label: "English" },
-      { value: "hindi", label: "Hindi" },
-      { value: "math", label: "Math" }
-    ],
-    designated_grades: [
-      { value: "grade1", label: "Grade 1" },
-      { value: "grade2", label: "Grade 2" }
-    ],
-    curriculum: [
-      { value: "CBSE", label: "CBSE" },
-      { value: "ICSE", label: "ICSE" }
-    ],
-    subjects: [
-      { value: "english", label: "English" },
-      { value: "hindi", label: "Hindi" },
-      { value: "math", label: "Math" }
-    ],
-    core_expertise: [
-      { value: "english", label: "English" },
-      { value: "hindi", label: "Hindi" }
-    ],
     job_shifts: [
       { value: "morning", label: "Morning" },
       { value: "evening", label: "Evening" }
@@ -348,18 +382,8 @@ const PostBoxForm = () => {
       { value: "full_time", label: "Full Time" },
       { value: "part_time", label: "Part Time" }
     ],
-    language_speak: [
-      { value: "english", label: "English" },
-      { value: "hindi", label: "Hindi" }
-    ],
-    language_read: [
-      { value: "english", label: "English" },
-      { value: "hindi", label: "Hindi" }
-    ],
-    language_write: [
-      { value: "english", label: "English" },
-      { value: "hindi", label: "Hindi" }
-    ],
+   
+    
     computer_skills: [
       { value: "excel", label: "Excel" },
       { value: "word", label: "Word" },
@@ -562,10 +586,9 @@ const PostBoxForm = () => {
 
           <form onSubmit={handleSubmit}>
             {/* ---------- Basic Job Info Section ---------- */}
-            <div className="mb-4">
+            <div className="row">
               <h6 className="mb-3">General Information</h6>
-              <div className="mb-3">
-                <label className="form-label">Job Title</label>
+              <div className="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
                   className="form-control"
@@ -574,7 +597,7 @@ const PostBoxForm = () => {
                   placeholder="Enter job title"
                 />
               </div>
-              <div className="mb-3">
+              <div className="form-group col-lg-6 col-md-12">
                 <label className="form-label">No. of Opening</label>
                 <input
                   type="number"
@@ -584,7 +607,7 @@ const PostBoxForm = () => {
                   placeholder="e.g., 5"
                 />
               </div>
-              <div className="mb-3">
+              <div className="form-group col-lg-6 col-md-12">
                 <label className="form-label">Job Description</label>
                 <textarea
                   className="form-control"
@@ -594,7 +617,7 @@ const PostBoxForm = () => {
                   placeholder="Enter job description"
                 />
               </div>
-              <div className="mb-3">
+              <div className="form-group col-lg-6 col-md-12">
                 <label className="form-label">Joining Date</label>
                 <input
                   type="date"
@@ -630,7 +653,7 @@ const PostBoxForm = () => {
                 <label className="form-label">Qualification</label>
                 <Select
                   isMulti
-                  options={multiSelectOptions.qualification}
+                  options={qualifications}
                   value={selectedQualifications}
                   onChange={setSelectedQualifications}
                   placeholder="Select Qualification(s)"
@@ -643,7 +666,7 @@ const PostBoxForm = () => {
                 <label className="form-label">Core Subjects</label>
                 <Select
                   isMulti
-                  options={multiSelectOptions.core_subjects}
+                  options={coreExpertise}
                   value={selectedCoreSubjects}
                   onChange={setSelectedCoreSubjects}
                   placeholder="Select Core Subject(s)"
@@ -656,7 +679,7 @@ const PostBoxForm = () => {
                 <label className="form-label">Optional Subject</label>
                 <Select
                   isMulti
-                  options={multiSelectOptions.optional_subject}
+                  options={subjectsList}
                   value={selectedOptionalSubject}
                   onChange={setSelectedOptionalSubject}
                   placeholder="Select Optional Subject(s)"
@@ -1225,7 +1248,7 @@ const PostBoxForm = () => {
                   <label className="form-label">Designations</label>
                   <Select
                     isMulti
-                    options={multiSelectOptions.designations}
+                    options={designations}
                     value={selectedDesignations}
                     onChange={setSelectedDesignations}
                     menuPortalTarget={document.body}
@@ -1236,7 +1259,7 @@ const PostBoxForm = () => {
                   <label className="form-label">Designated Grades</label>
                   <Select
                     isMulti
-                    options={multiSelectOptions.designated_grades}
+                    options={designatedGrades}
                     value={selectedDesignatedGrades}
                     onChange={setSelectedDesignatedGrades}
                     menuPortalTarget={document.body}
@@ -1249,7 +1272,7 @@ const PostBoxForm = () => {
                   <label className="form-label">Curriculum</label>
                   <Select
                     isMulti
-                    options={multiSelectOptions.curriculum}
+                    options={curriculum}
                     value={selectedCurriculum}
                     onChange={setSelectedCurriculum}
                     menuPortalTarget={document.body}
@@ -1260,7 +1283,7 @@ const PostBoxForm = () => {
                   <label className="form-label">Subjects</label>
                   <Select
                     isMulti
-                    options={multiSelectOptions.subjects}
+                    options={subjectsList}
                     value={selectedSubjects}
                     onChange={setSelectedSubjects}
                     menuPortalTarget={document.body}
@@ -1273,7 +1296,7 @@ const PostBoxForm = () => {
                   <label className="form-label">Core Expertise</label>
                   <Select
                     isMulti
-                    options={multiSelectOptions.core_expertise}
+                    options={coreExpertise}
                     value={selectedCoreExpertise}
                     onChange={setSelectedCoreExpertise}
                     menuPortalTarget={document.body}
@@ -1347,7 +1370,7 @@ const PostBoxForm = () => {
                   <label className="form-label">Language Speak</label>
                   <Select
                     isMulti
-                    options={multiSelectOptions.language_speak}
+                    options={languagesSpeak}
                     value={selectedLanguageSpeak}
                     onChange={setSelectedLanguageSpeak}
                     menuPortalTarget={document.body}
@@ -1358,7 +1381,7 @@ const PostBoxForm = () => {
                   <label className="form-label">Language Read</label>
                   <Select
                     isMulti
-                    options={multiSelectOptions.language_read}
+                    options={languagesRead}
                     value={selectedLanguageRead}
                     onChange={setSelectedLanguageRead}
                     menuPortalTarget={document.body}
@@ -1369,7 +1392,7 @@ const PostBoxForm = () => {
                   <label className="form-label">Language Write</label>
                   <Select
                     isMulti
-                    options={multiSelectOptions.language_write}
+                    options={languagesWrite}
                     value={selectedLanguageWrite}
                     onChange={setSelectedLanguageWrite}
                     menuPortalTarget={document.body}
