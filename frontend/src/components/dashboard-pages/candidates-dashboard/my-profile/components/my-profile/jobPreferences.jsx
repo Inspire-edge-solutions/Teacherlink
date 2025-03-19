@@ -135,7 +135,7 @@ const JobPreference = () => {
   useEffect(() => {
     const fetchDesignations = async () => {
       try {
-        const response = await fetch(import.meta.env.VITE_CONSTANTS_API);
+        const response = await fetch(import.meta.env.VITE_DEV1_API + '/constants');
         const data = await response.json();
         const transformedData = data.map(item => ({
           category: item.category,

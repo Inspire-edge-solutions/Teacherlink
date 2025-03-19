@@ -1,4 +1,4 @@
-const BASE_URL = 'https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/organization';
+const BASE_URL = import.meta.env.VITE_DEV1_API + '/organization';
 
 // createOrganization API call without token-based authorization
 export const createOrganization = async (payload) => {
@@ -7,7 +7,6 @@ export const createOrganization = async (payload) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
-        // Token-based auth removed
       },
       body: JSON.stringify(payload)
     });

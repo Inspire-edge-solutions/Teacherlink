@@ -156,7 +156,7 @@ const PostBoxForm = () => {
 const languageList = async () => {
   try {
     const response = await axios.get(
-      import.meta.env.VITE_LANGUAGE_API
+      import.meta.env.VITE_DEV1_API + '/languages'
     );
     const transformedData = response.data.filter((item) => item.category === "languages in India") || [];
     setLanguagesSpeak(transformedData);
@@ -170,7 +170,7 @@ const languageList = async () => {
 const subjectList = async () => {
   try {
     const response = await axios.get(
-      import.meta.env.VITE_EDUCATION_API
+      import.meta.env.VITE_DEV1_API + '/education-data'
     );
     setSubjectsList(response.data);
   } catch (error) {
@@ -181,7 +181,7 @@ const subjectList = async () => {
   const fetchDesignations = async () => {
     try {
       const response = await axios.get(
-        import.meta.env.VITE_CONSTANTS_API
+        import.meta.env.VITE_DEV1_API + '/constants'
       );
       
       const transformedData = response.data.map((item) => ({

@@ -63,7 +63,7 @@ const FormContent = ({ user_type }) => {
       console.log("Sending User Data:", userData);
 
       const response = await axios.post(
-        import.meta.env.VITE_USERS_API,
+        import.meta.env.VITE_DEV1_API + '/users',
         {
           route: "CreateUser",
           ...userData,

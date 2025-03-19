@@ -67,8 +67,10 @@ const OrgDetails = () => {
     email: user?.email || "",
   });
 
-  // Add this state for controlling dropdown visibility
-  const [designationDropdown, setDesignationDropdown] = useState(false);
+
+  // Add state for other designation
+  const [otherContactPersonDesignation, setOtherContactPersonDesignation] = useState('');
+  const [otherReportingAuthorityDesignation, setOtherReportingAuthorityDesignation] = useState('');
 
   // Load country list on mount
   useEffect(() => {
@@ -104,7 +106,7 @@ const OrgDetails = () => {
   const fetchDesignations = async () => {
     try {
       const response = await fetch(
-        "https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/constants"
+        import.meta.env.VITE_DEV1_API + '/constants'
       );
       const data = await response.json();
       const transformedData = data.map((item) => ({
@@ -181,20 +183,15 @@ const OrgDetails = () => {
     }));
   };
 
-  // Toggle designations for the contactPerson
-  const handleDesignationSelect = (designation) => {
-    setOrgDetails((prev) => {
-      const alreadySelected = prev.contactPerson.designation.includes(designation.value);
-      return {
-        ...prev,
-        contactPerson: {
-          ...prev.contactPerson,
-          designation: alreadySelected
-            ? prev.contactPerson.designation.filter((d) => d !== designation.value)
-            : [...prev.contactPerson.designation, designation.value],
-        },
-      };
-    });
+  // For contact person designation
+  const handleContactPersonDesignationChange = (selectedOptions) => {
+    setOrgDetails(prev => ({
+      ...prev,
+      contactPerson: {
+        ...prev.contactPerson,
+        designation: selectedOptions ? selectedOptions.map(option => option.value) : []
+      }
+    }));
   };
 
   // If user is NOT the owner, we store data in reporting_authority
@@ -203,17 +200,23 @@ const OrgDetails = () => {
     setReportingAuthority((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Toggle designations for reporting_authority
-  const handleReportingAuthorityDesignationSelect = (designation) => {
-    setReportingAuthority((prev) => {
-      const alreadySelected = prev.designation.includes(designation);
-      return {
-        ...prev,
-        designation: alreadySelected
-          ? prev.designation.filter((d) => d !== designation)
-          : [...prev.designation, designation],
-      };
-    });
+  // For reporting authority designation
+  const handleReportingAuthorityDesignationChange = (selectedOptions) => {
+    setReportingAuthority(prev => ({
+      ...prev,
+      designation: selectedOptions ? selectedOptions.map(option => option.value) : []
+    }));
+  };
+
+  // Add a new handler specifically for parent/guardian designation
+  const handleParentDesignationChange = (selectedOptions) => {
+    setOrgDetails(prev => ({
+      ...prev,
+      contactPerson: {
+        ...prev.contactPerson,
+        designation: selectedOptions ? selectedOptions.map(option => option.value) : []
+      }
+    }));
   };
 
   // Submission handler
@@ -258,8 +261,18 @@ const OrgDetails = () => {
 
       // If user is owner => account_operated_by = contactPerson
       // If user is not owner => account_operated_by is null, and we use reporting_authority
-      account_operated_by: isOwner === "yes" ? orgDetails.contactPerson : null,
-      reporting_authority: isOwner === "no" ? reporting_authority : null,
+      account_operated_by: isOwner === "yes" ? {
+        ...orgDetails.contactPerson,
+        other_designation: orgDetails.contactPerson.designation.includes('Others') 
+          ? otherContactPersonDesignation 
+          : null
+      } : null,
+      reporting_authority: isOwner === "no" ? {
+        ...reporting_authority,
+        other_designation: reporting_authority.designation.includes('Others') 
+          ? otherReportingAuthorityDesignation 
+          : null
+      } : null,
 
       social: socialData,
       images,
@@ -435,7 +448,7 @@ const OrgDetails = () => {
           value={designations.filter(option => 
           orgDetails.contactPerson.designation.includes(option.value)
           )}
-         
+          onChange={handleContactPersonDesignationChange}
           className={`custom-select ${orgDetails.contactPerson.designation.length === 0 ? 'required' : ''}`}
           placeholder="Designation"
           isClearable
@@ -446,6 +459,8 @@ const OrgDetails = () => {
                       <input
                         type="text"
                         placeholder="Specify other designation"
+                        value={otherContactPersonDesignation}
+                        onChange={(e) => setOtherContactPersonDesignation(e.target.value)}
                         required
                       />
                     </div>
@@ -579,38 +594,31 @@ const OrgDetails = () => {
                     </div>
                   </div>
                 </div>
-                <div className="form-group col-lg-6 col-md-12">
-                  <div className="custom-multiselect">
-                    <div
-                      className="select-header form-control"
-                      onClick={() => setDesignationDropdown(!designationDropdown)}
-                    >
-                      {reporting_authority.designation.length > 0
-                        ? reporting_authority.designation.map((d) => d.label).join(", ")
-                        : "Select Designation(s)"}
+          <div className="form-group col-lg-6 col-md-12">
+          <Select
+          isMulti
+          options={designations}
+          value={designations.filter(option => 
+          reporting_authority.designation.includes(option.value)
+          )}
+          onChange={handleReportingAuthorityDesignationChange}
+          className={`custom-select ${reporting_authority.designation.length === 0 ? 'required' : ''}`}
+          placeholder="Designation"
+          isClearable
+          />
+        </div>
+                {reporting_authority.designation.includes('Others') && (
+                    <div className="form-group col-lg-6 col-md-12">
+                      <input
+                        type="text"
+                        placeholder="Specify other designation"
+                        value={otherReportingAuthorityDesignation}
+                        onChange={(e) => setOtherReportingAuthorityDesignation(e.target.value)}
+                        required
+                      />
                     </div>
-                    {designationDropdown && (
-                      <div className="select-options">
-                        {designations.map((designation, index) => (
-                          <div
-                            key={index}
-                            className="select-option"
-                            onClick={() =>
-                              handleReportingAuthorityDesignationSelect(designation)
-                            }
-                          >
-                            <input
-                              type="checkbox"
-                              checked={reporting_authority.designation.some((d) => d.value === designation.value)}
-                              readOnly
-                            />
-                            <span>{designation.label}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
+                  )}
+
                 <div className="form-group col-lg-6 col-md-12">
                   <input
                     type="tel"
@@ -858,35 +866,29 @@ const OrgDetails = () => {
               </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="custom-multiselect">
-                <div
-                  className="select-header form-control"
-                  onClick={() => setDesignationDropdown(!designationDropdown)}
-                >
-                  {orgDetails.contactPerson.designation.length > 0
-                    ? orgDetails.contactPerson.designation.join(", ")
-                    : "Select Designation(s)"}
-                </div>
-                {designationDropdown && (
-                  <div className="select-options">
-                    {designations.map((designation, index) => (
-                      <div
-                        key={index}
-                        className="select-option"
-                        onClick={() => handleDesignationSelect(designation)}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={orgDetails.contactPerson.designation.includes(designation)}
-                          readOnly
-                        />
-                        <span>{designation}</span>
-                      </div>
-                    ))}
-                  </div>
+              <Select
+                isMulti
+                options={designations}
+                value={designations.filter(option => 
+                  orgDetails.contactPerson.designation.includes(option.value)
                 )}
-              </div>
+                onChange={handleParentDesignationChange}
+                className={`custom-select ${orgDetails.contactPerson.designation.length === 0 ? 'required' : ''}`}
+                placeholder="Designation"
+                isClearable
+              />
             </div>
+            {orgDetails.contactPerson.designation.includes('Others') && (
+              <div className="form-group col-lg-6 col-md-12">
+                <input
+                  type="text"
+                  placeholder="Specify other designation"
+                  value={otherContactPersonDesignation}
+                  onChange={(e) => setOtherContactPersonDesignation(e.target.value)}
+                  required
+                />
+              </div>
+            )}
             <div className="form-group col-lg-6 col-md-12">
               <input
                 type="tel"

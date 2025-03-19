@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
           
           const response = await axios({
             method: 'get',
-            url: `${import.meta.env.VITE_USERS_API}/${firebaseUser.uid}`,
+            url: `${import.meta.env.VITE_DEV1_API + '/users'}/${firebaseUser.uid}`,
             params: {
               route: 'GetUser'
             },

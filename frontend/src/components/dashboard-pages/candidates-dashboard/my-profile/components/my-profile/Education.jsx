@@ -269,7 +269,7 @@ const Education = ({
   const subjectList = async () => {
     try {
       const response = await axios.get(
-        import.meta.env.VITE_EDUCATION_API
+        import.meta.env.VITE_DEV1_API + '/education-data'
       );
       const formattedSubjects = response.data.map((subject) => ({
         value: subject.value,
@@ -289,7 +289,7 @@ const Education = ({
     const fetchDegrees = async () => {
       try {
         const response = await fetch(
-          import.meta.env.VITE_CONSTANTS_API
+          import.meta.env.VITE_DEV1_API + '/constants'
         );
         const data = await response.json();
         const transformedData = data.map((item) => ({

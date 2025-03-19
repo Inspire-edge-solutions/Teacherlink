@@ -64,7 +64,7 @@ const ForgetPassword = () => {
     try {
       setError('');
       setLoading(true);
-      const response = await axios.post(`${import.meta.env.VITE_CREATEOTP_API}`, { email });
+      const response = await axios.post(`${import.meta.env.VITE_DEV1_API + '/otp/create'}`, { email });
       setSuccess(response.data.message || 'OTP has been sent to your email');
       setStep(2);
     } catch (err) {
@@ -80,7 +80,7 @@ const ForgetPassword = () => {
     try {
       setError('');
       setLoading(true);
-      const response = await axios.post(`${import.meta.env.VITE_VERIFYOTP_API}`, { email, otp });
+      const response = await axios.post(`${import.meta.env.VITE_DEV1_API + '/otp/verify'}`, { email, otp });
       setSuccess(response.data.message || 'OTP verified successfully');
       setStep(3);
     } catch (err) {
@@ -121,7 +121,7 @@ const ForgetPassword = () => {
       console.log('Sending payload:', payload);
 
       const response = await axios.post(
-        `${import.meta.env.VITE_USERS_API}`,
+        `${import.meta.env.VITE_DEV1_API + '/users'}`,
         JSON.stringify(payload),
         {
           headers: {
