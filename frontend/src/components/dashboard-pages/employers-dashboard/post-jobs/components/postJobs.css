@@ -1,141 +1,45 @@
-.experience-table {
-  width: 100%;
-  background: #fff;
-}
-
-.table-header {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  padding: 15px 20px;
-  border-bottom: 1px solid #eee;
-}
-
-.category-header {
-  font-weight: 500;
-  color: #202124;
-  font-size: 15px;
-}
-
-.min-max-header {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column: 2 / span 2;
-  gap: 20px;
-}
-
-.min-max-header div {
-  font-weight: 500;
-  color: #202124;
-  font-size: 15px;
-}
-
-.experience-row {
-  display: grid;
-  grid-template-columns: 2fr 2fr;
-  padding: 15px 20px;
-  border-bottom: 1px solid #eee;
-  align-items: center;
-  gap: 20px;
-}
-
-.category-cell {
-  color: #202124;
-  font-size: 14px;
-}
-
-.min-max-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.year-month-group {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-/* React Select Customization */
-.select__control {
-  min-height: 42px !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 5px !important;
-  background: #fff !important;
-}
-
-.select__control:hover {
-  border-color: #1967d2 !important;
-}
-
-.select__placeholder {
-  color: #64748b !important;
-  font-size: 14px !important;
-}
-
-.select__single-value {
-  color: #202124 !important;
-  font-size: 14px !important;
-}
-
-/* Responsive Design */
-@media (max-width: 992px) {
-  .table-header {
-    display: none;
-  }
-
-  .experience-row {
-    grid-template-columns: 1fr;
-  }
-
-  .min-max-container {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-}
-
-@media (max-width: 576px) {
-  .year-month-group {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-}
-
-.selected-locations .badge {
-  padding: 8px 12px;
-  font-size: 14px;
-}
-
-.btn-close {
-  padding: 0.25rem;
-  border: none;
-  background: transparent;
-  opacity: 0.8;
-}
-
-.btn-close:hover {
-  opacity: 1;
-}
-
-.checkbox-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.form-check-inline {
-  margin-right: 15px;
-}
-
-.form-check-label {
-  margin-left: 5px;
-  cursor: pointer;
-}
-
-.form-check-input {
-  cursor: pointer;
+[class*="placeholder"] {
+  color: black !important;
 }
 
 .radio-group {
-  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: black !important;
+}
+
+.radio-input {
+  margin: 0;
+  cursor: pointer;
+}
+
+.radio-label {
+  margin: 0;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .experience-wrapper .d-flex {
+    gap: 10px !important;
+  }
+}
+
+select {
+  color: black !important;
+}
+
+select option {
+  color: black !important;
+}
+
+/* To also style the placeholder option */
+select option:first-child {
+  color: black !important;
 }

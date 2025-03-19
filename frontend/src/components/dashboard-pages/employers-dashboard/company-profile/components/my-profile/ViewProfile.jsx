@@ -23,7 +23,7 @@ const ViewProfile = () => {
       // Optional: If you're not using token-based auth anymore, remove idToken references
       const idToken = localStorage.getItem("idToken");
       const response = await fetch(
-        `https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/organization/${firebase_uid}`,
+        `${import.meta.env.VITE_DEV1_API}/organization/${firebase_uid}`,
         {
           method: "GET",
           headers: {

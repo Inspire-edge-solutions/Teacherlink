@@ -1,3 +1,9 @@
+[class*="placeholder"] {
+  color: black !important;
+}
+input::placeholder{
+  color: black !important;
+}
 .radio-group {
   display: flex;
   flex-wrap: wrap;
@@ -65,7 +71,6 @@
 .radio-option:hover label {
   color: var(--primary-color);
 }
-
 
 .radio-group.single-line {
   flex-direction: row;
@@ -319,9 +324,9 @@ h4 {
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
-  float: right;  /* Add this */
-  margin-left: auto;  /* Add this */
-  display: block;  /* Add this */
+  float: right;  
+  margin-left: auto;  
+  display: block;
 }
 
 .remove-btn:hover {
@@ -986,7 +991,7 @@ input:required , select:required , textarea:required{
 }
 
 .verify-otp-btn {
-  background:rgb(16, 110, 80);
+  background:rgb(73, 244, 190);
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 5px 10px;

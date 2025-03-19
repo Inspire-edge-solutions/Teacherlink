@@ -509,6 +509,7 @@ const Experience = ({
                   <label>Job Category:</label>
                   <div className="radio-option">
                     <input
+                      required
                       type="radio"
                       id={`jobCategory-fullTime-${index}`}
                       name={`jobCategory-${index}`}
@@ -524,6 +525,7 @@ const Experience = ({
                   </div>
                   <div className="radio-option">
                     <input
+                      required
                       type="radio"
                       id={`jobCategory-partTime-${index}`}
                       name={`jobCategory-${index}`}
@@ -695,6 +697,7 @@ const Experience = ({
                 <div className="salary-input d-flex align-items-center">
                   <span>Rs.</span>
                   <input
+                  required
                     type="number"
                     className="form-control"
                     step="0.1"
@@ -756,6 +759,7 @@ const Experience = ({
                       }}
                       placeholder="Teaching designation"
                       isClearable
+                      className={`custom-select ${!experience.teachingDesignation ? 'required' : ''}`}
                     />
                   </div>
                   {experience.teachingDesignation === "Others" && (
@@ -826,6 +830,7 @@ const Experience = ({
                       }}
                       placeholder="Subjects you handled"
                       isClearable
+                      className={`custom-select ${experience.teachingSubjects ? 'required' : ''}`}
                     />
                   </div>
                   {experience.teachingSubjects.includes("Others") && (
@@ -839,6 +844,7 @@ const Experience = ({
                           setExperienceEntries(newArr);
                         }}
                         placeholder="Specify other subjects"
+                        required
                       />
                     </div>
                   )}
@@ -860,6 +866,7 @@ const Experience = ({
                       }}
                       placeholder="Grades you handled"
                       isClearable
+                      className={`custom-select ${experience.teachingGrades ? 'required' : ''}`}
                     />
                   </div>
 
@@ -880,6 +887,7 @@ const Experience = ({
                       }}
                       placeholder="Core Expertise"
                       isClearable
+                      className={`custom-select ${experience.teachingCoreExpertise ? 'required' : ''}`}
                     />
                   </div>
                   {experience.teachingCoreExpertise.includes("Others") && (
@@ -918,6 +926,7 @@ const Experience = ({
                       }}
                       placeholder="Designation"
                       isClearable
+                      className={`custom-select ${!experience.adminDesignation ? 'required' : ''}`}
                     />
                   </div>
                   {experience.adminDesignation === "Others" && (
@@ -990,6 +999,7 @@ const Experience = ({
                       }}
                       placeholder="Designation"
                       isClearable
+                      className={`custom-select ${experience.teachingAdminDesignations ? 'required' : ''}`}
                     />
                   </div>
                   {experience.teachingAdminDesignations.includes("Others") && (
@@ -1061,6 +1071,7 @@ const Experience = ({
                       }}
                       placeholder="Subjects you handled"
                       isClearable
+                      className={`custom-select ${experience.teachingAdminSubjects ? 'required' : ''}`}
                     />
                   </div>
                   {experience.teachingAdminSubjects.includes("Others") && (
@@ -1094,6 +1105,7 @@ const Experience = ({
                       }}
                       placeholder="Grades you handled"
                       isClearable
+                      className={`custom-select ${experience.teachingAdminGrades ? 'required' : ''}`}
                     />
                   </div>
 
@@ -1114,6 +1126,7 @@ const Experience = ({
                       }}
                       placeholder="Core Expertise"
                       isClearable
+                      className={`custom-select ${experience.teachingAdminCoreExpertise ? 'required' : ''}`}
                     />
                   </div>
                   {experience.teachingAdminCoreExpertise.includes("Others") && (
@@ -1200,6 +1213,7 @@ const Experience = ({
                     newArr[index].city = null;
                     setExperienceEntries(newArr);
                   }}
+                  className={`custom-select ${!experience.country ? 'required' : ''}`}
                 />
               </div>
               <div className="form-group col-lg-6 col-md-12">
@@ -1220,6 +1234,7 @@ const Experience = ({
                     newArr[index].city = null;
                     setExperienceEntries(newArr);
                   }}
+                  className={`custom-select ${!experience.state ? 'required' : ''}`}
                 />
               </div>
               <div className="form-group col-lg-6 col-md-12">
@@ -1239,6 +1254,7 @@ const Experience = ({
                     newArr[index].city = option;
                     setExperienceEntries(newArr);
                   }}
+                  className={`custom-select ${!experience.city ? 'required' : ''}`}
                 />
               </div>
 

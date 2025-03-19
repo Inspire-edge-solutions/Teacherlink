@@ -345,8 +345,8 @@ const FormInfoBox = () => {
         viewMode === 'easy' ? <Easyview formData={formData} /> : <Fullview formData={formData} />
       )}
 
-      {/* Add CSS for the step-by-step UI */}
-      <style jsx>{`
+      {/* Replace the style jsx block with regular style or styled-components */}
+      <style>{`
         .step-progress {
           margin-bottom: 30px;
         }

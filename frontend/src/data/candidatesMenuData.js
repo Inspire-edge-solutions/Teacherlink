@@ -18,19 +18,9 @@ const candidateMenus = [
       },
       {
         id: "2-2",
-        name: "Demo Video",
-        routePath: "/candidates-dashboard/my-profile/LogoUpload",
-      },
-      {
-        id: "2-3",
-        name: "Resume",
+        name: "Demo video & Resume",
         routePath: "/candidates-dashboard/cv-manager",
       },
-      {
-        id: "2-4",
-        name: "View Profile",
-        routePath: "/candidates-dashboard/my-profile/FullView.jsx",
-      }
     ]
   },
   // {
@@ -57,12 +47,12 @@ const candidateMenus = [
     icon: "icon-bookmark",
     routePath: "/candidates-dashboard/shortlisted-jobs",
   },
-  {
-    id: 7,
-    name: "CV Manager",
-    icon: "icon-doc",
-    routePath: "/candidates-dashboard/cv-manager",
-  },
+  // {
+  //   id: 7,
+  //   name: "CV Manager",
+  //   icon: "icon-doc",
+  //   routePath: "/candidates-dashboard/cv-manager",
+  // },
   {
     id: 8,
     name: "Messages",

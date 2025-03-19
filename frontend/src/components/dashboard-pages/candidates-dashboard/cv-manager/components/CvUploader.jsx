@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BsCloudUpload } from 'react-icons/bs';
+import { BsCloudUpload, BsPencil, BsTrash } from 'react-icons/bs';
 
 // validation chaching
 function checkFileTypes(files) {
@@ -84,10 +84,10 @@ const CvUploader = () => {
                         <span className="title">{file.name}</span>
                         <div className="edit-btns">
                             <button>
-                                <span className="la la-pencil"></span>
+                                <span className="icon"><BsPencil /></span>
                             </button>
                             <button onClick={() => deleteHandler(file.name)}>
-                                <span className="la la-trash"></span>
+                                <span className="icon"><BsTrash /></span>
                             </button>
                         </div>
                     </div>
