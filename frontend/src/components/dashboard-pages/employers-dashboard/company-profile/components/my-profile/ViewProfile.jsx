@@ -5,8 +5,7 @@ import { toast } from "react-toastify";
 const ViewProfile = () => {
   const { user } = useAuth();
   const firebase_uid = user?.uid;
-  
-  // States for organization data
+
   const [orgData, setOrgData] = useState(null);
   const [loadingOrg, setLoadingOrg] = useState(false);
   const [errorOrg, setErrorOrg] = useState(null);
@@ -18,12 +17,10 @@ const ViewProfile = () => {
     }
     setLoadingOrg(true);
     setErrorOrg(null);
-
     try {
-      // Optional: If you're not using token-based auth anymore, remove idToken references
       const idToken = localStorage.getItem("idToken");
       const response = await fetch(
-        `${import.meta.env.VITE_DEV1_API}/organization/${firebase_uid}`,
+        `https://v0trs9tt4k.execute-api.ap-south-1.amazonaws.com/staging/organization/${firebase_uid}`,
         {
           method: "GET",
           headers: {
@@ -32,7 +29,6 @@ const ViewProfile = () => {
           },
         }
       );
-
       if (!response.ok) {
         throw new Error("Failed to fetch organization details");
       }
@@ -53,20 +49,14 @@ const ViewProfile = () => {
     <div>
       {loadingOrg && <p>Loading organization details...</p>}
       {errorOrg && <p style={{ color: "red" }}>Error: {errorOrg}</p>}
+
       {orgData && (
         <div
           className="org-data-display"
           style={{ marginTop: "20px", padding: "10px", border: "1px solid #ccc" }}
         >
-          <h3>Organization Profile</h3>
-          <p>
-            <strong>Firebase UID:</strong> {orgData.firebase_uid}
-          </p>
-          <p>
-            <strong>Type:</strong> {orgData.type}
-          </p>
 
-          {/* Organization Details (for non-parent types) */}
+          {/* ----------------- Organization Details (if non-parent) ----------------- */}
           {orgData.organization_details && (
             <>
               <h4>Organization Details</h4>
@@ -102,11 +92,16 @@ const ViewProfile = () => {
                 <strong>State:</strong> {orgData.organization_details.state}
               </p>
               <p>
-                <strong>Pin Code:</strong> {orgData.organization_details.pincode}
+                <strong>Pin Code:</strong>{" "}
+                {orgData.organization_details.pincode !== null
+                  ? orgData.organization_details.pincode
+                  : "N/A"}
               </p>
               <p>
                 <strong>Country:</strong> {orgData.organization_details.country}
               </p>
+
+              {/* Institution Photos */}
               {orgData.organization_details.institution_photos &&
                 orgData.organization_details.institution_photos.length > 0 && (
                   <div>
@@ -126,7 +121,7 @@ const ViewProfile = () => {
             </>
           )}
 
-          {/* Parent/Guardian Details (for parent types) */}
+          {/* ----------------- Parent/Guardian Details (if parent type) ----------------- */}
           {orgData.parent_details && (
             <>
               <h4>Parent/Guardian Details</h4>
@@ -140,7 +135,10 @@ const ViewProfile = () => {
                 <strong>State:</strong> {orgData.parent_details.state}
               </p>
               <p>
-                <strong>Pin Code:</strong> {orgData.parent_details.pincode}
+                <strong>Pin Code:</strong>{" "}
+                {orgData.parent_details.pincode !== null
+                  ? orgData.parent_details.pincode
+                  : "N/A"}
               </p>
               <p>
                 <strong>Country:</strong> {orgData.parent_details.country}
@@ -148,10 +146,10 @@ const ViewProfile = () => {
             </>
           )}
 
-          {/* Contact Person (if user is owner) */}
+          {/* ----------------- Account Operated By (Contact Person) ----------------- */}
           {orgData.account_operated_by && (
             <>
-              <h4>Contact Person</h4>
+              <h4>Account Operated By (Contact Person)</h4>
               <p>
                 <strong>Name:</strong> {orgData.account_operated_by.name}
               </p>
@@ -174,7 +172,7 @@ const ViewProfile = () => {
             </>
           )}
 
-          {/* Reporting Authority (if user is not owner) */}
+          {/* ----------------- Reporting Authority (if user is not owner) ----------------- */}
           {orgData.reporting_authority && (
             <>
               <h4>Reporting Authority</h4>
@@ -200,7 +198,7 @@ const ViewProfile = () => {
             </>
           )}
 
-          {/* Social Networks at the TOP LEVEL */}
+          {/* ----------------- Social Networks ----------------- */}
           <h4>Social Networks</h4>
           <p>
             <strong>Facebook:</strong> {orgData.facebook}
