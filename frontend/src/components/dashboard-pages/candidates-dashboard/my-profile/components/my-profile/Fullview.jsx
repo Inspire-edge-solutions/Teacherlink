@@ -1,237 +1,324 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useAuth } from '../../../../../../contexts/AuthContext';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useAuth } from "../../../../../../contexts/AuthContext";
 
-const Fullview = () => {
-  const [userProfile, setUserProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [debugInfo, setDebugInfo] = useState(null);
+// Single API endpoint
+const FULL_API = 'https://xx22er5s34.execute-api.ap-south-1.amazonaws.com/dev/fullapi';
+
+// Helper functions
+const formatLabel = (key) => {
+    return key
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (l) => l.toUpperCase());
+};
+
+const formatDate = (dateStr) => {
+    if (!dateStr) return "";
+    return dateStr.includes("T") ? dateStr.split("T")[0] : dateStr;
+};
+
+const RecordCard = ({ title, record, skipEmpty = true, renderValue }) => {
+  if (!record) return null;
   
-  const { user } = useAuth();
+  const displayField = (key, rawValue, skipEmpty = true) => {
+    if (key === "id" || key === "user_id") return null;
+    const label = formatLabel(key);
+    let value = rawValue;
+    if (/date/i.test(key)) {
+      value = formatDate(rawValue);
+    }
+    const rendered = renderValue(value, skipEmpty);
+    if (skipEmpty && rendered === "") return null;
+    return (
+      <div className="d-flex mb-2" key={key}>
+        <div className="font-weight-bold mr-2">{label}:</div>
+        <div>{rendered}</div>
+      </div>
+    );
+  };
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      if (!user || !user.email) {
-        setError('User not authenticated');
-        setLoading(false);
-        return;
-      }
+  const fields = Object.keys(record)
+    .map(key => displayField(key, record[key], skipEmpty))
+    .filter(x => x !== null);
 
-      try {
-        const userEmail = user.email.toLowerCase().trim(); // Normalize email
-        
-        // Fetch all profiles
-        const response = await axios.get('https://xx22er5s34.execute-api.ap-south-1.amazonaws.com/dev/fullapi');
-        console.log(response.data);
-        if (!response.data || response.data.length === 0) {
-          setError('No profiles received from API');
-          setLoading(false);
-          return;
-        }
-
-        // Add debugging info
-        setDebugInfo({
-          userEmail: userEmail,
-          profileEmails: response.data.map(p => p.email),
-          profileCount: response.data.length
-        });
-        
-        // Try case-insensitive match first
-        let currentUserProfile = response.data.find(
-          profile => profile.email && profile.email.toLowerCase().trim() === userEmail
-        );
-        
-        // If still not found, try a more flexible matching (contains email)
-        if (!currentUserProfile) {
-          currentUserProfile = response.data.find(
-            profile => profile.email && profile.email.toLowerCase().includes(userEmail.split('@')[0].toLowerCase())
-          );
-        }
-        
-        // If no match, just use the first profile for testing (comment this out in production)
-        if (!currentUserProfile && response.data.length > 0) {
-          currentUserProfile = response.data[0];
-          console.log('Using first profile for testing');
-        }
-        
-        if (currentUserProfile) {
-          setUserProfile(currentUserProfile);
-        } else {
-          setError('User profile not found');
-        }
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to fetch profile: ' + err.message);
-        setLoading(false);
-      }
-    };
-
-    fetchUserProfile();
-  }, [user]); // Add user as dependency to reload if user changes
-
-  if (loading) return (
-    <div className="loading-container">
-      <div className="spinner"></div>
-      <p>Loading your profile...</p>
-    </div>
-  );
-  
-  if (error) return (
-    <div className="error-container">
-      <div className="error-icon">⚠️</div>
-      <p>{error}</p>
-      {debugInfo && (
-        <div className="debug-info" style={{ marginTop: '20px', padding: '10px', background: '#f5f5f5', fontSize: '12px' }}>
-          <p><strong>Debug Info:</strong></p>
-          <p>Your email: {debugInfo.userEmail}</p>
-          <p>Available emails in system: {debugInfo.profileCount > 0 ? 
-              debugInfo.profileEmails.map(email => <div key={email}>{email || 'NULL'}</div>) : 
-              'No emails found'}
-          </p>
-        </div>
-      )}
-    </div>
-  );
-  
-  if (!userProfile) return (
-    <div className="not-found-container">
-      <h3>Profile not found</h3>
-      <p>We couldn't find your profile information. Please make sure your account is properly set up.</p>
-    </div>
-  );
+  if (fields.length === 0) return null;
 
   return (
-    <div className="profile-container">
-      <div className="profile-card">
-        
-        <div className="profile-section">
-          <h3>Personal Information</h3>
-          <div className="profile-details">
-            <div className="detail-item">
-              <span className="label">Email:</span>
-              <span className="value">{userProfile.email || 'N/A'}</span>
-            </div>
-            <div className="detail-item">
-              <span className="label">Gender:</span>
-              <span className="value">{userProfile.gender || 'N/A'}</span>
-            </div>
-            <div className="detail-item">
-              <span className="label">Date of Birth:</span>
-              <span className="value">
-                {userProfile.dateOfBirth ? new Date(userProfile.dateOfBirth).toLocaleDateString() : 'N/A'}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="profile-section">
-          <h3>Contact Information</h3>
-          <div className="profile-details">
-            <div className="detail-item">
-              <span className="label">Phone:</span>
-              <span className="value">{userProfile.callingNumber || 'N/A'}</span>
-            </div>
-            <div className="detail-item">
-              <span className="label">WhatsApp:</span>
-              <span className="value">{userProfile.whatsappNumber || 'N/A'}</span>
-            </div>
-            {userProfile.city_name && (
-              <div className="detail-item">
-                <span className="label">City:</span>
-                <span className="value">{userProfile.city_name}</span>
-              </div>
-            )}
-            {userProfile.state_name && (
-              <div className="detail-item">
-                <span className="label">State:</span>
-                <span className="value">{userProfile.state_name}</span>
-              </div>
-            )}
-            {userProfile.country_name && (
-              <div className="detail-item">
-                <span className="label">Country:</span>
-                <span className="value">{userProfile.country_name}</span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {(userProfile.education_type || userProfile.syllabus || userProfile.schoolName) && (
-          <div className="profile-section">
-            <h3>Education</h3>
-            <div className="profile-details">
-              {userProfile.education_type && (
-                <div className="detail-item">
-                  <span className="label">Education Type:</span>
-                  <span className="value">{userProfile.education_type}</span>
-                </div>
-              )}
-              {userProfile.syllabus && (
-                <div className="detail-item">
-                  <span className="label">Syllabus:</span>
-                  <span className="value">{userProfile.syllabus}</span>
-                </div>
-              )}
-              {userProfile.schoolName && (
-                <div className="detail-item">
-                  <span className="label">School:</span>
-                  <span className="value">{userProfile.schoolName}</span>
-                </div>
-              )}
-              {userProfile.yearOfPassing && (
-                <div className="detail-item">
-                  <span className="label">Year of Passing:</span>
-                  <span className="value">{userProfile.yearOfPassing}</span>
-                </div>
-              )}
-              {userProfile.percentage && (
-                <div className="detail-item">
-                  <span className="label">Percentage:</span>
-                  <span className="value">{userProfile.percentage}%</span>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {(userProfile.Job_Type || userProfile.expected_salary || userProfile.notice_period) && (
-          <div className="profile-section">
-            <h3>Career Information</h3>
-            <div className="profile-details">
-              {userProfile.Job_Type && (
-                <div className="detail-item">
-                  <span className="label">Job Type:</span>
-                  <span className="value">{userProfile.Job_Type}</span>
-                </div>
-              )}
-              {userProfile.expected_salary && (
-                <div className="detail-item">
-                  <span className="label">Expected Salary:</span>
-                  <span className="value">{userProfile.expected_salary}</span>
-                </div>
-              )}
-              {userProfile.notice_period && (
-                <div className="detail-item">
-                  <span className="label">Notice Period:</span>
-                  <span className="value">{userProfile.notice_period}</span>
-                </div>
-              )}
-              {userProfile.total_experience_years && (
-                <div className="detail-item">
-                  <span className="label">Total Experience:</span>
-                  <span className="value">
-                    {userProfile.total_experience_years} years
-                    {userProfile.total_experience_months && `, ${userProfile.total_experience_months} months`}
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+    <div className="card mb-4 shadow-sm">
+      <div className="card-header bg-info text-white">
+        {title}
+      </div>
+      <div className="card-body">
+        {fields}
       </div>
     </div>
   );
 };
 
-export default Fullview;
+function UserJobProfile() {
+  const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [profileData, setProfileData] = useState(null);
+
+  const renderValue = useCallback((value, skipEmpty = true) => {
+    if (value === null || value === undefined) return skipEmpty ? "" : "null";
+    if (typeof value === "string") {
+      const trimmed = value.trim();
+      if (skipEmpty && trimmed === "") return "";
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (typeof parsed === "object" && parsed !== null) {
+          return renderValue(parsed, skipEmpty);
+        }
+      } catch (e) {
+      return trimmed;
+      }
+    }
+    if (Array.isArray(value)) {
+      let listItems = value.map((item, index) => {
+        const rendered = renderValue(item, skipEmpty);
+        return rendered !== "" || !skipEmpty ? <li key={index}>{rendered}</li> : null;
+      }).filter(item => item !== null);
+      return listItems.length > 0 ? <ul className="list-unstyled ml-3">{listItems}</ul> : (skipEmpty ? "" : <ul></ul>);
+    }
+    if (typeof value === "object") {
+      let listItems = [];
+      Object.keys(value).forEach((k) => {
+        if (k === "id" || k === "user_id") return;
+        if (k.toLowerCase().includes("firebase")) return;
+        const subVal = renderValue(value[k], skipEmpty);
+        if (!skipEmpty || subVal !== "") {
+          listItems.push(<li key={k}><strong>{formatLabel(k)}:</strong> {subVal}</li>);
+        }
+      });
+      return listItems.length > 0 ? <ul className="list-unstyled ml-3">{listItems}</ul> : (skipEmpty ? "" : <ul></ul>);
+    }
+    return String(value);
+  }, []);
+
+  const fetchProfileData = useCallback(async () => {
+    if (!user?.uid) return;
+    
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`${FULL_API}?firebase_uid=${user.uid}`);
+      if (!response.ok) throw new Error('Failed to fetch profile data');
+      const data = await response.json();
+      
+      // Get the latest record
+      const latestRecord = Array.isArray(data) && data.length > 0 ? data[data.length - 1] : null;
+      setProfileData(latestRecord);
+    } catch (err) {
+      setError(err.message);
+      console.error('Error fetching profile data:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    fetchProfileData();
+  }, [fetchProfileData]);
+
+  if (!user?.uid) {
+    return <div>Please log in to view your profile.</div>;
+  }
+
+  if (isLoading) {
+    return <div>Loading profile data...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading profile: {error}</div>;
+  }
+
+  if (!profileData) {
+    return <div>No profile data found.</div>;
+  }
+
+  // Group related fields for display
+  const sections = {
+    personal: {
+      title: "Personal Information",
+      fields: [
+        "fullName", 
+        "email", 
+        "gender", 
+        "dateOfBirth", 
+        "callingNumber", 
+        "whatsappNumber",
+        "marital_status",
+        "religion",
+        "differently_abled",
+        "health_issues"
+      ]
+    },
+    address: {
+      title: "Present Address",
+      fields: [
+        "country_name", 
+        "state_name", 
+        "city_name", 
+        "house_no_and_street", 
+        "pincode"
+      ]
+    },
+    education: {
+      title: "Education Details",
+      fields: [
+        "education_type",
+        "syllabus",
+        "schoolName",
+        "yearOfPassing",
+        "percentage",
+        "mode",
+        "courseStatus",
+        "courseName",
+        "collegeName",
+        "placeOfStudy",
+        "universityName",
+        "yearOfCompletion",
+        "instituteName",
+        "affiliatedTo",
+        "courseDuration",
+        "specialization",
+        "coreSubjects",
+        "otherSubjects"
+      ]
+    },
+    experience: {
+      title: "Experience",
+      fields: [
+        "total_experience_years",
+        "total_experience_months",
+        "teaching_experience_years",
+        "teaching_experience_months",
+        "teaching_exp_fulltime_years",
+        "teaching_exp_fulltime_months",
+        "teaching_exp_partime_years",
+        "teaching_exp_partime_months",
+        "administration_fulltime_years",
+        "administration_fulltime_months",
+        "administration_partime_years",
+        "administration_parttime_months",
+        "anyrole_fulltime_years",
+        "anyrole_fulltime_months",
+        "anyrole_partime_years",
+        "anyrole_parttime_months"
+      ]
+    },
+    jobPreference: {
+      title: "Job Preference",
+      fields: [
+        "Job_Type",
+        "expected_salary",
+        "notice_period",
+        "preferred_country",
+        "preferred_state",
+        "preferred_city",
+        "teaching_designations",
+        "teaching_curriculum",
+        "teaching_subjects",
+        "teaching_grades",
+        "teaching_coreExpertise",
+        "administrative_designations",
+        "administrative_curriculum",
+        "teaching_administrative_designations",
+        "teaching_administrative_curriculum",
+        "teaching_administrative_subjects",
+        "teaching_administrative_grades",
+        "teaching_administrative_coreExpertise"
+      ]
+    },
+    workMode: {
+      title: "Work Mode Preferences",
+      fields: [
+        "full_time_offline",
+        "full_time_online",
+        "part_time_weekdays_offline",
+        "part_time_weekdays_online",
+        "part_time_weekends_offline",
+        "part_time_weekends_online",
+        "part_time_vacations_offline",
+        "part_time_vacations_online",
+        "school_college_university_offline",
+        "school_college_university_online",
+        "coaching_institute_offline",
+        "coaching_institute_online",
+        "Ed_TechCompanies_offline",
+        "Ed_TechCompanies_online",
+        "Home_Tutor_offline",
+        "Home_Tutor_online",
+        "Private_Tutor_offline",
+        "Private_Tutor_online",
+        "Group_Tutor_offline",
+        "Group_Tutor_online"
+      ]
+    },
+    languages: {
+      title: "Languages",
+      fields: ["languages"]
+    },
+    social: {
+      title: "Social Profile",
+      fields: [
+        "facebook",
+        "linkedin",
+        "instagram",
+        "profile_summary"
+      ]
+    },
+    
+    additionalInfo: {
+      title: "Additional Information",
+      fields: [
+        "computer_skills",
+        "accounting_knowledge",
+        "projects",
+        "accomplishments",
+        "certifications",
+        "research_publications",
+        "patents",
+        "accommodation_required",
+        "preferable_timings",
+        "spouse_need_job",
+        "spouse_name",
+        "spouse_qualification",
+        "spouse_work_experience",
+        "spouse_expertise",
+        "additional_info",
+        "aadhaar_number",
+        "citizenship",
+        "passport_available",
+        "passport_expiry_date",
+        "work_permit_details",
+        "criminal_charges"
+      ]
+    }
+  };
+
+  return (
+    <div className="bg-light min-vh-100 py-4">
+      <div className="container">
+        <div className="text-center mb-4">
+          <h1>User Job Profile</h1>
+        </div>
+        {Object.entries(sections).map(([key, { title, fields }]) => (
+          <RecordCard
+            key={key}
+            title={title}
+            record={Object.fromEntries(
+              fields.map(field => [field, profileData[field]])
+            )}
+            skipEmpty={true}
+            renderValue={renderValue}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default React.memo(UserJobProfile);
