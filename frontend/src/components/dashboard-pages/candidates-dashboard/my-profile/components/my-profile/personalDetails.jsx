@@ -20,6 +20,7 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
 
   const [imageFile, setImageFile] = useState(null);
   const [profilePicId, setProfilePicId] = useState(null);
+  
   // Verification states
   const [emailVerified, setEmailVerified] = useState(false);
   const [phoneVerified, setPhoneVerified] = useState(false);
@@ -27,21 +28,30 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
   const [showPhoneOtpInput, setShowPhoneOtpInput] = useState(false);
   const [emailOtp, setEmailOtp] = useState("");
   const [phoneOtp, setPhoneOtp] = useState("");
+
+  // Upload/photo feedback states
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Set verification flags on mount. These can come from your auth context or from a backend fetch.
+  // Loading state for sending email OTP
+  const [isEmailVerifying, setIsEmailVerifying] = useState(false);
+
+  // Use the API-provided property name: email_verify (if your backend returns that).
+  // Otherwise, if your backend returns "emailVerified", adjust accordingly.
   useEffect(() => {
-    setEmailVerified(user?.emailVerified || false);
+    setEmailVerified(user?.email_verify || false);
+    // If phone verification is also stored in your DB, adjust accordingly.
     setPhoneVerified(user?.phoneVerified || false);
   }, [user]);
 
+  // State and handlers for dateOfBirth input toggling
   const [date, setDate] = useState("text");
   const handleFocus = () => setDate("date");
   const handleBlur = (e) => {
     if (!e.target.value) setDate("text");
   };
 
+  // State and handlers for WhatsApp hint toggling
   const [whatsappType, setWhatsappType] = useState("text");
   const [showWhatsappHint, setShowWhatsappHint] = useState(false);
 
@@ -57,6 +67,7 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
     setShowWhatsappHint(false);
   };
 
+  // Generic input change handler
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -80,8 +91,8 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
     });
   };
 
-  const IMAGE_API_URL =
-    "https://2mubkhrjf5.execute-api.ap-south-1.amazonaws.com/dev/upload-image";
+  // Example image upload endpoint
+  const IMAGE_API_URL = "https://2mubkhrjf5.execute-api.ap-south-1.amazonaws.com/dev/upload-image";
 
   const uploadPhoto = async () => {
     if (!imageFile) {
@@ -110,23 +121,25 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
     } catch (error) {
       console.error("Error uploading photo:", error);
       toast.error("Error uploading photo");
-      setMessage("Photo upload error: " + error.message);
+      setMessage(`Photo upload error: ${error.message}`);
     } finally {
       setUploading(false);
     }
   };
 
-  // OTP handling functions
+  // ---- OTP handling functions ----
 
+  // Send Email OTP
   const sendEmailOtp = async () => {
     try {
+      setIsEmailVerifying(true); // show loading state
       const response = await axios.post(
-        import.meta.env.VITE_DEV1_API + '/otp/create',
+        `${import.meta.env.VITE_DEV1_API}/otp/create`,
         { email: formData.email },
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
+                  Authorization: `Bearer ${localStorage.getItem("token")}`
           }
         }
       );
@@ -137,9 +150,38 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
     } catch (error) {
       console.log(error);
       toast.error(`Failed to send email OTP: ${error.message}`);
+    } finally {
+      setIsEmailVerifying(false); // hide loading state
     }
   };
 
+  // Verify Email OTP
+  const verifyEmailOtp = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_DEV1_API}/otp/verify`,
+        {
+          email: formData.email,
+          otp: emailOtp
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      );
+      if (response.status === 200) {
+        toast.success("Email verified successfully!");
+        setEmailVerified(true);
+        setShowEmailOtpInput(false);
+      }
+    } catch (error) {
+      toast.error(`Failed to verify email: ${error.message}`);
+    }
+  };
+
+  // Send Phone OTP
   const sendPhoneOtp = async () => {
     try {
       if (formData.callingNumber.length !== 10) {
@@ -147,7 +189,7 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
         return;
       }
       const response = await axios.post(
-        import.meta.env.VITE_DEV1_API + '/send-phone-otp',
+        `${import.meta.env.VITE_DEV1_API}/send-phone-otp`,
         { 
           phone: formData.callingNumber,
           countryCode: "+91"
@@ -169,6 +211,7 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
     }
   };
 
+  // Verify Phone OTP
   const verifyPhoneOtp = async () => {
     try {
       if (!phoneOtp || phoneOtp.length < 4) {
@@ -176,10 +219,10 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
         return;
       }
       const response = await axios.post(
-        import.meta.env.VITE_DEV1_API + '/verify-phone-otp',
-        { 
+        `${import.meta.env.VITE_DEV1_API}/verify-phone-otp`,
+        {
           phone: formData.callingNumber,
-          otp: phoneOtp 
+          otp: phoneOtp
         },
         {
           headers: {
@@ -201,31 +244,7 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
     }
   };
 
-  const verifyEmailOtp = async () => {
-    try {
-      const response = await axios.post(
-        import.meta.env.VITE_DEV1_API + '/otp/verify',  
-        { 
-          email: formData.email,
-          otp: emailOtp 
-        },
-        { 
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        }
-      );
-      if (response.status === 200) {
-        toast.success("Email verified successfully!");
-        setEmailVerified(true);
-        setShowEmailOtpInput(false);
-      }
-    } catch (error) {
-      toast.error(`Failed to verify email: ${error.message}`);
-    }
-  };
-
+  // ---- Submit Personal Details ----
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = { ...formData };
@@ -261,9 +280,13 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
     }
   };
 
+  // Optional file name display (if needed for a placeholder element)
   const handleFileChange = (e) => {
     const fileName = e.target.files[0]?.name || "Upload your profile image";
-    document.querySelector(".file-placeholder").textContent = fileName;
+    const placeholderElement = document.querySelector(".file-placeholder");
+    if (placeholderElement) {
+      placeholderElement.textContent = fileName;
+    }
   };
 
   return (
@@ -294,13 +317,16 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
                   accept="image/*"
                   id="upload-image"
                   style={{ opacity: 0, position: "absolute", zIndex: -1 }}
-                  onChange={imageFileHandler}
+                  onChange={(e) => {
+                    imageFileHandler(e);
+                    handleFileChange(e);
+                  }}
                 />
                 <label 
                   htmlFor="upload-image" 
                   className="form-control file-upload-label"
                 >
-                  <span className="upload-text">
+                  <span className="upload-text file-placeholder">
                     {imageFile ? imageFile.name : "Upload your profile image"}
                   </span>
                   <span className="file-button">Browse</span>
@@ -309,6 +335,7 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
             </div>
           )}
 
+          {/* Email with verification */}
           <div className="form-group col-lg-6 col-md-12">
             <div className="input-with-verification">
               <input
@@ -326,12 +353,13 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
                   <FaCheckCircle color="green" />
                 </span>
               ) : (
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="verify-btn"
                   onClick={sendEmailOtp}
+                  disabled={isEmailVerifying}
                 >
-                  Verify
+                  {isEmailVerifying ? "Sending..." : "Verify"}
                 </button>
               )}
             </div>
@@ -344,8 +372,8 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
                   onChange={(e) => setEmailOtp(e.target.value)}
                   maxLength="6"
                 />
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="verify-otp-btn"
                   onClick={verifyEmailOtp}
                 >
@@ -355,6 +383,7 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
             )}
           </div>
 
+          {/* Gender */}
           <div className="form-group col-lg-6 col-md-12">
             <select
               name="gender"
@@ -363,13 +392,16 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
               className="form-select"
               required
             >
-              <option value="" disabled>Select Gender</option>
+              <option value="" disabled>
+                Select Gender
+              </option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="transgender">Transgender</option>
             </select>
           </div>
 
+          {/* Date of Birth */}
           {dateOfBirth && (
             <div className="form-group col-lg-6 col-md-12">
               <input
@@ -385,6 +417,7 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
             </div>
           )}
 
+          {/* Calling Number with phone verification */}
           <div className="form-group col-lg-6 col-md-12">
             <div className="input-with-verification">
               <input
@@ -405,8 +438,8 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
                   <FaCheckCircle color="green" />
                 </span>
               ) : (
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="verify-btn"
                   onClick={sendPhoneOtp}
                 >
@@ -423,8 +456,8 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
                   onChange={(e) => setPhoneOtp(e.target.value)}
                   maxLength="6"
                 />
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="verify-otp-btn"
                   onClick={verifyPhoneOtp}
                 >
@@ -434,6 +467,7 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
             )}
           </div>
 
+          {/* WhatsApp Number */}
           <div className="form-group col-lg-6 col-md-12">
             <input
               type={whatsappType}
@@ -456,10 +490,10 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
           </div>
 
           {showWhatsappHint && (
-            <small>
-              Mobile number for calling and WhatsApp can be same
-            </small>
+            <small>Mobile number for calling and WhatsApp can be same</small>
           )}
+
+          {/* Save Button */}
           <div className="form-group col-12">
             <button type="submit" className="theme-btn btn-style-three">
               Save personal details
