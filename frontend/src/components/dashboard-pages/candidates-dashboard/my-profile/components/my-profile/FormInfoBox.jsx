@@ -7,9 +7,10 @@ import Experience from "./experience";
 import JobPreferences from "./jobPreferences";
 import Social from "./social";
 import AdditionalInfo from "./additionalInfo";
-import "./profile-styles.css";
+//import "./profile-styles.css";
 import Easyview from './Easyview';
 import Fullview from './Fullview';
+import "./formInfo.css";
 
 const FormInfoBox = () => {
   const [viewMode, setViewMode] = useState('full'); // default to full view
@@ -344,109 +345,6 @@ const FormInfoBox = () => {
         // Show the appropriate view component based on viewMode
         viewMode === 'easy' ? <Easyview formData={formData} /> : <Fullview formData={formData} />
       )}
-
-      {/* Replace the style jsx block with regular style or styled-components */}
-      <style>{`
-        .step-progress {
-          margin-bottom: 30px;
-        }
-        
-        .step-title {
-          margin-bottom: 15px;
-        }
-        
-        .progress-bar {
-          height: 8px;
-          background-color: #f0f0f0;
-          border-radius: 4px;
-          margin-bottom: 20px;
-          overflow: hidden;
-        }
-        
-        .progress {
-          height: 100%;
-          background-color: #1967d2;
-          transition: width 0.3s ease;
-        }
-        
-        .step-indicators {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 30px;
-        }
-        
-        .step-indicator {
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-          background-color: #f0f0f0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: bold;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          border: 2px solid transparent;
-        }
-        
-        .step-indicator.active {
-          background-color: #1967d2;
-          color: white;
-        }
-        
-        .step-indicator.current {
-          border-color: #ff5a5f;
-          transform: scale(1.1);
-        }
-        
-        .step-content {
-          min-height: 300px;
-          margin-bottom: 30px;
-          padding: 20px;
-          border: 1px solid #eee;
-          border-radius: 8px;
-        }
-        .step-navigation {
-          position: relative;
-          margin-top: 20px;
-          width: 100%;
-          height: 50px;
-        }
-        
-        .left-button {
-          position: absolute;
-          left: 0;
-          top: 0;
-        }
-        
-        .right-button {
-          position: absolute;
-          right: 0;
-          top: 0;
-        }
-        
-        .step-navigation button {
-          min-width: 120px;
-        }
-        
-        .step-navigation button:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-        
-        .error-message {
-          padding: 20px;
-          background-color: #ffebee;
-          border: 1px solid #ffcdd2;
-          border-radius: 8px;
-          text-align: center;
-        }
-        
-        .error-message h3 {
-          color: #d32f2f;
-          margin-bottom: 10px;
-        }
-      `}</style>
     </div>
   );
 };

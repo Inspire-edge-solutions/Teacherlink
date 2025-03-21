@@ -1,6 +1,6 @@
 @echo off
 
-set DIST_FOLDER=build
+set DIST_FOLDER=dist
 set BUCKET_NAME=teacherlink-staging
 
 echo Building application...

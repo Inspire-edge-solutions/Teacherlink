@@ -1170,3 +1170,21 @@ input:required , select:required , textarea:required{
 .input::placeholder{
   color: black !important;
 }
+.error-message {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  
+  input.error {
+    border-color: #dc3545;
+    
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+  }
+}

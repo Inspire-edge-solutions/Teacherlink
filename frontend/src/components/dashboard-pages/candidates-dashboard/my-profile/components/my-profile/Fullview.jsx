@@ -54,7 +54,7 @@ const RecordCard = ({ title, record, skipEmpty = true, renderValue }) => {
   );
 };
 
-function UserJobProfile() {
+function UserJobProfile({ formData, onBackClick }) {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -316,6 +316,12 @@ function UserJobProfile() {
             renderValue={renderValue}
           />
         ))}
+        <button 
+          className="theme-btn btn-style-one" 
+          onClick={onBackClick}
+        >
+          Back to Edit
+        </button>
       </div>
     </div>
   );

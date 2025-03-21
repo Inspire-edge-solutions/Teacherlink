@@ -171,8 +171,8 @@ function App() {
 
           {/* Toastify */}
           <ToastContainer
-            position="top-center"
-            autoClose={2000}
+            position="center"
+            autoClose={2500}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick
