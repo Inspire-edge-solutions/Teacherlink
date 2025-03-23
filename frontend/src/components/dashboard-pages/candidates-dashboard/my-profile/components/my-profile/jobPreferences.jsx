@@ -269,7 +269,7 @@ const JobPreference = () => {
                   Job_Type: selected?.value
                 }));
               }}
-              className={`custom-select ${!jobDetails.Job_Type ? 'required' : ''}`}
+              className="custom-select required"
             />
           </div>
           <div className="form-group col-lg-6 col-md-12">
@@ -307,7 +307,7 @@ const JobPreference = () => {
                 ...prev,
                 notice_period: selected
               }))}
-              className={`custom-select ${!jobDetails.notice_period ? 'required' : ''}`}
+              className="custom-select required"
             />
           </div>
           <div className="form-group col-lg-6 col-md-12">
@@ -325,7 +325,7 @@ const JobPreference = () => {
                   preferred_state: null
                 }));
               }}
-              className={`custom-select ${!jobDetails.preferred_country ? 'required' : ''}`}
+              className="custom-select required"
             />
           </div>
           <div className="form-group col-lg-6 col-md-12">
@@ -343,7 +343,7 @@ const JobPreference = () => {
                   preferred_city: null
                 }));
               }}
-              className={`custom-select ${!jobDetails.preferred_state ? 'required' : ''}`}
+              className="custom-select required"
             />
           </div>
           <div className="form-group col-lg-6 col-md-12">
@@ -357,7 +357,7 @@ const JobPreference = () => {
                   preferred_city: option
                 }))
               }
-              className={`custom-select ${!jobDetails.preferred_city ? 'required' : ''}`}
+              className="custom-select required"
             />
           </div>
 
@@ -378,7 +378,7 @@ const JobPreference = () => {
                         ...prev,
                         teachingAdminDesignations: selected ? selected.map(item => item.value) : []
                       }))}
-                      className={`custom-select ${jobDetails.teachingAdminDesignations ? 'required' : ''}`}
+                      className="custom-select required"
                     />
                   </div>
                   <div className="form-group col-lg-6 col-md-12"> 
@@ -409,7 +409,7 @@ const JobPreference = () => {
                         ...prev,
                         teachingAdminSubjects: selected ? selected.map(item => item.value) : []
                       }))}
-                      className={`custom-select ${jobDetails.teachingAdminSubjects ? 'required' : ''}`}
+                      className="custom-select required"
                     />
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
@@ -425,7 +425,7 @@ const JobPreference = () => {
                         ...prev,
                         teachingGrades: selected ? selected.map(item => item.value) : []
                       }))}
-                      className={`custom-select ${jobDetails.teachingAdminGrades ? 'required' : ''}`}
+                      className="custom-select required"
                     />
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
@@ -441,7 +441,7 @@ const JobPreference = () => {
                         ...prev,
                         teachingAdminCoreExpertise: selected ? selected.map(item => item.value) : []
                       }))}
-                      className={`custom-select ${jobDetails.teachingAdminCoreExpertise ? 'required' : ''}`}
+                      className="custom-select required"
                     />
                   </div>
                 </div>
@@ -464,7 +464,7 @@ const JobPreference = () => {
                       ...prev,
                       teachingDesignation: selected ? selected.map(item => item.value) : []
                     }))}
-                    className={`custom-select ${jobDetails.teachingDesignation ? 'required' : ''}`}
+                    className="custom-select required"
                   />
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
@@ -495,7 +495,7 @@ const JobPreference = () => {
                       ...prev,
                       teachingSubjects: selected ? selected.map(item => item.value) : []
                     }))}
-                    className={`custom-select ${jobDetails.teachingSubjects ? 'required' : ''}`}
+                    className="custom-select required"
                   />
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
@@ -511,7 +511,7 @@ const JobPreference = () => {
                       ...prev,
                       teachingGrades: selected ? selected.map(item => item.value) : []
                     }))}
-                    className={`custom-select ${jobDetails.teachingGrades ? 'required' : ''}`}
+                    className="custom-select required"
                   />
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
@@ -527,7 +527,7 @@ const JobPreference = () => {
                       ...prev,
                       teachingCoreExpertise: selected ? selected.map(item => item.value) : []
                     }))}
-                    className={`custom-select ${jobDetails.teachingCoreExpertise ? 'required' : ''}`}
+                    className="custom-select required"
                   />
                 </div>
               </div>
@@ -549,7 +549,7 @@ const JobPreference = () => {
                     ...prev,
                     adminDesignations: selected ? selected.map(item => item.value) : []
                   }))}
-                  className={`custom-select ${jobDetails.adminDesignations ? 'required' : ''}`}
+                  className="custom-select required"
                 />
               </div>
               <div className="form-group col-lg-6 col-md-12">

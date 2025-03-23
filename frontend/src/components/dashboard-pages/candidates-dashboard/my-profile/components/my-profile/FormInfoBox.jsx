@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import PersonalDetails from "./personalDetails";
 import Address from "./address";
 import Languages from "./languages";
@@ -11,13 +11,17 @@ import AdditionalInfo from "./additionalInfo";
 import Easyview from './Easyview';
 import Fullview from './Fullview';
 import "./formInfo.css";
+import { toast } from 'react-toastify';
 
 const FormInfoBox = () => {
-  const [viewMode, setViewMode] = useState('full'); // default to full view
+  const [viewMode, setViewMode] = useState(null); // Start with no mode selected
   const [showProfile, setShowProfile] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
+  const [isStepValid, setIsStepValid] = useState(false);
+  const [stepValidations, setStepValidations] = useState({});
+  const [currentForm, setCurrentForm] = useState(null);
+  const stepRef = useRef(null);
 
   // Define steps for both modes
   const easyModeSteps = [
@@ -84,22 +88,19 @@ const FormInfoBox = () => {
       if (currentStep > maxSteps) {
         setCurrentStep(1);
       }
-      setError(null);
     } catch (err) {
       console.error("Error in useEffect:", err);
-      setError("An error occurred while setting up the form. Please refresh the page.");
+      toast.error("An error occurred while setting up the form");
     }
   }, [viewMode, currentStep]);
 
-  const handleViewChange = (e) => {
+  const handleViewChange = (selectedMode) => {
     try {
-      setViewMode(e.target.value);
-      setShowProfile(false); // Reset profile view when changing modes
-      setCurrentStep(1); // Reset to first step
-      setError(null);
+      setViewMode(selectedMode);
+      setCurrentStep(1);
     } catch (err) {
       console.error("Error in handleViewChange:", err);
-      setError("An error occurred while changing view mode. Please try again.");
+      toast.error("An error occurred while selecting mode");
     }
   };
 
@@ -109,21 +110,29 @@ const FormInfoBox = () => {
 
   const nextStep = () => {
     try {
+      // Check if all required fields in current step are filled
+      const currentStepElement = stepRef.current;
+      const requiredFields = currentStepElement?.querySelectorAll('[required]');
+      const isValid = Array.from(requiredFields || []).every(field => field.value.trim() !== '');
+
+      if (!isValid) {
+        toast.error("Please fill all required fields before proceeding");
+        return;
+      }
+
       const maxSteps = viewMode === 'easy' ? easyModeSteps.length : fullModeSteps.length;
       if (currentStep < maxSteps) {
         setCurrentStep(currentStep + 1);
-        // Scroll to top of form when changing steps
         const profileBox = document.querySelector('.profile-box');
         if (profileBox) {
           profileBox.scrollIntoView({ behavior: 'smooth' });
         }
       } else {
-        // Handle form submission when on last step
         handleSubmit();
       }
     } catch (err) {
       console.error("Error in nextStep:", err);
-      setError("An error occurred while navigating to the next step. Please try again.");
+      toast.error("An error occurred. Please try again");
     }
   };
 
@@ -139,33 +148,42 @@ const FormInfoBox = () => {
       }
     } catch (err) {
       console.error("Error in prevStep:", err);
-      setError("An error occurred while navigating to the previous step. Please try again.");
+      toast.error("An error occurred while navigating to the previous step. Please try again.");
     }
   };
 
   const handleSubmit = () => {
     try {
-      // Here you would typically send the formData to your backend
+      if (!isStepValid) {
+        toast.error("Please fill all required fields before submitting");
+        return;
+      }
       console.log("Form submitted with data:", formData);
-      // Show success message or redirect
-      alert("Profile updated successfully!");
-      // Optionally show the profile view
+      toast.success("Profile updated successfully!");
       setShowProfile(true);
     } catch (err) {
       console.error("Error in handleSubmit:", err);
-      setError("An error occurred while submitting the form. Please try again.");
+      toast.error("An error occurred while submitting");
     }
   };
 
-  const updateFormData = (stepData) => {
+  const updateFormData = (stepData, isValid) => {
     try {
       setFormData(prevData => ({
         ...prevData,
         ...stepData
       }));
+      
+      // Store validation state for current step
+      setStepValidations(prev => ({
+        ...prev,
+        [currentStep]: isValid
+      }));
+      
+      setIsStepValid(isValid);
     } catch (err) {
       console.error("Error in updateFormData:", err);
-      setError("An error occurred while updating form data. Please try again.");
+      toast.error("An error occurred while updating data");
     }
   };
 
@@ -177,7 +195,7 @@ const FormInfoBox = () => {
       }
     } catch (err) {
       console.error("Error in jumpToStep:", err);
-      setError("An error occurred while jumping to step. Please try again.");
+      toast.error("An error occurred while jumping to step. Please try again.");
     }
   };
 
@@ -194,25 +212,7 @@ const FormInfoBox = () => {
     }
   } catch (err) {
     console.error("Error finding current step:", err);
-    setError("An error occurred while finding the current step. Please refresh the page.");
-  }
-
-  // If there's an error, show error message
-  if (error) {
-    return (
-      <div className="profile-box">
-        <div className="error-message">
-          <h3>Error</h3>
-          <p>{error}</p>
-          <button 
-            className="theme-btn btn-style-two" 
-            onClick={() => window.location.reload()}
-          >
-            Refresh Page
-          </button>
-        </div>
-      </div>
-    );
+    toast.error("An error occurred while finding the current step. Please refresh the page.");
   }
 
   // If no steps are defined or components are missing
@@ -227,122 +227,114 @@ const FormInfoBox = () => {
         return <div>Error loading component. Please try again.</div>;
       }
 
-      return currentStepData.components.map(({ component: StepComponent, props }, index) => (
-        <StepComponent
-          key={index}
-          {...props}
-          onComplete={nextStep}
-          updateFormData={updateFormData}
-          formData={formData}
-        />
-      ));
+      return (
+        <div ref={stepRef}>
+          {currentStepData.components.map(({ component: StepComponent, props }, index) => (
+            <StepComponent
+              key={index}
+              {...props}
+              formData={formData}
+              updateFormData={updateFormData}
+            />
+          ))}
+        </div>
+      );
     } catch (err) {
       console.error("Error rendering step component:", err);
       return <div>Error loading component. Please try again.</div>;
     }
   };
 
+  // Initial mode selection screen
+  if (!viewMode) {
+    return (
+      <div className="mode-selection-container">
+        <h2>How would you like to fill your details?</h2>
+        <div className="mode-options">
+          <button 
+            className="mode-button easy"
+            onClick={() => handleViewChange('easy')}
+          >
+            <h3>Easy Mode</h3>
+            <p>Quick and simple profile creation with essential fields</p>
+          </button>
+          <button 
+            className="mode-button full"
+            onClick={() => handleViewChange('full')}
+          >
+            <h3>Full Mode</h3>
+            <p>Comprehensive profile with detailed information</p>
+          </button>
+        </div>
+       
+      </div>
+    );
+  }
+
   return (
     <div className="profile-box">
-      {/* Header Section */}
       <div className="profile-header">
         <div className="title-box">
-          <h3>My profile</h3>
-          <button 
-            className="theme-btn btn-style-two" 
-            onClick={toggleProfileView}
-          >
-            {showProfile ? 'Edit Profile' : 'View Profile'}
-          </button>
+          <h3>My Profile ({viewMode === 'easy' ? 'Easy Mode' : 'Full Mode'})</h3>
         </div>
       </div>
 
       {!showProfile ? (
-        <>
-          {/* Selection Section - All in one line */}
-          <div className="selection-wrapper">
-            <h4>Select how you want to fill your details:</h4>
-            <div className="radio-group">
-              <label className="radio-option">
-                <input
-                  type="radio"
-                  name="viewMode"
-                  value="easy"
-                  checked={viewMode === 'easy'}
-                  onChange={handleViewChange}
-                />
-                <span className="radio-label">Easy Mode</span>
-              </label>
-              <label className="radio-option">
-                <input
-                  type="radio"
-                  name="viewMode"
-                  value="full"
-                  checked={viewMode === 'full'}
-                  onChange={handleViewChange}
-                />
-                <span className="radio-label">Full Mode</span>
-              </label>
+        <div className="default-form">
+          {/* Remove mode selection radio buttons */}
+          
+          {/* Step Progress Indicator */}
+          <div className="step-progress">
+            <div className="step-title">
+              <h4>Step {currentStep} of {totalSteps}: {currentStepData?.title || 'Loading...'}</h4>
             </div>
-          </div>
-
-          <div className="default-form">
-            {/* Step Progress Indicator */}
-            <div className="step-progress">
-              <div className="step-title">
-                <h4>Step {currentStep} of {totalSteps}: {currentStepData?.title || 'Loading...'}</h4>
-              </div>
-              <div className="progress-bar">
+            <div className="progress-bar">
+              <div 
+                className="progress" 
+                style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+              ></div>
+            </div>
+            
+            {/* Step Indicators */}
+            <div className="step-indicators">
+              {steps.map((step) => (
                 <div 
-                  className="progress" 
-                  style={{ width: `${(currentStep / totalSteps) * 100}%` }}
-                ></div>
-              </div>
-              
-              {/* Step Indicators */}
-              <div className="step-indicators">
-                {steps.map((step) => (
-                  <div 
-                    key={step.id}
-                    className={`step-indicator ${currentStep >= step.id ? 'active' : ''} ${currentStep === step.id ? 'current' : ''}`}
-                    onClick={() => jumpToStep(step.id)}
-                    title={step.title}
-                  >
-                    {step.id}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Current Step Component */}
-            <div className="step-content">
-              {renderCurrentStep()}
-            </div>
-
-            {/* Navigation Buttons - Modified structure */}
-            <div className="step-navigation">
-              <div className="left-button">
-                <button 
-                  className="theme-btn btn-style-one" 
-                  onClick={prevStep}
-                  disabled={currentStep === 1}
+                  key={step.id}
+                  className={`step-indicator ${currentStep >= step.id ? 'active' : ''} ${currentStep === step.id ? 'current' : ''}`}
+                  onClick={() => jumpToStep(step.id)}
+                  title={step.title}
                 >
-                  Previous
-                </button>
-              </div>
-              <div className="right-button">
-                <button 
-                  className="theme-btn btn-style-two" 
-                  onClick={nextStep}
-                >
-                  {currentStep === totalSteps ? 'Finish' : 'Next'}
-                </button>
-              </div>
+                  {step.id}
+                </div>
+              ))}
             </div>
           </div>
-        </>
+
+          <div className="step-content">
+            {renderCurrentStep()}
+          </div>
+
+          <div className="step-navigation">
+            <div className="left-button">
+              <button 
+                className="theme-btn btn-style-one" 
+                onClick={prevStep}
+                disabled={currentStep === 1}
+              >
+                Previous
+              </button>
+            </div>
+            <div className="right-button">
+              <button 
+                className="theme-btn btn-style-two" 
+                onClick={nextStep}
+              >
+                {currentStep === totalSteps ? 'Finish' : 'Next'}
+              </button>
+            </div>
+          </div>
+        </div>
       ) : (
-        // Show the appropriate view component based on viewMode
         viewMode === 'easy' ? <Easyview formData={formData} /> : <Fullview formData={formData} />
       )}
     </div>

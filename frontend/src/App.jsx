@@ -171,8 +171,8 @@ function App() {
 
           {/* Toastify */}
           <ToastContainer
-            position="center"
-            autoClose={2500}
+            position="top-center"
+            autoClose={3000}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick
@@ -181,6 +181,12 @@ function App() {
             draggable
             pauseOnHover
             theme="colored"
+            style={{
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)'
+            }}
+            closeButton={true}
           />
           {/* <!-- Scroll To Top --> */}
           <ScrollToTop />

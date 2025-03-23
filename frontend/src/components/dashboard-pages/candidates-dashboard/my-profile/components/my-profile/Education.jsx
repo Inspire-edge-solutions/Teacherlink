@@ -157,7 +157,7 @@ const Education = ({
           otherSubjects: "",
           percentage: "",
           mode: "",
-          courseStatus: "Completed"
+          courseStatus: ""
         };
       case "degree":
         return {
@@ -170,7 +170,7 @@ const Education = ({
           otherSubjects: "",
           percentage: "",
           mode: "",
-          courseStatus: "Completed"
+          courseStatus: ""
         };
       case "masterDegree":
         return {
@@ -183,7 +183,7 @@ const Education = ({
           otherSubjects: "",
           percentage: "",
           mode: "",
-          courseStatus: "Completed"
+          courseStatus: ""
         };
       case "doctorate":
         return {
@@ -194,7 +194,7 @@ const Education = ({
           otherSubjects: "",
           percentage: "",
           mode: "",
-          courseStatus: "Completed"
+          courseStatus: ""
         };
       case "nttMtt":
         return {
@@ -314,46 +314,36 @@ const Education = ({
         return (
           <div className="row">
             <div className="form-group col-lg-6 col-md-12">
-              <div className={`radio-group ${!courseStatusOptions.value ? "required" : ""}`}>
-                <label>Course Status:</label>
-                {courseStatusOptions.map((option) => (
-                  <label key={option.value}>
-                    <input
-                      type="radio"
-                      name={`courseStatus_${type}_${index}`}
-                      value={option.value}
-                      checked={data.courseStatus === option.value}
-                      onChange={(e) =>
-                        handleEducationDataChange(index, "courseStatus", e.target.value)
-                      }
-                      required
-                    />
-                    {option.label}
-                  </label>
-                ))}
-              </div>
-            </div>
-            {grade12syllabus && (
-              <div className="form-group col-lg-6 col-md-12">
-                <div className="radio-group">
-                  {syllabusOptions.map((option) => (
-                    <label key={option.value}>
-                      <input
-                        type="radio"
-                        name={`grade12Syllabus_${index}`}
-                        value={option.value}
-                        checked={data.syllabus === option.value}
-                        onChange={(e) =>
-                          handleEducationDataChange(index, "syllabus", e.target.value)
-                        }
-                        required
-                      />
+                <select
+                  className="custom-select"
+                  value={data.courseStatus || ""}
+                  onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                  required
+                >
+                  <option value="" disabled>Course Status</option>
+                  {courseStatusOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
                       {option.label}
-                    </label>
+                    </option>
                   ))}
-                </div>
-              </div>
-            )}
+                </select>
+            </div>
+            <div className="form-group col-lg-6 col-md-12">
+              
+                <select
+                  className="custom-select"
+                  value={data.syllabus || ""}
+                  onChange={(e) => handleEducationDataChange(index, "syllabus", e.target.value)}
+                  required
+                >
+                  <option value="" disabled>Syllabus</option>
+                  {syllabusOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+            </div>
             {grade12school && (
               <div className="form-group col-lg-6 col-md-12">
                 <input
@@ -399,7 +389,7 @@ const Education = ({
                   handleEducationDataChange(index, "coreSubjects", selectedValues);
                 }}
                 options={coreSubjectsOptions}
-                className={`custom-select ${data.coreSubjects.length === 0 ? "required" : ""}`}
+                className="custom-select required"
                 placeholder="Core Subjects"
                 required
               />
@@ -428,22 +418,20 @@ const Education = ({
               </div>
             )}
             {grade12mode && (
-              <div className="form-group col-12">
-                <div className="radio-group single-line">
-                  <label>Mode of Study:</label>
+              <div className="form-group col-lg-6 col-md-12">
+                <select
+                  className="custom-select"
+                  value={data.mode || ""}
+                  onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
+                  required
+                >
+                  <option value="" disabled>Mode of Study</option>
                   {educationModeOptions.map((option) => (
-                    <label key={option.value}>
-                      <input
-                        type="radio"
-                        name={`grade12Mode_${index}`}
-                        value={option.value}
-                        checked={data.mode === option.value}
-                        onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
-                      />
+                    <option key={option.value} value={option.value}>
                       {option.label}
-                    </label>
+                    </option>
                   ))}
-                </div>
+                </select>
               </div>
             )}
           </div>
@@ -453,37 +441,31 @@ const Education = ({
           <div className="degree-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <div className={`radio-group ${!courseStatusOptions.value ? "required" : ""}`}>
-                  <label>Course Status:</label>
-                  {courseStatusOptions.map((option) => (
-                    <label key={option.value}>
-                      <input
-                        type="radio"
-                        name={`courseStatus_${type}_${index}`}
-                        value={option.value}
-                        checked={data.courseStatus === option.value}
-                        onChange={(e) =>
-                          handleEducationDataChange(index, "courseStatus", e.target.value)
-                        }
-                        required
-                      />
-                      {option.label}
-                    </label>
-                  ))}
-                </div>
+                  <select
+                    className="custom-select"
+                    value={data.courseStatus || ""}
+                    onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>Course Status</option>
+                    {courseStatusOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
               </div>
               <div className="form-group col-lg-6 col-md-12">
-              <Select
+                <Select
                   value={degrees.find((d) => d.value === data.courseName) || null}
                   onChange={(selectedOption) =>
                     handleEducationDataChange(index, "courseName", selectedOption.value)
                   }
                   options={degrees}
-                  className={`custom-select ${data.courseName === "" ? "required" : ""}`}
+                  className="custom-select required"
                   placeholder="Degree Name"
                   required
                 />
-
               </div>
               {degreeCollege && (
                 <div className="form-group col-lg-6 col-md-12">
@@ -554,7 +536,7 @@ const Education = ({
                     handleEducationDataChange(index, "coreSubjects", selectedValues);
                   }}
                   options={coreSubjectsOptions}
-                  className={`custom-select ${data.coreSubjects.length === 0 ? "required" : ""}`}
+                  className="custom-select required"
                   placeholder="Core Subjects"
                   required
                 />
@@ -583,23 +565,20 @@ const Education = ({
                 </div>
               )}
               {degreeMode && (
-                <div className="form-group col-12 mode-section">
-                  <div className="radio-group">
-                    <label>Mode of Study:</label>
+                <div className="form-group col-lg-6 col-md-12">
+                  <select
+                    className="custom-select"
+                    value={data.mode || ""}
+                    onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>Mode of Study</option>
                     {educationModeOptions.map((option) => (
-                      <label key={option.value}>
-                        <input
-                          type="radio"
-                          name={`degreeMode_${index}`}
-                          value={option.value}
-                          checked={data.mode === option.value}
-                          onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
-                          required
-                        />
+                      <option key={option.value} value={option.value}>
                         {option.label}
-                      </label>
+                      </option>
                     ))}
-                  </div>
+                  </select>
                 </div>
               )}
             </div>
@@ -610,22 +589,19 @@ const Education = ({
           <div className="master-degree-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <div className={`radio-group ${!courseStatusOptions.value ? "required" : ""}`}>
-                  <label>Course Status:</label>
-                  {courseStatusOptions.map((option) => (
-                    <label key={option.value}>
-                      <input
-                        type="radio"
-                        name={`courseStatus_${type}_${index}`}
-                        value={option.value}
-                        checked={data.courseStatus === option.value}
-                        onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
-                        required
-                      />
-                      {option.label}
-                    </label>
-                  ))}
-                </div>
+                  <select
+                    className="custom-select"
+                    value={data.courseStatus || ""}
+                    onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>Course Status</option>
+                    {courseStatusOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
               </div>
               <div className="form-group col-lg-6 col-md-12">
                 <Select
@@ -634,7 +610,7 @@ const Education = ({
                   onChange={(e) => handleEducationDataChange(index, "courseName", e.target.value)}
                   options={masterDegrees}
                   placeholder="Master Degree Name"
-                  className={`custom-select ${data.courseName.length === 0 ? "required" : ""}`}
+                  className="custom-select required"
                 />
               </div>
               {masterCollege && (
@@ -691,7 +667,7 @@ const Education = ({
                     handleEducationDataChange(index, "coreSubjects", selectedValues);
                   }}
                   options={coreSubjectsOptions}
-                  className={`custom-select ${data.coreSubjects.length === 0 ? "required" : ""}`}
+                    className="custom-select required"
                   placeholder="Core Subjects"
                   required
                 />
@@ -721,23 +697,20 @@ const Education = ({
                 </div>
               )}
               {masterMode && (
-                <div className="form-group col-12 mode-section">
-                  <div className="radio-group">
-                    <label>Mode of Study:</label>
+                <div className="form-group col-lg-6 col-md-12">
+                  <select
+                    className="custom-select"
+                    value={data.mode || ""}
+                    onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>Mode of Study</option>
                     {educationModeOptions.map((option) => (
-                      <label key={option.value}>
-                        <input
-                          type="radio"
-                          name={`masterDegreeMode_${index}`}
-                          value={option.value}
-                          checked={data.mode === option.value}
-                          onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
-                          required
-                        />
+                      <option key={option.value} value={option.value}>
                         {option.label}
-                      </label>
+                      </option>
                     ))}
-                  </div>
+                  </select>
                 </div>
               )}
             </div>
@@ -748,22 +721,19 @@ const Education = ({
           <div className="doctorate-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <div className={`radio-group ${!courseStatusOptions.value ? "required" : ""}`}>
-                  <label>Course Status:</label>
-                  {courseStatusOptions.map((option) => (
-                    <label key={option.value}>
-                      <input
-                        type="radio"
-                        name={`courseStatus_${type}_${index}`}
-                        value={option.value}
-                        checked={data.courseStatus === option.value}
-                        onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
-                        required
-                      />
-                      {option.label}
-                    </label>
-                  ))}
-                </div>
+                  <select
+                    className="custom-select"
+                    value={data.courseStatus || ""}
+                    onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>Course Status</option>
+                    {courseStatusOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
               </div>
               {doctorateCollege && (
                 <div className="form-group col-lg-6 col-md-12">
@@ -820,7 +790,7 @@ const Education = ({
                     handleEducationDataChange(index, "coreSubjects", selectedValues);
                   }}
                   options={coreSubjectsOptions}
-                  className={`custom-select ${data.coreSubjects.length === 0 ? "required" : ""}`}
+                    className="custom-select required"
                   placeholder="Core Subjects"
                   required
                 />
@@ -837,22 +807,20 @@ const Education = ({
                 </div>
               )}
               {doctorateMode && (
-                <div className="form-group col-12 mode-section">
-                  <div className="radio-group">
-                    <label>Mode of Study:</label>
+                <div className="form-group col-lg-6 col-md-12">
+                  <select
+                    className="custom-select"
+                    value={data.mode || ""}
+                    onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>Mode of Study</option>
                     {educationModeOptions.map((option) => (
-                      <label key={option.value}>
-                        <input
-                          type="radio"
-                          name={`doctorateMode_${index}`}
-                          value={option.value}
-                          checked={data.mode === option.value}
-                          onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
-                        />
+                      <option key={option.value} value={option.value}>
                         {option.label}
-                      </label>
+                      </option>
                     ))}
-                  </div>
+                  </select>
                 </div>
               )}
             </div>
@@ -890,23 +858,20 @@ const Education = ({
                 </>
               ) : (
                 <>
-                  <div className="form-group col-lg-6 col-md-12">
-                    <div className={`radio-group ${!courseStatusOptions.value ? "required" : ""}`}>
-                      <label>Course Status:</label>
-                      {courseStatusOptions.map((option) => (
-                        <label key={option.value}>
-                          <input
-                            type="radio"
-                            name={`courseStatus_${type}_${index}`}
-                            value={option.value}
-                            checked={data.courseStatus === option.value}
-                            onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
-                            required
-                          />
-                          {option.label}
-                        </label>
-                      ))}
-                    </div>
+                  <div className="form-group col-lg-6 col-md-12">                    
+                      <select
+                        className="custom-select"
+                        value={data.courseStatus || ""}
+                        onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                        required
+                      >
+                        <option value="" disabled>Course Status</option>
+                        {courseStatusOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
                     <input
@@ -978,22 +943,20 @@ const Education = ({
                       maxLength={5}
                     />
                   </div>
-                  <div className="form-group col-12 mode-section">
-                    <div className="radio-group">
-                      <label>Mode of Study:</label>
+                  <div className="form-group col-lg-6 col-md-12">
+                    <select
+                      className="custom-select"
+                      value={data.mode || ""}
+                      onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
+                      required
+                    >
+                      <option value="" disabled>Mode of Study</option>
                       {educationModeOptions.map((option) => (
-                        <label key={option.value}>
-                          <input
-                            type="radio"
-                            name={`nttMttMode_${index}`}
-                            value={option.value}
-                            checked={data.mode === option.value}
-                            onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
-                          />
+                        <option key={option.value} value={option.value}>
                           {option.label}
-                        </label>
+                        </option>
                       ))}
-                    </div>
+                    </select>
                   </div>
                 </>
               )}
@@ -1004,23 +967,20 @@ const Education = ({
         return (
           <div className="bed-section">
             <div className="row">
-              <div className="form-group col-lg-6 col-md-12">
-                <div className={`radio-group ${!courseStatusOptions.value ? "required" : ""}`}>
-                  <label>Course Status:</label>
-                  {courseStatusOptions.map((option) => (
-                    <label key={option.value}>
-                      <input
-                        type="radio"
-                        name={`courseStatus_${type}_${index}`}
-                        value={option.value}
-                        checked={data.courseStatus === option.value}
-                        onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
-                        required
-                      />
-                      {option.label}
-                    </label>
-                  ))}
-                </div>
+              <div className="form-group col-lg-6 col-md-12">               
+                  <select
+                    className="custom-select"
+                    value={data.courseStatus || ""}
+                    onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>Course Status</option>
+                    {courseStatusOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
               </div>
               {bEdCollege && (
                 <div className="form-group col-lg-6 col-md-12">
@@ -1100,7 +1060,7 @@ const Education = ({
                     handleEducationDataChange(index, "coreSubjects", selectedValues);
                   }}
                   options={coreSubjectsOptions}
-                  className={`custom-select ${data.coreSubjects.length === 0 ? "required" : ""}`}
+                    className="custom-select required"
                   placeholder="Core Subjects"
                   required
                 />
@@ -1129,22 +1089,20 @@ const Education = ({
                 </div>
               )}
               {bEdMode && (
-                <div className="form-group col-12 mode-section">
-                  <div className="radio-group">
-                    <label>Mode of Study:</label>
+                <div className="form-group col-lg-6 col-md-12">
+                  <select
+                    className="custom-select"
+                    value={data.mode || ""}
+                    onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>Mode of Study</option>
                     {educationModeOptions.map((option) => (
-                      <label key={option.value}>
-                        <input
-                          type="radio"
-                          name={`bEdMode_${index}`}
-                          value={option.value}
-                          checked={data.mode === option.value}
-                          onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
-                        />
+                      <option key={option.value} value={option.value}>
                         {option.label}
-                      </label>
+                      </option>
                     ))}
-                  </div>
+                  </select>
                 </div>
               )}
             </div>
@@ -1155,22 +1113,20 @@ const Education = ({
           <div className="certificate-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                <div className={`radio-group ${!courseStatusOptions.value ? "required" : ""}`}>
-                  <label>Course Status:</label>
-                  {courseStatusOptions.map((option) => (
-                    <label key={option.value}>
-                      <input
-                        type="radio"
-                        name={`courseStatus_${type}_${index}`}
-                        value={option.value}
-                        checked={data.courseStatus === option.value}
-                        onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
-                        required
-                      />
-                      {option.label}
-                    </label>
-                  ))}
-                </div>
+                
+                  <select
+                    className="custom-select"
+                    value={data.courseStatus || ""}
+                    onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>Course Status</option>
+                    {courseStatusOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
               </div>
               <div className="form-group col-lg-6 col-md-12">
                 <input
@@ -1242,22 +1198,20 @@ const Education = ({
                 </div>
               )}
               {certificateMode && (
-                <div className="form-group col-12 mode-section">
-                  <div className="radio-group">
-                    <label>Mode of Study:</label>
+                <div className="form-group col-lg-6 col-md-12">
+                  <select
+                    className="custom-select"
+                    value={data.mode || ""}
+                    onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>Mode of Study</option>
                     {educationModeOptions.map((option) => (
-                      <label key={option.value}>
-                        <input
-                          type="radio"
-                          name={`certificateMode_${index}`}
-                          value={option.value}
-                          checked={data.mode === option.value}
-                          onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
-                        />
+                      <option key={option.value} value={option.value}>
                         {option.label}
-                      </label>
+                      </option>
                     ))}
-                  </div>
+                  </select>
                 </div>
               )}
             </div>
@@ -1296,21 +1250,19 @@ const Education = ({
               ) : (
                 <>
                   <div className="form-group col-lg-6 col-md-12">
-                    <div className={`radio-group ${!courseStatusOptions.value ? "required" : ""}`}>
-                      <label>Course Status:</label>
-                      {courseStatusOptions.map((option) => (
-                        <label key={option.value}>
-                          <input
-                            type="radio"
-                            name={`courseStatus_${type}_${index}`}
-                            value={option.value}
-                            checked={data.courseStatus === option.value}
-                            onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
-                          />
-                          {option.label}
-                        </label>
-                      ))}
-                    </div>
+                      <select
+                        className="custom-select"
+                        value={data.courseStatus || ""}
+                        onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                        required
+                      >
+                        <option value="" disabled>Course Status</option>
+                        {courseStatusOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
                     <input
@@ -1383,7 +1335,7 @@ const Education = ({
                         handleEducationDataChange(index, "coreSubjects", selectedValues);
                       }}
                       options={coreSubjectsOptions}
-                      className={`custom-select ${data.coreSubjects.length === 0 ? "required" : ""}`}
+                      className="custom-select required"
                       placeholder="Core Subjects"
                       required
                     />
@@ -1408,22 +1360,20 @@ const Education = ({
                       maxLength={5}
                     />
                   </div>
-                  <div className="form-group col-12 mode-section">
-                    <div className="radio-group">
-                      <label>Mode of Study:</label>
+                  <div className="form-group col-lg-6 col-md-12">
+                    <select
+                      className="custom-select"
+                      value={data.mode || ""}
+                      onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
+                      required
+                    >
+                      <option value="" disabled>Mode of Study</option>
                       {educationModeOptions.map((option) => (
-                        <label key={option.value}>
-                          <input
-                            type="radio"
-                            name={`dEdMode_${index}`}
-                            value={option.value}
-                            checked={data.mode === option.value}
-                            onChange={(e) => handleEducationDataChange(index, "mode", e.target.value)}
-                          />
+                        <option key={option.value} value={option.value}>
                           {option.label}
-                        </label>
+                        </option>
                       ))}
-                    </div>
+                    </select>
                   </div>
                 </>
               )}
@@ -1510,7 +1460,7 @@ const Education = ({
                   onChange={(e) => handleGrade10Change("yearOfPassing", e.target.value)}
                   required
                 >
-                  <option value="">Select Year of Passing</option>
+                  <option value="">Year of Passing</option>
                   {Array.from({ length: 15 }, (_, i) => {
                     const year = new Date().getFullYear() - i;
                     return (
@@ -1526,21 +1476,17 @@ const Education = ({
             <>
               <div className="row">
                 <div className="form-group col-lg-6 col-md-12">
-                  <div className="radio-group">
+                  <select
+                    value={grade10Data.syllabus || ""}
+                    onChange={(e) => handleGrade10Change("syllabus", e.target.value)}
+                  >
+                    <option value="" disabled>Syllabus</option>
                     {syllabusOptions.map((option) => (
-                      <label key={option.value}>
-                        <input
-                          type="radio"
-                          name="grade10Syllabus"
-                          value={option.value}
-                          checked={grade10Data.syllabus === option.value}
-                          onChange={(e) => handleGrade10Change("syllabus", e.target.value)}
-                          required
-                        />
+                      <option key={option.value} value={option.value}>
                         {option.label}
-                      </label>
+                      </option>
                     ))}
-                  </div>
+                  </select>
                 </div>
 
                 <div className="form-group col-lg-6 col-md-12">
@@ -1558,9 +1504,9 @@ const Education = ({
                   <select
                     value={grade10Data.yearOfPassing}
                     onChange={(e) => handleGrade10Change("yearOfPassing", e.target.value)}
-                    required
+                  required
                   >
-                    <option value="">Select Year of Passing</option>
+                    <option value="">Year of Passing</option>
                     {Array.from({ length: 15 }, (_, i) => {
                       const year = new Date().getFullYear() - i;
                       return (
@@ -1583,23 +1529,18 @@ const Education = ({
                   />
                 </div>
 
-                <div className="form-group col-12">
-                  <div className="radio-group single-line">
-                    <label>Mode of Study:</label>
+                <div className="form-group col-lg-6 col-md-12">
+                  <select
+                    value={grade10Data.mode || ""}
+                    onChange={(e) => handleGrade10Change("mode", e.target.value)}
+                  >
+                    <option value="" disabled>Mode of Study</option>
                     {educationModeOptions.map((option) => (
-                      <label key={option.value}>
-                        <input
-                          type="radio"
-                          name="grade10Mode"
-                          value={option.value}
-                          checked={grade10Data.mode === option.value}
-                          onChange={(e) => handleGrade10Change("mode", e.target.value)}
-                          required
-                        />
+                      <option key={option.value} value={option.value}>
                         {option.label}
-                      </label>
+                      </option>
                     ))}
-                  </div>
+                  </select>
                 </div>
               </div>
             </>
