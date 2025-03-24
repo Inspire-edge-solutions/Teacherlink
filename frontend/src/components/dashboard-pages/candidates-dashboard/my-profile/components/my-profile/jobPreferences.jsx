@@ -116,7 +116,7 @@ const JobPreference = () => {
 
   const subjectList = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_EDUCATION_API);
+      const response = await axios.get(import.meta.env.VITE_DEV1_API + '/education-data');
       console.log("Fetched subjects:", response.data);
       const formattedSubjects = response.data.map(subject => ({
         value: subject.value, 
@@ -252,8 +252,8 @@ const JobPreference = () => {
   };
 
   const renderJobDetailsSection = () => (
-    <div className="form-group col-lg-12">
-      <div className="form-box">
+
+      <div>
         <h3 className="form-title">Expected Job preferences</h3>
         <div className="row">
           {/* Job Type */}
@@ -571,7 +571,6 @@ const JobPreference = () => {
           )}
         </div>
       </div>
-    </div>
   );
 
   return (
@@ -593,8 +592,8 @@ const JobPreference = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Full time</td>
-                    <td>
+                    <td data-label="Type">Full time</td>
+                    <td data-label="Offline">
                       <select 
                         className="form-select"
                         value={jobDetails.Full_time}
@@ -613,7 +612,7 @@ const JobPreference = () => {
                         <option value="false">No</option>
                       </select>
                     </td>
-                    <td>
+                    <td data-label="Online">
                       <select 
                         className="form-select"
                         value={preferences.jobShift.Full_time.online === null ? '' : preferences.jobShift.Full_time.online}
@@ -634,8 +633,8 @@ const JobPreference = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>Part time (Weekdays)</td>
-                    <td>
+                    <td data-label="Type">Part time (Weekdays)</td>
+                    <td data-label="Offline">
                       <select 
                         className="form-select"
                         value={preferences.jobShift.part_time_weekdays.offline === null ? '' : preferences.jobShift.part_time_weekdays.offline}
@@ -654,7 +653,7 @@ const JobPreference = () => {
                         <option value="false">No</option>
                       </select>
                     </td>
-                    <td>
+                    <td data-label="Online">
                       <select 
                         className="form-select"
                         value={preferences.jobShift.part_time_weekdays.online === null ? '' : preferences.jobShift.part_time_weekdays.online}
@@ -675,8 +674,8 @@ const JobPreference = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>Part time (Weekends)</td>
-                    <td>
+                    <td data-label="Type">Part time (Weekends)</td>
+                    <td data-label="Offline">
                       <select 
                         className="form-select"
                         value={preferences.jobShift.part_time_weekends.offline === null ? '' : preferences.jobShift.part_time_weekends.offline}
@@ -695,7 +694,7 @@ const JobPreference = () => {
                         <option value="false">No</option>
                       </select>
                     </td>
-                    <td>
+                    <td data-label="Online">
                       <select 
                         className="form-select"
                         value={preferences.jobShift.part_time_weekends.online === null ? '' : preferences.jobShift.part_time_weekends.online}
@@ -716,8 +715,8 @@ const JobPreference = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>Part time (vacations)</td>
-                    <td>
+                    <td data-label="Type">Part time (vacations)</td>
+                    <td data-label="Offline">
                       <select 
                         className="form-select"
                         value={preferences.jobShift.part_time_vacations.offline === null ? '' : preferences.jobShift.part_time_vacations.offline}
@@ -736,7 +735,7 @@ const JobPreference = () => {
                         <option value="false">No</option>
                       </select>
                     </td>
-                    <td>
+                    <td data-label="Online">
                       <select 
                         className="form-select"
                         value={preferences.jobShift.part_time_vacations.online === null ? '' : preferences.jobShift.part_time_vacations.online}
@@ -777,8 +776,8 @@ const JobPreference = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>School / College / University</td>
-                    <td>
+                    <td data-label="Type">School / College / University</td>
+                    <td data-label="Offline">
                       <select 
                         className="form-select"
                         value={preferences.organizationType.school_college_university.offline === null ? '' : preferences.organizationType.school_college_university.offline}
@@ -790,7 +789,7 @@ const JobPreference = () => {
                         <option value="false">No</option>
                       </select>
                     </td>
-                    <td>
+                    <td data-label="Online">
                       <select 
                         className="form-select"
                         value={preferences.organizationType.school_college_university.online === null ? '' : preferences.organizationType.school_college_university.online}
@@ -804,8 +803,8 @@ const JobPreference = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>Coaching Centers / Institutes</td>
-                    <td>
+                    <td data-label="Type">Coaching Centers / Institutes</td>
+                    <td data-label="Offline">
                       <select 
                         className="form-select"
                         value={preferences.organizationType.coaching_institute.offline === null ? '' : preferences.organizationType.coaching_institute.offline}
@@ -817,7 +816,7 @@ const JobPreference = () => {
                         <option value="false">No</option>
                       </select>
                     </td>
-                    <td>
+                    <td data-label="Online">
                       <select 
                         className="form-select"
                         value={preferences.organizationType.coaching_institute.online === null ? '' : preferences.organizationType.coaching_institute.online}
@@ -831,8 +830,8 @@ const JobPreference = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>EdTech Companies</td>
-                    <td>
+                    <td data-label="Type">EdTech Companies</td>
+                    <td data-label="Offline">
                       <select 
                         className="form-select"
                         value={preferences.organizationType.Ed_TechCompanies.offline === null ? '' : preferences.organizationType.Ed_TechCompanies.offline}
@@ -844,7 +843,7 @@ const JobPreference = () => {
                         <option value="false">No</option>
                       </select>
                     </td>
-                    <td>
+                    <td data-label="Online">
                       <select 
                         className="form-select"
                         value={preferences.organizationType.Ed_TechCompanies.online === null ? '' : preferences.organizationType.Ed_TechCompanies.online}
@@ -878,8 +877,8 @@ const JobPreference = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Home Tutor (One-to-One at Students Home)</td>
-                    <td>
+                    <td data-label="Type">Home Tutor (One-to-One at Students Home)</td>
+                    <td data-label="Offline">
                       <select 
                         className="form-select"
                         value={preferences.parentGuardian.Home_Tutor.offline === null ? '' : preferences.parentGuardian.Home_Tutor.offline}
@@ -891,11 +890,11 @@ const JobPreference = () => {
                         <option value="false">No</option>
                       </select>
                     </td>
-                    <td className="disabled">-</td>
+                    <td data-label="Online" className="disabled">-</td>
                   </tr>
                   <tr>
-                    <td>Private Tutor (One-to-One at Tutors Place)</td>
-                    <td>
+                    <td data-label="Type">Private Tutor (One-to-One at Tutors Place)</td>
+                    <td data-label="Offline">
                       <select 
                         className="form-select"
                         value={preferences.parentGuardian.Private_Tutor.offline === null ? '' : preferences.parentGuardian.Private_Tutor.offline}
@@ -907,11 +906,11 @@ const JobPreference = () => {
                         <option value="false">No</option>
                       </select>
                     </td>
-                    <td className="disabled">-</td>
+                    <td data-label="Online" className="disabled">-</td>
                   </tr>
                   <tr>
-                    <td>Group Tuitions Offline (at teachers home)</td>
-                    <td>
+                    <td data-label="Type">Group Tuitions Offline (at teachers home)</td>
+                    <td data-label="Offline">
                       <select 
                         className="form-select"
                         value={preferences.parentGuardian.Group_Tutor_offline.offline === null ? '' : preferences.parentGuardian.Group_Tutor_offline.offline}
@@ -923,12 +922,12 @@ const JobPreference = () => {
                         <option value="false">No</option>
                       </select>
                     </td>
-                    <td className="disabled">-</td>
+                    <td data-label="Online" className="disabled">-</td>
                   </tr>
                   <tr>
-                    <td>Private Tuitions Online (One-One)</td>
-                    <td className="disabled">-</td>
-                    <td>
+                    <td data-label="Type">Private Tuitions Online (One-One)</td>
+                    <td data-label="Offline" className="disabled">-</td>
+                    <td data-label="Online">
                       <select 
                         className="form-select"
                         value={preferences.parentGuardian.Private_Tutions_online.online === null ? '' : preferences.parentGuardian.Private_Tutions_online.online}
@@ -942,9 +941,9 @@ const JobPreference = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>Group Tuitions Online (from teacher as tutor)</td>
-                    <td className="disabled">-</td>
-                    <td>
+                    <td data-label="Type">Group Tuitions Online (from teacher as tutor)</td>
+                    <td data-label="Offline" className="disabled">-</td>
+                    <td data-label="Online">
                       <select 
                         className="form-select"
                         value={preferences.parentGuardian.Group_Tutor_online.online === null ? '' : preferences.parentGuardian.Group_Tutor_online.online}
@@ -978,8 +977,8 @@ const JobPreference = () => {
             </thead>
             <tbody>
               <tr>
-                <td>Full Time</td>
-                <td>
+                <td data-label="Mode">Full Time</td>
+                <td data-label="Offline">
                   <select
                     className="form-select"
                     value={jobSearchStatus.Full_time.offline}
@@ -998,7 +997,7 @@ const JobPreference = () => {
                     <option value="notLooking">Not looking for Jobs</option>
                   </select>
                 </td>
-                <td>
+                <td data-label="Online">
                   <select
                     className="form-select"
                     value={jobSearchStatus.Full_time.online}
@@ -1019,8 +1018,8 @@ const JobPreference = () => {
                 </td>
               </tr>
               <tr>
-                <td>Part Time (Weekdays)</td>
-                <td>
+                <td data-label="Mode">Part Time (Weekdays)</td>
+                <td data-label="Offline">
                   <select
                     className="form-select"
                     value={jobSearchStatus.part_time_weekdays.offline}
@@ -1039,7 +1038,7 @@ const JobPreference = () => {
                     <option value="notLooking">Not looking for Jobs</option>
                   </select>
                 </td>
-                <td>
+                <td data-label="Online">
                   <select
                     className="form-select"
                     value={jobSearchStatus.part_time_weekdays.online}

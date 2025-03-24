@@ -12,9 +12,9 @@ const CopyrightFooter = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Inspire edge solutions
+              Inspire Edge Innovation
             </a>
-            . All Right Reserved.
+            . All Rights Reserved.
           </div>
           <div className="social-links">
             <Social />

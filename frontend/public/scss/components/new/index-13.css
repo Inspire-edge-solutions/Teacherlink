@@ -1,5 +1,5 @@
 .banner-section.-type-13 {
-  background-image: url("images/herosection.jpg");
+  background-image: url("images/teacherlink_images/tecaher-back-image1.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -31,6 +31,10 @@
 }
 
 .banner-section.-type-13 .title-box .text {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: black;
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 20px;

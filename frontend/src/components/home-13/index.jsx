@@ -38,7 +38,7 @@ const index = () => {
       </section>
       {/* <!-- End Registeration Banners --> */}
 
-      <section className="layout-pt-10 layout-pb-40">
+      {/* <section className="layout-pt-10 layout-pb-40">
         <div className="auto-container">
           <div className="row justify-content-between align-items-end">
             <div className="col-lg-6">
@@ -48,26 +48,26 @@ const index = () => {
                   Browse for active jobs, new jobs added recently.
                 </div>
               </div>
-            </div>
+            </div> */}
             {/* End sectitle */}
-            <div className="col-auto">
+            {/* <div className="col-auto">
               <a href="#" className="button-icon -arrow text-dark-blue">
                 Browse All
                 <span className="ms-1"><BsChevronRight /></span>
               </a>
             </div>
-          </div>
+          </div> */}
           {/* End .row */}
-
+{/* 
           <div className="row grid-flex pt-50" data-aos="fade-up">
             <JobCategorie7 />
-          </div>
+          </div> */}
           {/* End .row */}
-        </div>
-      </section>
+        {/* </div>
+      </section> */}
       {/* <!-- End Job Categories --> */}
 
-      <section className="layout-pt-60 layout-pb-60">
+      <section className="layout-pt-30 layout-pb-30">
         <div className="auto-container">
           <div className="row justify-content-center">
             <div className="col-lg-5">
@@ -88,7 +88,7 @@ const index = () => {
       </section>
       {/* <!-- End Work Section --> */}
 
-      <About9 />
+      {/* <About9 /> */}
       {/* <!-- End About Section --> */}
 
       {/* <section className="layout-pt-60 layout-pb-60">

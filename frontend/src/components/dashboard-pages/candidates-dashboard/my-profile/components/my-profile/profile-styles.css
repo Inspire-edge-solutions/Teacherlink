@@ -194,7 +194,6 @@ h4 {
 
 .preference-table {
   width: 100%;
-  overflow-x: auto;
 }
 
 .preference-table table {
@@ -211,24 +210,13 @@ h4 {
 .preference-table th {
   background-color: #f5f5f5;
   font-weight: 500;
-  text-align: center;
-}
-
-.preference-table td:first-child {
-  width: 40%;
-}
-
-.preference-table td {
-  vertical-align: middle;
 }
 
 .preference-table .form-select {
   width: 100%;
-  min-width: 100px;
-  height: 50px !important;
-  line-height: 1.5 !important;
-  font-size: 0.875rem !important;
   padding: 8px 12px;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 .preference-table td.disabled {
@@ -952,5 +940,31 @@ input:required , select:required , textarea:required{
     &:focus {
       box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
     }
+  }
+}
+@media screen and (max-width: 768px) {
+  .preference-table table {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .preference-table tr {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    border: 1px solid #ecedf2;
+  }
+  
+  .preference-table th {
+    text-align: center;
+  }
+
+  .preference-table td {
+    border: none;
+    border-bottom: 1px solid #ecedf2;
+  }
+
+  .preference-table td:last-child {
+    border-bottom: none;
   }
 }
