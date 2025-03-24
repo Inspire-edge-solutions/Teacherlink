@@ -38,6 +38,8 @@ const DefaulHeader = () => {
                 <img
                   src="/images/teacherlink-logo.png"
                   alt="logo"
+                  width={250}
+                  height={250}
                 />
               </Link>
             </div>

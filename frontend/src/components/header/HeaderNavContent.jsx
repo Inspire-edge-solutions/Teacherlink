@@ -1,5 +1,3 @@
-
-
 import { Link } from "react-router-dom";
 import {
   blogItems,
@@ -30,49 +28,25 @@ const HeaderNavContent = () => {
           </li>
           {/* End homepage menu items */}
 
-          <li
-            className={`${
-              isActiveParent(findJobItems, pathname) ? "current" : ""
-            } dropdown has-mega-menu`}
-            id="has-mega-menu"
-          >
-            <span>Find Jobs</span>
-            <div className="mega-menu">
-              <div className="mega-menu-bar row">
-                {findJobItems.map((item) => (
-                  <div
-                    className="column col-lg-3 col-md-3 col-sm-12"
-                    key={item.id}
-                  >
-                    <h3>{item.title}</h3>
-                    <ul>
-                      {item.items.map((menu, i) => (
-                        <li
-                          className={
-                            isActiveLink(menu.routePath, pathname)
-                              ? "current"
-                              : ""
-                          }
-                          key={i}
-                        >
-                          <Link to={menu.routePath}>{menu.name}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <li className={isActiveLink("/why-teacherlink", pathname) ? "current" : ""}>
+            <Link to="/why-teacherlink">Why Teacherlink</Link>
           </li>
-          {/* End findjobs menu items */}
 
-          <ul><li>Why Teacherlink</li></ul>
-          <ul><li>Salient features</li></ul>
-          <ul><li>Subscription plans</li></ul> 
-          <ul><li>About us</li></ul> 
-          <ul><li>Contact us</li></ul> 
+          <li className={isActiveLink("/salient-features", pathname) ? "current" : ""}>
+            <Link to="/salient-features">Salient features</Link>
+          </li>
 
-          
+          <li className={isActiveLink("/subscription", pathname) ? "current" : ""}>
+            <Link to="/subscription">Subscription plans</Link>
+          </li>
+
+          <li className={isActiveLink("/about", pathname) ? "current" : ""}>
+            <Link to="/about">About us</Link>
+          </li>
+
+          <li className={isActiveLink("/contact", pathname) ? "current" : ""}>
+            <Link to="/contact">Contact us</Link>
+          </li>
         </ul>
       </nav>
     </>

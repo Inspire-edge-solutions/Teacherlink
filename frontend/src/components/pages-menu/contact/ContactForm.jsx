@@ -60,7 +60,7 @@ const ContactForm = () => {
             id="submit"
             name="submit-form"
           >
-            Send Massage
+            Send Message
           </button>
         </div>
         {/* End .col */}

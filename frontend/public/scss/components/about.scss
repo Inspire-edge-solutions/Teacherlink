@@ -377,6 +377,9 @@ About Section Three
 .about-section-three {
   position: relative;
   padding: 50px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .about-section-three .images-box {

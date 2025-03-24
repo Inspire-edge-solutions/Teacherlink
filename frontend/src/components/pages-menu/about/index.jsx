@@ -2,6 +2,7 @@ import LoginPopup from "../../common/form/login/LoginPopup";
 import Partner from "../../common/partner/Partner";
 import FooterDefault from "../../footer/common-footer";
 import DefaulHeader from "../../header/DefaulHeader";
+import DefaulHeader2 from "../../header/DefaulHeader2";
 import MobileMenu from "../../header/MobileMenu";
 import Funfact from "../../fun-fact-counter/Funfact";
 import ImageBox from "./ImgBox";
@@ -21,96 +22,108 @@ const index = () => {
       <LoginPopup />
       {/* End Login Popup Modal */}
 
-      <DefaulHeader />
+      <DefaulHeader2 />
       {/* <!--End Main Header --> */}
 
       <MobileMenu />
       {/* End MobileMenu */}
 
-      <Breadcrumb title="About Us" meta="About Us" />
+      {/* <Breadcrumb title="About Us" meta="About Us" /> */}
       {/* <!--End Page Title--> */}
-
-      <section className="about-section-three">
-        <div className="auto-container">
-          <ImageBox />
-
-          {/* <!-- Fun Fact Section --> */}
-          <div className="fun-fact-section">
+          
+        <section className="about-section-three">
+        <div className="auto-container" style={{ 
+          display: 'flex', 
+          gap: '2rem', 
+          alignItems: 'center',
+        }}>
+           <div style={{ flex: 1 }}>
+            <IntroDescriptions />
+          </div>
+          <div style={{ 
+            flex: 1,
+            width: '100%',
+            height: '100%'
+          }}>
+            <ImageBox />
+          </div>
+         
+        </div>
+      </section>
+           {/* <!-- Fun Fact Section --> */}
+          {/* <div className="fun-fact-section">
             <div className="row">
               <Funfact />
             </div>
-          </div>
+          </div> */}
           {/* <!-- Fun Fact Section --> */}
-
-          <IntroDescriptions />
-        </div>
-      </section>
+       
       {/* <!-- End About Section Three --> */}
 
-      <CallToAction2 />
+      {/* <CallToAction2 /> */}
       {/* <!-- End CallToAction2 --> */}
 
-      <section className="testimonial-section-two">
-        <div className="container-fluid">
-          <div className="testimonial-left">
+      {/* <section className="testimonial-section-two">
+        <div className="container-fluid"> */}
+          {/* <div className="testimonial-left">
             <img
             
               src="/images/resource/testimonial-left.png"
               alt="testimonial"
             />
-          </div>
+          </div> */}
           {/* End left img group */}
 
-          <div className="testimonial-right">
+          {/* <div className="testimonial-right">
             <img
             
               src="/images/resource/testimonial-right.png"
               alt="testimonial"
             />
-          </div>
+          </div> */}
           {/* End right img group */}
 
-          <div className="sec-title text-center">
+          {/* <div className="sec-title text-center">
             <h2>Testimonials From Our Customers</h2>
             <div className="text">
-            Honest reviews from those who’ve experienced our services!!!
+            Honest reviews from those who've experienced our services!!!
             </div>
-          </div>
+          </div> */}
           {/* <!-- Sec Title --> */}
 
-          <div className="carousel-outer" data-aos="fade-up">
+          {/* <div className="carousel-outer" data-aos="fade-up">
             <div className="testimonial-carousel">
               <Testimonial2 />
             </div>
-            {/* <!-- Testimonial Carousel --> */}
-          </div>
-        </div>
-      </section>
+            {/* <!-- Testimonial Carousel --> 
+          </div> */}
+        {/* </div>
+      </section> */}
       {/* <!-- End Testimonial Section --> */}
 
-      <section className="work-section style-two">
-        <div className="auto-container">
+      {/* <section className="work-section style-two"> */}
+        {/* <div className="auto-container">
           <div className="sec-title text-center">
             <h2>How It Works?</h2>
             <div className="text">Job for anyone, anywhere</div>
-          </div>
+          </div> */}
           {/* End sec-title */}
 
-          <div className="row" data-aos="fade-up">
+          {/* <div className="row" data-aos="fade-up"> */}
             {/* <Block1 /> */}
-          </div>
+          {/* </div>
         </div>
-      </section>
+      </section> */}
       {/* <!-- End Work Section --> */}
 
-      <section className="clients-section">
+      {/* <section className="clients-section">
         <div className="sponsors-outer" data-aos="fade">
-          {/* <!--Sponsors Carousel--> */}
+        
           <ul className="sponsors-carousel">
             <Partner />
           </ul>
         </div>
-      </section>
+      </section> */}
       {/* <!-- End Clients Section--> */}
 
       <FooterDefault />

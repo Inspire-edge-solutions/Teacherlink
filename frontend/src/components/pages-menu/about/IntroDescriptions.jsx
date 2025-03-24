@@ -3,22 +3,19 @@ const IntroDescriptions = () => {
     <div className="text-box">
       <h4>About TeacherLink</h4>
       <p>
-        Far much that one rank beheld bluebird after outside ignobly allegedly
-        more when oh arrogantly vehement irresistibly fussy penguin insect
-        additionally wow absolutely crud meretriciously hastily dalmatian a
-        glowered inset one echidna cassowary some parrot and much as goodness
-        some froze the sullen much connected bat wonderfully on instantaneously
-        eel valiantly petted this along across highhandedly much.
+      At TeacherLink, we are transforming the way educators and institutions connect by offering a simple, cost-effective, and direct platform for recruitment. As India’s premier job portal exclusively for teachers, we are a group of experienced educators who understand the challenges in the education sector firsthand. Our years of experience have driven us to create a platform that makes the job search process seamless, transparent, and free from the burden of costly middlemen or consultants.
       </p>
       <p>
-        Repeatedly dreamed alas opossum but dramatically despite expeditiously
-        that jeepers loosely yikes that as or eel underneath kept and slept
-        compactly far purred sure abidingly up above fitting to strident wiped
-        set waywardly far the and pangolin horse approving paid chuckled
-        cassowary oh above a much opposite far much hypnotically more therefore
-        wasp less that hey apart well like while superbly orca and far hence
-        one.Far much that one rank beheld bluebird after outside ignobly
-        allegedly more when oh arrogantly vehement irresistibly fussy.
+      Our mission is to remove hefty consultant fees that often weigh down both teachers and institutions. By bridging the gap between employers and job seekers, we facilitate direct, efficient connections that save time, money, and effort for everyone involved.
+      </p>
+      <p>
+      We strive to make the job search process easy and accessible for all educators—whether you’re a seasoned teacher or just beginning your career. With a user-friendly interface, personalized job alerts, and a wide network of institutions, TeacherLink ensures that finding the right teaching opportunity is hassle-free.
+      </p>
+      <p>
+      Being teachers ourselves, we know that great education starts with great teachers. That’s why TeacherLink isn’t just a job portal—it’s a community built by educators, for educators. Our platform is designed to help talented teachers and educational institutions connect, thrive, and grow together.
+      </p>
+      <p>
+      Join us in reshaping the future of education and experience a job search like never before.
       </p>
     </div>
   );
