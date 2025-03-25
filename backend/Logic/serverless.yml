@@ -7,6 +7,7 @@ provider:
   region: ap-south-1
   deploymentBucket:
     name: teacherlink-deployments-ap-south-1  # Your S3 bucket for deployments
+  memorySize: 256
   environment:
     DB_HOST: ${var.DB_HOST}
     DB_USER: ${var.DB_USER}
@@ -52,6 +53,8 @@ provider:
           Resource:
             - arn:aws:s3:::teacherlink
             - arn:aws:s3:::teacherlink/*
+            - arn:aws:s3:::teacherlink-deployments-ap-south-1/developement/firebase.json
+            - arn:aws:s3:::teacherlink-deployments-ap-south-1
 
         # Allow RDS connection
         - Effect: Allow
@@ -138,8 +141,7 @@ functions:
       - http:
           path: organization
           method: post
-          cors: true
-          
+          cors: true    
       - http:
           path: organization/{id}
           method: get
@@ -208,29 +210,43 @@ functions:
           method: delete
           cors: true
 
-  referral:
-    handler: src/handlers/referral.lambdaHandler
-    environment: ${file(src/env/${self:provider.stage}.yml)}
-    events:
-      - http:
-          path: referral/create
-          method: post
-          cors: true
-      - http:
-          path: referral/redeem
-          method: post
-          cors: true
-      - http:
-          path: referral/RedeemMarketingToken
-          method: post
-          cors: true
-          
   cost:
     handler: src/handlers/cost.lambdaHandler
     environment: ${file(src/env/${self:provider.stage}.yml)}
     events:
       - http:
-          path: cost/process
+          path: process
+          method: post
+          cors: true
+
+  coupon:
+    handler: src/handlers/coupon.lambdaHandler
+    environment: ${file(src/env/${self:provider.stage}.yml)}
+    events:
+      - http:
+          path: GenerateCouponBulk
+          method: post
+          cors: true
+      - http:
+          path: RedeemCoupon
+          method: post
+          cors: true
+
+  referralSubmission:
+    handler: src/handlers/referralSubmission.lambdaHandler
+    environment: ${file(src/env/${self:provider.stage}.yml)}
+    events:
+      - http:
+          path: submission
+          method: post
+          cors: true
+
+  referralRegistration:
+    handler: src/handlers/referralRegistration.lambdaHandler
+    environment: ${file(src/env/${self:provider.stage}.yml)}
+    events:
+      - http:
+          path: register
           method: post
           cors: true
 

@@ -1,6 +1,9 @@
 // cost.js
 // Handles coin-based actions by verifying the user's coin balance and deducting coins accordingly.
-// Supported route: ProcessAction
+// The coin cost for each action is now dynamically fetched from the action_cost_config table.
+// It supports "Candidate" and "Employer" actions with the following examples:
+//   Candidate actions: JobApply, ExtraJobAlert, SendMessageToRecruiter, RecruiterView, JobStatusNotification.
+//   Employer actions: JobPosting, AccessCandidateDetails, SendMessageToCandidate, CandidateNotification, FilterMessage, AdvertisingMessage.
 
 import { getDBConnection } from '../utils/db.js';
 import { getSecrets } from '../utils/secrets.js';
@@ -38,6 +41,7 @@ export const lambdaHandler = async (event) => {
     }
     Object.assign(event, bodyObj);
     
+    // Determine the route.
     let route = event.route || (event.queryStringParameters && event.queryStringParameters.route);
     if (!route && event.path) {
       const parts = event.path.split('/');
@@ -74,8 +78,7 @@ export const lambdaHandler = async (event) => {
 
 //
 // processAction: Deducts coins for a specified action after verifying sufficient coin balance.
-// The deduction cost is determined by the user's subscription type and the action_type.
-//
+// The cost is determined by dynamically querying the action_cost_config table using the user's subscription type and the action_type.
 async function processAction(conn, event) {
   try {
     const { firebase_uid, action_type, description } = event;
@@ -84,54 +87,28 @@ async function processAction(conn, event) {
     }
     
     console.log("🔹 Processing action for:", firebase_uid, "Action:", action_type);
-    const [subs] = await conn.execute("SELECT subscription_type, coins_balance FROM subscriptions WHERE firebase_uid = ?", [firebase_uid]);
+    
+    // Retrieve subscription record for the user.
+    const [subs] = await conn.execute(
+      "SELECT subscription_type, coins_balance FROM subscriptions WHERE firebase_uid = ?",
+      [firebase_uid]
+    );
     if (subs.length === 0) {
       throw new Error("Subscription record not found for this user.");
     }
     const { subscription_type, coins_balance } = subs[0];
     console.log("🔹 Subscription details:", { subscription_type, coins_balance });
     
-    // Determine cost based on action_type and subscription type.
-    let cost = 0;
-    switch (action_type) {
-      // Candidate (Job Seeker) Actions:
-      case "JobApply":
-        cost = (subscription_type === "jobseeker") ? 50 : 0;
-        break;
-      case "ExtraJobAlert":
-        cost = (subscription_type === "jobseeker") ? 100 : 0;
-        break;
-      case "SendMessageToRecruiter":
-        cost = (subscription_type === "jobseeker") ? 10 : 0;
-        break;
-      case "RecruiterView":
-        cost = (subscription_type === "jobseeker") ? 1000 : 0;
-        break;
-      case "JobStatusNotification":
-        cost = (subscription_type === "jobseeker") ? 10 : 0;
-        break;
-      // Employer (Job Provider) Actions:
-      case "JobPosting":
-        cost = (subscription_type === "jobprovider") ? 200 : 0;
-        break;
-      case "AccessCandidateDetails":
-        cost = (subscription_type === "jobprovider") ? 200 : 0;
-        break;
-      case "SendMessageToCandidate":
-        cost = (subscription_type === "jobprovider") ? 10 : 0;
-        break;
-      case "CandidateNotification":
-        cost = (subscription_type === "jobprovider") ? 10 : 0;
-        break;
-      case "FilterMessage":
-        cost = (subscription_type === "jobprovider") ? 10 : 0;
-        break;
-      case "AdvertisingMessage":
-        cost = (subscription_type === "jobprovider") ? 100 : 0;
-        break;
-      default:
-        throw new Error("Invalid action_type provided.");
+    // Dynamically retrieve cost for the given action.
+    const [configRows] = await conn.execute(
+      "SELECT cost FROM action_cost_config WHERE user_type = ? AND action_type = ?",
+      [subscription_type, action_type]
+    );
+    if (configRows.length === 0) {
+      throw new Error(`No cost configuration found for action: ${action_type} for ${subscription_type}`);
     }
+    const cost = configRows[0].cost;
+    console.log(`🔹 Retrieved cost for ${action_type} (${subscription_type}): ${cost}`);
     
     if (cost === 0) {
       return {
@@ -148,7 +125,7 @@ async function processAction(conn, event) {
       };
     }
     
-    // Deduct coins from the user's subscription record.
+    // Deduct coins.
     await conn.execute(
       "UPDATE subscriptions SET coins_balance = coins_balance - ?, updated_at = NOW() WHERE firebase_uid = ?",
       [cost, firebase_uid]
@@ -181,4 +158,4 @@ async function processAction(conn, event) {
       console.log("🔹 DB connection released in processAction.");
     }
   }
-}
+}A
