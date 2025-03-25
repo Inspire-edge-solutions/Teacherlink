@@ -17,7 +17,7 @@ const ContactInfoBox = () => {
 
         try {
             const response = await fetch(
-                `${"https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/geocode"}?text=${encodeURIComponent(searchQuery)}`,
+                `${import.meta.env.VITE_DEV1_API + '/geocode'}?text=${encodeURIComponent(searchQuery)}`,
                 {
                     method: 'GET',
                     headers: {

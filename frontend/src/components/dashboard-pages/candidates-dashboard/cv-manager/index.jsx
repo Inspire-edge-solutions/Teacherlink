@@ -6,7 +6,7 @@ import CopyrightFooter from "../../CopyrightFooter";
 import CvUploader from "./components/CvUploader";
 import DashboardCandidatesHeader from "../../../header/DashboardCandidatesHeader";
 import MenuToggler from "../../MenuToggler";
-
+import LogoUpload from "./components/LogoUpload";
 const index = () => {
   return (
     <div className="page-wrapper dashboard">
@@ -43,6 +43,8 @@ const index = () => {
                 </div>
                 {/* End widget-title */}
                 <div className="widget-content">
+                  
+                  <LogoUpload />
                   <CvUploader />
                 </div>
                 {/* End widget-content */}

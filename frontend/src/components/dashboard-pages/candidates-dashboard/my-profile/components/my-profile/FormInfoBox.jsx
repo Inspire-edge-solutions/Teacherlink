@@ -1,118 +1,341 @@
-import { React, useState } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import PersonalDetails from "./personalDetails";
 import Address from "./address";
+import Languages from "./languages";
 import Education from "./Education";
 import Experience from "./experience";
-import Languages from "./languages";
 import JobPreferences from "./jobPreferences";
 import Social from "./social";
-import ContactInfoBox from "../ContactInfoBox";
 import AdditionalInfo from "./additionalInfo";
-import "./profile-styles.css";
-import LogoUpload from "./LogoUpload";
+//import "./profile-styles.css";
 import Easyview from './Easyview';
 import Fullview from './Fullview';
+import "./formInfo.css";
+import { toast } from 'react-toastify';
 
 const FormInfoBox = () => {
-  const [viewMode, setViewMode] = useState('full'); // default to full view
+  const [viewMode, setViewMode] = useState(null); // Start with no mode selected
   const [showProfile, setShowProfile] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [formData, setFormData] = useState({});
+  const [isStepValid, setIsStepValid] = useState(false);
+  const [stepValidations, setStepValidations] = useState({});
+  const [currentForm, setCurrentForm] = useState(null);
+  const stepRef = useRef(null);
 
-  const handleViewChange = (e) => {
-    setViewMode(e.target.value);
-    setShowProfile(false); // Reset profile view when changing modes
+  // Define steps for both modes
+  const easyModeSteps = [
+    { id: 1, components: [
+      { component: PersonalDetails, props: { dateOfBirth: false, photo: false, className: "easy-view", hideLanguages: true } },
+      { component: Address, props: { permanentCity: false, presentCity:false } },
+    ], title: "Personal Details" },
+    { id: 2, components: [
+      { component: Education, props: { 
+        isEasyMode: true, className: "easy-view",
+        grade12syllabus: false, grade12school: false, grade12percentage: false, grade12mode: false, 
+        degreeCollege: false, degreePlace: false, degreeUniversity: false, degreePercentage: false, degreeMode: false,
+      masterCollege: false, masterPlace: false, masterUniversity: false, masterPercentage: false, masterMode: false, 
+      doctorateCollege: false, doctorateUniversity: false, doctorateMode: false,
+      bEdCollege: false, bEdPlace: false, bEdAffiliated: false, bEdCourseDuration: false, bEdPercentage: false, bEdMode: false,
+      certificatePlace: false, certificateCourseDuration: false, certificateSpecialization: false, certificateMode: false
+      }}], title: "Education" },
+    { id: 3, components: [
+      { component: Experience, props: { excludeAdditionalDetails: false, excludeTeachingCurriculum: false, excludeAdminCurriculum: false, excludeTeachingAdminCurriculum: false, className: "easy-view" } },
+    ], title: "Experience" },
+    { id: 4, components: [
+      { component: JobPreferences, props: { className: "easy-view" } },
+    ], title: "Job Preferences" }
+  ];
+
+  const fullModeSteps = [
+    {
+      id: 1,
+      components: [
+        { component: PersonalDetails, props: { dateOfBirth: true, photo: true, hideLanguages: false } },
+        { component: Address, props: { permanentCity: true,presentCity:true } },
+        { component: Languages }
+      ],
+      title: "Personal Details"
+    },
+    { id: 2, components: [
+      { component: Education, props: { 
+        isEasyMode: false,
+        grade12syllabus: true, grade12school: true, grade12percentage: true, grade12mode: true, 
+        degreeCollege: true, degreePlace: true, degreeUniversity: true, degreePercentage: true, degreeMode: true, 
+      masterCollege: true, masterPlace: true, masterUniversity: true, masterPercentage: true, masterMode: true, 
+      doctorateCollege: true, doctorateUniversity: true, doctorateMode: true,
+      bEdCollege: true, bEdPlace: true, bEdAffiliated: true, bEdCourseDuration: true, bEdPercentage: true, bEdMode: true,
+      certificatePlace: true, certificateCourseDuration: true, certificateSpecialization: true, certificateMode: true
+      }}], title: "Education" },
+    { id: 3, components: [
+      { component: Experience, props: { excludeAdditionalDetails: true, excludeTeachingCurriculum: true, excludeAdminCurriculum: true, excludeTeachingAdminCurriculum: true } },
+    ], title: "Experience" },
+    { id: 4, components: [
+      { component: JobPreferences, props: {} },
+    ], title: "Job Preferences" },
+    { id: 5, components: [
+      { component: Social, props: { isEasyMode: false } },
+    ], title: "Social Media" },
+    { id: 6, components: [
+      { component: AdditionalInfo, props: {} },
+    ], title: "Additional Information" }
+  ];
+
+  // Ensure currentStep is valid when viewMode changes
+  useEffect(() => {
+    try {
+      const maxSteps = viewMode === 'easy' ? easyModeSteps.length : fullModeSteps.length;
+      if (currentStep > maxSteps) {
+        setCurrentStep(1);
+      }
+    } catch (err) {
+      console.error("Error in useEffect:", err);
+      toast.error("An error occurred while setting up the form");
+    }
+  }, [viewMode, currentStep]);
+
+  const handleViewChange = (selectedMode) => {
+    try {
+      setViewMode(selectedMode);
+      setCurrentStep(1);
+    } catch (err) {
+      console.error("Error in handleViewChange:", err);
+      toast.error("An error occurred while selecting mode");
+    }
   };
 
   const toggleProfileView = () => {
     setShowProfile(!showProfile);
   };
 
+  const nextStep = () => {
+    try {
+      // Check if all required fields in current step are filled
+      const currentStepElement = stepRef.current;
+      const requiredFields = currentStepElement?.querySelectorAll('[required]');
+      const isValid = Array.from(requiredFields || []).every(field => field.value.trim() !== '');
+
+      if (!isValid) {
+        toast.error("Please fill all required fields before proceeding");
+        return;
+      }
+
+      const maxSteps = viewMode === 'easy' ? easyModeSteps.length : fullModeSteps.length;
+      if (currentStep < maxSteps) {
+        setCurrentStep(currentStep + 1);
+        const profileBox = document.querySelector('.profile-box');
+        if (profileBox) {
+          profileBox.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        handleSubmit();
+      }
+    } catch (err) {
+      console.error("Error in nextStep:", err);
+      toast.error("An error occurred. Please try again");
+    }
+  };
+
+  const prevStep = () => {
+    try {
+      if (currentStep > 1) {
+        setCurrentStep(currentStep - 1);
+        // Scroll to top of form when changing steps
+        const profileBox = document.querySelector('.profile-box');
+        if (profileBox) {
+          profileBox.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    } catch (err) {
+      console.error("Error in prevStep:", err);
+      toast.error("An error occurred while navigating to the previous step. Please try again.");
+    }
+  };
+
+  const handleSubmit = () => {
+    try {
+      if (!isStepValid) {
+        toast.error("Please fill all required fields before submitting");
+        return;
+      }
+      console.log("Form submitted with data:", formData);
+      toast.success("Profile updated successfully!");
+      setShowProfile(true);
+    } catch (err) {
+      console.error("Error in handleSubmit:", err);
+      toast.error("An error occurred while submitting");
+    }
+  };
+
+  const updateFormData = (stepData, isValid) => {
+    try {
+      setFormData(prevData => ({
+        ...prevData,
+        ...stepData
+      }));
+      
+      // Store validation state for current step
+      setStepValidations(prev => ({
+        ...prev,
+        [currentStep]: isValid
+      }));
+      
+      setIsStepValid(isValid);
+    } catch (err) {
+      console.error("Error in updateFormData:", err);
+      toast.error("An error occurred while updating data");
+    }
+  };
+
+  // Function to jump to a specific step
+  const jumpToStep = (stepNumber) => {
+    try {
+      if (stepNumber >= 1 && stepNumber <= totalSteps) {
+        setCurrentStep(stepNumber);
+      }
+    } catch (err) {
+      console.error("Error in jumpToStep:", err);
+      toast.error("An error occurred while jumping to step. Please try again.");
+    }
+  };
+
+  // Get current steps array based on view mode
+  const steps = viewMode === 'easy' ? easyModeSteps : fullModeSteps;
+  const totalSteps = steps.length;
+  
+  // Find current step data safely
+  let currentStepData = null;
+  try {
+    currentStepData = steps.find(step => step.id === currentStep);
+    if (!currentStepData) {
+      currentStepData = steps[0];
+    }
+  } catch (err) {
+    console.error("Error finding current step:", err);
+    toast.error("An error occurred while finding the current step. Please refresh the page.");
+  }
+
+  // If no steps are defined or components are missing
+  if (!steps.length) {
+    return <div className="profile-box">Loading profile form...</div>;
+  }
+
+  // Render the current step component
+  const renderCurrentStep = () => {
+    try {
+      if (!currentStepData || !currentStepData.components) {
+        return <div>Error loading component. Please try again.</div>;
+      }
+
+      return (
+        <div ref={stepRef}>
+          {currentStepData.components.map(({ component: StepComponent, props }, index) => (
+            <StepComponent
+              key={index}
+              {...props}
+              formData={formData}
+              updateFormData={updateFormData}
+            />
+          ))}
+        </div>
+      );
+    } catch (err) {
+      console.error("Error rendering step component:", err);
+      return <div>Error loading component. Please try again.</div>;
+    }
+  };
+
+  // Initial mode selection screen
+  if (!viewMode) {
+    return (
+      <div className="mode-selection-container">
+        <h2>How would you like to fill your details?</h2>
+        <div className="mode-options">
+          <button 
+            className="mode-button easy"
+            onClick={() => handleViewChange('easy')}
+          >
+            <h3>Easy Mode</h3>
+            <p>Quick and simple profile creation with essential fields</p>
+          </button>
+          <button 
+            className="mode-button full"
+            onClick={() => handleViewChange('full')}
+          >
+            <h3>Full Mode</h3>
+            <p>Comprehensive profile with detailed information</p>
+          </button>
+        </div>
+       
+      </div>
+    );
+  }
+
   return (
     <div className="profile-box">
-      {/* Header Section */}
       <div className="profile-header">
         <div className="title-box">
-          <h3>My profile</h3>
-          <button 
-            className="theme-btn btn-style-two" 
-            onClick={toggleProfileView}
-          >
-            {showProfile ? 'Edit Profile' : 'View Profile'}
-          </button>
+          <h3>My Profile ({viewMode === 'easy' ? 'Easy Mode' : 'Full Mode'})</h3>
         </div>
       </div>
 
       {!showProfile ? (
-        <>
-          {/* Selection Section - All in one line */}
-          <div className="selection-wrapper">
-            <h4>Select how you want to fill your details:</h4>
-            <div className="radio-group">
-              <label className="radio-option">
-                <input
-                  type="radio"
-                  name="viewMode"
-                  value="easy"
-                  checked={viewMode === 'easy'}
-                  onChange={handleViewChange}
-                />
-                <span className="radio-label">Easy Mode</span>
-              </label>
-              <label className="radio-option">
-                <input
-                  type="radio"
-                  name="viewMode"
-                  value="full"
-                  checked={viewMode === 'full'}
-                  onChange={handleViewChange}
-                />
-                <span className="radio-label">Full Mode</span>
-              </label>
+        <div className="default-form">
+          {/* Remove mode selection radio buttons */}
+          
+          {/* Step Progress Indicator */}
+          <div className="step-progress">
+            <div className="step-title">
+              <h4>Step {currentStep} of {totalSteps}: {currentStepData?.title || 'Loading...'}</h4>
+            </div>
+            <div className="progress-bar">
+              <div 
+                className="progress" 
+                style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+              ></div>
+            </div>
+            
+            {/* Step Indicators */}
+            <div className="step-indicators">
+              {steps.map((step) => (
+                <div 
+                  key={step.id}
+                  className={`step-indicator ${currentStep >= step.id ? 'active' : ''} ${currentStep === step.id ? 'current' : ''}`}
+                  onClick={() => jumpToStep(step.id)}
+                  title={step.title}
+                >
+                  {step.id}
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="default-form">
-            {viewMode === 'easy' ? (
-              <>
-                <PersonalDetails dateOfBirth={false} className="easy-view" />
-                <Address city={false} houseNo={false} pincode={false} className="easy-view" />
-                <Education isEasyMode={viewMode === 'easy'} className="easy-view" 
-                  grade12syllabus={false} grade12school={false} grade12percentage={false} grade12mode={false} 
-                  degreeCollege={false} degreePlace={false} degreeUniversity={false} degreePercentage={false} degreeMode={false}
-                  masterCollege={false} masterPlace={false} masterUniversity={false} masterPercentage={false} masterMode={false} 
-                  doctorateCollege={false} doctorateUniversity={false} doctorateMode={false}
-                  bEdCollege={false} bEdPlace={false} bEdAffiliated={false} bEdCourseDuration={false} bEdPercentage={false} bEdMode={false}
-                  certificatePlace={false} certificateCourseDuration={false} certificateSpecialization={false} certificateMode={false}
-                />
-                <Experience excludeAdditionalDetails={false} excludeTeachingCurriculum={false} excludeAdminCurriculum={false} excludeTeachingAdminCurriculum={false} className="easy-view" />
-                <JobPreferences className="easy-view" />
-                <Social isEasyMode={true} className="easy-view" />
-              </>
-            ) : (
-              <>
-                <LogoUpload />
-                <PersonalDetails dateOfBirth={true} />  
-                <Address city={true} houseNo={true} pincode={true} />
-                <Education isEasyMode={false} 
-                  grade12syllabus={true} grade12school={true} grade12percentage={true} grade12mode={true} 
-                  degreeCollege={true} degreePlace={true} degreeUniversity={true} degreePercentage={true} degreeMode={true} 
-                  masterCollege={true} masterPlace={true} masterUniversity={true} masterPercentage={true} masterMode={true} 
-                  doctorateCollege={true} doctorateUniversity={true} doctorateMode={true}
-                  bEdCollege={true} bEdPlace={true} bEdAffiliated={true} bEdCourseDuration={true} bEdPercentage={true} bEdMode={true}
-                  certificatePlace={true} certificateCourseDuration={true} certificateSpecialization={true} certificateMode={true}
-                />
-                <Experience excludeAdditionalDetails={true} excludeTeachingCurriculum={true} excludeAdminCurriculum={true} excludeTeachingAdminCurriculum={true} />
-                <Languages />
-                <JobPreferences />
-                <Social isEasyMode={false} />
-                <ContactInfoBox />
-                <AdditionalInfo />
-              </>
-            )}
+          <div className="step-content">
+            {renderCurrentStep()}
           </div>
-        </>
+
+          <div className="step-navigation">
+            <div className="left-button">
+              <button 
+                className="theme-btn btn-style-one" 
+                onClick={prevStep}
+                disabled={currentStep === 1}
+              >
+                Previous
+              </button>
+            </div>
+            <div className="right-button">
+              <button 
+                className="theme-btn btn-style-two" 
+                onClick={nextStep}
+              >
+                {currentStep === totalSteps ? 'Finish' : 'Next'}
+              </button>
+            </div>
+          </div>
+        </div>
       ) : (
-        // Show the appropriate view component based on viewMode
-        viewMode === 'easy' ? <Easyview /> : <Fullview />
+        viewMode === 'easy' ? <Easyview formData={formData} /> : <Fullview formData={formData} />
       )}
     </div>
   );

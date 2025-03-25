@@ -47,6 +47,9 @@ import FaqPage from "./pages/others/faq";
 import TermsPage from "./pages/others/terms";
 import InvoicePage from "./pages/others/invoice";
 import ContactPage from "./pages/others/contact";
+import SalientFeaturesPage from "./pages/others/salientFeatures";
+import SubscriptionPage from "./pages/others/subscription";
+import WhyTeacherlinkPage from "./pages/others/whyTeacherlink";
 import NotFoundPage from "./pages/others/404";
 import DashboardEmploeeDBPage from "./pages/employers-dashboard/dashboard";
 import CompanyProfileEmploeeDBPage from "./pages/employers-dashboard/company-profile";
@@ -90,12 +93,16 @@ function App() {
             <Routes>
               {/* Public routes */}
               <Route path="/" element={<HomePage13 />} />
+              <Route path="/home/home-13" element={<HomePage13 />} />
               <Route path="about" element={<AboutPage />} />
               <Route path="pricing" element={<PricingPage />} />
               <Route path="faq" element={<FaqPage />} />
               <Route path="terms" element={<TermsPage />} />
               <Route path="invoice" element={<InvoicePage />} />
               <Route path="contact" element={<ContactPage />} />
+              <Route path="salient-features" element={<SalientFeaturesPage />} />
+              <Route path="subscription" element={<SubscriptionPage />} />
+              <Route path="why-teacherlink" element={<WhyTeacherlinkPage />} />
               <Route path="login" element={<LoginPage />} />
               <Route path="register" element={<RegisterPage />} />
               <Route path="forgetPassword" element={<ForgetPasswordPage />} />
@@ -172,7 +179,7 @@ function App() {
           {/* Toastify */}
           <ToastContainer
             position="top-center"
-            autoClose={2000}
+            autoClose={3000}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick
@@ -181,6 +188,12 @@ function App() {
             draggable
             pauseOnHover
             theme="colored"
+            style={{
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)'
+            }}
+            closeButton={true}
           />
           {/* <!-- Scroll To Top --> */}
           <ScrollToTop />

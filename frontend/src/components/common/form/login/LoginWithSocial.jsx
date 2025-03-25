@@ -120,7 +120,7 @@ const LoginWithSocial = () => {
         user_type: selectedRole
       };
 
-      const response = await fetch('https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/logingoogle', {
+      const response = await fetch(import.meta.env.VITE_DEV1_API +'/logingoogle', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

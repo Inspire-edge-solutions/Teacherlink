@@ -32,7 +32,7 @@ const Experience = ({
     adminDesignation: "",
     city: null,    // Will store entire option object
     country: null, // Will store entire option object
-    currentlyWorking: false,
+    currentlyWorking: null,
     designation: "",
     industryType: "",
     organizationName: "",
@@ -117,7 +117,7 @@ const Experience = ({
   const subjectList = async () => {
     try {
       const response = await axios.get(
-        "https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/education-data"
+        import.meta.env.VITE_DEV1_API + '/education-data'
       );
       const formattedSubjects = response.data.map((subject) => ({
         value: subject.value,
@@ -132,7 +132,7 @@ const Experience = ({
   const fetchDesignations = async () => {
     try {
       const response = await fetch(
-        "https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/constants"
+        import.meta.env.VITE_DEV1_API + '/constants'
       );
       const data = await response.json();
       const transformedData = data.map((item) => ({
@@ -505,45 +505,26 @@ const Experience = ({
 
               {/* Job Category */}
               <div className="form-group col-lg-6 col-md-12">
-                <div className="radio-group single-line">
-                  <label>Job Category:</label>
-                  <div className="radio-option">
-                    <input
-                      type="radio"
-                      id={`jobCategory-fullTime-${index}`}
-                      name={`jobCategory-${index}`}
-                      value="fullTime"
-                      checked={experience.jobCategory === "fullTime"}
-                      onChange={(e) => {
-                        const newArr = [...experienceEntries];
-                        newArr[index].jobCategory = e.target.value;
-                        setExperienceEntries(newArr);
-                      }}
-                    />
-                    <label htmlFor={`jobCategory-fullTime-${index}`}>Full Time</label>
-                  </div>
-                  <div className="radio-option">
-                    <input
-                      type="radio"
-                      id={`jobCategory-partTime-${index}`}
-                      name={`jobCategory-${index}`}
-                      value="partTime"
-                      checked={experience.jobCategory === "partTime"}
-                      onChange={(e) => {
-                        const newArr = [...experienceEntries];
-                        newArr[index].jobCategory = e.target.value;
-                        setExperienceEntries(newArr);
-                      }}
-                    />
-                    <label htmlFor={`jobCategory-partTime-${index}`}>Part Time</label>
-                  </div>
-                </div>
+                <select
+                  className="custom-select required"
+                  value={experience.jobCategory || ""}
+                  onChange={(e) => {
+                    const newArr = [...experienceEntries];
+                    newArr[index].jobCategory = e.target.value;
+                    setExperienceEntries(newArr);
+                  }}
+                  required
+                >
+                  <option value="">Job Category</option>
+                  <option value="fullTime">Full Time</option>
+                  <option value="partTime">Part Time</option>
+                </select>
               </div>
 
               {/* Job Type */}
               <div className="form-group col-lg-6 col-md-12">
                 <select
-                  className="form-select"
+                  className="custom-select required"
                   value={experience.jobType}
                   onChange={(e) => {
                     const newArr = [...experienceEntries];
@@ -564,39 +545,20 @@ const Experience = ({
 
               {/* Currently Working */}
               <div className="form-group col-lg-6 col-md-12">
-                <div className="radio-group single-line">
-                  <label>Are you currently working here?</label>
-                  <div className="radio-option">
-                    <input
-                      type="radio"
-                      id={`currentlyWorking-yes-${index}`}
-                      name={`currentlyWorking-${index}`}
-                      value="yes"
-                      checked={experience.currentlyWorking === true}
-                      onChange={() => {
-                        const newArr = [...experienceEntries];
-                        newArr[index].currentlyWorking = true;
-                        setExperienceEntries(newArr);
-                      }}
-                    />
-                    <label htmlFor={`currentlyWorking-yes-${index}`}>Yes</label>
-                  </div>
-                  <div className="radio-option">
-                    <input
-                      type="radio"
-                      id={`currentlyWorking-no-${index}`}
-                      name={`currentlyWorking-${index}`}
-                      value="no"
-                      checked={experience.currentlyWorking === false}
-                      onChange={() => {
-                        const newArr = [...experienceEntries];
-                        newArr[index].currentlyWorking = false;
-                        setExperienceEntries(newArr);
-                      }}
-                    />
-                    <label htmlFor={`currentlyWorking-no-${index}`}>No</label>
-                  </div>
-                </div>
+                <select
+                  className="custom-select required"
+                  value={experience.currentlyWorking === null ? "" : experience.currentlyWorking ? "yes" : "no"}
+                  onChange={(e) => {
+                    const newArr = [...experienceEntries];
+                    newArr[index].currentlyWorking = e.target.value === "yes";
+                    setExperienceEntries(newArr);
+                  }}
+                  required
+                >
+                  <option value="">Are you currently working here?</option>
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
               </div>
 
               {/* Work Period: From */}
@@ -695,6 +657,7 @@ const Experience = ({
                 <div className="salary-input d-flex align-items-center">
                   <span>Rs.</span>
                   <input
+                  required
                     type="number"
                     className="form-control"
                     step="0.1"
@@ -756,6 +719,7 @@ const Experience = ({
                       }}
                       placeholder="Teaching designation"
                       isClearable
+                      className="custom-select required"
                     />
                   </div>
                   {experience.teachingDesignation === "Others" && (
@@ -826,6 +790,7 @@ const Experience = ({
                       }}
                       placeholder="Subjects you handled"
                       isClearable
+                      className="custom-select required"
                     />
                   </div>
                   {experience.teachingSubjects.includes("Others") && (
@@ -839,6 +804,7 @@ const Experience = ({
                           setExperienceEntries(newArr);
                         }}
                         placeholder="Specify other subjects"
+                        required
                       />
                     </div>
                   )}
@@ -860,6 +826,7 @@ const Experience = ({
                       }}
                       placeholder="Grades you handled"
                       isClearable
+                      className="custom-select required"
                     />
                   </div>
 
@@ -880,6 +847,7 @@ const Experience = ({
                       }}
                       placeholder="Core Expertise"
                       isClearable
+                      className="custom-select required"
                     />
                   </div>
                   {experience.teachingCoreExpertise.includes("Others") && (
@@ -906,6 +874,7 @@ const Experience = ({
                 <div className="row">
                   <div className="form-group col-lg-6 col-md-12">
                     <Select
+                    
                       options={adminDesignations}
                       value={adminDesignations.find(
                         (opt) => opt.value === experience.adminDesignation
@@ -917,6 +886,7 @@ const Experience = ({
                       }}
                       placeholder="Designation"
                       isClearable
+                      className="custom-select required"
                     />
                   </div>
                   {experience.adminDesignation === "Others" && (
@@ -989,6 +959,7 @@ const Experience = ({
                       }}
                       placeholder="Designation"
                       isClearable
+                      className="custom-select required"
                     />
                   </div>
                   {experience.teachingAdminDesignations.includes("Others") && (
@@ -1060,6 +1031,7 @@ const Experience = ({
                       }}
                       placeholder="Subjects you handled"
                       isClearable
+                      className="custom-select required"
                     />
                   </div>
                   {experience.teachingAdminSubjects.includes("Others") && (
@@ -1093,6 +1065,7 @@ const Experience = ({
                       }}
                       placeholder="Grades you handled"
                       isClearable
+                      className="custom-select required"
                     />
                   </div>
 
@@ -1113,6 +1086,7 @@ const Experience = ({
                       }}
                       placeholder="Core Expertise"
                       isClearable
+                      className="custom-select required"
                     />
                   </div>
                   {experience.teachingAdminCoreExpertise.includes("Others") && (
@@ -1199,6 +1173,7 @@ const Experience = ({
                     newArr[index].city = null;
                     setExperienceEntries(newArr);
                   }}
+                  className="custom-select required"
                 />
               </div>
               <div className="form-group col-lg-6 col-md-12">
@@ -1219,6 +1194,7 @@ const Experience = ({
                     newArr[index].city = null;
                     setExperienceEntries(newArr);
                   }}
+                  className="custom-select required"
                 />
               </div>
               <div className="form-group col-lg-6 col-md-12">
@@ -1238,6 +1214,7 @@ const Experience = ({
                     newArr[index].city = option;
                     setExperienceEntries(newArr);
                   }}
+                  className="custom-select required"
                 />
               </div>
 

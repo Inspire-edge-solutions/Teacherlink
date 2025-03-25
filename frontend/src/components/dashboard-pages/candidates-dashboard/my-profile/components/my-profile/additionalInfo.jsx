@@ -114,7 +114,7 @@ const AdditionalInfo = () => {
   useEffect(() => {
     const fetchReligion = async () => {
       try {
-        const response = await axios.get('https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/languages');
+        const response = await axios.get(import.meta.env.VITE_DEV1_API + '/languages');
         const filteredReligions = response.data.filter(religion => religion.category === 'Religion');
         setAvailableReligions(filteredReligions);
       } catch (error) {

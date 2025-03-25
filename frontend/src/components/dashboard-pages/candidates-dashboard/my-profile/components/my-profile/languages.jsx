@@ -20,7 +20,7 @@ const Languages = () => {
   useEffect(() => {
     const fetchLanguages = async () => {
       try {
-        const response = await axios.get('https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/languages');
+        const response = await axios.get(import.meta.env.VITE_DEV1_API + '/languages');
         const filteredLanguages = response.data.filter(lang => lang.category === 'languages in India');
         setAvailableLanguages(filteredLanguages);
       } catch (error) {
@@ -83,7 +83,6 @@ const Languages = () => {
   return (
     <>
     <div className="form-group">
-      <h3>Languages Known</h3>
       
       <div className="language-table">
         <table className="table">

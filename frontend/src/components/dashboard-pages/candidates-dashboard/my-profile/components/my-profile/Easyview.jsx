@@ -6,7 +6,7 @@ import {
   FaGlobe, FaBuilding, FaHome, FaHashtag, FaGenderless
 } from 'react-icons/fa';
 
-const Easyview = () => {
+const Easyview = ({ formData, onBackClick }) => {
   // Authentication
   const { user } = useAuth();
 
@@ -791,6 +791,13 @@ const Easyview = () => {
       
       {/* Job Preference */}
       {renderJobPreference()}
+
+      <button 
+        className="theme-btn btn-style-one" 
+        onClick={onBackClick}
+      >
+        Back to Edit
+      </button>
     </div>
   );
 };

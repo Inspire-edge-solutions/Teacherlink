@@ -4,7 +4,7 @@ import jobCatContent from "../../data/job-catergories";
 const JobCategorie7 = () => {
   return (
     <>
-      {jobCatContent.slice(0, 6).map((item) => (
+      {/* {jobCatContent.slice(0, 6).map((item) => (
         <div className="col-xl-auto col-lg-3 col-md-6 col-sm-12" key={item.id}>
           <Link to="/job-list-v8" className="icon-item -type-3">
             <div className="icon-wrap">
@@ -16,7 +16,7 @@ const JobCategorie7 = () => {
             </div>
           </Link>
         </div>
-      ))}
+      ))} */}
     </>
   );
 };
