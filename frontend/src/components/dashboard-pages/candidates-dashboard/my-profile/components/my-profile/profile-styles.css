@@ -225,12 +225,93 @@ h4 {
   color: #999;
 }
 
+/* Mobile-friendly table styles */
+@media screen and (max-width: 767px) {
+  .preference-table {
+    margin: 0 -15px;
+  }
+
+  .preference-table table {
+    display: block;
+    width: 100%;
+  }
+
+  .preference-table thead {
+    display: none; /* Hide headers on mobile */
+  }
+
+  .preference-table tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .preference-table tr {
+    display: block;
+    margin-bottom: 15px;
+    border: 1px solid #ecedf2;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  .preference-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border: none;
+    border-bottom: 1px solid #ecedf2;
+  }
+
+  .preference-table td:last-child {
+    border-bottom: none;
+  }
+
+  /* Add labels before each cell */
+  .preference-table td::before {
+    content: attr(data-label);
+    font-weight: 500;
+    margin-right: 10px;
+    min-width: 140px;
+  }
+
+  /* Style select elements */
+  .preference-table .form-select {
+    width: 120px;
+    margin-left: auto;
+  }
+
+  /* Style disabled cells */
+  .preference-table td.disabled {
+    color: #999;
+    justify-content: flex-start;
+  }
+
+  .preference-table td.disabled::after {
+    content: "-";
+    margin-left: auto;
+  }
+}
+
+/* General table improvements */
+.preference-table {
+  margin-bottom: 20px;
+}
+
+.preference-table select {
+  height: 40px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ecedf2;
+  background-color: #fff;
+  width: 100%;
+}
+
 .form-box {
   background: #ffffff;
   border: 1px solid #ecedf2;
   border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
 }
 
 .form-title {
@@ -291,72 +372,239 @@ h4 {
   font-weight: 500;
 }
 
+.experience-details {
+  margin: 20px 0;
+  width: 100%;
+}
+
 .experience-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  overflow-x: auto; /* Enable horizontal scroll on small screens */
 }
 
 .experience-table th,
 .experience-table td {
-  padding: 12px 15px;
+  padding: 15px;
   text-align: left;
   border-bottom: 1px solid #e0e0e0;
 }
 
 .experience-table th {
   background-color: #f8f9fa;
-  font-weight: 500;
-  color: #202124;
+  font-weight: 600;
 }
 
-.experience-table td:first-child {
-  font-weight: 500;
-  color: #202124;
-}
+/* Mobile specific styles */
+@media screen and (max-width: 767px) {
+  .table-responsive {
+    margin: 0;
+    padding: 0;
+    border: none;
+    width: 100%;
+  }
+  
+  .experience-table {
+    margin: 0 -15px;
+  }
 
-.experience-table tr:last-child td {
-  border-bottom: none;
-}
-
-@media screen and (max-width: 768px) {
-  /* Convert table to cards on mobile */
-  .experience-table, 
-  .experience-table tbody, 
-  .experience-table tr, 
-  .experience-table td {
+  .experience-table table {
     display: block;
     width: 100%;
   }
 
-  .experience-table th {
+  .experience-table thead {
     display: none; /* Hide headers on mobile */
   }
 
-  .experience-table td {
-    padding: 10px;
-    position: relative;
-    padding-left: 50%; /* Make space for labels */
-  }
-
-  .experience-table td:before {
-    content: attr(data-label);
-    position: absolute;
-    left: 10px;
-    width: 45%;
-    font-weight: 500;
-    color: #202124;
+  .experience-table tbody {
+    display: block;
+    width: 100%;
   }
 
   .experience-table tr {
+    display: block;
     margin-bottom: 15px;
-    border-bottom: 2px solid #e0e0e0;
+    border: 1px solid #ecedf2;
+    border-radius: 8px;
+    background: #fff;
+    padding: 10px;
+  }
+
+  .experience-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border: none;
+    border-bottom: 1px solid #ecedf2;
+  }
+
+  .experience-table td:last-child {
+    border-bottom: none;
+  }
+
+  /* Add labels before each cell */
+  .experience-table td::before {
+    content: attr(data-label);
+    font-weight: 500;
+    margin-right: 10px;
+    min-width: 140px;
+    color: #202124;
+  }
+
+  /* Style select elements */
+  .experience-table .form-select,
+  .experience-table select {
+    width: 150px;
+    margin-left: auto;
+  }
+
+  /* Duration selector styling */
+  .duration-selector {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    width: auto;
+  }
+
+  .duration-selector select {
+    width: 80px;
+    padding: 5px;
+    font-size: 13px;
+  }
+
+  /* Style disabled cells */
+  .experience-table td.disabled {
+    color: #999;
+    justify-content: flex-start;
+  }
+
+  .experience-table td.disabled::after {
+    content: "-";
+    margin-left: auto;
+  }
+
+  /* Additional Details table specific */
+  .experience-details .experience-table td::before {
+    min-width: 100px;
+  }
+
+  .experience-details .duration-selector {
+    flex-direction: column;
+    gap: 5px;
+    width: 120px;
+  }
+
+  .experience-details .duration-selector select {
+    width: 100%;
+  }
+
+  .experience-details {
+    padding: 10px;
+    margin: 0 -15px;
+  }
+
+  .experience-table td {
+    padding: 8px 10px;
+  }
+
+  /* Compact duration selectors */
+  .duration-selector {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    width: auto;
+  }
+
+  .duration-selector select {
+    width: 0px;
+    padding: 5px;
+    font-size: 13px;
+  }
+
+  /* Make the job category column take less space */
+  .experience-table td[data-label="Job Category"] {
+    font-size: 13px;
+  }
+
+  /* Adjust the label width */
+  .experience-table td::before {
+    min-width: 100px;
+    font-size: 13px;
+  }
+
+  /* Compact the overall table */
+  .experience-table tr {
+    margin-bottom: 8px;
+    padding: 5px;
+  }
+
+  /* Reduce spacing between sections */
+  .experience-details h4 {
+    margin-bottom: 10px;
+    font-size: 15px;
   }
 }
 
+/* Additional optimization for very small screens */
+@media screen and (max-width: 375px) {
+  .duration-selector select {
+    width: 70px;
+    font-size: 12px;
+    
+  }
+
+  .experience-table td::before {
+    min-width: 90px;
+    font-size: 12px;
+  }
+}
+
+/* Style the table headers */
+.experience-table th {
+  background-color: #f8f9fa;
+  padding: 12px;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap; /* Prevent text wrapping */
+  min-width: 120px; /* Minimum width for each column */
+}
+
+/* Style the table cells */
+.experience-table td {
+  padding: 12px;
+  border-top: 1px solid #e0e0e0;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* Ensure the first column stays visible */
+.experience-table th:first-child,
+.experience-table td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #fff;
+  z-index: 1;
+}
+
+/* Add media query for mobile devices */
+@media screen and (max-width: 768px) {
+  .experience-table {
+    font-size: 14px; /* Slightly smaller font size on mobile */
+  }
+  
+  .experience-table th,
+  .experience-table td {
+    padding: 8px; /* Smaller padding on mobile */
+  }
+}
+@media screen and (max-width: 768px) {
+  .duration-selector select {
+      flex: 1 1 40px !important;
+  }
+}
 /* Remove default select styling */
 select {
   appearance: none;
@@ -967,4 +1215,30 @@ input:required , select:required , textarea:required{
   .preference-table td:last-child {
     border-bottom: none;
   }
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.custom-tooltip {
+  visibility: hidden;
+  position: absolute;
+  background-color: #336e2e;
+  color: white;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  bottom: 100%;
+  left: 40%;
+  transform: translateX(-50%);
+  margin-bottom: 5px;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.input-wrapper:hover .custom-tooltip {
+  visibility: visible;
 }

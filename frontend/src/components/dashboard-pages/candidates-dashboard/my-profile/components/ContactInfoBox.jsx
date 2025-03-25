@@ -70,6 +70,7 @@ const ContactInfoBox = () => {
             <div className="row">
                 {/* Search Input */}
                 <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <input
                         type="text"
                         name="search"
@@ -79,10 +80,13 @@ const ContactInfoBox = () => {
                         onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                         disabled={isLoading}
                     />
+                    <span className="custom-tooltip">Find on Map</span>
+                    </div>
                 </div>
 
                 {/* Latitude Input */}
                 <div className="form-group col-lg-3 col-md-12">
+                    <div className="input-wrapper">
                     <input
                         type="text"
                         name="latitude"
@@ -91,10 +95,13 @@ const ContactInfoBox = () => {
                         onChange={(e) => setLatitude(e.target.value)}
                         readOnly
                     />
+                    <span className="custom-tooltip">Latitude</span>
+                    </div>
                 </div>
 
                 {/* Longitude Input */}
                 <div className="form-group col-lg-3 col-md-12">
+                    <div className="input-wrapper">
                     <input
                         type="text"
                         name="longitude"
@@ -103,6 +110,8 @@ const ContactInfoBox = () => {
                         onChange={(e) => setLongitude(e.target.value)}
                         readOnly
                     />
+                    <span className="custom-tooltip">Longitude</span>
+                    </div>
                 </div>
 
                 {/* Search Button */}
