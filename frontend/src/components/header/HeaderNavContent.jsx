@@ -24,7 +24,7 @@ const HeaderNavContent = () => {
           {/* current dropdown */}
            {/* Home link */}
            <li className={isActiveLink("/home-13", pathname) ? "current" : ""}>
-            <Link to="/home-13">Home</Link>
+            <Link to="/home/home-13">Home</Link>
           </li>
           {/* End homepage menu items */}
 

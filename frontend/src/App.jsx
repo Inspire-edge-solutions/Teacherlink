@@ -93,6 +93,7 @@ function App() {
             <Routes>
               {/* Public routes */}
               <Route path="/" element={<HomePage13 />} />
+              <Route path="/home/home-13" element={<HomePage13 />} />
               <Route path="about" element={<AboutPage />} />
               <Route path="pricing" element={<PricingPage />} />
               <Route path="faq" element={<FaqPage />} />

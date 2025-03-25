@@ -8,7 +8,6 @@ const metadata = {
 }
 
 const SalientFeaturesPage = () => {
-  console.log("SalientFeaturesPage rendering");
   return (
     <>
       <MetaComponent meta={metadata} />

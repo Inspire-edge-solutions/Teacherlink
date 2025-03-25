@@ -9,7 +9,7 @@ const MapBox = () => {
         marker={{
           coordinates: [77.6163276, 12.9994466]
         }}
-        markerLabel="13/2 Standage Road, Pulikeshi Nagar"
+        markerLabel="13/2 Standage Road, Pulikeshi Nagar, Bengaluru, Karnataka, India"
       />
     </div>
   );
