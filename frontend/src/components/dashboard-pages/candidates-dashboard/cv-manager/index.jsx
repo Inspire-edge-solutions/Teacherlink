@@ -10,7 +10,7 @@ import LogoUpload from "./components/LogoUpload";
 const index = () => {
   return (
     <div className="page-wrapper dashboard">
-      <span className="header-span"></span>
+      {/* <span className="header-span"></span> */}
       {/* <!-- Header Span for hight --> */}
 
       <LoginPopup />
@@ -28,7 +28,7 @@ const index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="CV Manager!" />
+          <BreadCrumb title="Skill Manager!" />
           {/* breadCrumb */}
 
           <MenuToggler />
@@ -39,7 +39,7 @@ const index = () => {
               {/* <!-- Ls widget --> */}
               <div className="cv-manager-widget ls-widget">
                 <div className="widget-title">
-                  <h4>Cv Manager</h4>
+                  <h4>Upload your Resume/cv and demo video to showcase your skills</h4>
                 </div>
                 {/* End widget-title */}
                 <div className="widget-content">

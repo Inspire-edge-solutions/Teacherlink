@@ -79,6 +79,7 @@ const LocationMap = ({
     <div className="mb-4">
       <div className="row">
         <div className="form-group col-lg-6 col-md-12 mb-3">
+          <div className="input-wrapper">
           <input
             type="text"
             name="address"
@@ -86,8 +87,11 @@ const LocationMap = ({
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
+          <span className="custom-tooltip">Find On Map</span>
+          </div>
         </div>
         <div className="form-group col-lg-3 col-md-12 mb-3">
+          <div className="input-wrapper">
           <input
             type="number"
             name="latitude"
@@ -95,8 +99,11 @@ const LocationMap = ({
             value={latitude}
             onChange={(e) => setLatitude(e.target.value)}
           />
+          <span className="custom-tooltip">Latitude</span>
+          </div>
         </div>
         <div className="form-group col-lg-3 col-md-12 mb-3">
+          <div className="input-wrapper">
           <input
             type="number"
             name="longitude"
@@ -104,11 +111,16 @@ const LocationMap = ({
             value={longitude}
             onChange={(e) => setLongitude(e.target.value)}
           />
+          <span className="custom-tooltip">Longitude</span>
+          </div>
         </div>
         <div className="form-group col-lg-12 col-md-12 mb-3">
+          <div className="input-wrapper">
           <button className="theme-btn btn-style-three">
             Search Location
           </button>
+          <span className="custom-tooltip">Search Location</span>
+          </div>
         </div>
         <div className="form-group col-lg-12 col-md-12">
           <div className="map-outer">
@@ -566,6 +578,7 @@ const subjectList = async () => {
        {/* ---------- Basic Job Info Section ---------- */}
           <div className="row" onSubmit={handleSubmit}>
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <input
                   type="text"
                   value={jobTitle}
@@ -573,10 +586,13 @@ const subjectList = async () => {
                   placeholder="Enter job title"
                   required
                 />
+                <span className="custom-tooltip">Job Title</span>
+              </div>
               </div>
 
               {jobCategory === "tuitions" && (
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <Select
                       isMulti
                       options={multiSelectOptions.tution_types}
@@ -586,11 +602,14 @@ const subjectList = async () => {
                       styles={selectMenuPortalStyles}
                       placeholder="Tution Types"
                     />
+                    <span className="custom-tooltip">Tution Types</span>
+                  </div>
                   </div>
                 )}
 
                  {/* Qualification Multi-Select */}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <Select
                   isMulti
                   options={qualifications}
@@ -599,11 +618,14 @@ const subjectList = async () => {
                   placeholder="Qualification(s)"
                   menuPortalTarget={document.body}
                   styles={selectMenuPortalStyles}
-                  className={`custom-select ${!selectedQualifications.length > 0 ? 'required' : ''}`}
+                  className="custom-select required"
                 />
+                <span className="custom-tooltip">Qualification(s)</span>
+              </div>
               </div>
               {/* Core Subjects Multi-Select */}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <Select
                   isMulti
                   options={coreExpertise}
@@ -612,11 +634,14 @@ const subjectList = async () => {
                   placeholder="Core Subject(s)"
                   menuPortalTarget={document.body}
                   styles={selectMenuPortalStyles}
-                  className={`custom-select ${!selectedCoreSubjects.length > 0 ? 'required' : ''}`}
+                    className="custom-select required"
                 />
+                <span className="custom-tooltip">Core Subject(s)</span>
+              </div>
               </div>
               {/* Optional Subject Multi-Select */}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <Select
                   isMulti
                   options={subjectsList}
@@ -626,12 +651,15 @@ const subjectList = async () => {
                   menuPortalTarget={document.body}
                   styles={selectMenuPortalStyles}
                 />
+                <span className="custom-tooltip">Optional Subject(s)</span>
+              </div>
               </div>
 
                {/* ---------- Experience Sections ---------- */}
                <div className="row g-3 align-items-end">
               <h6>Experience</h6>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={totalExpMinYears}
@@ -639,10 +667,13 @@ const subjectList = async () => {
                     placeholder="Min Years"
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
-                    className={`custom-select ${!totalExpMinYears ? 'required' : ''}`}
-                />
+                    className="custom-select required"
+                  />
+                  <span className="custom-tooltip">Min Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={totalExpMinMonths}
@@ -650,10 +681,13 @@ const subjectList = async () => {
                     placeholder="Min Months"
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
-                    className={`custom-select ${!totalExpMinMonths ? 'required' : ''}`}
+                    className="custom-select required"
                   />
+                  <span className="custom-tooltip">Min Months</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={totalExpMaxYears}
@@ -661,10 +695,13 @@ const subjectList = async () => {
                     placeholder="Max Years"
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
-                    className={`custom-select ${!totalExpMaxYears ? 'required' : ''}`}
+                    className="custom-select required"
                   />
+                  <span className="custom-tooltip">Max Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={totalExpMaxMonths}
@@ -672,8 +709,10 @@ const subjectList = async () => {
                     placeholder="Max Months"
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
-                    className={`custom-select ${!totalExpMaxMonths ? 'required' : ''}`}
+                    className="custom-select required"
                   />
+                  <span className="custom-tooltip">Max Months</span>
+                </div>
                 </div>
             </div>
 
@@ -681,6 +720,7 @@ const subjectList = async () => {
               <div className="row g-3 align-items-end">
               <h6>Teaching Experience</h6>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={teachingExpMinYears}
@@ -688,10 +728,13 @@ const subjectList = async () => {
                     placeholder="Min Years"
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
-                    className={`custom-select ${!teachingExpMinYears ? 'required' : ''}`}
+                    className="custom-select required"
                   />
+                  <span className="custom-tooltip">Min Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={teachingExpMinMonths}
@@ -699,10 +742,13 @@ const subjectList = async () => {
                     placeholder="Min Months"
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
-                    className={`custom-select ${!teachingExpMinMonths ? 'required' : ''}`}
+                    className="custom-select required"
                   />
+                  <span className="custom-tooltip">Min Months</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={teachingExpMaxYears}
@@ -710,10 +756,13 @@ const subjectList = async () => {
                     placeholder="Max Years"
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
-                    className={`custom-select ${!teachingExpMaxYears ? 'required' : ''}`}
+                    className="custom-select required"
                   />
+                  <span className="custom-tooltip">Max Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={teachingExpMaxMonths}
@@ -721,8 +770,10 @@ const subjectList = async () => {
                     placeholder="Max Months"
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
-                    className={`custom-select ${!teachingExpMaxMonths ? 'required' : ''}`}
+                    className="custom-select required"
                   />
+                  <span className="custom-tooltip">Max Months</span>
+                </div>
                 </div>
               </div>
             
@@ -731,6 +782,7 @@ const subjectList = async () => {
               <div className="row g-3 align-items-end">
               <h6>Education - Teaching (Full Time)</h6>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={eduTeachFullMinYears}
@@ -739,8 +791,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Min Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={eduTeachFullMinMonths}
@@ -749,8 +804,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Min Months</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={eduTeachFullMaxYears}
@@ -759,8 +817,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Max Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={eduTeachFullMaxMonths}
@@ -769,6 +830,8 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Max Months</span>
+                </div>
                 </div>
               </div>
 
@@ -776,6 +839,7 @@ const subjectList = async () => {
               <div className="row g-3 align-items-end">
               <h6>Education - Teaching (Part Time)</h6>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={eduTeachPartMinYears}
@@ -784,8 +848,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Min Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={eduTeachPartMinMonths}
@@ -794,8 +861,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Min Months</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={eduTeachPartMaxYears}
@@ -804,8 +874,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Max Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={eduTeachPartMaxMonths}
@@ -814,6 +887,8 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Max Months</span>
+                </div>
                 </div>
               </div>
 
@@ -821,6 +896,7 @@ const subjectList = async () => {
               <div className="row g-3 align-items-end">
               <h6>Education - Administration (Full Time)</h6>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={eduAdminFullMinYears}
@@ -829,8 +905,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Min Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={eduAdminFullMinMonths}
@@ -839,8 +918,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Min Months</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={eduAdminFullMaxYears}
@@ -849,8 +931,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Max Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={eduAdminFullMaxMonths}
@@ -859,6 +944,8 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Max Months</span>
+                </div>
                 </div>
               </div>
 
@@ -866,6 +953,7 @@ const subjectList = async () => {
               <div className="row g-3 align-items-end">
               <h6>Education - Administration (Part Time)</h6>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={eduAdminPartMinYears}
@@ -874,8 +962,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Min Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={eduAdminPartMinMonths}
@@ -884,8 +975,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Min Months</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={eduAdminPartMaxYears}
@@ -894,8 +988,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Max Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={eduAdminPartMaxMonths}
@@ -904,6 +1001,8 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Max Months</span>
+                </div>
                 </div>
               </div>
 
@@ -911,6 +1010,7 @@ const subjectList = async () => {
               <div className="row g-3 align-items-end">
               <h6>Non-Education - Any Role (Full Time)</h6>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={nonEduFullMinYears}
@@ -919,8 +1019,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Min Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={nonEduFullMinMonths}
@@ -929,8 +1032,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Min Months</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={nonEduFullMaxYears}
@@ -939,8 +1045,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Max Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={nonEduFullMaxMonths}
@@ -949,6 +1058,8 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Max Months</span>
+                </div>
                 </div>
               </div>
 
@@ -956,6 +1067,7 @@ const subjectList = async () => {
               <div className="row g-3 align-items-end">
               <h6>Non-Education - Any Role (Part Time)</h6>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={nonEduPartMinYears}
@@ -964,8 +1076,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Min Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={nonEduPartMinMonths}
@@ -974,8 +1089,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Min Months</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={yearOptions}
                     value={nonEduPartMaxYears}
@@ -984,8 +1102,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Max Years</span>
+                </div>
                 </div>
                 <div className="form-group col-md-3">
+                  <div className="input-wrapper">
                   <Select
                     options={monthOptions}
                     value={nonEduPartMaxMonths}
@@ -994,10 +1115,13 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">Max Months</span>
+                </div>
                 </div>
               </div>
 
               <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="number"
                     value={minSalary}
@@ -1005,17 +1129,23 @@ const subjectList = async () => {
                     placeholder="Minimum Salary"
                     required
                   />
+                  <span className="custom-tooltip">Minimum Salary</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="number"
                     value={maxSalary}
                     onChange={(e) => setMaxSalary(e.target.value)}
                     placeholder="Maximum Salary"
                   />
+                  <span className="custom-tooltip">Maximum Salary</span>
+                </div>
                 </div>
 
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     options={allCountries}
                     value={domicileCountry}
@@ -1023,10 +1153,13 @@ const subjectList = async () => {
                     placeholder="Domicile Country"
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
-                    className={`custom-select ${!domicileCountry ? 'required' : ''}`}
+                    className="custom-select required"
                   />
+                  <span className="custom-tooltip">Domicile Country</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     options={mapStatesOfCountry(domicileCountry?.value)}
                     value={domicileState}
@@ -1034,22 +1167,28 @@ const subjectList = async () => {
                     placeholder="Domicile State/UT"
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
-                    className={`custom-select ${!domicileState ? 'required' : ''}`}
+                    className="required"
                   />
+                  <span className="custom-tooltip">Domicile State/UT</span>
+                </div>
                 </div>
                   {/* Location (General) as user text */}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <input
                   type="text"
                   placeholder="Location (General)"
                   value={locationGeneral}
                   onChange={(e) => setLocationGeneral(e.target.value)}
-                  required
+                  required  
                 />
+                <span className="custom-tooltip">Location (General)</span>
+                </div>
               </div>
             
  {/* ---------- Multi-Select Fields ---------- */}
-                  <div className="form-group col-lg-6 col-md-12">
+                  <div className="form-group col-lg-6 col-md-12"> 
+                  <div className="input-wrapper">
                   <Select
                     isMulti
                     options={designations}
@@ -1058,10 +1197,13 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                     placeholder="Designations"
-                    className={`custom-select ${!selectedDesignations.length > 0 ? 'required' : ''}`}
+                    className="custom-select required"
                   />
+                  <span className="custom-tooltip">Designations</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     isMulti
                     options={designatedGrades}
@@ -1070,11 +1212,14 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                     placeholder="Designated Grades"
-                    className={`custom-select ${!selectedDesignatedGrades.length > 0 ? 'required' : ''}`}
+                    className="custom select required"
                   />
+                  <span className="custom-tooltip">Designated Grades</span>
+                </div>
                 </div>
               
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     isMulti
                     options={curriculum}
@@ -1084,8 +1229,11 @@ const subjectList = async () => {
                     styles={selectMenuPortalStyles}
                     placeholder="Curriculum"
                   />
+                  <span className="custom-tooltip">Curriculum</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     isMulti
                     options={subjectsList}
@@ -1094,12 +1242,15 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                     placeholder="Subjects"
-                    className={`custom-select ${!selectedSubjects.length > 0 ? 'required' : ''}`}
+                    className="custom-select required"
                   />
+                  <span className="custom-tooltip">Subjects</span>
+                </div>
                 </div>
               
               
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     isMulti
                     options={coreExpertise}
@@ -1108,11 +1259,14 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                     placeholder="Core Expertise"
-                    className={`custom-select ${!selectedCoreExpertise.length > 0 ? 'required' : ''}`}
+                    className="custom-select required"
                   />
+                  <span className="custom-tooltip">Core Expertise</span>
+                </div>
                 </div>
 
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     isMulti
                     options={multiSelectOptions.job_shifts}
@@ -1121,11 +1275,14 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                     placeholder="Job Shifts"
-                    className={`custom-select ${!selectedJobShifts.length > 0 ? 'required' : ''}`}
+                  className="custom-select required"
                   />
+                  <span className="custom-tooltip">Job Shifts</span>
+                </div>
                 </div>
              
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     isMulti
                     options={multiSelectOptions.job_process}
@@ -1134,10 +1291,13 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                     placeholder="Job Process"
-                    className={`custom-select ${!selectedJobProcess.length > 0 ? 'required' : ''}`}
+                    className="custom-select required"
                   />
+                  <span className="custom-tooltip">Job Process</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     isMulti
                     options={multiSelectOptions.job_sub_category}
@@ -1146,27 +1306,36 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                     placeholder="Job Sub Category"
-                    className={`custom-select ${!selectedJobSubCategory.length > 0 ? 'required' : ''}`}
+                    className="custom-select required"
                   />
+                  <span className="custom-tooltip">Job Sub Category</span>
+                </div>
                 </div>
 
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <input
                   type="number"
                   value={noOfOpening}
                   onChange={(e) => setNoOfOpening(e.target.value)}
                   placeholder="Enter number of openings"
-                />
+                  />
+                <span className="custom-tooltip">Number of Openings</span>
+                </div>
               </div>
               <div className="form-group col-lg-12 col-md-12">
+                <div className="input-wrapper">
                 <textarea
                   rows={1}
                   value={jobDescription}
                   onChange={(e) => setJobDescription(e.target.value)}
                   placeholder="Enter job description"
                 />
+                <span className="custom-tooltip">Job Description</span>
+                </div>
               </div>
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <input
                   type="text"
                   value={joiningDate}
@@ -1180,8 +1349,11 @@ const subjectList = async () => {
                   onChange={(e) => setJoiningDate(e.target.value)}
                   required
                 />
+                <span className="custom-tooltip">Joining Date</span>
+                </div>
               </div>
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                   <Select
                     isMulti
                     options={multiSelectOptions.selection_process}
@@ -1190,13 +1362,16 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                     placeholder="Selection Process"
-                    className={`custom-select ${!selectedSelectionProcess.length > 0 ? 'required' : ''}`}
+                    className="custom-select required"
                   />
+                  <span className="custom-tooltip">Selection Process</span>
+                </div>
                 </div>
               
             {/* ---------- Additional Preferences Section ---------- */}
             <h6>Preferred candidate profile</h6>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
                   <select
                     value={gender}
                     onChange={(e) => setGender(e.target.value)}
@@ -1206,37 +1381,48 @@ const subjectList = async () => {
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
                   </select>
+                  <span className="custom-tooltip">Gender</span>
                 </div>
+              </div>
               
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="number"
                     value={minimumAge}
                     onChange={(e) => setMinimumAge(e.target.value)}
                     placeholder="Minimum Age"
                   />
+                  <span className="custom-tooltip">Minimum Age</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="number"
                     value={maximumAge}
                     onChange={(e) => setMaximumAge(e.target.value)}
                     placeholder="Maximum Age"
                   />
+                  <span className="custom-tooltip">Maximum Age</span>
+                </div>
                 </div>
 {/* ---------- Main Location (ID-based) ---------- */}
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     options={allCountries}
                     value={mainCountry}
                     onChange={handleMainCountryChange}
                     placeholder="Country"
                     menuPortalTarget={document.body}
-                    styles={selectMenuPortalStyles}
-                  
+                    styles={selectMenuPortalStyles}                  
                   />
+                  <span className="custom-tooltip">Country</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     options={mapStatesOfCountry(mainCountry?.value)}
                     value={mainState}
@@ -1245,8 +1431,11 @@ const subjectList = async () => {
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
                   />
+                  <span className="custom-tooltip">State / UT</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     options={mapCitiesOfState(mainState?.value)}
                     value={mainCity}
@@ -1254,9 +1443,12 @@ const subjectList = async () => {
                     placeholder="City"
                     menuPortalTarget={document.body}
                     styles={selectMenuPortalStyles}
-                  />
+                    />
+                  <span className="custom-tooltip">City</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     isMulti
                     options={languagesSpeak}
@@ -1266,8 +1458,11 @@ const subjectList = async () => {
                     styles={selectMenuPortalStyles}
                     placeholder="Languages-Speak"
                   />
+                  <span className="custom-tooltip">Languages-Speak</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     isMulti
                     options={languagesRead}
@@ -1277,8 +1472,11 @@ const subjectList = async () => {
                     styles={selectMenuPortalStyles}
                     placeholder="Languages-Read"
                   />
+                  <span className="custom-tooltip">Languages-Read</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     isMulti
                     options={languagesWrite}
@@ -1288,8 +1486,11 @@ const subjectList = async () => {
                     styles={selectMenuPortalStyles} 
                     placeholder="Languages-Write"
                   />
+                  <span className="custom-tooltip">Languages-Write</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
                     isMulti
                     options={multiSelectOptions.computer_skills}
@@ -1299,6 +1500,8 @@ const subjectList = async () => {
                     styles={selectMenuPortalStyles}
                     placeholder="Computer Skills"
                   />
+                  <span className="custom-tooltip">Computer Skills</span>
+                </div>
                 </div>
 
           <div className="form-group col-lg-6 col-md-12">
@@ -1332,6 +1535,7 @@ const subjectList = async () => {
                   </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <select
                     value={noticePeriod}
                     onChange={(e) => setNoticePeriod(e.target.value)}
@@ -1342,21 +1546,26 @@ const subjectList = async () => {
                     <option value="<30">{'<'} 1 month</option>
                     <option value=">30">{'>'} 1 Month</option>
                   </select>
+                  <span className="custom-tooltip">Notice Period</span>
+                </div>
                 </div>
 
           
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <select
                     className="form-select"
                     value={jobSearchStatus}
                     onChange={(e) => setJobSearchStatus(e.target.value)}
                   >
-                    <option value="">Job Search Status</option>
+                    <option value="" disabled>Job Search Status</option>
                     <option value="active">Actively Searching Jobs</option>
                     <option value="casual">Casually Exploring Jobs</option>
                     <option value="not_looking">Not looking for Jobs</option>
                   </select>
+                  <span className="custom-tooltip">Job Search Status</span>
                 </div>
+              </div>
               </div>
             
             {/* ---------- Map Section ---------- */}

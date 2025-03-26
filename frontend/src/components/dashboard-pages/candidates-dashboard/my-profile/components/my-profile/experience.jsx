@@ -10,7 +10,9 @@ const Experience = ({
   excludeAdditionalDetails,
   excludeTeachingCurriculum,
   excludeAdminCurriculum,
-  excludeTeachingAdminCurriculum
+  excludeTeachingAdminCurriculum,
+  formData,
+  updateFormData
 }) => {
   const { user } = useAuth();
 
@@ -298,6 +300,14 @@ const Experience = ({
             const reverted = dynamoData.experienceEntries.map((exp) => revertLocation(exp));
             setExperienceEntries(reverted);
           }
+
+          // After setting all states, validate and update parent
+          // Pre-filled data is considered valid
+          updateFormData({ 
+            workExperience, 
+            experienceEntries, 
+            otherTeachingExp 
+          }, true);
         }
       } catch (error) {
         console.error("Error fetching existing work experience:", error);
@@ -335,10 +345,10 @@ const Experience = ({
   // Submit final data to API
   // ---------------------------
   const submitExperienceData = async () => {
-    if (experienceEntries.length === 0) {
-      toast.error("Please add at least one work experience.");
-      return;
-    }
+    // if (experienceEntries.length === 0) {
+    //   toast.error("Please add at least one work experience.");
+    //   return;
+    // }
 
     // 1) Validate "Worked from" < "Worked till" for each entry
     for (let i = 0; i < experienceEntries.length; i++) {
@@ -411,6 +421,94 @@ const Experience = ({
       console.error("Error submitting data:", error);
       toast.error("Error submitting data");
     }
+  };
+  
+  // Add validation function
+  const validateExperience = () => {
+    // 1. Validate total and teaching experience
+    const isTotalExperienceValid = workExperience.total.years !== "" && 
+                                 workExperience.total.months !== "";
+    const isTeachingExperienceValid = workExperience.teaching.years !== "" && 
+                                    workExperience.teaching.months !== "";
+
+    // 2. Validate experience entries if they exist
+    const areEntriesValid = experienceEntries.every(exp => {
+      const baseFieldsValid = exp.organizationName && 
+                            exp.jobCategory && 
+                            exp.jobType && 
+                            exp.currentlyWorking !== null && 
+                            exp.work_from_month && 
+                            exp.work_from_year && 
+                            exp.salary && 
+                            exp.country && 
+                            exp.state && 
+                            exp.jobProcess;
+
+      // If not currently working, check work_till dates
+      if (exp.currentlyWorking === false) {
+        if (!exp.work_till_month || !exp.work_till_year) return false;
+      }
+
+      // Additional validation based on job type
+      switch (exp.jobType) {
+        case 'teaching':
+          return baseFieldsValid && exp.teachingDesignation && 
+                 exp.teachingSubjects.length > 0 && 
+                 exp.teachingGrades.length > 0;
+        case 'administration':
+          return baseFieldsValid && exp.adminDesignation;
+        case 'teachingAndAdministration':
+          return baseFieldsValid && 
+                 exp.teachingAdminDesignations.length > 0 && 
+                 exp.teachingAdminSubjects.length > 0 && 
+                 exp.teachingAdminGrades.length > 0;
+        case 'nonEducation':
+          return baseFieldsValid && exp.designation && 
+                 exp.industryType && exp.workProfile;
+        default:
+          return baseFieldsValid;
+      }
+    });
+
+    // 3. Validate other teaching experiences (all radio buttons should be selected)
+    const isOtherTeachingExpValid = Object.values(otherTeachingExp)
+      .every(value => value !== null);
+
+    return isTotalExperienceValid && 
+           isTeachingExperienceValid && 
+           (experienceEntries.length === 0 || areEntriesValid) && 
+           isOtherTeachingExpValid;
+  };
+
+  // Modify state update handlers to include validation
+  const handleExperienceChange = (newExperienceEntries) => {
+    setExperienceEntries(newExperienceEntries);
+    const isValid = validateExperience();
+    updateFormData({
+      workExperience,
+      experienceEntries: newExperienceEntries,
+      otherTeachingExp
+    }, isValid);
+  };
+
+  const handleWorkExperienceChange = (newWorkExperience) => {
+    setWorkExperience(newWorkExperience);
+    const isValid = validateExperience();
+    updateFormData({
+      workExperience: newWorkExperience,
+      experienceEntries,
+      otherTeachingExp
+    }, isValid);
+  };
+
+  const handleOtherTeachingExpChange = (newOtherTeachingExp) => {
+    setOtherTeachingExp(newOtherTeachingExp);
+    const isValid = validateExperience();
+    updateFormData({
+      workExperience,
+      experienceEntries,
+      otherTeachingExp: newOtherTeachingExp
+    }, isValid);
   };
 
   return (

@@ -23,6 +23,30 @@ const FormInfoBox = () => {
   const [currentForm, setCurrentForm] = useState(null);
   const stepRef = useRef(null);
 
+  // Track validation state and form data for each section
+  const [formState, setFormState] = useState({
+    personalDetails: {
+      isValid: false,
+      data: null
+    },
+    address: {
+      isValid: false,
+      data: null
+    },
+    education: {
+      isValid: false,
+      data: null
+    },
+    experience: {
+      isValid: false,
+      data: null
+    },
+    jobPreferences: {
+      isValid: false,
+      data: null
+    }
+  });
+
   // Define steps for both modes
   const easyModeSteps = [
     { id: 1, components: [
@@ -110,12 +134,8 @@ const FormInfoBox = () => {
 
   const nextStep = () => {
     try {
-      // Check if all required fields in current step are filled
-      const currentStepElement = stepRef.current;
-      const requiredFields = currentStepElement?.querySelectorAll('[required]');
-      const isValid = Array.from(requiredFields || []).every(field => field.value.trim() !== '');
-
-      if (!isValid) {
+      // Remove the DOM-based validation
+      if (!isStepValid) {
         toast.error("Please fill all required fields before proceeding");
         return;
       }
@@ -234,7 +254,9 @@ const FormInfoBox = () => {
               key={index}
               {...props}
               formData={formData}
-              updateFormData={updateFormData}
+              updateFormData={(data, isValid) => {
+                updateFormData(data, isValid);
+              }}
             />
           ))}
         </div>
@@ -249,24 +271,58 @@ const FormInfoBox = () => {
   if (!viewMode) {
     return (
       <div className="mode-selection-container">
-        <h2>How would you like to fill your details?</h2>
+        <h2>Select Mode</h2>
         <div className="mode-options">
-          <button 
-            className="mode-button easy"
-            onClick={() => handleViewChange('easy')}
-          >
+          <div className="mode-card">
             <h3>Easy Mode</h3>
-            <p>Quick and simple profile creation with essential fields</p>
-          </button>
-          <button 
-            className="mode-button full"
-            onClick={() => handleViewChange('full')}
-          >
+            <p>Quick and simple profile with essential fields</p>
+            <div className="mode-actions">
+              <button 
+                className="action-btn fill"
+                onClick={() => {
+                  handleViewChange('easy');
+                  setShowProfile(false);
+                }}
+              >
+                Fill Details
+              </button>
+              <button 
+                className="action-btn view"
+                onClick={() => {
+                  handleViewChange('easy');
+                  setShowProfile(true);
+                }}
+              >
+                View Details
+              </button>
+            </div>
+          </div>
+
+          <div className="mode-card">
             <h3>Full Mode</h3>
             <p>Comprehensive profile with detailed information</p>
-          </button>
+            <div className="mode-actions">
+              <button 
+                className="action-btn fill"
+                onClick={() => {
+                  handleViewChange('full');
+                  setShowProfile(false);
+                }}
+              >
+                Fill Details
+              </button>
+              <button 
+                className="action-btn view"
+                onClick={() => {
+                  handleViewChange('full');
+                  setShowProfile(true);
+                }}
+              >
+                View Details
+              </button>
+            </div>
+          </div>
         </div>
-       
       </div>
     );
   }

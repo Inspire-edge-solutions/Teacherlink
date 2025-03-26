@@ -1225,7 +1225,7 @@ input:required , select:required , textarea:required{
 .custom-tooltip {
   visibility: hidden;
   position: absolute;
-  background-color: #336e2e;
+  background-color: orchid;
   color: white;
   text-align: center;
   padding: 5px 10px;

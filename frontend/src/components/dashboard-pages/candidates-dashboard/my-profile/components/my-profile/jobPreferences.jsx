@@ -6,7 +6,7 @@ import { useAuth } from "../../../../../../contexts/AuthContext";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const JobPreference = () => {
+const JobPreference = ({ formData, updateFormData }) => {
   const { user } = useAuth();
 
   // Helper: Convert numeric from DB => "yes" or "no"
@@ -103,18 +103,77 @@ const JobPreference = () => {
       }))
     : [];
 
-  // Handle changes in the preference table
-  const handlePreferenceChange = (category, field, mode, value) => {
-    setPreferences(prev => ({
-      ...prev,
-      [category]: {
-        ...prev[category],
-        [field]: {
-          ...prev[category][field],
-          [mode]: value
-        }
+  // Add validation function
+  const validateJobPreferences = () => {
+    // Helper function to check if a value exists
+    const hasValue = (val) => val !== null && val !== undefined && val !== "";
+
+    // 1. Validate job shifts - check if selections exist
+    const areJobShiftsValid = Object.values(preferences.jobShift).every(shift => 
+      hasValue(shift.offline) && hasValue(shift.online)
+    );
+
+    // 2. Validate organization types
+    const areOrgTypesValid = Object.values(preferences.organizationType).every(org => 
+      hasValue(org.offline) && hasValue(org.online)
+    );
+
+    // 3. Validate parent/guardian preferences - only validate fields that should have values
+    const areParentPrefsValid = Object.entries(preferences.parentGuardian).every(([key, value]) => {
+      if (key === 'Group_Tutor_offline' || key === 'Home_Tutor' || key === 'Private_Tutor') {
+        return hasValue(value.offline);
       }
-    }));
+      if (key === 'Private_Tutions_online' || key === 'Group_Tutor_online') {
+        return hasValue(value.online);
+      }
+      if (key === 'coaching_institute') {
+        return hasValue(value.offline) && hasValue(value.online);
+      }
+      return true;
+    });
+
+    // 4. Validate basic job details
+    const areBasicDetailsValid = hasValue(jobDetails.Job_Type) && 
+                               hasValue(jobDetails.expected_salary) && 
+                               hasValue(jobDetails.notice_period);
+
+    // 5. Validate location preferences (if any are filled, all must be filled)
+    const hasAnyLocation = jobDetails.preferred_country || 
+                          jobDetails.preferred_state || 
+                          jobDetails.preferred_city;
+    
+    const areLocationsValid = !hasAnyLocation || (
+      jobDetails.preferred_country && 
+      jobDetails.preferred_state
+      // City is optional
+    );
+
+    // 6. Validate job type specific fields
+    let areJobTypeFieldsValid = true;
+    if (jobDetails.Job_Type === 'teaching') {
+      areJobTypeFieldsValid = jobDetails.teachingDesignation.length > 0 &&
+                             jobDetails.teachingSubjects.length > 0 &&
+                             jobDetails.teachingGrades.length > 0;
+    } else if (jobDetails.Job_Type === 'administration') {
+      areJobTypeFieldsValid = jobDetails.adminDesignations.length > 0;
+    } else if (jobDetails.Job_Type === 'teachingAndAdmin') {
+      areJobTypeFieldsValid = jobDetails.teachingAdminDesignations.length > 0 &&
+                             jobDetails.teachingAdminSubjects.length > 0 &&
+                             jobDetails.teachingAdminGrades.length > 0;
+    }
+
+    // 7. Validate job search status
+    const isJobSearchValid = Object.values(jobSearchStatus).every(status => 
+      hasValue(status.offline) && hasValue(status.online)
+    );
+
+    return areJobShiftsValid && 
+           areOrgTypesValid && 
+           areParentPrefsValid && 
+           areBasicDetailsValid && 
+           areLocationsValid && 
+           areJobTypeFieldsValid && 
+           isJobSearchValid;
   };
 
   // Subject/designation data
@@ -182,7 +241,7 @@ const JobPreference = () => {
     fetchDesignations();
   }, []);
 
-  // ---------------- GET: fetch existing preferences from backend ---------------
+  // Update the useEffect that fetches job preferences
   useEffect(() => {
     if (!user?.uid) return;
 
@@ -192,10 +251,11 @@ const JobPreference = () => {
           "https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/jobPreference",
           { params: { firebase_uid: user.uid } }
         );
+        
         if (response.status === 200 && response.data && response.data.length > 0) {
           const record = response.data[0];
 
-          // Convert numeric/string from DB => "yes" or "no"
+          // Process the data as before
           const pref = {
             jobShift: {
               Full_time: {
@@ -321,9 +381,17 @@ const JobPreference = () => {
             notice_period: record.notice_period || ""
           };
 
+          // Set state
           setPreferences(pref);
           setJobSearchStatus(jobSearch);
           setJobDetails(details);
+
+          // Update parent with pre-filled data
+          updateFormData({
+            preferences: pref,
+            jobDetails: details,
+            jobSearchStatus: jobSearch
+          }, true); // Pre-filled data is considered valid
         }
       } catch (error) {
         console.error("Error fetching job preference:", error);
@@ -333,9 +401,84 @@ const JobPreference = () => {
     fetchJobPreference();
   }, [user?.uid]);
 
-  // ---------------- POST/PUT: Save (Upsert) preferences ---------------
+  // Update preference change handler
+  const handlePreferenceChange = (category, field, mode, value) => {
+    setPreferences(prev => {
+      const newPreferences = {
+        ...prev,
+        [category]: {
+          ...prev[category],
+          [field]: {
+            ...prev[category][field],
+            [mode]: value
+          }
+        }
+      };
+      
+      // Update parent with validation
+      const isValid = validateJobPreferences();
+      updateFormData({
+        preferences: newPreferences,
+        jobDetails,
+        jobSearchStatus
+      }, isValid);
+      
+      return newPreferences;
+    });
+  };
+
+  // Update job details change handler
+  const handleJobDetailsChange = (field, value) => {
+    setJobDetails(prev => {
+      const newJobDetails = {
+        ...prev,
+        [field]: value
+      };
+
+      // Update parent with validation
+      const isValid = validateJobPreferences();
+      updateFormData({
+        preferences,
+        jobDetails: newJobDetails,
+        jobSearchStatus
+      }, isValid);
+
+      return newJobDetails;
+    });
+  };
+
+  // Update job search status change handler
+  const handleJobSearchStatusChange = (mode, type, value) => {
+    setJobSearchStatus(prev => {
+      const newStatus = {
+        ...prev,
+        [type]: {
+          ...prev[type],
+          [mode]: value
+        }
+      };
+
+      // Update parent with validation
+      const isValid = validateJobPreferences();
+      updateFormData({
+        preferences,
+        jobDetails,
+        jobSearchStatus: newStatus
+      }, isValid);
+
+      return newStatus;
+    });
+  };
+
+  // Update submit handler
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Validate before submission
+    if (!validateJobPreferences()) {
+      toast.error("Please fill all required fields");
+      return;
+    }
 
     const payload = {
       firebase_uid: user.uid,
@@ -440,6 +583,7 @@ const JobPreference = () => {
       toast.error("Error saving job preferences");
     }
   };
+  
 
   // Renders the lower half of the form (Job details, designations, etc.)
   const renderJobDetailsSection = () => (
@@ -1328,13 +1472,7 @@ const JobPreference = () => {
                     className="form-select"
                     value={jobSearchStatus.Full_time.offline}
                     onChange={(e) =>
-                      setJobSearchStatus(prev => ({
-                        ...prev,
-                        Full_time: {
-                          ...prev.Full_time,
-                          offline: e.target.value
-                        }
-                      }))
+                      handleJobSearchStatusChange('offline', 'Full_time', e.target.value)
                     }
                     required
                   >
@@ -1349,13 +1487,7 @@ const JobPreference = () => {
                     className="form-select"
                     value={jobSearchStatus.Full_time.online}
                     onChange={(e) =>
-                      setJobSearchStatus(prev => ({
-                        ...prev,
-                        Full_time: {
-                          ...prev.Full_time,
-                          online: e.target.value
-                        }
-                      }))
+                      handleJobSearchStatusChange('online', 'Full_time', e.target.value)
                     }
                     required
                   >
@@ -1373,13 +1505,7 @@ const JobPreference = () => {
                     className="form-select"
                     value={jobSearchStatus.part_time_weekdays.offline}
                     onChange={(e) =>
-                      setJobSearchStatus(prev => ({
-                        ...prev,
-                        part_time_weekdays: {
-                          ...prev.part_time_weekdays,
-                          offline: e.target.value
-                        }
-                      }))
+                      handleJobSearchStatusChange('offline', 'part_time_weekdays', e.target.value)
                     }
                     required
                   >
@@ -1394,13 +1520,7 @@ const JobPreference = () => {
                     className="form-select"
                     value={jobSearchStatus.part_time_weekdays.online}
                     onChange={(e) =>
-                      setJobSearchStatus(prev => ({
-                        ...prev,
-                        part_time_weekdays: {
-                          ...prev.part_time_weekdays,
-                          online: e.target.value
-                        }
-                      }))
+                      handleJobSearchStatusChange('online', 'part_time_weekdays', e.target.value)
                     }
                     required
                   >
