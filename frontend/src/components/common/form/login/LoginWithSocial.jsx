@@ -62,7 +62,7 @@ const LoginWithSocial = () => {
       const credential = result.user;
       
       // First, check if user already exists
-      const checkResponse = await fetch('https://0vg0fr4nqc.execute-api.ap-south-1.amazonaws.com/staging/logingoogle', {
+      const checkResponse = await fetch(import.meta.env.VITE_DEV1_API +'/logingoogle', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ const LoginWithSocial = () => {
         user_type: selectedRole
       };
 
-      const response = await fetch(import.meta.env.VITE_DEV1_API +'/logingoogle', {
+      const response = await fetch('https://v0trs9tt4k.execute-api.ap-south-1.amazonaws.com/staging/logingoogle', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
