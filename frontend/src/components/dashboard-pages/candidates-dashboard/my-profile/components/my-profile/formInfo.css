@@ -1,11 +1,35 @@
+    .title-box{
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    .title-box h3{
+      font-size:1.7rem;
+      font-weight: 600;
+      color: green;
+      text-align: center;
+    }
+    
     .step-progress {
       margin-bottom: 30px;
     }
     
     .step-title {
       margin-bottom: 15px;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .step-title-text{
+      padding-left: 10px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: rgb(240, 63, 240);
     }
     
+
     .progress-bar {
       height: 8px;
       background-color: rgb(167, 204, 249) !important;
@@ -186,8 +210,11 @@
 
     .title-box {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
+      flex-direction: row;
       align-items: center;
+      width: 100%;
+      margin-bottom: 20px;
     }
     .mode-selection-container {
       max-width: 800px;

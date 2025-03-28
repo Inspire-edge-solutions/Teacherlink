@@ -218,7 +218,6 @@ const Social = ({ isEasyMode }) => {
             </>
         ) : (
           <>
-            <h3>Social Networks</h3>
             <br />
             <div className="form-group col-lg-6 col-md-12">
             <div className="input-wrapper">

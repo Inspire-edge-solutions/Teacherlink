@@ -516,7 +516,7 @@ const Experience = ({
       {/* Total and Teaching Experience */}
       <div className="experience-row">
         <div className="experience-col">
-          <h4>Total Experience (Full Time + Part Time)</h4>
+          <h4 style={{color:"brown"}}>Total Experience (Full Time + Part Time)</h4>
           <div className="duration-selector">
             <select
               value={workExperience.total.years}
@@ -552,7 +552,7 @@ const Experience = ({
         </div>
 
         <div className="experience-col">
-          <h4>Total Teaching Exp (Full Time + Part Time)</h4>
+          <h4 style={{color:"brown"}}>Total Teaching Exp (Full Time + Part Time)</h4>
           <div className="duration-selector">
             <select
               value={workExperience.teaching.years}
@@ -591,7 +591,7 @@ const Experience = ({
       {/* Additional Details */}
       {excludeAdditionalDetails && (
         <div className="experience-details form-group col-md-12 col-lg-12">
-          <h4>Additional Details</h4>
+          <h4 style={{color:"brown"}}>Additional Details</h4>
           <table className="experience-table">
             <thead>
               <tr>
@@ -729,7 +729,7 @@ const Experience = ({
         return (
           <div key={index} className="experience-entry">
             <div className="d-flex justify-content-between align-items-center">
-              <h4>Experience Details {index + 1}</h4>
+              <h5 style={{color:"brown"}}>Experience Details {index + 1}</h5>
               {experienceEntries.length > 1 && (
                 <button
                   type="button"
@@ -1609,7 +1609,7 @@ const Experience = ({
 
       {/* Other Teaching Experiences */}
       <div className="other-teaching-experience mt-4">
-        <h4>Other Teaching Experiences</h4>
+        <h5 style={{color:"brown",paddingLeft:"10px"}}>Other Teaching Experiences</h5>
         <div className="table-responsive">
           <table className="table">
             <thead>

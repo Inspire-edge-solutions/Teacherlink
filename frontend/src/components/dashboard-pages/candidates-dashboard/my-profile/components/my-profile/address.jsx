@@ -281,9 +281,8 @@ const Address = ({ className, permanentCity, presentCity }) => {
     <form onSubmit={handleSubmit} className={`address ${className}`}>
       <div className="row">
         {/* PERMANENT ADDRESS */}
-        <div className="form-group col-lg-6 col-md-12">
-          <h6>Address</h6>
-          <div className="form-group">
+          <h6>Permanent Address</h6>
+          <div className="form-group col-lg-4 col-md-12">
           <div className="input-wrapper">
             <Select
               required
@@ -304,7 +303,7 @@ const Address = ({ className, permanentCity, presentCity }) => {
           </div>
           </div>
 
-            <div className="form-group">
+          <div className="form-group col-lg-4 col-md-12">
           <div className="input-wrapper">
             <Select
               required
@@ -324,7 +323,7 @@ const Address = ({ className, permanentCity, presentCity }) => {
           </div>
 
           {permanentCity && (
-                <div className="form-group">
+            <div className="form-group col-lg-4 col-md-12">
             <div className="input-wrapper">
               <Select
                 id="permanentCity"
@@ -340,26 +339,22 @@ const Address = ({ className, permanentCity, presentCity }) => {
             </div>
             </div>
           )}
-         
-        </div>
-
-        {/* PRESENT ADDRESS */}
-        <div className="form-group col-lg-6 col-md-12">
-          <label style={{ display: "block", marginBottom: "0.5rem" }}>
+        {/* PRESENT ADDRESS SAME AS PERMANENT ADDRESS */}
+          <label style={{ display: "block", marginBottom: "0.5rem" ,fontWeight:"500"}}>
             <input
               id="sameAsPermanent"
               name="sameAsPermanent"
               type="checkbox"
               onChange={handleSameAsPermanent}
               checked={formData.presentAddress.sameAsPermanent}
-              style={{ marginRight: "15px" }}
+              style={{ marginRight: "10px" }}
             />
-            Same as permanent address
+           Present Address (Same as Permanent Address)
           </label>
 
           {!formData.presentAddress.sameAsPermanent && (
             <>
-              <div className="form-group">
+              <div className="form-group col-lg-4 col-md-12">
               <div className="input-wrapper">
                 <Select
                   required
@@ -379,7 +374,7 @@ const Address = ({ className, permanentCity, presentCity }) => {
               </div>
               </div>
 
-              <div className="form-group">
+              <div className="form-group col-lg-4 col-md-12">
               <div className="input-wrapper">
                 <Select
                   required
@@ -399,7 +394,7 @@ const Address = ({ className, permanentCity, presentCity }) => {
               </div>
 
               {presentCity && (
-                <div className="form-group">
+                <div className="form-group col-lg-4 col-md-12">
                 <div className="input-wrapper">
                   <Select
                     id="presentCity"
@@ -425,7 +420,6 @@ const Address = ({ className, permanentCity, presentCity }) => {
             Save Address
           </button>
         </div>
-      </div>
     </form>
   );
 };

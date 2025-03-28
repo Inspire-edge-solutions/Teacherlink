@@ -34,7 +34,7 @@ const RecordCard = ({ title, record, renderValue }) => {
       );
     })
     .filter(element => element !== null);
-  
+
   // If no valid fields are present, do not render the card.
   if (fieldElements.length === 0) return null;
 
@@ -192,6 +192,7 @@ function UserJobProfile() {
     personal: {
       title: "Personal Information",
       fields: [
+        "userId",  // Add this field for displaying userId
         "fullName",
         "email",
         "gender",

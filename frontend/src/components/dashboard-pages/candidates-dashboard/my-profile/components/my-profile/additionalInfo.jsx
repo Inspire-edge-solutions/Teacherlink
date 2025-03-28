@@ -219,7 +219,6 @@ const AdditionalInfo = () => {
   return (
     <div className="default-form">
       <div className="row">
-        <h3>Additional Information</h3>
 
         {/* Computer Skills */}
         <div className="form-group col-lg-6 col-md-12">

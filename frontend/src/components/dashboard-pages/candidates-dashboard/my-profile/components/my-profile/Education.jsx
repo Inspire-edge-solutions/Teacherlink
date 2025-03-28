@@ -1443,7 +1443,7 @@ const Education = ({
       <div className="form-group col-lg-12 col-md-12">
         {/* Grade 10 Section (Mandatory) */}
         <div className="education-section">
-          <h6>Grade 10</h6>
+          <h6 style={{color:"brown"}}>Grade 10</h6>
           {isEasyMode ? (
             <div className="form-group col-lg-6 col-md-12">
               <select
@@ -1516,7 +1516,7 @@ const Education = ({
         {additionalEducation.map((education, index) => (
           <div key={index} className="education-section" style={{ display: "block" }}>
             <div className="section-header">
-              <h4>{educationTypes.find((type) => type.value === education.type)?.label}</h4>
+              <h6 style={{color:"brown"}}>{educationTypes.find((type) => type.value === education.type)?.label}</h6>
               <div>
                 <button type="button" onClick={() => handleRemoveEducation(index)} className="remove-btn">
                   Remove
@@ -1528,7 +1528,7 @@ const Education = ({
         ))}
         {/* Add More Education Section */}
         <div className="add-education-section">
-          <h6>Add More Education</h6>
+          <h6 style={{color:"brown"}}>Add More Education</h6>
           <div className="row">
             <div className="form-group col-lg-6 col-md-12">
               <select

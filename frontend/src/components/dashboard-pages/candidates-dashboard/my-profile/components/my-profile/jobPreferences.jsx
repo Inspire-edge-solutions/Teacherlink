@@ -606,7 +606,7 @@ const JobPreference = ({ formData, updateFormData }) => {
   const renderJobDetailsSection = () => (
     <div className="form-group col-lg-12">
       <div className="form-box">
-        <h3 className="form-title">Expected Job Preferences</h3>
+        <h3 className="form-title" style={{color:"brown"}}>Expected Job Preferences :</h3>
         <div className="row">
           {/* Job Type */}
           <div className="form-group col-lg-6 col-md-12">
@@ -759,7 +759,7 @@ const JobPreference = ({ formData, updateFormData }) => {
                             teachingAdminDesignations: selected ? selected.map((item) => item.value) : [],
                           }))
                         }
-                        className={`custom-select ${jobDetails.teachingAdminDesignations?.length ? 'required' : ''}`}
+                        className="custom-select required"
                       />
                       <span className="custom-tooltip">Teaching & Administrative Designation(s)</span>
                     </div>
@@ -1017,7 +1017,7 @@ const JobPreference = ({ formData, updateFormData }) => {
       <div className="row">
         {/* Job Shift & Job Category Section */}
             <div className="form-group">
-              <h3 className='form-title'>Select your preferred teaching mode</h3>
+              <h3 className='form-title' style={{color:"brown"}}>Select your preferred teaching mode :</h3>
               <div className='row'>
                 <div className='form-group col-lg-6 col-md-12'>
                   <label htmlFor="teachingMode_online">Online</label>
@@ -1052,7 +1052,7 @@ const JobPreference = ({ formData, updateFormData }) => {
               </div>
             </div>
             <div className="form-group">
-              <h3 className="form-title">Job Shift Preferences</h3>
+              <h3 className="form-title" style={{color:"brown"}}>Job Shift Preferences :</h3>
               <div className="row">
                 <div className="form-group col-lg-6 col-md-12">
                   <label htmlFor="Full_time">Full Time</label>
@@ -1122,7 +1122,7 @@ const JobPreference = ({ formData, updateFormData }) => {
 
             {/* Organization Type Section */}
             <div className="form-group">
-              <h3 className="form-title">Organization Type Preferences</h3>
+              <h3 className="form-title" style={{color:"brown"}}>Organization Type Preferences :</h3>
               <div className="row">
                 <div className="form-group col-lg-6 col-md-12">
                   <label htmlFor="school_college_university">School / College / University</label>
@@ -1177,7 +1177,7 @@ const JobPreference = ({ formData, updateFormData }) => {
 
         {/* Parent / Guardian Section */}
         <div className="form-group">
-          <h3 className="form-title">Tuition Preferences</h3>
+          <h3 className="form-title" style={{color:"brown"}}>Tuition Preferences :</h3>
           <div className="row">
             <div className="form-group col-lg-6 col-md-12">
               <label htmlFor="Home_Tutor">Home Tutor (One-to-One at Students Home)</label>
@@ -1266,7 +1266,7 @@ const JobPreference = ({ formData, updateFormData }) => {
 
       {/* Job Search Status Section */}
       <div className="form-group">
-        <h3 className="form-title">Job Search Status</h3>
+        <h3 className="form-title" style={{color:"brown"}}>Job Search Status :</h3>
         <div className="row">
           <div className="form-group col-lg-6 col-md-12">
             <label htmlFor="Full_time_status">Full Time</label>

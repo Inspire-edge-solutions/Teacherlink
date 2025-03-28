@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from "../../../../../../contexts/AuthContext";
+import { toast } from 'react-toastify'; // Import toast for notifications
+
 const FULL_API = 'https://xx22er5s34.execute-api.ap-south-1.amazonaws.com/dev/fullapi';
 
 // Format keys into a human-friendly label.
@@ -14,8 +16,7 @@ const formatDate = (dateStr) => {
   return dateStr.includes("T") ? dateStr.split("T")[0] : dateStr;
 };
 
-// RecordCard renders a section.
-// It skips internal keys and any fields whose rendered value is empty.
+// RecordCard renders a section. It skips internal keys and any fields whose rendered value is empty.
 const RecordCard = ({ title, record, renderValue }) => {
   const fieldElements = Object.entries(record)
     .map(([key, value]) => {
@@ -33,7 +34,10 @@ const RecordCard = ({ title, record, renderValue }) => {
       );
     })
     .filter(element => element !== null);
-    
+  
+  // If no valid fields are present, do not render the card.
+  if (fieldElements.length === 0) return null;
+
   return (
     <div className="card mb-4 shadow-sm">
       <div className="card-header bg-info text-white">{title}</div>
@@ -183,11 +187,12 @@ function UserJobProfile() {
     return <div className="alert alert-warning">No profile data found for your account.</div>;
   }
 
-  // Define sections.
+  // Define sections. "Personal Information" now includes "userId" to display the ID.
   const sections = {
     personal: {
       title: "Personal Information",
       fields: [
+        "userId", // Changed from "id" to "userId" to match backend output
         "fullName",
         "email",
         "gender",
@@ -308,8 +313,7 @@ function UserJobProfile() {
     }
   };
 
-  // Build a record for each section.
-  // For additionalInfo, each field is set to "Not Provided" if missing.
+  // Build a record for each section using profile data.
   const sectionRecords = {};
   Object.entries(sections).forEach(([key, { fields }]) => {
     const record = {};
