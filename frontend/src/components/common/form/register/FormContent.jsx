@@ -26,6 +26,9 @@ const FormContent = ({ user_type }) => {
     length: false,
     onlyNumbers: false
   });
+  const [hasStartedTyping, setHasStartedTyping] = useState(false);
+  const [showValidation, setShowValidation] = useState(false);
+  const [showPhoneValidation, setShowPhoneValidation] = useState(false);
   const navigate = useNavigate();
 
   const validatePassword = (password) => {
@@ -41,6 +44,7 @@ const FormContent = ({ user_type }) => {
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
+    setHasStartedTyping(true);
     validatePassword(newPassword);
   };
 
@@ -106,6 +110,41 @@ const FormContent = ({ user_type }) => {
     }
   };
 
+  const getMissingRequirements = () => {
+    const missing = [];
+    
+    if (!passwordValidation.minLength) {
+      missing.push("At least 8 characters");
+    }
+    if (!passwordValidation.hasUpperCase) {
+      missing.push("At least one uppercase letter");
+    }
+    if (!passwordValidation.hasLowerCase) {
+      missing.push("At least one lowercase letter");
+    }
+    if (!passwordValidation.hasNumber) {
+      missing.push("At least one number");
+    }
+    if (!passwordValidation.hasSpecialChar) {
+      missing.push("At least one special character (!@#$%^&*)");
+    }
+    
+    return missing;
+  };
+
+  const getMissingPhoneRequirements = () => {
+    const missing = [];
+    
+    if (!phoneValidation.length) {
+      missing.push("Must be exactly 10 digits");
+    }
+    if (!phoneValidation.onlyNumbers) {
+      missing.push("Must contain only numbers");
+    }
+    
+    return missing;
+  };
+
   return (
     <>
       <form onSubmit={handleRegister}>
@@ -113,7 +152,7 @@ const FormContent = ({ user_type }) => {
           <label>Name:</label>
           <input
             type="text"
-            placeholder="Enter name"
+            placeholder="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -121,10 +160,10 @@ const FormContent = ({ user_type }) => {
         </div>
 
         <div className="form-group">
-          <label>Email Address:</label>
+          <label>Email:</label>
           <input
             type="email"
-            placeholder="Enter email address, e.g., abcd@gmail.com"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -135,49 +174,54 @@ const FormContent = ({ user_type }) => {
           <label>Password:</label>
           <input
             type="password"
-            placeholder="Enter password"
+            placeholder="Password"
             value={password}
             onChange={handlePasswordChange}
+            onBlur={() => setShowValidation(true)}
+            onFocus={() => setShowValidation(false)}
             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$"
             required
           />
-          <div className="password-requirements" style={{ fontSize: '0.8rem', marginTop: '5px' }}>
-            <p style={{ color: passwordValidation.minLength ? 'green' : 'red' }}>
-              ✓ At least 8 characters
-            </p>
-            <p style={{ color: passwordValidation.hasUpperCase ? 'green' : 'red' }}>
-              ✓ At least one uppercase letter
-            </p>
-            <p style={{ color: passwordValidation.hasLowerCase ? 'green' : 'red' }}>
-              ✓ At least one lowercase letter
-            </p>
-            <p style={{ color: passwordValidation.hasNumber ? 'green' : 'red' }}>
-              ✓ At least one number
-            </p>
-            <p style={{ color: passwordValidation.hasSpecialChar ? 'green' : 'red' }}>
-              ✓ At least one special character (!@#$%^&*)
-            </p>
-          </div>
+          {showValidation && getMissingRequirements().length > 0 && (
+            <div className="password-requirements" style={{ fontSize: '0.8rem', marginTop: '5px' }}>
+              <p style={{ color: 'red' }}>
+                Password must have:
+              </p>
+              {getMissingRequirements().map((requirement, index) => (
+                <p key={index} style={{ color: 'red', marginLeft: '10px' }}>
+                  • {requirement}
+                </p>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="form-group">
           <label>Mobile Number:</label>
           <input
             type="text"
+            name="phone"
+            placeholder="Mobile Number"
             value={number}
             onChange={handlePhoneChange}
-            placeholder="Mobile Number"
+            onBlur={() => setShowPhoneValidation(true)}
+            onFocus={() => setShowPhoneValidation(false)}
             maxLength="10"
+            minLength="10"
             required
           />
-          <div className="password-requirements" style={{ fontSize: '0.8rem', marginTop: '5px' }}>
-            <p style={{ color: phoneValidation.length ? 'green' : 'red' }}>
-              ✓ Must be exactly 10 digits
-            </p>
-            <p style={{ color: phoneValidation.onlyNumbers ? 'green' : 'red' }}>
-              ✓ Must contain only numbers
-            </p>
-          </div>
+          {showPhoneValidation && getMissingPhoneRequirements().length > 0 && (
+            <div className="password-requirements" style={{ fontSize: '0.8rem', marginTop: '5px' }}>
+              <p style={{ color: 'red' }}>
+                Phone number:
+              </p>
+              {getMissingPhoneRequirements().map((requirement, index) => (
+                <p key={index} style={{ color: 'red', marginLeft: '10px' }}>
+                  • {requirement}
+                </p>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="form-group">

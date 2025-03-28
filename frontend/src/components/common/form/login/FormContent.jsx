@@ -130,14 +130,14 @@ const FormContent = () => {
 
   return (
     <div className="form-inner">
-      <h3>Login to TeacherLink</h3>
+      <h3>Login to TeacherLink !</h3>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Email</label>
           <input
             type="email"
             name="email"
-            placeholder="Email Address"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required

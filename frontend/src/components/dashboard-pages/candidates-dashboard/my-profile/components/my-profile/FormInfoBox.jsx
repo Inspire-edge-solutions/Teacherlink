@@ -270,6 +270,19 @@ const FormInfoBox = () => {
   // Initial mode selection screen
   if (!viewMode) {
     return (
+      <div>
+      <div className="video-resume">
+        <div>
+      <label>My demo video - </label>
+      <button  className="theme-btn btn-style-one">Upload</button>
+      <button className="theme-btn btn-style-two">view</button>
+      </div>
+      <div>
+      <label>My resume/cv - </label>
+      <button className="theme-btn btn-style-one">Upload </button>
+      <button className="theme-btn btn-style-two">view</button>
+      </div>
+      </div>
       <div className="mode-selection-container">
         <h2>Select Mode</h2>
         <div className="mode-options">
@@ -323,6 +336,7 @@ const FormInfoBox = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     );
   }

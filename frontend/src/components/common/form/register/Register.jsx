@@ -4,30 +4,30 @@ import Form from "./FormContent";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-const Register = () => {
+const Register = ({ onUserTypeChange }) => {
   const [user_type, setUser_type] = useState("Candidate");
 
   const handleUserType = (type) => {
     setUser_type(type);
+    onUserTypeChange(type);
   };
 
   return (
     <div className="form-inner">
-      <h3>Create a Free TeacherLink Account</h3>
+      <h3>Create a Free TeacherLink Account !</h3>
 
       <Tabs>
         <div className="form-group register-dual">
           <TabList className="btn-box row">
-            <h3>Select your role : </h3>
             <Tab className="col-lg-6 col-md-12" onClick={() => handleUserType("Candidate")}>
               <button className="theme-btn btn-style-four" >
-                <i className="la la-user"></i> Candidate
+                <i className="la la-user"></i> Job Seeker
               </button>
             </Tab>
 
             <Tab className="col-lg-6 col-md-12" onClick={() => handleUserType("Employer")}>
               <button className="theme-btn btn-style-four">
-                <i className="la la-briefcase"></i> Employer
+                <i className="la la-briefcase"></i> Job Provider
               </button>
             </Tab>
           </TabList>

@@ -94,6 +94,7 @@ function App() {
               {/* Public routes */}
               <Route path="/" element={<HomePage13 />} />
               <Route path="/home/home-13" element={<HomePage13 />} />
+              
               <Route path="about" element={<AboutPage />} />
               <Route path="pricing" element={<PricingPage />} />
               <Route path="faq" element={<FaqPage />} />
@@ -150,6 +151,7 @@ function App() {
                   <Route path="messages" element={<MessageEmploeeDBPage />} />
                   <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage />} />
                   <Route path="change-password" element={<ChangePasswordEmploeeDBPage />} />
+                  <Route path="logout" element={<HomePage13 />} />
                 </Route>
               </Route>
 
@@ -167,6 +169,7 @@ function App() {
                   <Route path="packages" element={<PackagePage />} />
                   <Route path="messages" element={<MessageesPage />} />
                   <Route path="change-password" element={<ChangePasswordPage />} />
+                  <Route path="logout" element={<HomePage13 />} />
                 </Route>
               </Route>
 
