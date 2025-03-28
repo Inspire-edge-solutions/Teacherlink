@@ -282,11 +282,7 @@ const FormInfoBox = () => {
         {
           component: Experience,
           props: {
-            excludeAdditionalDetails: false,
-            excludeTeachingCurriculum: false,
-            excludeAdminCurriculum: false,
-            excludeTeachingAdminCurriculum: false,
-            className: "easy-view",
+          
           },
         },
       ],
@@ -444,11 +440,11 @@ const FormInfoBox = () => {
         toast.error("Please fill all required fields before submitting");
         return;
       }
-      console.log("Form submitted with data:", formData);
+      //console.log("Form submitted with data:", formData);
       toast.success("Profile updated successfully!");
       setShowProfile(true);
     } catch (err) {
-      console.error("Error in handleSubmit:", err);
+      //console.error("Error in handleSubmit:", err);
       toast.error("An error occurred while submitting");
     }
   };

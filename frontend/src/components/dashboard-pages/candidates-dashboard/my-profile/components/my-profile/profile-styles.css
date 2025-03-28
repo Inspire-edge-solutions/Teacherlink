@@ -703,55 +703,58 @@ select[multiple] {
   border-radius: 8px 0 0 8px;
 }
 
-/* File upload styling to match form fields */
+/* File upload styling */
 .uploadButton-input-wrap {
   position: relative;
   width: 100%;
 }
 
 .file-upload-label {
+  position: relative !important;
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  cursor: pointer;
-  height: 60px; /* Match your form field height */
-  padding: 0 20px !important;
+  height: 45px !important;
+  padding: 0 !important; /* Remove default padding */
   font-size: 14px !important;
   border: 1px solid #e6e6e6 !important;
   border-radius: 8px !important;
-  background-color: #ffffff !important;
-  transition: all 0.3s ease;
+  background-color: #f0f5f7 !important;
+  cursor: pointer;
+  overflow: hidden !important; /* Prevent content overflow */
 }
 
-.file-upload-label:hover {
-  border-color: #adadad !important;
-}
-
-.file-name {
-  color: #777;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.upload-text,
+.file-placeholder {
+  padding-left: 15px !important;
+  flex-grow: 1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  color: black !important;
+  line-height: 45px !important; /* Match height for vertical centering */
 }
 
 .file-button {
-  background-color: #f0f0f0;
-  padding: 6px 15px;
-  border-radius: 4px;
-  color: #333;
-  margin-left: 10px;
-  font-weight: 500;
-  white-space: nowrap;
-  transition: background-color 0.3s ease;
+  padding: 0 15px !important;
+  height: 100% !important; /* Full height */
+  line-height: 45px !important; /* Match height for vertical centering */
+  background-color: #f0f5f7 !important;
+  color: #333 !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+  border: none !important;
+  border-left: 1px solid #e6e6e6 !important; /* Add separator */
+  margin-left: auto !important; /* Push to right */
+}
+
+/* Hover states */
+.file-upload-label:hover {
+  border-color: #1967d2 !important;
 }
 
 .file-upload-label:hover .file-button {
-  background-color: #e0e0e0;
-}
-
-/* When a file is selected */
-.file-selected .file-name {
-  color: #333;
+  background-color: #f8f9fa !important;
 }
 
 /* Small helper text */
@@ -922,11 +925,6 @@ input:required , select:required , textarea:required{
 .uploadButton .icon {
     font-size: 24px;
     color: var(--primary-color);
-}
-
-.upload-text {
-    font-size: 15px;
-    color: #696969;
 }
 
 .upload-info {

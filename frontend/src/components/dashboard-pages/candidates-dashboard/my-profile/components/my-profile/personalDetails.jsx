@@ -5,6 +5,7 @@ import { useAuth } from "../../../../../../contexts/AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaCheckCircle } from "react-icons/fa";
+import "./profile-styles.css";
 
 const PersonalDetails = ({ className, dateOfBirth, photo }) => {
   const { user } = useAuth();
