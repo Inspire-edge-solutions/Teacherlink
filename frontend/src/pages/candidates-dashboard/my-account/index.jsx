@@ -4,7 +4,7 @@ import MyAccount from "@/components/dashboard-pages/candidates-dashboard/my-acco
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "CV Manager || TeacherLink - Job Board for Teachers",
+  title: "My Account || TeacherLink - Job Board for Teachers",
   description: "TeacherLink - Job Board for Teachers",
 };
 

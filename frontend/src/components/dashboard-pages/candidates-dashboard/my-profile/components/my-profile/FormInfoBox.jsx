@@ -284,7 +284,7 @@ const FormInfoBox = () => {
       </div>
       </div>
       <div className="mode-selection-container">
-        <h2>Select Mode</h2>
+        <h3>Select Mode</h3>
         <div className="mode-options">
           <div className="mode-card">
             <h3>Easy Mode</h3>
