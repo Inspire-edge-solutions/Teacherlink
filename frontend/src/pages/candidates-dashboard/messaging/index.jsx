@@ -1,5 +1,5 @@
 
-import Messages from "@/components/dashboard-pages/candidates-dashboard/messages";
+import Messaging from "@/components/dashboard-pages/candidates-dashboard/messaging";
 
 import MetaComponent from "@/components/common/MetaComponent";
 
@@ -8,13 +8,13 @@ const metadata = {
   description: "TeacherLink - Job Board for Teachers",
 };
 
-const MessageesPage = () => {
+const MessagingPage = () => {
   return (
     <>
     <MetaComponent meta={metadata} />
-      <Messages />
+      <Messaging />
     </>
   );
 };
 
-export default MessageesPage
+export default MessagingPage

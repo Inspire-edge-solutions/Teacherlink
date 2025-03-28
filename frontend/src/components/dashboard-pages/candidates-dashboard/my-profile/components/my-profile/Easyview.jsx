@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from "../../../../../../contexts/AuthContext";
+import { toast } from 'react-toastify'; // Import toast for notifications
+
 const FULL_API = 'https://xx22er5s34.execute-api.ap-south-1.amazonaws.com/dev/fullapi';
 
 // Format keys into a human-friendly label.
@@ -14,8 +16,7 @@ const formatDate = (dateStr) => {
   return dateStr.includes("T") ? dateStr.split("T")[0] : dateStr;
 };
 
-// RecordCard renders a section.
-// It skips internal keys and any fields whose rendered value is empty.
+// RecordCard renders a section. It skips internal keys and any fields whose rendered value is empty.
 const RecordCard = ({ title, record, renderValue }) => {
   const fieldElements = Object.entries(record)
     .map(([key, value]) => {
@@ -33,12 +34,15 @@ const RecordCard = ({ title, record, renderValue }) => {
       );
     })
     .filter(element => element !== null);
-    
+  
+  // If no valid fields are present, do not render the card.
+  if (fieldElements.length === 0) return null;
+
   return (
     <div className="card mb-4 shadow-sm">
       <div className="card-header bg-info text-white">{title}</div>
       <div className="card-body">
-        {fieldElements.length > 0 ? fieldElements : <div className="text-muted">No details provided.</div>}
+        {fieldElements}
       </div>
     </div>
   );
@@ -183,7 +187,7 @@ function UserJobProfile() {
     return <div className="alert alert-warning">No profile data found for your account.</div>;
   }
 
-  // Define sections.
+  // Define only the required sections.
   const sections = {
     personal: {
       title: "Personal Information",
@@ -258,67 +262,15 @@ function UserJobProfile() {
         "teaching_grades",
         "teaching_coreExpertise"
       ]
-    },
-    workMode: {
-      title: "Work Mode Preferences",
-      fields: [
-        "full_time_offline",
-        "full_time_online",
-        "part_time_weekdays_offline",
-        "part_time_weekdays_online",
-        "part_time_weekends_offline",
-        "part_time_weekends_online"
-      ]
-    },
-    languages: {
-      title: "Languages",
-      fields: ["languages"]
-    },
-    social: {
-      title: "Social Profile",
-      fields: [
-        "facebook",
-        "linkedin",
-        "instagram",
-        "profile_summary"
-      ]
-    },
-    additionalInfo: {
-      title: "Additional Information",
-      fields: [
-        "computer_skills",
-        "accounting_knowledge",
-        "projects",
-        "accomplishments",
-        "certifications",
-        "research_publications",
-        "patents",
-        "accommodation_required",
-        "preferable_timings",
-        "spouse_need_job",
-        "spouse_name",
-        "spouse_qualification",
-        "spouse_work_experience",
-        "spouse_expertise",
-        "additional_info",
-        "religion",
-        "differently_abled",
-        "health_issues"
-      ]
     }
   };
 
-  // Build a record for each section.
-  // For additionalInfo, each field is set to "Not Provided" if missing.
+  // Build a record for each section using profile data.
   const sectionRecords = {};
   Object.entries(sections).forEach(([key, { fields }]) => {
     const record = {};
     fields.forEach(field => {
-      if (key === "additionalInfo") {
-        record[field] = profileData[field] ? profileData[field] : "Not Provided";
-      } else {
-        record[field] = profileData[field] || "";
-      }
+      record[field] = profileData[field] || "";
     });
     sectionRecords[key] = record;
   });
@@ -326,7 +278,7 @@ function UserJobProfile() {
   return (
     <div className="bg-light min-vh-100 py-4">
       <div className="container">
-      <button className="btn btn-primary d-flex justify-content-end" onClick={() => {
+        <button className="btn btn-primary d-flex justify-content-end" onClick={() => {
           window.location.href = "/candidates-dashboard/my-profile";
         }}>
           Edit Profile

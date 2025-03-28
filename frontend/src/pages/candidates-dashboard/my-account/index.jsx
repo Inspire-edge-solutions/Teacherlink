@@ -1,5 +1,5 @@
 
-import CvManager from "@/components/dashboard-pages/candidates-dashboard/cv-manager";
+import MyAccount from "@/components/dashboard-pages/candidates-dashboard/my-account";
 
 import MetaComponent from "@/components/common/MetaComponent";
 
@@ -8,13 +8,13 @@ const metadata = {
   description: "TeacherLink - Job Board for Teachers",
 };
 
-const CVMannagerPage = () => {
+const MyAccountPage = () => {
   return (
     <>
     <MetaComponent meta={metadata} />
-      <CvManager />
+      <MyAccount />
     </>
   );
 };
 
-export default CVMannagerPage
+export default MyAccountPage
