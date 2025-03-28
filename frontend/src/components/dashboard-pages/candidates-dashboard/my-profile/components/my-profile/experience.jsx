@@ -513,8 +513,6 @@ const Experience = ({
 
   return (
     <div className="work-experience-section">
-      <h3>Work Experience</h3>
-
       {/* Total and Teaching Experience */}
       <div className="experience-row">
         <div className="experience-col">
@@ -554,7 +552,7 @@ const Experience = ({
         </div>
 
         <div className="experience-col">
-          <h4>Teaching Experience (Full Time + Part Time)</h4>
+          <h4>Total Teaching Exp (Full Time + Part Time)</h4>
           <div className="duration-selector">
             <select
               value={workExperience.teaching.years}
@@ -1622,12 +1620,11 @@ const Experience = ({
             </thead>
             <tbody>
               {[
-                { key: "edTechCompany", label: "Ed. Tech company" },
-                { key: "online", label: "Online" },
-                { key: "coachingTuition", label: "Coaching / Tuition Centers" },
-                { key: "groupTuitions", label: "Group Tuitions" },
-                { key: "privateTuitions", label: "Private Tuitions" },
-                { key: "homeTuitions", label: "Home Tuitions" }
+                { key: "edTechCompany", label: "Worked in Edu tech.companies ?" },
+                { key: "online", label: "Experience of content preparation ?" },
+                { key: "coachingTuition", label: "Expertise of handling online classes ?" },
+                { key: "groupTuitions", label: "Experience of working in Coaching / Tuition Centers ?" },
+                { key: "privateTuitions", label: "Experience of handling Personal / Home tuitions ? " },
               ].map(({ key, label }) => (
                 <tr key={key}>
                   <td>{label}</td>

@@ -468,6 +468,15 @@ const Education = ({
     fetchDegrees();
   }, []);
 
+  // For Grade 10, Degree, Master's, etc. where you need year selection
+  const generateYearOptions = (startYear = 1960, endYear = new Date().getFullYear()) => {
+    const years = [];
+    for (let year = endYear; year >= startYear; year--) {
+      years.push(<option key={year} value={year}>{year}</option>);
+    }
+    return years;
+  };
+
   // ------------------- Render education fields based on type -------------------
   const renderEducationFields = (type, data, index) => {
     switch (type) {
@@ -521,16 +530,7 @@ const Education = ({
                 required
               >
                 <option value="">Year of Passing</option>
-                {(() => {
-                  const currentYear = new Date().getFullYear();
-                  const years = [];
-                  const minYear = currentYear - 14;
-                  const maxYear = data.courseStatus === "Pursuing" ? currentYear + 2 : currentYear;
-                  for (let year = maxYear; year >= minYear; year--) {
-                    years.push(<option key={year} value={year}>{year}</option>);
-                  }
-                  return years;
-                })()}
+                {generateYearOptions()}
               </select>
             </div>
             <div className="form-group col-lg-6 col-md-12">
@@ -656,16 +656,7 @@ const Education = ({
                   required
                 >
                   <option value="">Year of Passing</option>
-                  {(() => {
-                    const currentYear = new Date().getFullYear();
-                    const years = [];
-                    const minYear = currentYear - 16;
-                    const maxYear = data.courseStatus === "Pursuing" ? currentYear + 3 : currentYear;
-                    for (let year = maxYear; year >= minYear; year--) {
-                      years.push(<option key={year} value={year}>{year}</option>);
-                    }
-                    return years;
-                  })()}
+                  {generateYearOptions()}
                 </select>
               </div>
               <div className="form-group col-lg-6 col-md-12">
@@ -784,15 +775,14 @@ const Education = ({
                 </div>
               )}
               <div className="form-group col-lg-6 col-md-12">
-                <input
-                  type="number"
+                <select
                   value={data.yearOfPassing}
-                  placeholder="Year of Passing"
                   onChange={(e) => handleEducationDataChange(index, "yearOfPassing", e.target.value)}
-                  min={new Date().getFullYear() - 4}
-                  max={data.courseStatus === "Pursuing" ? new Date().getFullYear() + 2 : new Date().getFullYear()}
                   required
-                />
+                >
+                  <option value="">Year of Passing</option>
+                  {generateYearOptions()}
+                </select>
               </div>
               <div className="form-group col-lg-6 col-md-12">
                 <Select
@@ -896,16 +886,7 @@ const Education = ({
                   required
                 >
                   <option value="">Year of Completion</option>
-                  {(() => {
-                    const currentYear = new Date().getFullYear();
-                    const years = [];
-                    const minYear = currentYear - 20;
-                    const maxYear = data.courseStatus === "Pursuing" ? currentYear + 5 : currentYear;
-                    for (let year = maxYear; year >= minYear; year--) {
-                      years.push(<option key={year} value={year}>{year}</option>);
-                    }
-                    return years;
-                  })()}
+                  {generateYearOptions()}
                 </select>
               </div>
               <div className="form-group col-lg-6 col-md-12">
@@ -963,16 +944,7 @@ const Education = ({
                     required
                   >
                     <option value="">Year of Passing</option>
-                    {(() => {
-                      const currentYear = new Date().getFullYear();
-                      const years = [];
-                      const minYear = currentYear - 16;
-                      const maxYear = data.courseStatus === "Pursuing" ? currentYear + 1 : currentYear;
-                      for (let year = maxYear; year >= minYear; year--) {
-                        years.push(<option key={year} value={year}>{year}</option>);
-                      }
-                      return years;
-                    })()}
+                    {generateYearOptions()}
                   </select>
                 </div>
               ) : (
@@ -1034,16 +1006,7 @@ const Education = ({
                       required
                     >
                       <option value="">Year of Passing</option>
-                      {(() => {
-                        const currentYear = new Date().getFullYear();
-                        const years = [];
-                        const minYear = currentYear - 16;
-                        const maxYear = data.courseStatus === "Pursuing" ? currentYear + 1 : currentYear;
-                        for (let year = maxYear; year >= minYear; year--) {
-                          years.push(<option key={year} value={year}>{year}</option>);
-                        }
-                        return years;
-                      })()}
+                      {generateYearOptions()}
                     </select>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
@@ -1143,16 +1106,7 @@ const Education = ({
                   required
                 >
                   <option value="">Year of Passing</option>
-                  {(() => {
-                    const currentYear = new Date().getFullYear();
-                    const years = [];
-                    const minYear = currentYear - 16;
-                    const maxYear = data.courseStatus === "Pursuing" ? currentYear + 1 : currentYear;
-                    for (let year = maxYear; year >= minYear; year--) {
-                      years.push(<option key={year} value={year}>{year}</option>);
-                    }
-                    return years;
-                  })()}
+                  {generateYearOptions()}
                 </select>
               </div>
               <div className="form-group col-lg-6 col-md-12">
@@ -1266,16 +1220,7 @@ const Education = ({
                   required
                 >
                   <option value="">Year of Passing</option>
-                  {(() => {
-                    const currentYear = new Date().getFullYear();
-                    const years = [];
-                    const minYear = currentYear - 14;
-                    const maxYear = data.courseStatus === "Pursuing" ? currentYear + 2 : currentYear;
-                    for (let year = maxYear; year >= minYear; year--) {
-                      years.push(<option key={year} value={year}>{year}</option>);
-                    }
-                    return years;
-                  })()}
+                  {generateYearOptions()}
                 </select>
               </div>
               {certificateSpecialization && (
@@ -1320,10 +1265,7 @@ const Education = ({
                     required
                   >
                     <option value="">Year of Passing</option>
-                    {Array.from({ length: 15 }, (_, i) => {
-                      const year = new Date().getFullYear() - i;
-                      return <option key={year} value={year}>{year}</option>;
-                    })}
+                    {generateYearOptions()}
                   </select>
                 </div>
               ) : (
@@ -1386,10 +1328,7 @@ const Education = ({
                       required
                     >
                       <option value="">Year of Passing</option>
-                      {Array.from({ length: 15 }, (_, i) => {
-                        const year = new Date().getFullYear() - i;
-                        return <option key={year} value={year}>{year}</option>;
-                      })}
+                      {generateYearOptions()}
                     </select>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
@@ -1502,10 +1441,9 @@ const Education = ({
   return (
     <form onSubmit={handleSubmit} className="education-form">
       <div className="form-group col-lg-12 col-md-12">
-        <h3>Education Details</h3>
         {/* Grade 10 Section (Mandatory) */}
         <div className="education-section">
-          <h4>Grade 10</h4>
+          <h6>Grade 10</h6>
           {isEasyMode ? (
             <div className="form-group col-lg-6 col-md-12">
               <select
@@ -1514,10 +1452,7 @@ const Education = ({
                 required
               >
                 <option value="">Year of Passing</option>
-                {Array.from({ length: 15 }, (_, i) => {
-                  const year = new Date().getFullYear() - i;
-                  return <option key={year} value={year}>{year}</option>;
-                })}
+                {generateYearOptions()}
               </select>
             </div>
           ) : (
@@ -1550,10 +1485,7 @@ const Education = ({
                   required
                 >
                   <option value="">Year of Passing</option>
-                  {Array.from({ length: 15 }, (_, i) => {
-                    const year = new Date().getFullYear() - i;
-                    return <option key={year} value={year}>{year}</option>;
-                  })}
+                  {generateYearOptions()}
                 </select>
               </div>
               <div className="form-group col-lg-6 col-md-12">
@@ -1596,7 +1528,7 @@ const Education = ({
         ))}
         {/* Add More Education Section */}
         <div className="add-education-section">
-          <h4>Add More Education</h4>
+          <h6>Add More Education</h6>
           <div className="row">
             <div className="form-group col-lg-6 col-md-12">
               <select
