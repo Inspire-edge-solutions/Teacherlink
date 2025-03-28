@@ -282,7 +282,7 @@ const FormInfoBox = () => {
         {
           component: Experience,
           props: {
-          
+            className: "easy-view",
           },
         },
       ],
@@ -577,7 +577,7 @@ const FormInfoBox = () => {
         <div className="default-form">
           <div className="step-progress">
             <div className="step-title">
-              <h4>Step {currentStep} of {totalSteps}: {currentStepData?.title || "Loading..."}</h4>
+              <h4>Step {currentStep} of {totalSteps}: <span className="step-title-text">{currentStepData?.title || "Loading..."}</span></h4>
             </div>
             <div className="progress-bar">
               <div className="progress" style={{ width: `${(currentStep / totalSteps) * 100}%` }}></div>

@@ -606,7 +606,7 @@ const JobPreference = ({ formData, updateFormData }) => {
   const renderJobDetailsSection = () => (
     <div className="form-group col-lg-12">
       <div className="form-box">
-        <h3 className="form-title" style={{color:"brown"}}>Expected Job Preferences :</h3>
+        <h3 className="form-title">Expected Job Preferences</h3>
         <div className="row">
           {/* Job Type */}
           <div className="form-group col-lg-6 col-md-12">
@@ -630,24 +630,19 @@ const JobPreference = ({ formData, updateFormData }) => {
           {/* Expected Salary */}
           <div className="form-group col-lg-6 col-md-12">
             <div className="input-wrapper">
-              <select
-                placeholder="Expected salary(INR)"
+              <Select
                 required
-                value={jobDetails.expected_salary}
-                onChange={(e) =>
+                placeholder="Expected salary(INR)"
+                value={salaryRanges.find(option => option.value === jobDetails.expected_salary)}
+                onChange={(selectedOption) =>
                   setJobDetails((prev) => ({
                     ...prev,
-                    expected_salary: e.target.value,
+                    expected_salary: selectedOption.value,
                   }))
                 }
-              >
-                <option value="">Expected salary(INR)</option>
-                {salaryRanges.map((range) => (
-                  <option key={range.value} value={range.value}>
-                    {range.label}
-                  </option>
-                ))}
-              </select>
+                options={salaryRanges}
+                className="custom-select required"
+              />
               <span className="custom-tooltip">Expected salary(INR)</span>
             </div>
           </div>
@@ -1266,7 +1261,7 @@ const JobPreference = ({ formData, updateFormData }) => {
 
       {/* Job Search Status Section */}
       <div className="form-group">
-        <h3 className="form-title" style={{color:"brown"}}>Job Search Status :</h3>
+        <h3 className="form-title">Job Search Status</h3>
         <div className="row">
           <div className="form-group col-lg-6 col-md-12">
             <label htmlFor="Full_time_status">Full Time</label>

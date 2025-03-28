@@ -2,7 +2,7 @@ const candidateMenus = [
   {
     id: 1,
     name: "Dashboard",
-    icon: "icon-chart-bar",
+    icon: "icon-home",
     routePath: "/candidates-dashboard/dashboard",
   },
   {
@@ -10,21 +10,18 @@ const candidateMenus = [
     name: "My Account",
     icon: "icon-user",
     routePath: "/candidates-dashboard/my-account",
-    
   },
   {
     id: 3,
     name: "My Profile",
     icon: "icon-user",
     routePath: "/candidates-dashboard/my-profile",
-    
   },
   {
     id: 4,
     name: "All Jobs",
-    icon: "icon-user",
+    icon: "icon-bookmark",
     routePath: "/candidates-dashboard/all-jobs",
-    
   },
   {
     id: 5,
@@ -51,13 +48,13 @@ const candidateMenus = [
     routePath: "/candidates-dashboard/meetings",
   },
   {
-    id: 9,
+    id: 10,
     name: "Change Password",
     icon: "icon-lock",
     routePath: "/candidates-dashboard/change-password",
   },
   {
-    id: 10,
+    id: 11,
     name: "Logout",
     icon: "icon-logout",
     routePath: "/candidates-dashboard/logout",
