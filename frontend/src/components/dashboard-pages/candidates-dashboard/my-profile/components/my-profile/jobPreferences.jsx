@@ -70,7 +70,7 @@ const JobPreference = ({ formData, updateFormData }) => {
     preferred_country: '',
     preferred_state: '',
     preferred_city: '',
-    notice_period: ''
+    notice_period: null,
   });
 
   const Job_TypeOptions = [
@@ -653,18 +653,24 @@ const JobPreference = ({ formData, updateFormData }) => {
               <Select
                 placeholder="Notice Period"
                 options={[
-                  { value: '', label: 'Notice Period' },
                   { value: 'immediateJoiner', label: 'Immediate Joiner' },
                   { value: 'lessThan7', label: '< 7 days' },
                   { value: 'lessThan15', label: '< 15 days' },
                   { value: 'lessThan1Month', label: '< 1 month' },
                   { value: 'moreThan1Month', label: '> 1 Month' },
                 ]}
-                value={jobDetails.notice_period}
+                value={
+                  jobDetails.notice_period
+                    ? { 
+                        value: jobDetails.notice_period.value || jobDetails.notice_period, 
+                        label: jobDetails.notice_period.label || jobDetails.notice_period
+                      }
+                    : null
+                }
                 onChange={(selected) =>
                   setJobDetails((prev) => ({
                     ...prev,
-                    notice_period: selected,
+                    notice_period: selected
                   }))
                 }
                 className="custom-select required"

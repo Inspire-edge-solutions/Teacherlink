@@ -1,9 +1,56 @@
-import React from "react";
+import MobileMenu from "../../../header/MobileMenu";
+import LoginPopup from "../../../common/form/login/LoginPopup";
+import DashboardCandidatesSidebar from "../../../header/DashboardCandidatesSidebar";
+import CopyrightFooter from "../../CopyrightFooter";
+import DashboardCandidatesHeader from "../../../header/DashboardCandidatesHeader";
+import MenuToggler from "../../MenuToggler";
+import Filters from "./Components/Filters";
 
-const AllJobs = () => {
-  return <div>
-    <h3 style={{textAlign: "center", marginTop: "100px",color: "orchid"}}>This page is under construction</h3>
-  </div>;
+const index = () => {
+  return (
+    <div className="page-wrapper dashboard">
+      {/* <span className="header-span"></span> */}
+      {/* <!-- Header Span for hight --> */}
+
+      {/* <LoginPopup /> */}
+      {/* End Login Popup Modal */}
+
+      {/* <DashboardCandidatesHeader /> */}
+      {/* End Header */}
+
+      <MobileMenu />
+      {/* End MobileMenu */}
+
+      <DashboardCandidatesSidebar />
+      {/* <!-- End Candidates Sidebar Menu --> */}
+
+      {/* <!-- Dashboard --> */}
+      <section className="user-dashboard">
+        <div className="dashboard-outer">
+
+          <MenuToggler />
+          {/* Collapsible sidebar button */}
+
+          <div className="row">
+              {/* <div className="ls-widget"> */}
+                  <Filters />
+                    {/* This is where sub-components will render */}
+                    <div className="profile-content-area">
+                      {/* Common elements that appear on all sub-pages */}
+                    </div>
+              {/* </div> */}
+          </div>
+          {/* End .row */}
+        </div>
+        {/* End dashboard-outer */}
+      </section>
+      {/* <!-- End Dashboard --> */}
+
+      <CopyrightFooter />
+      {/* <!-- End Copyright --> */}
+    </div>
+    // End page-wrapper
+  );
 };
 
-export default AllJobs;
+export default index;

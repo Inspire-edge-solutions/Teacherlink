@@ -57,8 +57,6 @@ const FormInfoBox = () => {
   const [showProfile, setShowProfile] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({});
-  const [isStepValid, setIsStepValid] = useState(false);
-  const [stepValidations, setStepValidations] = useState({});
   const stepRef = useRef(null);
 
   // Store current user's UID in formData.
@@ -103,7 +101,7 @@ const FormInfoBox = () => {
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
-      setDemoVideoError("File size must be less than 10MB");
+      //setDemoVideoError("File size must be less than 10MB");
       toast.error("File size must be less than 10MB");
       return;
     }
@@ -399,10 +397,6 @@ const FormInfoBox = () => {
 
   const nextStep = () => {
     try {
-      if (!isStepValid) {
-        toast.error("Please fill all required fields before proceeding");
-        return;
-      }
       const maxSteps = viewMode === "easy" ? easyModeSteps.length : fullModeSteps.length;
       if (currentStep < maxSteps) {
         setCurrentStep(currentStep + 1);
@@ -436,24 +430,16 @@ const FormInfoBox = () => {
 
   const handleSubmit = () => {
     try {
-      if (!isStepValid) {
-        toast.error("Please fill all required fields before submitting");
-        return;
-      }
-      //console.log("Form submitted with data:", formData);
-      toast.success("Profile updated successfully!");
+      //toast.success("Profile updated successfully!");
       setShowProfile(true);
     } catch (err) {
-      //console.error("Error in handleSubmit:", err);
       toast.error("An error occurred while submitting");
     }
   };
 
-  const updateFormData = (stepData, isValid) => {
+  const updateFormData = (stepData) => {
     try {
       setFormData((prev) => ({ ...prev, ...stepData }));
-      setStepValidations((prev) => ({ ...prev, [currentStep]: isValid }));
-      setIsStepValid(isValid);
     } catch (err) {
       console.error("Error in updateFormData:", err);
       toast.error("An error occurred while updating data");
@@ -495,7 +481,13 @@ const FormInfoBox = () => {
       return (
         <div ref={stepRef}>
           {currentStepData.components.map(({ component: StepComponent, props }, idx) => (
-            <StepComponent key={idx} {...props} formData={formData} updateFormData={(data, isValid) => updateFormData(data, isValid)} />
+            <StepComponent 
+              key={idx} 
+              {...props} 
+              isEasyMode={viewMode === "easy"}
+              formData={formData} 
+              updateFormData={updateFormData}
+            />
           ))}
         </div>
       );
