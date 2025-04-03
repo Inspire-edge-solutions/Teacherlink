@@ -1,0 +1,20 @@
+{
+  "name": "job_prefer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1692.0",
+    "cors": "^2.8.5",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.14.0",
+    "serverless-offline": "^14.4.0"
+  },
+  "description": ""
+}

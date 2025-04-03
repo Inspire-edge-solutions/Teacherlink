@@ -39,12 +39,14 @@ functions:
           cors: true
 
   mapApi:
-    handler: map.getAllData
+    handler: map.getAllData 
     events:
       - http:
           path: map
           method: get
           cors: true
+
+
 
 plugins:
   - serverless-offline

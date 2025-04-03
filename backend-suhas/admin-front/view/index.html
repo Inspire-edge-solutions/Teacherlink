@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Job Profile</title>
+  <style>
+    /* ===== GLOBAL RESETS & FONTS ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0; 
+      padding: 0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+    body {
+      background-color: #f2f2f5; /* Subtle gray for page background */
+      color: #333;
+      line-height: 1.6;
+      padding: 0 15px;
+    }
+
+    /* ===== SMALL TEXT TOP-LEFT ===== */
+    .small-text-top-left {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 0.85rem;
+      color: #555;
+      background-color: #fff;
+      padding: 5px 10px;
+      border-radius: 5px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      z-index: 999;
+      opacity: 0.9;
+    }
+
+    /* ===== MAIN CONTAINER ===== */
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      padding: 20px 30px;
+      border-bottom: 1px solid #ddd;
+    }
+    .section:last-of-type {
+      border-bottom: none;
+    }
+    .section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #e2e2e2;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background-color: #1d3557; /* A dark, professional navy/blue */
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    /* ===== INFO ROWS (LABEL:VALUE) ===== */
+    .info-row {
+      margin-bottom: 8px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .info-label {
+      font-weight: bold;
+      min-width: 150px;
+    }
+    .info-value {
+      flex: 1; 
+    }
+
+    /* ===== TABLES ===== */
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+    .info-table th,
+    .info-table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+    .info-table th {
+      background-color: #f7f9fc; /* Slightly tinted for table headers */
+      width: 30%;
+      font-weight: bold;
+      color: #444;
+    }
+
+    /* ===== BULLET LISTS ===== */
+    .bullet-list {
+      list-style-type: disc;
+      list-style-position: outside;
+      margin: 6px 0 6px 24px; /* Indent from the left */
+      padding: 0;
+    }
+    .bullet-list li {
+      margin-bottom: 4px; /* Space between list items */
+    }
+
+    /* ===== CARD STYLE ===== */
+    .card {
+      background-color: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 600px) {
+      .info-label {
+        min-width: 100%;
+        margin-bottom: 2px;
+      }
+      .info-table th {
+        width: auto;
+      }
+      .card {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="small-text-top-left">Easy View</div>
+
+<div class="container">
+  <!-- PERSONAL INFO -->
+  <div class="section" id="personalSection">
+    <h2>Personal Information</h2>
+  </div>
+
+  <!-- PRESENT ADDRESS -->
+  <div class="section" id="addressSection">
+    <h2>Present Address</h2>
+  </div>
+
+  <!-- EDUCATION DETAILS -->
+  <div class="section" id="educationSection">
+    <h2>Education Details</h2>
+  </div>
+
+  <!-- WORK EXPERIENCE -->
+  <div class="section" id="workExperienceSection">
+    <h2>Work Experience</h2>
+  </div>
+
+  <!-- JOB PREFERENCE -->
+  <div class="section" id="jobPreferenceSection">
+    <h2>Job Preference</h2>
+  </div>
+</div>
+
+<script>
+  // ================== YOUR API ENDPOINTS ==================
+  const personalAPI = "https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/personal";
+  const addressAPI = "https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/presentAddress";
+  const educationAPI = "https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/educationDetails";
+  const workExperienceAPI = "https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/workExperience";
+  const jobPreferenceAPI = "https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/jobPreference";
+
+  /**
+   * If data is an array, returns the last element. Otherwise, returns data as-is.
+   */
+  function getLastRecord(data) {
+    if (!data) return null;
+    if (Array.isArray(data) && data.length > 0) {
+      return data[data.length - 1];
+    }
+    return Array.isArray(data) ? null : data;
+  }
+
+  /**
+   * Convert a string key to a more readable label.
+   */
+  function formatLabel(key) {
+    return key
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (l) => l.toUpperCase());
+  }
+
+  /**
+   * Format date from "YYYY-MM-DDT00:00:00.000Z" to "YYYY-MM-DD"
+   */
+  function formatDate(dateStr) {
+    if (!dateStr) return "";
+    return dateStr.includes("T") ? dateStr.split("T")[0] : dateStr;
+  }
+
+  /**
+   * Render arrays/objects as bullet lists, strings/numbers as text.
+   * For strings, if the value is valid JSON, it will be parsed and rendered as a bullet list.
+   */
+  function renderValue(value, skipEmpty = true) {
+    if (value === null || value === undefined) return skipEmpty ? "" : "null";
+    if (typeof value === "string") {
+      const trimmed = value.trim();
+      if (skipEmpty && trimmed === "") return "";
+      // Attempt to parse JSON if possible
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (typeof parsed === "object" && parsed !== null) {
+          return renderValue(parsed, skipEmpty);
+        }
+      } catch (e) {
+        // Not a JSON string, continue with the trimmed string
+      }
+      return trimmed;
+    }
+    if (Array.isArray(value)) {
+      let listItems = value.map((item) => renderValue(item, skipEmpty));
+      if (skipEmpty) {
+        listItems = listItems.filter((v) => v !== "");
+      }
+      listItems = listItems.map((v) => `<li>${v}</li>`).join("");
+      return listItems ? `<ul class="bullet-list">${listItems}</ul>` : (skipEmpty ? "" : "<ul></ul>");
+    }
+    if (typeof value === "object") {
+      let listItems = "";
+      for (const k in value) {
+        if (!value.hasOwnProperty(k)) continue;
+        if (k === "id" || k === "user_id") continue;
+        // Skip firebase uid fields
+        if (k.toLowerCase().includes("firebase")) continue;
+        const subVal = renderValue(value[k], skipEmpty);
+        if (!skipEmpty || subVal !== "") {
+          listItems += `<li>${formatLabel(k)}: ${subVal}</li>`;
+        }
+      }
+      return listItems ? `<ul class="bullet-list">${listItems}</ul>` : (skipEmpty ? "" : "<ul></ul>");
+    }
+    return String(value);
+  }
+
+  /**
+   * Create a label:value row. If skipEmpty is true, 
+   * we skip fields with empty rendered content.
+   */
+  function displayField(key, rawValue, skipEmpty = true) {
+    if (key === "id" || key === "user_id") return "";
+    const label = formatLabel(key);
+    let value = rawValue;
+    if (/date/i.test(key)) {
+      value = formatDate(rawValue);
+    }
+    const rendered = renderValue(value, skipEmpty);
+    if (skipEmpty && rendered === "") return "";
+    return `
+      <div class="info-row">
+        <div class="info-label">${label}:</div>
+        <div class="info-value">${rendered}</div>
+      </div>
+    `;
+  }
+
+  /**
+   * Display a single record as a card (for personal, address, etc.).
+   */
+  function displayRecordInCard(record, containerId, skipEmpty = true) {
+    if (!record) return;
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    let cardHTML = `<div class="card">`;
+    for (const key in record) {
+      if (!record.hasOwnProperty(key)) continue;
+      cardHTML += displayField(key, record[key], skipEmpty);
+    }
+    cardHTML += `</div>`;
+    const textCheck = cardHTML.replace(/<[^>]*>/g, "").trim();
+    if (textCheck && textCheck !== "card") {
+      container.insertAdjacentHTML("beforeend", cardHTML);
+    }
+  }
+
+  /**
+   * Display a single record in a table.
+   */
+  function displayRecordInTable(record, containerId, iconMap = {}, skipEmpty = true) {
+    if (!record) return;
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    let tableRows = "";
+    for (const key in record) {
+      if (!record.hasOwnProperty(key)) continue;
+      if (key === "id" || key === "user_id") continue;
+      // Skip firebase uid fields in any record
+      if (key.toLowerCase().includes("firebase")) continue;
+      let rawValue = record[key];
+      let rendered = renderValue(rawValue, skipEmpty);
+      if (/date/i.test(key)) {
+        rendered = formatDate(rawValue);
+      }
+      const label = formatLabel(key);
+      const icon = iconMap[label] ? iconMap[label] + " " : "";
+      if (!skipEmpty || rendered !== "") {
+        tableRows += `<tr><th>${icon}${label}</th><td>${rendered}</td></tr>`;
+      }
+    }
+    if (tableRows) {
+      const tableHTML = `
+        <table class="info-table">
+          ${tableRows}
+        </table>
+      `;
+      container.insertAdjacentHTML("beforeend", tableHTML);
+    }
+  }
+
+  /**
+   * Filter out keys containing "created" or "updated" (case-insensitive)
+   * from the education record.
+   */
+  function filterEducationRecord(record) {
+    if (!record || typeof record !== "object") return record;
+    const filtered = {};
+    for (const key in record) {
+      if (!record.hasOwnProperty(key)) continue;
+      const lowerKey = key.toLowerCase();
+      if (lowerKey.includes("created") || lowerKey.includes("updated")) continue;
+      filtered[key] = record[key];
+    }
+    return filtered;
+  }
+
+  // ========== FETCH PERSONAL DETAILS ==========
+  async function fetchPersonal() {
+    try {
+      const response = await fetch(personalAPI);
+      const data = await response.json();
+      const latest = getLastRecord(data);
+      displayRecordInCard(latest, "personalSection", true);
+    } catch (err) {
+      console.error("Error fetching personal details:", err);
+    }
+  }
+
+  // ========== FETCH PRESENT ADDRESS ==========
+  async function fetchAddress() {
+    try {
+      const response = await fetch(addressAPI);
+      const data = await response.json();
+      const latest = getLastRecord(data);
+      const icons = {
+        "Country Name": "🌍",
+        "State Name": "🏙️",
+        "City Name": "📍",
+        "House No And Street": "🏠",
+        "Pincode": "🔢"
+      };
+      displayRecordInTable(latest, "addressSection", icons, true);
+    } catch (err) {
+      console.error("Error fetching address details:", err);
+    }
+  }
+
+  // ========== FETCH EDUCATION DETAILS ==========
+  async function fetchEducation() {
+    try {
+      const response = await fetch(educationAPI);
+      const data = await response.json();
+      const latest = getLastRecord(data);
+      const filteredLatest = filterEducationRecord(latest);
+      displayRecordInCard(filteredLatest, "educationSection", true);
+    } catch (err) {
+      console.error("Error fetching education details:", err);
+    }
+  }
+
+  // ========== FETCH WORK EXPERIENCE ==========
+  async function fetchWorkExperience() {
+    try {
+      const response = await fetch(workExperienceAPI);
+      const data = await response.json();
+      const combined = [
+        ...(data.mysqlData || []),
+        ...(data.dynamoData?.experienceEntries || [])
+      ];
+      const latest = getLastRecord(combined);
+      displayRecordInCard(latest, "workExperienceSection", true);
+    } catch (err) {
+      console.error("Error fetching work experience details:", err);
+    }
+  }
+
+  // ========== FETCH JOB PREFERENCE ==========
+  async function fetchJobPreference() {
+    try {
+      const response = await fetch(jobPreferenceAPI);
+      const data = await response.json();
+      const latest = getLastRecord(data);
+      displayRecordInTable(latest, "jobPreferenceSection", {}, true);
+    } catch (err) {
+      console.error("Error fetching job preference details:", err);
+    }
+  }
+
+  // ========== INIT: FETCH ALL ==========
+  (async function init() {
+    await fetchPersonal();
+    await fetchAddress();
+    await fetchEducation();
+    await fetchWorkExperience();
+    await fetchJobPreference();
+  })();
+</script>
+</body>
+</html>
