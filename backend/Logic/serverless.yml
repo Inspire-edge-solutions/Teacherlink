@@ -205,10 +205,6 @@ functions:
           path: subscription/{firebase_uid}
           method: get
           cors: true
-      - http:
-          path: subscription/{firebase_uid}
-          method: delete
-          cors: true
 
   cost:
     handler: src/handlers/cost.lambdaHandler
@@ -239,6 +235,10 @@ functions:
       - http:
           path: submission
           method: post
+          cors: true
+      - http:
+          path: submission/{id}
+          method: get
           cors: true
 
   referralRegistration:

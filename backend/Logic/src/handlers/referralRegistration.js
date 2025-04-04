@@ -1,11 +1,5 @@
-// referralRegistration.js
-// Handles the automatic processing of a bulk referral registration.
-// When a new user registers using the referral link, they provide the referral_token, their Firebase UID,
-// and the contact_number (which must match one of the 20 pre-submitted contacts).
-// This function marks that contact as registered and checks if the threshold is met to award a bonus.
-
-import { getDBConnection } from '../utils/db.js';
-import { getSecrets } from '../utils/secrets.js';
+import { getDBConnection } from "../utils/db.js";
+import { getSecrets } from "../utils/secrets.js";
 
 const corsHeaders = {
   "Content-Type": "application/json",
@@ -15,18 +9,21 @@ const corsHeaders = {
 };
 
 export const lambdaHandler = async (event) => {
-  if (event.httpMethod === 'OPTIONS') {
+  // Handle preflight requests
+  if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 200,
       headers: corsHeaders,
       body: JSON.stringify({ success: true, message: "Preflight successful" })
     };
   }
+  
   console.log("🔹 Referral Registration Handler - Raw event:", JSON.stringify(event));
   
+  let conn;
   try {
     const secret = await getSecrets("inspireedge", "ap-south-1");
-    const conn = await getDBConnection(secret);
+    conn = await getDBConnection(secret);
     
     let bodyObj = {};
     if (event.body) {
@@ -38,12 +35,14 @@ export const lambdaHandler = async (event) => {
     }
     Object.assign(event, bodyObj);
     
+    // Expected payload for registration:
+    // { referral_token, new_firebase_uid, contact_number }
     const { referral_token, new_firebase_uid, contact_number } = event;
     if (!referral_token || !new_firebase_uid || !contact_number) {
       throw new Error("referral_token, new_firebase_uid, and contact_number are required.");
     }
     
-    // Update the referral_contacts record for this contact.
+    // Redeem the referral by marking the matching row as registered.
     const [updateResult] = await conn.execute(
       "UPDATE referral_contacts SET is_registered = TRUE, registration_date = NOW() WHERE referral_token = ? AND contact_number = ? AND is_registered = FALSE",
       [referral_token, contact_number]
@@ -53,7 +52,7 @@ export const lambdaHandler = async (event) => {
     }
     await conn.commit();
     
-    // Count how many contacts (of the 20) are now registered.
+    // Count how many contacts have been registered for this referral token.
     const [countResult] = await conn.execute(
       "SELECT COUNT(*) AS regCount FROM referral_contacts WHERE referral_token = ? AND is_registered = TRUE",
       [referral_token]
@@ -61,7 +60,7 @@ export const lambdaHandler = async (event) => {
     const registeredCount = countResult[0].regCount;
     console.log("🔹 Total registered contacts for referral_token:", registeredCount);
     
-    // Retrieve the referral record.
+    // Retrieve the referral record to determine the referrer.
     const [referralRows] = await conn.execute(
       "SELECT * FROM referrals WHERE referral_token = ? AND is_bulk = TRUE",
       [referral_token]
@@ -71,7 +70,7 @@ export const lambdaHandler = async (event) => {
     }
     const referral = referralRows[0];
     
-    // Retrieve the referrer's Firebase UID and user type.
+    // Get the referrer's Firebase UID and then retrieve their user type.
     const referrerFirebaseUID = referral.referrer_firebase_uid;
     const [userRows] = await conn.execute(
       "SELECT user_type FROM users WHERE firebase_uid = ?",
@@ -83,7 +82,7 @@ export const lambdaHandler = async (event) => {
     const referrerUserType = userRows[0].user_type;
     console.log(`🔹 Referrer user_type: ${referrerUserType}`);
     
-    // Fetch bonus configuration from referral_bonus_config.
+    // Fetch bonus configuration for the referrer's user type.
     const [bonusConfigRows] = await conn.execute(
       "SELECT referral_threshold, bonus_coins FROM referral_bonus_config WHERE user_type = ?",
       [referrerUserType]
@@ -92,14 +91,14 @@ export const lambdaHandler = async (event) => {
       const { referral_threshold, bonus_coins } = bonusConfigRows[0];
       console.log(`🔹 Bonus config for ${referrerUserType}: threshold = ${referral_threshold}, bonus_coins = ${bonus_coins}`);
       
-      // Retrieve the subscription record (including the bonus flag) for the referrer.
+      // Retrieve the subscription record for the referrer.
       const [subs] = await conn.execute(
         "SELECT referral_bonus_awarded FROM subscriptions WHERE firebase_uid = ?",
         [referrerFirebaseUID]
       );
       if (subs.length > 0) {
         const subscription = subs[0];
-        // Award bonus only if not already awarded and the registered contacts count meets/exceeds threshold.
+        // Award bonus if not already awarded and the registered count meets/exceeds the threshold.
         if (!subscription.referral_bonus_awarded && registeredCount >= referral_threshold) {
           console.log(`🔹 Awarding bonus of ${bonus_coins} coins to ${referrerFirebaseUID}`);
           await conn.execute(
