@@ -5,7 +5,7 @@ import Home from "@/components/home-13";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Home-13 || TeacherLink - Job Board for Teachers",
+  title: "TeacherLink - Job Board for Teachers",
   description: "TeacherLink - Job Board for Teachers",
 };
 

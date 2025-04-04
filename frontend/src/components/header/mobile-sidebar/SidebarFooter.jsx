@@ -17,14 +17,14 @@ const SidebarFooter = () => {
         <div className="contact-info">
           <span className="phone-num">
             <span>Call us</span>
-            <a href="tel:1234567890">+91 9606889003</a>
+            <a href="tel:9606889003">+91 9606889003</a>
           </span>
           <span className="address">
             13/2, Standage road, Pulikeshi nagar, <br />
             Bengaluru, Karnataka, India 560005
           </span>
-          <a href="mailto:info@Inspire Edge Solutions.com" className="email">
-            info@Inspire Edge Solutions.com
+          <a href="mailto:info@inspireedgesolutions.com" className="email">
+            Inspire Edge Innovation
           </a>
         </div>
         {/* End .contact-info */}

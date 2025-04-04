@@ -32,7 +32,7 @@ const Address = () => {
       text: (
         <>
           {" "}
-          <a href="mailto:admin@inspireedgesolutions.com">Inspire Edge Solutions</a>
+          <a href="mailto:admin@inspireedgesolutions.com">Inspire Edge Innovation</a>
         </>
       ),
     },

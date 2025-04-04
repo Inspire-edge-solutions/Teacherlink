@@ -15,11 +15,15 @@ const Address = ({ className, permanentCity, presentCity }) => {
       country: null,       // { value: countryId, label: countryName }
       state: null,         // { value: stateId,   label: stateName   }
       city: null,          // { value: cityId,    label: cityName    }
+      house_no_and_street: "",
+      pincode: ""
     },
     presentAddress: {
       country: null,
       state: null,
       city: null,
+      house_no_and_street: "",
+      pincode: "",
       sameAsPermanent: false
     }
   });
@@ -79,35 +83,57 @@ const Address = ({ className, permanentCity, presentCity }) => {
 
   // ========== Sync Form State Changes ==========
   const handleAddressChange = (addressType, field, value) => {
-    setFormData(prev => ({
-      ...prev,
+    const newFormData = {
+      ...formData,
       [addressType]: {
-        ...prev[addressType],
+        ...formData[addressType],
         [field]: value
       }
-    }));
+    };
+    setFormData(newFormData);
+
+    // Check if required fields are filled
+    const isValid = validateAddressFields(newFormData);
+    updateFormData(newFormData, isValid);
   };
 
   const handleSameAsPermanent = (e) => {
-    if (e.target.checked) {
-      setFormData(prev => ({
-        ...prev,
-        presentAddress: {
-          ...prev.permanentAddress,
-          sameAsPermanent: true
-        }
-      }));
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        presentAddress: {
-          country: null,
-          state: null,
-          city: null,
-          sameAsPermanent: false
-        }
-      }));
-    }
+    const newFormData = {
+      ...formData,
+      presentAddress: e.target.checked 
+        ? {
+            ...formData.permanentAddress,
+            sameAsPermanent: true
+          }
+        : {
+            country: null,
+            state: null,
+            city: null,
+            house_no_and_street: "",
+            pincode: "",
+            sameAsPermanent: false
+          }
+    };
+    setFormData(newFormData);
+
+    // If checked, validation only needs to check permanent address
+    // If unchecked, needs to validate both addresses
+    const isValid = validateAddressFields(newFormData);
+    updateFormData(newFormData, isValid);
+  };
+
+  // Add validation function
+  const validateAddressFields = (data) => {
+    // Check permanent address required fields
+    const isPermanentValid = data.permanentAddress.country && 
+                           data.permanentAddress.state;
+
+    // Check present address only if not same as permanent
+    const isPresentValid = data.presentAddress.sameAsPermanent || 
+                         (data.presentAddress.country && 
+                          data.presentAddress.state);
+
+    return isPermanentValid && isPresentValid;
   };
 
   // ========== Fetch Existing Addresses on Mount ==========
@@ -118,7 +144,7 @@ const Address = ({ className, permanentCity, presentCity }) => {
     const fetchPermanentAddress = async () => {
       try {
         const resp = await axios.get(
-          "https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/permanentAddress",
+          "https://l4y3zup2k2.execute-api.ap-south-1.amazonaws.com/dev/permanentAddress",
           { params: { firebase_uid: user.uid, t: Date.now() } }
         );
         if (resp.status === 200 && resp.data.length > 0) {
@@ -139,6 +165,8 @@ const Address = ({ className, permanentCity, presentCity }) => {
               country: foundCountry,
               state: foundState,
               city: foundCity,
+              house_no_and_street: addr.house_no_and_street || "",
+              pincode: addr.pincode || ""
             }
           }));
         }
@@ -146,12 +174,13 @@ const Address = ({ className, permanentCity, presentCity }) => {
         console.error("Error fetching permanent address:", error);
       }
     };
+    
 
     // 2) fetch present address
     const fetchPresentAddress = async () => {
       try {
         const resp = await axios.get(
-          "https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/presentAddress",
+          "https://l4y3zup2k2.execute-api.ap-south-1.amazonaws.com/dev/presentAddress",
           { params: { firebase_uid: user.uid, t: Date.now() } }
         );
         if (resp.status === 200 && resp.data.length > 0) {
@@ -170,6 +199,8 @@ const Address = ({ className, permanentCity, presentCity }) => {
               country: foundCountry,
               state: foundState,
               city: foundCity,
+              house_no_and_street: addr.house_no_and_street || "",
+              pincode: addr.pincode || "",
               sameAsPermanent: false // we only set this if user explicitly checks
             }
           }));
@@ -197,6 +228,8 @@ const Address = ({ className, permanentCity, presentCity }) => {
       country_name: formData.permanentAddress.country?.label || "",
       state_name: formData.permanentAddress.state?.label || "",
       city_name: formData.permanentAddress.city?.label || "",
+      house_no_and_street: formData.permanentAddress.house_no_and_street,
+      pincode: formData.permanentAddress.pincode,
       firebase_uid: user.uid
     };
 
@@ -207,13 +240,15 @@ const Address = ({ className, permanentCity, presentCity }) => {
           country_name: formData.presentAddress.country?.label || "",
           state_name: formData.presentAddress.state?.label || "",
           city_name: formData.presentAddress.city?.label || "",
+          house_no_and_street: formData.presentAddress.house_no_and_street,
+          pincode: formData.presentAddress.pincode,
           firebase_uid: user.uid
         };
 
     try {
       // 1) Upsert permanent address
       const permResp = await axios.post(
-        "https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/permanentAddress",
+        "https://l4y3zup2k2.execute-api.ap-south-1.amazonaws.com/dev/permanentAddress",
         permanentAddressPayload,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -223,7 +258,7 @@ const Address = ({ className, permanentCity, presentCity }) => {
 
       // 2) Upsert present address
       const presResp = await axios.post(
-        "https://wf6d1c6dcd.execute-api.ap-south-1.amazonaws.com/dev/presentAddress",
+        "https://l4y3zup2k2.execute-api.ap-south-1.amazonaws.com/dev/presentAddress",
         presentAddressPayload,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -243,12 +278,12 @@ const Address = ({ className, permanentCity, presentCity }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={`address-form ${className}`}>
+    <form onSubmit={handleSubmit} className={`address ${className}`}>
       <div className="row">
         {/* PERMANENT ADDRESS */}
-        <div className="form-group col-lg-6 col-md-12">
-          <h6>Address</h6>
-          <div className="form-group">
+          <h6>Permanent Address</h6>
+          <div className="form-group col-lg-4 col-md-12">
+          <div className="input-wrapper">
             <Select
               required
               id="permanentCountry"
@@ -264,9 +299,12 @@ const Address = ({ className, permanentCity, presentCity }) => {
                 handleAddressChange("permanentAddress", "city", null);
               }}
             />
+            <span className="custom-tooltip">Permanent Country</span>
+          </div>
           </div>
 
-          <div className="form-group">
+          <div className="form-group col-lg-4 col-md-12">
+          <div className="input-wrapper">
             <Select
               required
               id="permanentState"
@@ -280,10 +318,13 @@ const Address = ({ className, permanentCity, presentCity }) => {
                 handleAddressChange("permanentAddress", "city", null);
               }}
             />
+            <span className="custom-tooltip">Permanent State/UT</span>
+          </div>
           </div>
 
           {permanentCity && (
-            <div className="form-group">
+            <div className="form-group col-lg-4 col-md-12">
+            <div className="input-wrapper">
               <Select
                 id="permanentCity"
                 name="permanentCity"
@@ -294,27 +335,27 @@ const Address = ({ className, permanentCity, presentCity }) => {
                   handleAddressChange("permanentAddress", "city", option)
                 }
               />
+              <span className="custom-tooltip">Permanent City</span>
+            </div>
             </div>
           )}
-        </div>
-
-        {/* PRESENT ADDRESS */}
-        <div className="form-group col-lg-6 col-md-12">
-          <label style={{ display: "block", marginBottom: "0.5rem" }}>
+        {/* PRESENT ADDRESS SAME AS PERMANENT ADDRESS */}
+          <label style={{ display: "block", marginBottom: "0.5rem" ,fontWeight:"500"}}>
             <input
               id="sameAsPermanent"
               name="sameAsPermanent"
               type="checkbox"
               onChange={handleSameAsPermanent}
               checked={formData.presentAddress.sameAsPermanent}
-              style={{ marginRight: "15px" }}
+              style={{ marginRight: "10px" }}
             />
-            Same as permanent address
+           Present Address (Same as Permanent Address)
           </label>
 
           {!formData.presentAddress.sameAsPermanent && (
             <>
-              <div className="form-group">
+              <div className="form-group col-lg-4 col-md-12">
+              <div className="input-wrapper">
                 <Select
                   required
                   id="presentCountry"
@@ -329,9 +370,12 @@ const Address = ({ className, permanentCity, presentCity }) => {
                     handleAddressChange("presentAddress", "city", null);
                   }}
                 />
+                <span className="custom-tooltip">Present Country</span>
+              </div>
               </div>
 
-              <div className="form-group">
+              <div className="form-group col-lg-4 col-md-12">
+              <div className="input-wrapper">
                 <Select
                   required
                   id="presentState"
@@ -345,10 +389,13 @@ const Address = ({ className, permanentCity, presentCity }) => {
                     handleAddressChange("presentAddress", "city", null);
                   }}
                 />
+                <span className="custom-tooltip">Present State/UT</span>
+              </div>
               </div>
 
               {presentCity && (
-                <div className="form-group">
+                <div className="form-group col-lg-4 col-md-12">
+                <div className="input-wrapper">
                   <Select
                     id="presentCity"
                     name="presentCity"
@@ -359,6 +406,8 @@ const Address = ({ className, permanentCity, presentCity }) => {
                       handleAddressChange("presentAddress", "city", option)
                     }
                   />
+                  <span className="custom-tooltip">Present City</span>
+                </div>
                 </div>
               )}
             </>
@@ -371,7 +420,6 @@ const Address = ({ className, permanentCity, presentCity }) => {
             Save Address
           </button>
         </div>
-      </div>
     </form>
   );
 };

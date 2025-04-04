@@ -16,8 +16,11 @@ const index = () => {
           className="image-layer"
           style={{ backgroundImage: "url(/images/background/12.jpg)" }}
         >
-          <h2 style={{color: 'white', lineHeight: '1.8'}}>Connect with Colleges/Institutions, <br/>Inspire Students !!<br/> Login to  
-          <strong> TeacherLink</strong> - <br/> Gateway to Teaching Opportunities and Talent!</h2>
+          <h2 style={{color: 'white', lineHeight: '1.8'}}>
+            Looking for a teaching or non-teaching job in educational institutions? Or hiring top talent for your institution?<br/>
+            You're in the right place!<br/>
+            Create your account today to unlock endless opportunities and connect with qualified educators and professionals effortlessly!
+            </h2>
         </div>
         <div className="outer-box">
           {/* <!-- Login Form --> */}

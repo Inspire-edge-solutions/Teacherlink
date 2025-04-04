@@ -1,0 +1,25 @@
+service: admin-dashboard
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+
+functions:
+  block:
+    handler: block.handler
+    events:
+      - http:
+          path: block
+          method: any  # Allows any HTTP method (POST, PUT, PATCH, etc.)
+          cors: true
+  notification:
+    handler: notification.handler
+    events:
+      - http:
+          path: notification
+          method: any  # Allows any HTTP method (POST, PUT, PATCH, etc.)
+          cors: true
+
+plugins:
+  - serverless-offline

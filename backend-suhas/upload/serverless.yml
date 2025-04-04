@@ -1,0 +1,37 @@
+service: logoandvideo-service
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+        - s3:ListBucket
+        - s3:HeadObject
+        - s3:DeleteObject
+      Resource:
+        - "arn:aws:s3:::profile-image-teacherlink/*"
+        - "arn:aws:s3:::profile-video-teacherlink/*"
+        - "arn:aws:s3:::resume-upload-profile/*"
+
+functions:
+  logoandvideo:
+    handler: logoandvideo.handler
+    events:
+      - http:
+          path: /upload-image
+          method: any
+          cors: true
+      - http:
+          path: /upload-video
+          method: any
+          cors: true
+      - http:
+          path: /upload-resume
+          method: any
+          cors: true
+
+plugins:
+  - serverless-offline

@@ -1,4 +1,17 @@
-const ContactForm = () => {
+import { useState } from "react";
+
+  const ContactForm = () => {
+  const [contactForm, setContactForm] = useState({
+    username: "",
+    email: "",
+    mobile: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    setContactForm({ ...contactForm, [e.target.name]: e.target.value });
+  };
+
   return (
     <form>
       <div className="row">
@@ -31,17 +44,32 @@ const ContactForm = () => {
         </div>
         {/* End .col */}
 
-        <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-          <label>Subject</label>
+        <div className="col-lg-6 col-md-12 col-sm-12 form-group">
+          <label>Mobile Number</label>
           <input
             type="text"
-            name="subject"
-            className="subject"
-            placeholder="Subject *"
+            name="mobile"
+            className="mobile"
+            placeholder="Mobile Number *"
             required
+            maxLength="10"
+            minLength="10"
+            onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()}
           />
         </div>
         {/* End .col */}
+
+        <div className="col-lg-6 col-md-12 col-sm-12 form-group">
+          <label>Upload cv/resume</label>
+          <input
+            type="file"
+            name="resume"
+            className="resume"
+            placeholder="Upload cv/resume"
+            
+          />
+        </div>
+        
 
         <div className="col-lg-12 col-md-12 col-sm-12 form-group">
           <label>Your Message</label>
@@ -60,7 +88,7 @@ const ContactForm = () => {
             id="submit"
             name="submit-form"
           >
-            Send Message
+            Submit
           </button>
         </div>
         {/* End .col */}

@@ -8,7 +8,7 @@ const CopyrightFooter = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Inspire Edge Solutions
+          Inspire Edge Innovation
         </a>
         . All Right Reserved.
       </p>

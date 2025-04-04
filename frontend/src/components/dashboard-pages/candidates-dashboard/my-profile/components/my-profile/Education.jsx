@@ -3,10 +3,18 @@ import Select from "react-select";
 import "./profile-styles.css";
 import axios from "axios";
 import { useAuth } from "../../../../../../contexts/AuthContext";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// Helper: Convert a value to an array if needed.
+const parseArray = (val) => {
+  if (Array.isArray(val)) return val;
+  if (typeof val === "string" && val.trim() !== "") return val.split(",").map(s => s.trim());
+  return [];
+};
 
 const Education = ({
+  // Booleans to control which fields render in each section
   isEasyMode,
   grade12syllabus,
   grade12school,
@@ -34,11 +42,9 @@ const Education = ({
   certificatePlace,
   certificateCourseDuration,
   certificateSpecialization,
-  certificateMode,
-  // If you have a user id, you can pass it as a prop.
-  userId
+  certificateMode
 }) => {
-  // Base education data for Grade 10 (mandatory)
+  // ---------- Grade 10 (Mandatory) ----------
   const [grade10Data, setGrade10Data] = useState({
     syllabus: "",
     schoolName: "",
@@ -47,25 +53,19 @@ const Education = ({
     mode: ""
   });
 
-  const { user } = useAuth();
+  // For all other education entries (grade12, degree, etc.)
+  const [additionalEducation, setAdditionalEducation] = useState([]);
+
+  // State for dropdown options for core subjects
   const [coreSubjectsOptions, setCoreSubjectsOptions] = useState([]);
+
+  // States for degree constants
   const [degrees, setDegrees] = useState([]);
   const [masterDegrees, setMasterDegrees] = useState([]);
-  const [additionalEducation, setAdditionalEducation] = useState([]);
-  const [selectedEducationType, setSelectedEducationType] = useState(null);
 
-  // All Options
-  const educationTypes = [
-    { value: "grade12", label: "Grade 12", allowMultiple: false },
-    { value: "degree", label: "Degree", allowMultiple: true },
-    { value: "masterDegree", label: "Master Degree", allowMultiple: true },
-    { value: "doctorate", label: "Doctorate", allowMultiple: false },
-    { value: "nttMtt", label: "NTT/MTT", allowMultiple: false },
-    { value: "dEd", label: "D.Ed/D.EID", allowMultiple: false },
-    { value: "bEd", label: "B.Ed", allowMultiple: false },
-    { value: "certificate", label: "Certificate/Other Course", allowMultiple: true }
-  ];
+  const { user } = useAuth();
 
+  // Dropdown options
   const syllabusOptions = [
     { value: "State Board", label: "State Board" },
     { value: "CBSE", label: "CBSE" },
@@ -77,8 +77,11 @@ const Education = ({
     { value: "regular", label: "Regular" },
     { value: "correspondence", label: "Correspondence" },
     { value: "evening", label: "Evening" }
-    // { value: 'online', label: 'Online' },
-    // { value: 'hybrid', label: 'Hybrid' }
+  ];
+
+  const courseStatusOptions = [
+    { value: "Pursuing", label: "Pursuing" },
+    { value: "Completed", label: "Completed" }
   ];
 
   const courseDurationOptions = [
@@ -94,12 +97,6 @@ const Education = ({
     { value: "10", label: "10 months" }
   ];
 
-  // Add these options at the component level
-  const dEdCourseDurationOptions = [
-    { value: "1", label: "1 year" },
-    { value: "2", label: "2 years" }
-  ];
-
   const bEdCourseDurationOptions = [
     { value: "1", label: "1 year" },
     { value: "2", label: "2 years" },
@@ -107,45 +104,212 @@ const Education = ({
     { value: "4", label: "4 years" }
   ];
 
-  // Add these options at the component level
+  const dEdCourseDurationOptions = [
+    { value: "1", label: "1 year" },
+    { value: "2", label: "2 years" }
+  ];
+
   const certificateCourseDurationOptions = Array.from({ length: 12 }, (_, i) => ({
     value: (i + 1).toString(),
     label: `${i + 1} months`
   }));
 
-  // Add this constant at the top with other options
-  const courseStatusOptions = [
-    { value: "Pursuing", label: "Pursuing" },
-    { value: "Completed", label: "Completed" }
+  // Education types for "Add More Education"
+  const educationTypes = [
+    { value: "grade12", label: "Grade 12", allowMultiple: false },
+    { value: "degree", label: "Degree", allowMultiple: true },
+    { value: "masterDegree", label: "Master Degree", allowMultiple: true },
+    { value: "doctorate", label: "Doctorate", allowMultiple: false },
+    { value: "nttMtt", label: "NTT/MTT", allowMultiple: false },
+    { value: "dEd", label: "D.Ed/D.EID", allowMultiple: false },
+    { value: "bEd", label: "B.Ed", allowMultiple: false },
+    { value: "certificate", label: "Certificate/Other Course", allowMultiple: true }
   ];
 
-  // Handlers
+  // ------------------- GET: Fetch education details -------------------
+  useEffect(() => {
+    if (!user?.uid) return;
+    const fetchEducationDetails = async () => {
+      try {
+        console.log("Fetching education data with UID:", user.uid);
+        const response = await axios.get(
+          "https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/educationDetails",
+          { params: { firebase_uid: user.uid } }
+        );
+        console.log("Raw GET response:", response.data);
+        if (response.status === 200 && Array.isArray(response.data)) {
+          const items = response.data;
+          const newAdditionalEducation = [];
+          items.forEach((item) => {
+            const eduType = (item.education_type || "").trim();
+            const coreSubjects = parseArray(item.coreSubjects);
+            switch (eduType) {
+              case "grade10":
+                setGrade10Data({
+                  syllabus: item.syllabus || "",
+                  schoolName: item.schoolName || "",
+                  yearOfPassing: item.yearOfPassing ? item.yearOfPassing.toString() : "",
+                  percentage: item.percentage || "",
+                  mode: item.mode || ""
+                });
+                break;
+              case "grade12":
+                newAdditionalEducation.push({
+                  type: "grade12",
+                  data: {
+                    syllabus: item.syllabus || "",
+                    schoolName: item.schoolName || "",
+                    yearOfPassing: item.yearOfPassing ? item.yearOfPassing.toString() : "",
+                    coreSubjects: coreSubjects,
+                    otherSubjects: item.otherSubjects || "",
+                    percentage: item.percentage || "",
+                    mode: item.mode || "",
+                    courseStatus: item.courseStatus || ""
+                  }
+                });
+                break;
+              case "degree":
+                newAdditionalEducation.push({
+                  type: "degree",
+                  data: {
+                    courseName: item.courseName || "",
+                    collegeName: item.collegeName || "",
+                    placeOfStudy: item.placeOfStudy || "",
+                    universityName: item.universityName || "",
+                    yearOfPassing: item.yearOfPassing ? item.yearOfPassing.toString() : "",
+                    coreSubjects: coreSubjects,
+                    otherSubjects: item.otherSubjects || "",
+                    percentage: item.percentage || "",
+                    mode: item.mode || "",
+                    courseStatus: item.courseStatus || ""
+                  }
+                });
+                break;
+              case "masterDegree":
+                newAdditionalEducation.push({
+                  type: "masterDegree",
+                  data: {
+                    courseName: item.courseName || "",
+                    collegeName: item.collegeName || "",
+                    placeOfStudy: item.placeOfStudy || "",
+                    universityName: item.universityName || "",
+                    yearOfPassing: item.yearOfPassing ? item.yearOfPassing.toString() : "",
+                    coreSubjects: coreSubjects,
+                    otherSubjects: item.otherSubjects || "",
+                    percentage: item.percentage || "",
+                    mode: item.mode || "",
+                    courseStatus: item.courseStatus || ""
+                  }
+                });
+                break;
+              case "doctorate":
+                newAdditionalEducation.push({
+                  type: "doctorate",
+                  data: {
+                    placeOfStudy: item.placeOfStudy || "",
+                    universityName: item.universityName || "",
+                    yearOfCompletion: item.yearOfCompletion ? item.yearOfCompletion.toString() : "",
+                    coreSubjects: coreSubjects,
+                    otherSubjects: item.otherSubjects || "",
+                    percentage: item.percentage || "",
+                    mode: item.mode || "",
+                    courseStatus: item.courseStatus || ""
+                  }
+                });
+                break;
+              case "bEd":
+                newAdditionalEducation.push({
+                  type: "bEd",
+                  data: {
+                    instituteName: item.instituteName || "",
+                    placeOfStudy: item.placeOfStudy || "",
+                    affiliatedTo: item.affiliatedTo || "",
+                    courseDuration: item.courseDuration || "",
+                    yearOfPassing: item.yearOfPassing ? item.yearOfPassing.toString() : "",
+                    coreSubjects: coreSubjects,
+                    otherSubjects: item.otherSubjects || "",
+                    percentage: item.percentage || "",
+                    mode: item.mode || "",
+                    courseStatus: item.courseStatus || ""
+                  }
+                });
+                break;
+              case "dEd":
+                newAdditionalEducation.push({
+                  type: "dEd",
+                  data: {
+                    instituteName: item.instituteName || "",
+                    placeOfStudy: item.placeOfStudy || "",
+                    affiliatedTo: item.affiliatedTo || "",
+                    courseDuration: item.courseDuration || "",
+                    yearOfPassing: item.yearOfPassing ? item.yearOfPassing.toString() : "",
+                    coreSubjects: coreSubjects,
+                    otherSubjects: item.otherSubjects || "",
+                    percentage: item.percentage || "",
+                    mode: item.mode || "",
+                    courseStatus: item.courseStatus || ""
+                  }
+                });
+                break;
+              case "nttMtt":
+                newAdditionalEducation.push({
+                  type: "nttMtt",
+                  data: {
+                    instituteName: item.instituteName || "",
+                    placeOfStudy: item.placeOfStudy || "",
+                    affiliatedTo: item.affiliatedTo || "",
+                    courseDuration: item.courseDuration || "",
+                    yearOfPassing: item.yearOfPassing ? item.yearOfPassing.toString() : "",
+                    percentage: item.percentage || "",
+                    mode: item.mode || "",
+                    courseStatus: item.courseStatus || ""
+                  }
+                });
+                break;
+              case "certificate":
+                newAdditionalEducation.push({
+                  type: "certificate",
+                  data: {
+                    courseName: item.courseName || "",
+                    placeOfStudy: item.placeOfStudy || "",
+                    courseDuration: item.courseDuration || "",
+                    yearOfPassing: item.yearOfPassing ? item.yearOfPassing.toString() : "",
+                    specialization: item.specialization || "",
+                    mode: item.mode || "",
+                    courseStatus: item.courseStatus || ""
+                  }
+                });
+                break;
+              default:
+                break;
+            }
+          });
+          setAdditionalEducation(newAdditionalEducation);
+          console.log("Final additionalEducation:", newAdditionalEducation);
+        }
+      } catch (error) {
+        console.error("Error fetching education details:", error);
+      }
+    };
+    fetchEducationDetails();
+  }, [user?.uid]);
+
+  // ------------------- Handler for Grade 10 changes -------------------
   const handleGrade10Change = (field, value) => {
     let validatedValue = value;
-    switch (field) {
-      case "schoolName":
-        // Alpha numeric, max 20 characters
-        validatedValue = value.replace(/[^a-zA-Z0-9 ]/g, "").slice(0, 20);
-        break;
-      case "yearOfPassing":
-        // Between 14 years after date of birth to till date
-        const minYear = new Date().getFullYear() - 14;
-        const maxYear = new Date().getFullYear();
-        if (value < minYear || value > maxYear) return;
-        break;
-      case "percentage":
-        // Alpha numeric, special letters, max 5 characters
-        validatedValue = value.replace(/[^a-zA-Z0-9+%]/g, "").slice(0, 5);
-        break;
-      default:
-        break;
+    if (field === "schoolName") {
+      validatedValue = value.replace(/[^a-zA-Z0-9 ]/g, "").slice(0, 20);
+    } else if (field === "yearOfPassing") {
+      const minYear = new Date().getFullYear() - 14;
+      const maxYear = new Date().getFullYear();
+      if (Number(value) < minYear || Number(value) > maxYear) return;
+    } else if (field === "percentage") {
+      validatedValue = value.replace(/[^a-zA-Z0-9+%]/g, "").slice(0, 5);
     }
-    setGrade10Data((prev) => ({
-      ...prev,
-      [field]: validatedValue
-    }));
+    setGrade10Data((prev) => ({ ...prev, [field]: validatedValue }));
   };
 
+  // ------------------- Default data for each education type -------------------
   const getInitialDataForType = (type) => {
     switch (type) {
       case "grade12":
@@ -204,7 +368,8 @@ const Education = ({
           courseDuration: "",
           yearOfPassing: "",
           percentage: "",
-          mode: ""
+          mode: "",
+          courseStatus: ""
         };
       case "dEd":
         return {
@@ -216,7 +381,8 @@ const Education = ({
           coreSubjects: [],
           otherSubjects: "",
           percentage: "",
-          mode: ""
+          mode: "",
+          courseStatus: ""
         };
       case "bEd":
         return {
@@ -228,7 +394,8 @@ const Education = ({
           coreSubjects: [],
           otherSubjects: "",
           percentage: "",
-          mode: ""
+          mode: "",
+          courseStatus: ""
         };
       case "certificate":
         return {
@@ -237,60 +404,53 @@ const Education = ({
           courseDuration: "",
           yearOfPassing: "",
           specialization: "",
-          mode: ""
+          mode: "",
+          courseStatus: ""
         };
       default:
         return {};
     }
   };
 
-  const handleAddEducation = () => {
-    if (!selectedEducationType) return;
-    const newEducation = {
-      type: selectedEducationType.value,
-      data: getInitialDataForType(selectedEducationType.value)
-    };
-    setAdditionalEducation((prev) => [...prev, newEducation]);
-    setSelectedEducationType(null);
-  };
-
+  // ------------------- Handler to update data for a specific education section -------------------
   const handleEducationDataChange = (index, field, value) => {
     setAdditionalEducation((prev) => {
       const updated = [...prev];
+      if (!updated[index].data) {
+        updated[index].data = {};
+      }
       updated[index].data[field] = value;
       return updated;
     });
   };
 
+  // ------------------- Handler to remove an education section -------------------
   const handleRemoveEducation = (index) => {
     setAdditionalEducation((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const subjectList = async () => {
+  // ------------------- Fetch subjects (for core subjects) -------------------
+  const fetchSubjects = async () => {
     try {
-      const response = await axios.get(
-        import.meta.env.VITE_DEV1_API + '/education-data'
-      );
+      const response = await axios.get(import.meta.env.VITE_DEV1_API + "/education-data");
       const formattedSubjects = response.data.map((subject) => ({
         value: subject.value,
         label: subject.label
       }));
       setCoreSubjectsOptions(formattedSubjects);
     } catch (error) {
-      console.error("Error fetching details:", error);
+      console.error("Error fetching education subjects:", error);
     }
   };
-
   useEffect(() => {
-    subjectList();
+    fetchSubjects();
   }, []);
 
+  // ------------------- Fetch degree constants for degree and masterDegree sections -------------------
   useEffect(() => {
     const fetchDegrees = async () => {
       try {
-        const response = await fetch(
-          import.meta.env.VITE_DEV1_API + '/constants'
-        );
+        const response = await fetch(import.meta.env.VITE_DEV1_API + "/constants");
         const data = await response.json();
         const transformedData = data.map((item) => ({
           category: item.category,
@@ -302,34 +462,46 @@ const Education = ({
           transformedData.filter((item) => item.category === "MasterDegree") || []
         );
       } catch (error) {
-        console.error("Error fetching designations:", error);
+        console.error("Error fetching degree constants:", error);
       }
     };
     fetchDegrees();
   }, []);
 
+  // For Grade 10, Degree, Master's, etc. where you need year selection
+  const generateYearOptions = (startYear = 1960, endYear = new Date().getFullYear()) => {
+    const years = [];
+    for (let year = endYear; year >= startYear; year--) {
+      years.push(<option key={year} value={year}>{year}</option>);
+    }
+    return years;
+  };
+
+  // ------------------- Render education fields based on type -------------------
   const renderEducationFields = (type, data, index) => {
     switch (type) {
       case "grade12":
         return (
           <div className="row">
             <div className="form-group col-lg-6 col-md-12">
-                <select
-                  className="custom-select"
-                  value={data.courseStatus || ""}
-                  onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
-                  required
-                >
-                  <option value="" disabled>Course Status</option>
-                  {courseStatusOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
+              <div className="input-wrapper">
+              <select
+                className="custom-select"
+                value={data.courseStatus || ""}
+                onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                required
+              >
+                <option value="" disabled>Course Status</option>
+                {courseStatusOptions.map((option) => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+              </select>
+              <span className="custom-tooltip">Course Status</span>
+              </div>
             </div>
-            <div className="form-group col-lg-6 col-md-12">
-              
+            {grade12syllabus && (
+              <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <select
                   className="custom-select"
                   value={data.syllabus || ""}
@@ -338,14 +510,16 @@ const Education = ({
                 >
                   <option value="" disabled>Syllabus</option>
                   {syllabusOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
+                    <option key={option.value} value={option.value}>{option.label}</option>
                   ))}
                 </select>
-            </div>
+                <span className="custom-tooltip">Syllabus</span>
+              </div>
+              </div>
+            )}
             {grade12school && (
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <input
                   type="text"
                   value={data.schoolName}
@@ -354,38 +528,30 @@ const Education = ({
                   pattern="[a-zA-Z0-9 ]*"
                   maxLength={20}
                 />
+                <span className="custom-tooltip">School Name</span>
+              </div>
               </div>
             )}
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <select
                 value={data.yearOfPassing}
                 onChange={(e) => handleEducationDataChange(index, "yearOfPassing", e.target.value)}
                 required
               >
                 <option value="">Year of Passing</option>
-                {(() => {
-                  const currentYear = new Date().getFullYear();
-                  const years = [];
-                  const minYear = currentYear - 14;
-                  const maxYear = data.courseStatus === "Pursuing" ? currentYear + 2 : currentYear;
-                  for (let year = maxYear; year >= minYear; year--) {
-                    years.push(
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    );
-                  }
-                  return years;
-                })()}
+                {generateYearOptions()}
               </select>
+              <span className="custom-tooltip">Year of Passing</span>
+              </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <Select
                 isMulti
-                value={data.coreSubjects.map((subject) => ({ value: subject, label: subject }))}
+                value={data.coreSubjects.map(subject => ({ value: subject, label: subject }))}
                 onChange={(selected) => {
-                  const selectedValues = selected.map((option) => option.value);
-                  console.log("Selected Values:", selectedValues);
+                  const selectedValues = selected.map(option => option.value);
                   handleEducationDataChange(index, "coreSubjects", selectedValues);
                 }}
                 options={coreSubjectsOptions}
@@ -393,9 +559,12 @@ const Education = ({
                 placeholder="Core Subjects"
                 required
               />
+              <span className="custom-tooltip">Core Subjects</span>
+              </div>
             </div>
             {data.coreSubjects.includes("Others") && (
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <input
                   type="text"
                   value={data.otherSubjects}
@@ -403,10 +572,13 @@ const Education = ({
                   placeholder="Specify other subjects"
                   required
                 />
+                <span className="custom-tooltip">Specify other subjects</span>
+              </div>
               </div>
             )}
             {grade12percentage && (
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <input
                   type="text"
                   value={data.percentage}
@@ -415,10 +587,13 @@ const Education = ({
                   pattern="[a-zA-Z0-9+%]*"
                   maxLength={5}
                 />
+                <span className="custom-tooltip">Grade / Percentage</span>
+              </div>
               </div>
             )}
             {grade12mode && (
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <select
                   className="custom-select"
                   value={data.mode || ""}
@@ -426,12 +601,12 @@ const Education = ({
                   required
                 >
                   <option value="" disabled>Mode of Study</option>
-                  {educationModeOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
+                  {educationModeOptions.map(option => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
                   ))}
                 </select>
+                <span className="custom-tooltip">Mode of Study</span>
+              </div>
               </div>
             )}
           </div>
@@ -441,34 +616,37 @@ const Education = ({
           <div className="degree-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                  <select
-                    className="custom-select"
-                    value={data.courseStatus || ""}
-                    onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
-                    required
-                  >
-                    <option value="" disabled>Course Status</option>
-                    {courseStatusOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
+                <div className="input-wrapper">
+                <select
+                  className="custom-select"
+                  value={data.courseStatus || ""}
+                  onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                  required
+                >
+                  <option value="" disabled>Course Status</option>
+                  {courseStatusOptions.map(option => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+                <span className="custom-tooltip">Course Status</span>
+              </div>
               </div>
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <Select
-                  value={degrees.find((d) => d.value === data.courseName) || null}
-                  onChange={(selectedOption) =>
-                    handleEducationDataChange(index, "courseName", selectedOption.value)
-                  }
+                  value={degrees.find(d => d.value === data.courseName) || null}
+                  onChange={(selectedOption) => handleEducationDataChange(index, "courseName", selectedOption.value)}
                   options={degrees}
-                  className="custom-select required"
                   placeholder="Degree Name"
+                  className="custom-select required"
                   required
                 />
+                <span className="custom-tooltip">Degree Name</span>
+              </div>
               </div>
               {degreeCollege && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.collegeName}
@@ -477,10 +655,13 @@ const Education = ({
                     pattern="[a-zA-Z0-9 ]*"
                     maxLength={20}
                   />
+                  <span className="custom-tooltip">College Name</span>
+                </div>
                 </div>
               )}
               {degreePlace && (
                 <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.placeOfStudy}
@@ -489,10 +670,13 @@ const Education = ({
                     maxLength={20}
                     pattern="[a-zA-Z0-9 ]*"
                   />
+                  <span className="custom-tooltip">Place of Study</span>
+                </div>
                 </div>
               )}
               {degreeUniversity && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.universityName}
@@ -500,39 +684,30 @@ const Education = ({
                     placeholder="University Name"
                     maxLength={20}
                   />
+                  <span className="custom-tooltip">University Name</span>
+                </div>
                 </div>
               )}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <select
                   value={data.yearOfPassing}
                   onChange={(e) => handleEducationDataChange(index, "yearOfPassing", e.target.value)}
                   required
                 >
                   <option value="">Year of Passing</option>
-                  {(() => {
-                    const currentYear = new Date().getFullYear();
-                    const years = [];
-                    const minYear = currentYear - 16;
-                    const maxYear =
-                      data.courseStatus === "Pursuing" ? currentYear + 3 : currentYear;
-                    for (let year = maxYear; year >= minYear; year--) {
-                      years.push(
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      );
-                    }
-                    return years;
-                  })()}
+                  {generateYearOptions()}
                 </select>
+                <span className="custom-tooltip">Year of Passing</span>
+              </div>
               </div>
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <Select
                   isMulti
-                  value={data.coreSubjects.map((subject) => ({ value: subject, label: subject }))}
+                  value={data.coreSubjects.map(subject => ({ value: subject, label: subject }))}
                   onChange={(selected) => {
-                    const selectedValues = selected.map((option) => option.value);
-                    console.log("Selected Values:", selectedValues);
+                    const selectedValues = selected.map(option => option.value);
                     handleEducationDataChange(index, "coreSubjects", selectedValues);
                   }}
                   options={coreSubjectsOptions}
@@ -540,9 +715,12 @@ const Education = ({
                   placeholder="Core Subjects"
                   required
                 />
+                <span className="custom-tooltip">Core Subjects</span>
+              </div>
               </div>
               {data.coreSubjects.includes("Others") && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.otherSubjects}
@@ -550,10 +728,13 @@ const Education = ({
                     placeholder="Specify other subjects"
                     required
                   />
+                  <span className="custom-tooltip">Specify other subjects</span>
+                </div>
                 </div>
               )}
               {degreePercentage && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.percentage}
@@ -562,10 +743,13 @@ const Education = ({
                     pattern="[a-zA-Z0-9+%]*"
                     maxLength={5}
                   />
+                  <span className="custom-tooltip">Grade / Percentage</span>
+                </div>
                 </div>
               )}
               {degreeMode && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <select
                     className="custom-select"
                     value={data.mode || ""}
@@ -573,12 +757,12 @@ const Education = ({
                     required
                   >
                     <option value="" disabled>Mode of Study</option>
-                    {educationModeOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
+                    {educationModeOptions.map(option => (
+                      <option key={option.value} value={option.value}>{option.label}</option>
                     ))}
                   </select>
+                  <span className="custom-tooltip">Mode of Study</span>
+                </div>
                 </div>
               )}
             </div>
@@ -589,32 +773,37 @@ const Education = ({
           <div className="master-degree-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                  <select
-                    className="custom-select"
-                    value={data.courseStatus || ""}
-                    onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
-                    required
-                  >
-                    <option value="" disabled>Course Status</option>
-                    {courseStatusOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
+                <div className="input-wrapper">
+                <select
+                  className="custom-select"
+                  value={data.courseStatus || ""}
+                  onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                  required
+                >
+                  <option value="" disabled>Course Status</option>
+                  {courseStatusOptions.map(option => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+                <span className="custom-tooltip">Course Status</span>
+              </div>
               </div>
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <Select
-                  type="text"
-                  value={data.courseName}
-                  onChange={(e) => handleEducationDataChange(index, "courseName", e.target.value)}
+                  value={masterDegrees.find(d => d.value === data.courseName) || null}
+                  onChange={(selectedOption) => handleEducationDataChange(index, "courseName", selectedOption.value)}
                   options={masterDegrees}
                   placeholder="Master Degree Name"
                   className="custom-select required"
+                  required
                 />
+                <span className="custom-tooltip">Master Degree Name</span>
+              </div>
               </div>
               {masterCollege && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.collegeName}
@@ -622,10 +811,13 @@ const Education = ({
                     placeholder="College Name"
                     maxLength={20}
                   />
+                  <span className="custom-tooltip">College Name</span>
+                </div>
                 </div>
               )}
               {masterPlace && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.placeOfStudy}
@@ -633,10 +825,13 @@ const Education = ({
                     placeholder="Place of Study"
                     maxLength={20}
                   />
+                  <span className="custom-tooltip">Place of Study</span>
+                </div>
                 </div>
               )}
               {masterUniversity && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.universityName}
@@ -644,36 +839,43 @@ const Education = ({
                     placeholder="University Name"
                     maxLength={20}
                   />
+                  <span className="custom-tooltip">University Name</span>
+                </div>
                 </div>
               )}
               <div className="form-group col-lg-6 col-md-12">
-                <input
-                  type="number"
+                <div className="input-wrapper">
+                <select
                   value={data.yearOfPassing}
-                  placeholder="Year of Passing"
                   onChange={(e) => handleEducationDataChange(index, "yearOfPassing", e.target.value)}
-                  min={new Date().getFullYear() - 4}
-                  max={data.courseStatus === "Pursuing" ? new Date().getFullYear() + 2 : new Date().getFullYear()}
                   required
-                />
+                >
+                  <option value="">Year of Passing</option>
+                  {generateYearOptions()}
+                </select>
+                <span className="custom-tooltip">Year of Passing</span>
+              </div>
               </div>
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <Select
                   isMulti
-                  value={data.coreSubjects.map((subject) => ({ value: subject, label: subject }))}
+                  value={data.coreSubjects.map(subject => ({ value: subject, label: subject }))}
                   onChange={(selected) => {
-                    const selectedValues = selected.map((option) => option.value);
-                    console.log("Selected Values:", selectedValues);
+                    const selectedValues = selected.map(option => option.value);
                     handleEducationDataChange(index, "coreSubjects", selectedValues);
                   }}
                   options={coreSubjectsOptions}
-                    className="custom-select required"
+                  className="custom-select required"
                   placeholder="Core Subjects"
                   required
                 />
+                <span className="custom-tooltip">Core Subjects</span>
+              </div>
               </div>
               {data.coreSubjects.includes("Others") && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.otherSubjects}
@@ -681,10 +883,13 @@ const Education = ({
                     placeholder="Specify other subjects"
                     required
                   />
+                  <span className="custom-tooltip">Specify other subjects</span>
+                </div>
                 </div>
               )}
               {masterPercentage && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.percentage}
@@ -694,10 +899,13 @@ const Education = ({
                     maxLength={5}
                     required
                   />
+                  <span className="custom-tooltip">Grade / Percentage</span>
+                </div>
                 </div>
               )}
               {masterMode && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <select
                     className="custom-select"
                     value={data.mode || ""}
@@ -705,12 +913,12 @@ const Education = ({
                     required
                   >
                     <option value="" disabled>Mode of Study</option>
-                    {educationModeOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
+                    {educationModeOptions.map(option => (
+                      <option key={option.value} value={option.value}>{option.label}</option>
                     ))}
                   </select>
+                  <span className="custom-tooltip">Mode of Study</span>
+                </div>
                 </div>
               )}
             </div>
@@ -721,22 +929,24 @@ const Education = ({
           <div className="doctorate-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                  <select
-                    className="custom-select"
-                    value={data.courseStatus || ""}
-                    onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
-                    required
-                  >
-                    <option value="" disabled>Course Status</option>
-                    {courseStatusOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
+                <div className="input-wrapper">
+                <select
+                  className="custom-select"
+                  value={data.courseStatus || ""}
+                  onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                  required
+                >
+                  <option value="" disabled>Course Status</option>
+                  {courseStatusOptions.map(option => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+                <span className="custom-tooltip">Course Status</span>
+              </div>
               </div>
               {doctorateCollege && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.placeOfStudy}
@@ -744,10 +954,13 @@ const Education = ({
                     placeholder="Place of Study"
                     maxLength={20}
                   />
+                  <span className="custom-tooltip">Place of Study</span>
+                </div>
                 </div>
               )}
               {doctorateUniversity && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.universityName}
@@ -755,48 +968,43 @@ const Education = ({
                     placeholder="University Name"
                     maxLength={20}
                   />
+                  <span className="custom-tooltip">University Name</span>
+                </div>
                 </div>
               )}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <select
                   value={data.yearOfCompletion}
                   onChange={(e) => handleEducationDataChange(index, "yearOfCompletion", e.target.value)}
                   required
                 >
                   <option value="">Year of Completion</option>
-                  {(() => {
-                    const currentYear = new Date().getFullYear();
-                    const years = [];
-                    const minYear = currentYear - 20;
-                    const maxYear = data.courseStatus === "Pursuing" ? currentYear + 5 : currentYear;
-                    for (let year = maxYear; year >= minYear; year--) {
-                      years.push(
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      );
-                    }
-                    return years;
-                  })()}
+                  {generateYearOptions()}
                 </select>
+                <span className="custom-tooltip">Year of Completion</span>
+              </div>
               </div>
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <Select
                   isMulti
-                  value={data.coreSubjects.map((subject) => ({ value: subject, label: subject }))}
+                  value={data.coreSubjects.map(subject => ({ value: subject, label: subject }))}
                   onChange={(selected) => {
-                    const selectedValues = selected.map((option) => option.value);
-                    console.log("Selected Values:", selectedValues);
+                    const selectedValues = selected.map(option => option.value);
                     handleEducationDataChange(index, "coreSubjects", selectedValues);
                   }}
                   options={coreSubjectsOptions}
-                    className="custom-select required"
+                  className="custom-select required"
                   placeholder="Core Subjects"
                   required
                 />
+                <span className="custom-tooltip">Core Subjects</span>
+              </div>
               </div>
               {data.coreSubjects.includes("Others") && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.otherSubjects}
@@ -804,10 +1012,13 @@ const Education = ({
                     placeholder="Specify other subjects"
                     required
                   />
+                  <span className="custom-tooltip">Specify other subjects</span>
+                </div>
                 </div>
               )}
               {doctorateMode && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <select
                     className="custom-select"
                     value={data.mode || ""}
@@ -815,12 +1026,12 @@ const Education = ({
                     required
                   >
                     <option value="" disabled>Mode of Study</option>
-                    {educationModeOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
+                    {educationModeOptions.map(option => (
+                      <option key={option.value} value={option.value}>{option.label}</option>
                     ))}
                   </select>
+                  <span className="custom-tooltip">Mode of Study</span>
+                </div>
                 </div>
               )}
             </div>
@@ -831,49 +1042,39 @@ const Education = ({
           <div className="ntt-mtt-section">
             <div className="row">
               {isEasyMode ? (
-                <>
-                  <div className="form-group col-lg-6 col-md-12">
-                    <select
-                      value={data.yearOfPassing}
-                      onChange={(e) => handleEducationDataChange(index, "yearOfPassing", e.target.value)}
-                      required
-                    >
-                      <option value="">Year of Passing</option>
-                      {(() => {
-                        const currentYear = new Date().getFullYear();
-                        const years = [];
-                        const minYear = currentYear - 16;
-                        const maxYear = data.courseStatus === "Pursuing" ? currentYear + 1 : currentYear;
-                        for (let year = maxYear; year >= minYear; year--) {
-                          years.push(
-                            <option key={year} value={year}>
-                              {year}
-                            </option>
-                          );
-                        }
-                        return years;
-                      })()}
-                    </select>
-                  </div>
-                </>
+                <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
+                  <select
+                    value={data.yearOfPassing}
+                    onChange={(e) => handleEducationDataChange(index, "yearOfPassing", e.target.value)}
+                    required
+                  >
+                    <option value="">Year of Passing</option>
+                    {generateYearOptions()}
+                  </select>
+                  <span className="custom-tooltip">Year of Passing</span>
+                </div>
+                </div>
               ) : (
                 <>
-                  <div className="form-group col-lg-6 col-md-12">                    
-                      <select
-                        className="custom-select"
-                        value={data.courseStatus || ""}
-                        onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
-                        required
-                      >
-                        <option value="" disabled>Course Status</option>
-                        {courseStatusOptions.map((option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </select>
+                  <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
+                    <select
+                      className="custom-select"
+                      value={data.courseStatus || ""}
+                      onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                      required
+                    >
+                      <option value="" disabled>Course Status</option>
+                      {courseStatusOptions.map(option => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                      ))}
+                    </select>
+                    <span className="custom-tooltip">Course Status</span>
+                  </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <input
                       type="text"
                       value={data.instituteName}
@@ -882,8 +1083,11 @@ const Education = ({
                       maxLength={20}
                       pattern="[a-zA-Z0-9 ]*"
                     />
+                    <span className="custom-tooltip">Institute Name</span>
+                  </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <input
                       type="text"
                       value={data.placeOfStudy}
@@ -891,8 +1095,11 @@ const Education = ({
                       placeholder="Place of Study"
                       maxLength={20}
                     />
+                    <span className="custom-tooltip">Place of Study</span>
+                  </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <input
                       type="text"
                       value={data.affiliatedTo}
@@ -901,39 +1108,35 @@ const Education = ({
                       maxLength={20}
                       pattern="[a-zA-Z0-9 ]*"
                     />
+                    <span className="custom-tooltip">Affiliated to / recognized by</span>
+                  </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <Select
-                      value={courseDurationOptions.find((option) => option.value === data.courseDuration)}
+                      value={courseDurationOptions.find(option => option.value === data.courseDuration)}
                       onChange={(selected) => handleEducationDataChange(index, "courseDuration", selected.value)}
                       options={courseDurationOptions}
                       placeholder="Course Duration"
                     />
+                    <span className="custom-tooltip">Course Duration</span>
+                  </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <select
                       value={data.yearOfPassing}
                       onChange={(e) => handleEducationDataChange(index, "yearOfPassing", e.target.value)}
                       required
                     >
                       <option value="">Year of Passing</option>
-                      {(() => {
-                        const currentYear = new Date().getFullYear();
-                        const years = [];
-                        const minYear = currentYear - 16;
-                        const maxYear = data.courseStatus === "Pursuing" ? currentYear + 1 : currentYear;
-                        for (let year = maxYear; year >= minYear; year--) {
-                          years.push(
-                            <option key={year} value={year}>
-                              {year}
-                            </option>
-                          );
-                        }
-                        return years;
-                      })()}
+                      {generateYearOptions()}
                     </select>
+                    <span className="custom-tooltip">Year of Passing</span>
+                  </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <input
                       type="text"
                       value={data.percentage}
@@ -942,8 +1145,11 @@ const Education = ({
                       pattern="[a-zA-Z0-9+%]*"
                       maxLength={5}
                     />
+                    <span className="custom-tooltip">Grade / Percentage</span>
+                  </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <select
                       className="custom-select"
                       value={data.mode || ""}
@@ -951,12 +1157,12 @@ const Education = ({
                       required
                     >
                       <option value="" disabled>Mode of Study</option>
-                      {educationModeOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
+                      {educationModeOptions.map(option => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
                       ))}
                     </select>
+                    <span className="custom-tooltip">Mode of Study</span>
+                  </div>
                   </div>
                 </>
               )}
@@ -967,23 +1173,25 @@ const Education = ({
         return (
           <div className="bed-section">
             <div className="row">
-              <div className="form-group col-lg-6 col-md-12">               
-                  <select
-                    className="custom-select"
-                    value={data.courseStatus || ""}
-                    onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
-                    required
-                  >
-                    <option value="" disabled>Course Status</option>
-                    {courseStatusOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
+              <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
+                <select
+                  className="custom-select"
+                  value={data.courseStatus || ""}
+                  onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                  required
+                >
+                  <option value="" disabled>Course Status</option>
+                  {courseStatusOptions.map(option => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+                <span className="custom-tooltip">Course Status</span>
+              </div>
               </div>
               {bEdCollege && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.instituteName}
@@ -992,10 +1200,13 @@ const Education = ({
                     maxLength={20}
                     pattern="[a-zA-Z0-9 ]*"
                   />
+                  <span className="custom-tooltip">Institute / College name</span>
+                </div>
                 </div>
               )}
               {bEdPlace && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.placeOfStudy}
@@ -1003,10 +1214,13 @@ const Education = ({
                     placeholder="Place of Study"
                     maxLength={20}
                   />
+                  <span className="custom-tooltip">Place of Study</span>
+                </div>
                 </div>
               )}
               {bEdAffiliated && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.affiliatedTo}
@@ -1015,58 +1229,56 @@ const Education = ({
                     maxLength={20}
                     pattern="[a-zA-Z0-9 ]*"
                   />
+                  <span className="custom-tooltip">Affiliated to / recognized by</span>
+                </div>
                 </div>
               )}
               {bEdCourseDuration && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
-                    value={bEdCourseDurationOptions.find((option) => option.value === data.courseDuration)}
+                    value={bEdCourseDurationOptions.find(option => option.value === data.courseDuration)}
                     onChange={(selected) => handleEducationDataChange(index, "courseDuration", selected.value)}
                     options={bEdCourseDurationOptions}
                     placeholder="Course Duration"
                   />
+                  <span className="custom-tooltip">Course Duration</span>
+                </div>
                 </div>
               )}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <select
                   value={data.yearOfPassing}
                   onChange={(e) => handleEducationDataChange(index, "yearOfPassing", e.target.value)}
                   required
                 >
                   <option value="">Year of Passing</option>
-                  {(() => {
-                    const currentYear = new Date().getFullYear();
-                    const years = [];
-                    const minYear = currentYear - 16;
-                    const maxYear = data.courseStatus === "Pursuing" ? currentYear + 1 : currentYear;
-                    for (let year = maxYear; year >= minYear; year--) {
-                      years.push(
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      );
-                    }
-                    return years;
-                  })()}
+                  {generateYearOptions()}
                 </select>
+                <span className="custom-tooltip">Year of Passing</span>
+              </div>
               </div>
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <Select
                   isMulti
-                  value={data.coreSubjects.map((subject) => ({ value: subject, label: subject }))}
+                  value={data.coreSubjects.map(subject => ({ value: subject, label: subject }))}
                   onChange={(selected) => {
-                    const selectedValues = selected.map((option) => option.value);
-                    console.log("Selected Values:", selectedValues);
+                    const selectedValues = selected.map(option => option.value);
                     handleEducationDataChange(index, "coreSubjects", selectedValues);
                   }}
                   options={coreSubjectsOptions}
-                    className="custom-select required"
+                  className="custom-select required"
                   placeholder="Core Subjects"
                   required
                 />
+                <span className="custom-tooltip">Core Subjects</span>
+              </div>
               </div>
               {data.coreSubjects.includes("Others") && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.otherSubjects}
@@ -1074,10 +1286,13 @@ const Education = ({
                     placeholder="Specify other subjects"
                     required
                   />
+                  <span className="custom-tooltip">Specify other subjects</span>
+                </div>
                 </div>
               )}
               {bEdPercentage && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.percentage}
@@ -1086,10 +1301,13 @@ const Education = ({
                     pattern="[a-zA-Z0-9+%]*"
                     maxLength={5}
                   />
+                  <span className="custom-tooltip">Grade / Percentage</span>
+                </div>
                 </div>
               )}
               {bEdMode && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <select
                     className="custom-select"
                     value={data.mode || ""}
@@ -1097,12 +1315,12 @@ const Education = ({
                     required
                   >
                     <option value="" disabled>Mode of Study</option>
-                    {educationModeOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
+                    {educationModeOptions.map(option => (
+                      <option key={option.value} value={option.value}>{option.label}</option>
                     ))}
                   </select>
+                  <span className="custom-tooltip">Mode of Study</span>
+                </div>
                 </div>
               )}
             </div>
@@ -1113,22 +1331,23 @@ const Education = ({
           <div className="certificate-section">
             <div className="row">
               <div className="form-group col-lg-6 col-md-12">
-                
-                  <select
-                    className="custom-select"
-                    value={data.courseStatus || ""}
-                    onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
-                    required
-                  >
-                    <option value="" disabled>Course Status</option>
-                    {courseStatusOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
+                <div className="input-wrapper">
+                <select
+                  className="custom-select"
+                  value={data.courseStatus || ""}
+                  onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                  required
+                >
+                  <option value="" disabled>Course Status</option>
+                  {courseStatusOptions.map(option => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+                <span className="custom-tooltip">Course Status</span>
+              </div>
               </div>
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <input
                   type="text"
                   value={data.courseName}
@@ -1138,9 +1357,12 @@ const Education = ({
                   pattern="[a-zA-Z0-9 ]*"
                   required
                 />
+                <span className="custom-tooltip">Course Name</span>
+              </div>
               </div>
               {certificatePlace && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.placeOfStudy}
@@ -1148,45 +1370,39 @@ const Education = ({
                     placeholder="Place of Study"
                     maxLength={20}
                   />
+                  <span className="custom-tooltip">Place of Study</span>
+                </div>
                 </div>
               )}
               {certificateCourseDuration && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <Select
-                    value={certificateCourseDurationOptions.find(
-                      (option) => option.value === data.courseDuration
-                    )}
+                    value={certificateCourseDurationOptions.find(option => option.value === data.courseDuration)}
                     onChange={(selected) => handleEducationDataChange(index, "courseDuration", selected.value)}
                     options={certificateCourseDurationOptions}
                     placeholder="Course Duration"
                   />
+                  <span className="custom-tooltip">Course Duration</span>
+                </div>
                 </div>
               )}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <select
                   value={data.yearOfPassing}
                   onChange={(e) => handleEducationDataChange(index, "yearOfPassing", e.target.value)}
                   required
                 >
                   <option value="">Year of Passing</option>
-                  {(() => {
-                    const currentYear = new Date().getFullYear();
-                    const years = [];
-                    const minYear = currentYear - 14;
-                    const maxYear = data.courseStatus === "Pursuing" ? currentYear + 2 : currentYear;
-                    for (let year = maxYear; year >= minYear; year--) {
-                      years.push(
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      );
-                    }
-                    return years;
-                  })()}
+                  {generateYearOptions()}
                 </select>
+                <span className="custom-tooltip">Year of Passing</span>
+              </div>
               </div>
               {certificateSpecialization && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     value={data.specialization}
@@ -1195,10 +1411,13 @@ const Education = ({
                     maxLength={20}
                     pattern="[a-zA-Z0-9 ]*"
                   />
+                  <span className="custom-tooltip">Specialization</span>
+                </div>
                 </div>
               )}
               {certificateMode && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <select
                     className="custom-select"
                     value={data.mode || ""}
@@ -1206,12 +1425,12 @@ const Education = ({
                     required
                   >
                     <option value="" disabled>Mode of Study</option>
-                    {educationModeOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
+                    {educationModeOptions.map(option => (
+                      <option key={option.value} value={option.value}>{option.label}</option>
                     ))}
                   </select>
+                  <span className="custom-tooltip">Mode of Study</span>
+                  </div>
                 </div>
               )}
             </div>
@@ -1222,49 +1441,39 @@ const Education = ({
           <div className="ded-section">
             <div className="row">
               {isEasyMode ? (
-                <>
-                  <div className="form-group col-lg-6 col-md-12">
-                    <select
-                      value={data.yearOfPassing}
-                      onChange={(e) => handleEducationDataChange(index, "yearOfPassing", e.target.value)}
-                      required
-                    >
-                      <option value="">Year of Passing</option>
-                      {(() => {
-                        const currentYear = new Date().getFullYear();
-                        const years = [];
-                        const minYear = currentYear - 16;
-                        const maxYear = data.courseStatus === "Pursuing" ? currentYear + 1 : currentYear;
-                        for (let year = maxYear; year >= minYear; year--) {
-                          years.push(
-                            <option key={year} value={year}>
-                              {year}
-                            </option>
-                          );
-                        }
-                        return years;
-                      })()}
-                    </select>
-                  </div>
-                </>
+                <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
+                  <select
+                    value={data.yearOfPassing}
+                    onChange={(e) => handleEducationDataChange(index, "yearOfPassing", e.target.value)}
+                    required
+                  >
+                    <option value="">Year of Passing</option>
+                    {generateYearOptions()}
+                  </select>
+                  <span className="custom-tooltip">Year of Passing</span>
+                </div>
+                </div>
               ) : (
                 <>
                   <div className="form-group col-lg-6 col-md-12">
-                      <select
-                        className="custom-select"
-                        value={data.courseStatus || ""}
-                        onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
-                        required
-                      >
-                        <option value="" disabled>Course Status</option>
-                        {courseStatusOptions.map((option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </select>
+                    <div className="input-wrapper">
+                    <select
+                      className="custom-select"
+                      value={data.courseStatus || ""}
+                      onChange={(e) => handleEducationDataChange(index, "courseStatus", e.target.value)}
+                      required
+                    >
+                      <option value="" disabled>Course Status</option>
+                      {courseStatusOptions.map(option => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                      ))}
+                    </select>
+                    <span className="custom-tooltip">Course Status</span>
+                  </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <input
                       type="text"
                       value={data.instituteName}
@@ -1273,8 +1482,11 @@ const Education = ({
                       maxLength={20}
                       pattern="[a-zA-Z0-9 ]*"
                     />
+                    <span className="custom-tooltip">Institute / College name</span>
+                  </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <input
                       type="text"
                       value={data.placeOfStudy}
@@ -1283,55 +1495,53 @@ const Education = ({
                       maxLength={20}
                       pattern="[a-zA-Z0-9 ]*"
                     />
+                    <span className="custom-tooltip">Place of Study</span>
+                  </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
-                    <input
-                      type="text"
-                      value={data.affiliatedTo}
-                      onChange={(e) => handleEducationDataChange(index, "affiliatedTo", e.target.value)}
-                      placeholder="Affiliated to / recognized by"
-                      maxLength={20}
-                      pattern="[a-zA-Z0-9 ]*"
-                    />
+                    <div className="input-wrapper">
+                      <input
+                        type="text"
+                        value={data.affiliatedTo}
+                        onChange={(e) => handleEducationDataChange(index, "affiliatedTo", e.target.value)}
+                        placeholder="Affiliated to / recognized by"
+                        maxLength={20}
+                        pattern="[a-zA-Z0-9 ]*"
+                      />
+                      <span className="custom-tooltip">Affiliated to / recognized by</span>
+                    </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <Select
-                      value={dEdCourseDurationOptions.find((option) => option.value === data.courseDuration)}
+                      value={dEdCourseDurationOptions.find(option => option.value === data.courseDuration)}
                       onChange={(selected) => handleEducationDataChange(index, "courseDuration", selected.value)}
                       options={dEdCourseDurationOptions}
                       placeholder="Course Duration"
                     />
+                    <span className="custom-tooltip">Course Duration</span>
+                  </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <select
                       value={data.yearOfPassing}
                       onChange={(e) => handleEducationDataChange(index, "yearOfPassing", e.target.value)}
                       required
                     >
                       <option value="">Year of Passing</option>
-                      {(() => {
-                        const currentYear = new Date().getFullYear();
-                        const years = [];
-                        const minYear = currentYear - 14;
-                        const maxYear = data.courseStatus === "Pursuing" ? currentYear + 2 : currentYear;
-                        for (let year = maxYear; year >= minYear; year--) {
-                          years.push(
-                            <option key={year} value={year}>
-                              {year}
-                            </option>
-                          );
-                        }
-                        return years;
-                      })()}
+                      {generateYearOptions()}
                     </select>
+                    <span className="custom-tooltip">Year of Passing</span>
+                  </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <Select
                       isMulti
-                      value={data.coreSubjects.map((subject) => ({ value: subject, label: subject }))}
+                      value={data.coreSubjects.map(subject => ({ value: subject, label: subject }))}
                       onChange={(selected) => {
-                        const selectedValues = selected.map((option) => option.value);
-                        console.log("Selected Values:", selectedValues);
+                        const selectedValues = selected.map(option => option.value);
                         handleEducationDataChange(index, "coreSubjects", selectedValues);
                       }}
                       options={coreSubjectsOptions}
@@ -1339,9 +1549,12 @@ const Education = ({
                       placeholder="Core Subjects"
                       required
                     />
+                    <span className="custom-tooltip">Core Subjects</span>
+                  </div>
                   </div>
                   {data.coreSubjects.includes("Others") && (
                     <div className="form-group col-lg-6 col-md-12">
+                      <div className="input-wrapper">
                       <input
                         type="text"
                         value={data.otherSubjects}
@@ -1349,9 +1562,12 @@ const Education = ({
                         placeholder="Specify other subjects"
                         required
                       />
+                      <span className="custom-tooltip">Specify other subjects</span>
+                    </div>
                     </div>
                   )}
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <input
                       type="text"
                       value={data.percentage}
@@ -1359,8 +1575,11 @@ const Education = ({
                       placeholder="Percentage"
                       maxLength={5}
                     />
+                    <span className="custom-tooltip">Percentage</span>
+                  </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <select
                       className="custom-select"
                       value={data.mode || ""}
@@ -1368,13 +1587,13 @@ const Education = ({
                       required
                     >
                       <option value="" disabled>Mode of Study</option>
-                      {educationModeOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
+                      {educationModeOptions.map(option => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
                       ))}
                     </select>
+                    <span className="custom-tooltip">Mode of Study</span>
                   </div>
+                </div>
                 </>
               )}
             </div>
@@ -1385,51 +1604,42 @@ const Education = ({
     }
   };
 
-  // Submit handler: construct payload and post via Axios
+  // ------------------- Submit handler -------------------
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Construct the payload based on our education_details table fields.
     const payload = {
       firebase_uid: user.uid,
-      // Data for Grade 10 (mandatory)
       grade10: {
         syllabus: grade10Data.syllabus,
         schoolName: grade10Data.schoolName,
         yearOfPassing: grade10Data.yearOfPassing,
         percentage: grade10Data.percentage,
-        mode: grade10Data.mode,
+        mode: grade10Data.mode
       },
-      // Data for additional education entries (Grade 12, Degree, etc.)
       additionalEducation: additionalEducation.map((edu) => ({
-        education_type: edu.type, // e.g., "grade12", "degree", etc.
-        // Common fields
+        education_type: edu.type,
         syllabus: edu.data.syllabus || null,
         schoolName: edu.data.schoolName || null,
         yearOfPassing: edu.data.yearOfPassing || null,
         percentage: edu.data.percentage || null,
         mode: edu.data.mode || null,
         courseStatus: edu.data.courseStatus || null,
-        // Higher education specific fields
         courseName: edu.data.courseName || null,
         collegeName: edu.data.collegeName || null,
         placeOfStudy: edu.data.placeOfStudy || null,
         universityName: edu.data.universityName || null,
         yearOfCompletion: edu.data.yearOfCompletion || null,
-        // Fields for courses like NTT/MTT, D.Ed, B.Ed
         instituteName: edu.data.instituteName || null,
         affiliatedTo: edu.data.affiliatedTo || null,
         courseDuration: edu.data.courseDuration || null,
-        // Certificate-specific field
         specialization: edu.data.specialization || null,
-        // Convert coreSubjects to JSON format (array format)
-        coreSubjects: edu.data.coreSubjects && edu.data.coreSubjects.length
-          ? JSON.stringify(edu.data.coreSubjects) // This ensures it is stored as a JSON array
-          : null,
-        otherSubjects: edu.data.otherSubjects || null,
-      })),
+        coreSubjects:
+          edu.data.coreSubjects && edu.data.coreSubjects.length
+            ? JSON.stringify(edu.data.coreSubjects)
+            : null,
+        otherSubjects: edu.data.otherSubjects || null
+      }))
     };
-
     try {
       const { data } = await axios.post(
         "https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/educationDetails",
@@ -1447,119 +1657,102 @@ const Education = ({
   return (
     <form onSubmit={handleSubmit} className="education-form">
       <div className="form-group col-lg-12 col-md-12">
-        <h3>Education Details</h3>
-
         {/* Grade 10 Section (Mandatory) */}
         <div className="education-section">
-          <h4>Grade 10</h4>
+          <h6 style={{color:"brown"}}>Grade 10</h6>
           {isEasyMode ? (
-            <>
+            <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
+              <select
+                value={grade10Data.yearOfPassing}
+                onChange={(e) => handleGrade10Change("yearOfPassing", e.target.value)}
+                required
+              >
+                <option value="">Year of Passing</option>
+                  {generateYearOptions()}
+                </select>
+                <span className="custom-tooltip">Year of Passing</span>
+              </div>
+            </div>
+          ) : (
+            <div className="row">
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
+                <select
+                  value={grade10Data.syllabus || ""}
+                  onChange={(e) => handleGrade10Change("syllabus", e.target.value)}
+                >
+                  <option value="" disabled>Syllabus</option>
+                  {syllabusOptions.map((option) => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+                <span className="custom-tooltip">Syllabus</span>
+              </div>
+              </div>
+              <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
+                <input
+                  type="text"
+                  value={grade10Data.schoolName}
+                  onChange={(e) => handleGrade10Change("schoolName", e.target.value)}
+                  placeholder="School Name"
+                  pattern="[a-zA-Z0-9 ]*"
+                  maxLength={20}
+                />
+                <span className="custom-tooltip">School Name</span>
+              </div>
+              </div>
+              <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <select
                   value={grade10Data.yearOfPassing}
                   onChange={(e) => handleGrade10Change("yearOfPassing", e.target.value)}
                   required
                 >
                   <option value="">Year of Passing</option>
-                  {Array.from({ length: 15 }, (_, i) => {
-                    const year = new Date().getFullYear() - i;
-                    return (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    );
-                  })}
+                  {generateYearOptions()}
                 </select>
+                <span className="custom-tooltip">Year of Passing</span>
               </div>
-            </>
-          ) : (
-            <>
-              <div className="row">
-                <div className="form-group col-lg-6 col-md-12">
-                  <select
-                    value={grade10Data.syllabus || ""}
-                    onChange={(e) => handleGrade10Change("syllabus", e.target.value)}
-                  >
-                    <option value="" disabled>Syllabus</option>
-                    {syllabusOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="form-group col-lg-6 col-md-12">
-                  <input
-                    type="text"
-                    value={grade10Data.schoolName}
-                    onChange={(e) => handleGrade10Change("schoolName", e.target.value)}
-                    placeholder="School Name"
-                    pattern="[a-zA-Z0-9 ]*"
-                    maxLength={20}
-                  />
-                </div>
-
-                <div className="form-group col-lg-6 col-md-12">
-                  <select
-                    value={grade10Data.yearOfPassing}
-                    onChange={(e) => handleGrade10Change("yearOfPassing", e.target.value)}
-                  required
-                  >
-                    <option value="">Year of Passing</option>
-                    {Array.from({ length: 15 }, (_, i) => {
-                      const year = new Date().getFullYear() - i;
-                      return (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-
-                <div className="form-group col-lg-6 col-md-12">
-                  <input
-                    type="text"
-                    value={grade10Data.percentage}
-                    onChange={(e) => handleGrade10Change("percentage", e.target.value)}
-                    placeholder="Grade / Percentage"
-                    pattern="[a-zA-Z0-9+%]*"
-                    maxLength={5}
-                  />
-                </div>
-
-                <div className="form-group col-lg-6 col-md-12">
-                  <select
-                    value={grade10Data.mode || ""}
-                    onChange={(e) => handleGrade10Change("mode", e.target.value)}
-                  >
-                    <option value="" disabled>Mode of Study</option>
-                    {educationModeOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
               </div>
-            </>
+              <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
+                <input
+                  type="text"
+                  value={grade10Data.percentage}
+                  onChange={(e) => handleGrade10Change("percentage", e.target.value)}
+                  placeholder="Grade / Percentage"
+                  pattern="[a-zA-Z0-9+%]*"
+                  maxLength={5}
+                />
+                <span className="custom-tooltip">Grade / Percentage</span>
+              </div>
+              </div>
+              <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
+                <select
+                  value={grade10Data.mode || ""}
+                  onChange={(e) => handleGrade10Change("mode", e.target.value)}
+                >
+                  <option value="" disabled>Mode of Study</option>
+                  {educationModeOptions.map((option) => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+                <span className="custom-tooltip">Mode of Study</span>
+              </div>
+              </div>
+            </div>
           )}
         </div>
-
-        {/* Display Added Education Sections */}
+        {/* Additional Education Sections */}
         {additionalEducation.map((education, index) => (
-          <div key={index} className="education-section">
+          <div key={index} className="education-section" style={{ display: "block" }}>
             <div className="section-header">
-              <h4>
-                {educationTypes.find((type) => type.value === education.type)?.label}
-              </h4>
+              <h6 style={{color:"brown"}}>{educationTypes.find((type) => type.value === education.type)?.label}</h6>
               <div>
-                <button
-                  type="button"
-                  onClick={() => handleRemoveEducation(index)}
-                  className="remove-btn"
-                >
+                <button type="button" onClick={() => handleRemoveEducation(index)} className="remove-btn">
                   Remove
                 </button>
               </div>
@@ -1567,10 +1760,9 @@ const Education = ({
             {renderEducationFields(education.type, education.data, index)}
           </div>
         ))}
-
         {/* Add More Education Section */}
         <div className="add-education-section">
-          <h4>Add More Education</h4>
+          <h6 style={{color:"brown"}}>Add More Education</h6>
           <div className="row">
             <div className="form-group col-lg-6 col-md-12">
               <select
@@ -1602,9 +1794,10 @@ const Education = ({
             </div>
           </div>
         </div>
-
         <div>
-          <button type="submit" className="theme-btn btn-style-three">Save Education Details</button>
+          <button type="submit" className="theme-btn btn-style-three">
+            Save Education Details
+          </button>
         </div>
       </div>
     </form>

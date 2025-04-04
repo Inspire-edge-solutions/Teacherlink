@@ -20,7 +20,7 @@ const ViewProfile = () => {
     try {
       const idToken = localStorage.getItem("idToken");
       const response = await fetch(
-        `https://v0trs9tt4k.execute-api.ap-south-1.amazonaws.com/staging/organization/${firebase_uid}`,
+        `${import.meta.env.VITE_DEV1_API}/organization/${firebase_uid}`,
         {
           method: "GET",
           headers: {
@@ -55,6 +55,7 @@ const ViewProfile = () => {
           className="org-data-display"
           style={{ marginTop: "20px", padding: "10px", border: "1px solid #ccc" }}
         >
+          <h3>Organization Profile</h3>
 
           {/* ----------------- Organization Details (if non-parent) ----------------- */}
           {orgData.organization_details && (
@@ -73,6 +74,21 @@ const ViewProfile = () => {
                   {orgData.organization_details.websiteUrl}
                 </a>
               </p>
+
+              {/* YouTube URL displayed right after Website */}
+              {orgData.organization_details.video && (
+                <p>
+                  <strong>YouTube URL:</strong>{" "}
+                  <a
+                    href={orgData.organization_details.video}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {orgData.organization_details.video}
+                  </a>
+                </p>
+              )}
+
               <p>
                 <strong>PAN Number:</strong> {orgData.organization_details.panNumber}
               </p>

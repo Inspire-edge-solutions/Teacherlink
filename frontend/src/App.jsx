@@ -64,13 +64,12 @@ import ChangePasswordEmploeeDBPage from "./pages/employers-dashboard/change-pass
 import DashboardPage from "./pages/candidates-dashboard/dashboard";
 import AppliedJobsPage from "./pages/candidates-dashboard/applied-jobs";
 import ChangePasswordPage from "./pages/candidates-dashboard/change-password";
-import CVMannagerPage from "./pages/candidates-dashboard/cv-manager";
-import JobAlertPage from "./pages/candidates-dashboard/job-alerts";
-import MessageesPage from "./pages/candidates-dashboard/messages";
 import MyProfilePage from "./pages/candidates-dashboard/my-profile";
-import MyResumePage from "./pages/candidates-dashboard/my-resume";
-import PackagePage from "./pages/candidates-dashboard/packages";
-import ShortListedJobsPage from "./pages/candidates-dashboard/short-listed-jobs";
+import AllJobPage from "./pages/candidates-dashboard/all-jobs";
+import MeetingsPage from "./pages/candidates-dashboard/meetings";
+import MessagingPage from "./pages/candidates-dashboard/messaging";
+import RecruiterActionsPage from "./pages/candidates-dashboard/recruiter-actions";
+import MyAccountPage from "./pages/candidates-dashboard/my-account";
 import LoginPage from "./pages/others/login";
 import RegisterPage from "./pages/others/register";
 import ForgetPasswordPage from "./pages/forget-password";
@@ -94,6 +93,7 @@ function App() {
               {/* Public routes */}
               <Route path="/" element={<HomePage13 />} />
               <Route path="/home/home-13" element={<HomePage13 />} />
+              
               <Route path="about" element={<AboutPage />} />
               <Route path="pricing" element={<PricingPage />} />
               <Route path="faq" element={<FaqPage />} />
@@ -150,6 +150,7 @@ function App() {
                   <Route path="messages" element={<MessageEmploeeDBPage />} />
                   <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage />} />
                   <Route path="change-password" element={<ChangePasswordEmploeeDBPage />} />
+                  <Route path="logout" element={<HomePage13 />} />
                 </Route>
               </Route>
 
@@ -158,15 +159,15 @@ function App() {
                 <Route path="candidates-dashboard">
                   <Route index element={<Navigate to="dashboard" replace />} />
                   <Route path="dashboard" element={<DashboardPage />} />
+                  <Route path="my-account" element={<MyAccountPage />} />
                   <Route path="my-profile" element={<MyProfilePage />} />
-                  <Route path="my-resume" element={<MyResumePage />} />
+                  <Route path="all-jobs" element={<AllJobPage />} />
                   <Route path="applied-jobs" element={<AppliedJobsPage />} />
-                  <Route path="job-alerts" element={<JobAlertPage />} />
-                  <Route path="shortlisted-jobs" element={<ShortListedJobsPage />} />
-                  <Route path="cv-manager" element={<CVMannagerPage />} />
-                  <Route path="packages" element={<PackagePage />} />
-                  <Route path="messages" element={<MessageesPage />} />
+                  <Route path="recruiter-actions" element={<RecruiterActionsPage />} />
+                  <Route path="messaging" element={<MessagingPage />} />
+                  <Route path="meetings" element={<MeetingsPage />} />
                   <Route path="change-password" element={<ChangePasswordPage />} />
+                  <Route path="logout" element={<HomePage13 />} />
                 </Route>
               </Route>
 

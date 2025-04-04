@@ -1,0 +1,20 @@
+service: full-api
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+
+functions:
+  fullapi:
+    handler: fullapi.handler
+    events:
+      - http:
+          path: fullapi
+          method: get
+          cors: true
+
+
+
+plugins:
+  - serverless-offline

@@ -1,0 +1,20 @@
+{
+  "name": "full",
+  "version": "1.0.0",
+  "main": "fullapi.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.14.0",
+    "serverless": "^4.9.1",
+    "serverless-offline": "^14.4.0"
+  },
+  "description": ""
+}

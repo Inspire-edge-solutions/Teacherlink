@@ -3,37 +3,39 @@ import axios from "axios";
 import Select from "react-select";
 import csc from "countries-states-cities";
 import { useAuth } from "../../../../../../contexts/AuthContext";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Experience = ({
   excludeAdditionalDetails,
   excludeTeachingCurriculum,
   excludeAdminCurriculum,
-  excludeTeachingAdminCurriculum
+  excludeTeachingAdminCurriculum,
+  formData,
+  updateFormData
 }) => {
   const { user } = useAuth();
 
-  // Base experience template (no user_id in MySQL; used only for DynamoDB)
+  // Helper: Convert numeric or null => boolean
+  const convertYesNo = (val) => Number(val) === 1;
+
+  // ---------------------------
+  // Base experience template
+  // ---------------------------
   const baseExperience = {
-    firebase_uid: user?.uid || "", // Use optional chaining to safely access uid
+    firebase_uid: user?.uid || "",
     adminCurriculum: "",
-    jobCategory: "", // "fullTime" / "partTime"
-    jobProcess: "",  // "regular", "online", "hybrid"
-    jobType: "",     // "teaching", "administration", "teachingAndAdministration", "nonEducation"
+    jobCategory: "",
+    jobProcess: "",
+    jobType: "",
     otherAdminDesignation: "",
     otherTeachingAdminCoreExpertise: "",
-    paySlip: null, // Will hold Base64 if a file is chosen
+    // paySlip removed
     teachingAdminSubjects: [],
     teachingDesignation: "",
     teachingSubjects: [],
     workProfile: "",
     adminDesignation: "",
-    city: null,    // Will store entire option object
-    country: null, // Will store entire option object
-    currentlyWorking: null,
-    designation: "",
     industryType: "",
     organizationName: "",
     otherAdminCurriculum: "",
@@ -45,9 +47,11 @@ const Experience = ({
     otherTeachingDesignation: "",
     otherTeachingSubjects: "",
     salary: "",
-    state: null, // Will store entire option object
+    state: null,
+    country: null,
+    city: null,
+    currentlyWorking: null,
     teachingAdminCoreExpertise: [],
-    teachingAdminCurriculum: "",
     teachingAdminDesignations: [],
     teachingAdminGrades: [],
     teachingCoreExpertise: [],
@@ -59,7 +63,9 @@ const Experience = ({
     work_till_year: ""
   };
 
-  // MySQL-like aggregated experience details
+  // ---------------------------
+  // Aggregated experience (MySQL-like)
+  // ---------------------------
   const [workExperience, setWorkExperience] = useState({
     total: { years: "0", months: "0" },
     teaching: { years: "0", months: "0" },
@@ -78,10 +84,13 @@ const Experience = ({
       }
     }
   });
-  // Array of individual experiences
+
+  // ---------------------------
+  // Individual experience entries (DynamoDB)
+  // ---------------------------
   const [experienceEntries, setExperienceEntries] = useState([]);
 
-  // Additional toggles for other teaching experiences (Ed Tech, etc.)
+  // Additional toggles for other teaching experiences
   const [otherTeachingExp, setOtherTeachingExp] = useState({
     edTechCompany: null,
     online: null,
@@ -91,13 +100,13 @@ const Experience = ({
     homeTuitions: null
   });
 
-  // For dynamic location: We store full country objects here
+  // Countries for location
   const allCountries = csc.getAllCountries().map((c) => ({
     value: c.id,
     label: c.name
   }));
 
-  // For designations, subjects, etc.
+  // Subject/designation/grades/coreExpertise/curriculum
   const [subjectsOptions, setSubjectsOptions] = useState([]);
   const [teachingDesignations, setTeachingDesignations] = useState([]);
   const [adminDesignations, setAdminDesignations] = useState([]);
@@ -106,19 +115,19 @@ const Experience = ({
   const [grades, setGrades] = useState([]);
   const [curriculum, setCurriculum] = useState([]);
 
-  // Year <option> elements
+  // Year options
   const yearOptions = Array.from({ length: 31 }, (_, i) => (
     <option key={i} value={i}>
       {i} Years
     </option>
   ));
 
-  // Fetch designations and subjects from your endpoints
+  // ---------------------------
+  // Fetching data for subjects, designations, etc.
+  // ---------------------------
   const subjectList = async () => {
     try {
-      const response = await axios.get(
-        import.meta.env.VITE_DEV1_API + '/education-data'
-      );
+      const response = await axios.get(import.meta.env.VITE_DEV1_API + "/education-data");
       const formattedSubjects = response.data.map((subject) => ({
         value: subject.value,
         label: subject.label
@@ -131,15 +140,14 @@ const Experience = ({
 
   const fetchDesignations = async () => {
     try {
-      const response = await fetch(
-        import.meta.env.VITE_DEV1_API + '/constants'
-      );
+      const response = await fetch(import.meta.env.VITE_DEV1_API + "/constants");
       const data = await response.json();
       const transformedData = data.map((item) => ({
         category: item.category,
         value: item.value,
         label: item.label
       }));
+
       setTeachingDesignations(
         transformedData.filter((item) => item.category === "Teaching") || []
       );
@@ -148,8 +156,7 @@ const Experience = ({
       );
       setTeachingAdminDesignations(
         transformedData.filter(
-          (item) =>
-            item.category === "Teaching" || item.category === "Administration"
+          (item) => item.category === "Teaching" || item.category === "Administration"
         ) || []
       );
       setCoreExpertise(
@@ -171,39 +178,206 @@ const Experience = ({
     fetchDesignations();
   }, []);
 
-  // Add a new experience entry
+  // ---------------------------
+  // Revert location strings to {value, label} objects for react-select
+  // ---------------------------
+  const revertLocation = (entry) => {
+    if (!entry.country && !entry.state && !entry.city) {
+      return entry; // no location stored, return as is
+    }
+
+    // 1) Find matching country object by label
+    const countryObj = allCountries.find((c) => c.label === entry.country) || null;
+
+    let stateObj = null;
+    let cityObj = null;
+
+    if (countryObj) {
+      const possibleStates = csc.getStatesOfCountry(countryObj.value).map((st) => ({
+        value: st.id,
+        label: st.name
+      }));
+      // 2) Find matching state object by label
+      stateObj = possibleStates.find((s) => s.label === entry.state) || null;
+
+      if (stateObj) {
+        const possibleCities = csc.getCitiesOfState(stateObj.value).map((ct) => ({
+          value: ct.id,
+          label: ct.name
+        }));
+        // 3) Find matching city object by label
+        cityObj = possibleCities.find((c) => c.label === entry.city) || null;
+      }
+    }
+
+    return {
+      ...entry,
+      country: countryObj,
+      state: stateObj,
+      city: cityObj
+    };
+  };
+
+  // ---------------------------
+  // Fetch existing experience data (MySQL + DynamoDB)
+  // ---------------------------
+  useEffect(() => {
+    if (!user?.uid) return;
+
+    const fetchExperienceData = async () => {
+      try {
+        const response = await axios.get(
+          "https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/workExperience",
+          { params: { firebase_uid: user.uid } }
+        );
+        if (response.status === 200 && response.data) {
+          const { mysqlData, dynamoData } = response.data;
+
+          // ------------------ MySQL data ------------------
+          if (Array.isArray(mysqlData) && mysqlData.length > 0) {
+            const record = mysqlData[0];
+
+            // Convert 1/0 => boolean for additional toggles
+            setOtherTeachingExp({
+              edTechCompany: convertYesNo(record.Ed_Tech_Company),
+              online: convertYesNo(record.on_line),
+              coachingTuition: convertYesNo(record.coaching_tuitions_center),
+              groupTuitions: convertYesNo(record.group_tuitions),
+              privateTuitions: convertYesNo(record.private_tuitions),
+              homeTuitions: convertYesNo(record.home_tuitions)
+            });
+
+            // Set aggregated experience
+            setWorkExperience((prev) => ({
+              ...prev,
+              total: {
+                years: record.total_experience_years?.toString() || "0",
+                months: record.total_experience_months?.toString() || "0"
+              },
+              teaching: {
+                years: record.teaching_experience_years?.toString() || "0",
+                months: record.teaching_experience_months?.toString() || "0"
+              },
+              details: {
+                teaching: {
+                  fullTime: {
+                    years: record.teaching_exp_fulltime_years?.toString() || "0",
+                    months: record.teaching_exp_fulltime_months?.toString() || "0"
+                  },
+                  partTime: {
+                    years: record.teaching_exp_partime_years?.toString() || "0",
+                    months: record.teaching_exp_partime_months?.toString() || "0"
+                  }
+                },
+                administration: {
+                  fullTime: {
+                    years: record.administration_fulltime_years?.toString() || "0",
+                    months: record.administration_fulltime_months?.toString() || "0"
+                  },
+                  partTime: {
+                    years: record.administration_partime_years?.toString() || "0",
+                    months: record.administration_parttime_months?.toString() || "0"
+                  }
+                },
+                nonEducation: {
+                  fullTime: {
+                    years: record.anyrole_fulltime_years?.toString() || "0",
+                    months: record.anyrole_fulltime_months?.toString() || "0"
+                  },
+                  partTime: {
+                    years: record.anyrole_partime_years?.toString() || "0",
+                    months: record.anyrole_parttime_months?.toString() || "0"
+                  }
+                }
+              }
+            }));
+          }
+
+          // ------------------ DynamoDB data ------------------
+          // Ensure we actually have experienceEntries
+          if (dynamoData && Array.isArray(dynamoData.experienceEntries)) {
+            // Convert stored string-locations back to {value, label} objects
+            const reverted = dynamoData.experienceEntries.map((exp) => revertLocation(exp));
+            setExperienceEntries(reverted);
+          }
+
+          // After setting all states, validate and update parent
+          // Pre-filled data is considered valid
+          updateFormData({ 
+            workExperience, 
+            experienceEntries, 
+            otherTeachingExp 
+          }, true);
+        }
+      } catch (error) {
+        console.error("Error fetching existing work experience:", error);
+      }
+    };
+
+    fetchExperienceData();
+  }, [user?.uid]);
+
+  // ---------------------------
+  // Add / Remove experience entries
+  // ---------------------------
   const addNewExperience = () => {
     setExperienceEntries((prev) => [...prev, { ...baseExperience }]);
   };
 
-  // Remove an experience entry
   const removeExperience = (indexToRemove) => {
-    setExperienceEntries((prev) =>
-      prev.filter((_, index) => index !== indexToRemove)
-    );
+    setExperienceEntries((prev) => prev.filter((_, index) => index !== indexToRemove));
   };
 
-  // Before submission, transform each entry's country/state/city from object to their label
+  // ---------------------------
+  // Transform data before POST
+  // ---------------------------
   const transformExperienceEntries = (entries) => {
     return entries.map((entry) => ({
       ...entry,
+      // Flatten the country/state/city to strings for storage
       country: entry.country ? entry.country.label : "",
       state: entry.state ? entry.state.label : "",
       city: entry.city ? entry.city.label : ""
     }));
   };
-  
-  // Submit the entire experience data
+
+  // ---------------------------
+  // Submit final data to API
+  // ---------------------------
   const submitExperienceData = async () => {
-    if (experienceEntries.length === 0) {
-      toast.error("Please add at least one work experience.");
-      return;
+    // if (experienceEntries.length === 0) {
+    //   toast.error("Please add at least one work experience.");
+    //   return;
+    // }
+
+    // 1) Validate "Worked from" < "Worked till" for each entry
+    for (let i = 0; i < experienceEntries.length; i++) {
+      const exp = experienceEntries[i];
+      // If user is not currently working, we check from < till
+      if (!exp.currentlyWorking) {
+        const fromYear = parseInt(exp.work_from_year, 10);
+        const fromMonth = parseInt(exp.work_from_month, 10);
+        const toYear = parseInt(exp.work_till_year, 10);
+        const toMonth = parseInt(exp.work_till_month, 10);
+
+        // Build date objects
+        const fromDate = new Date(fromYear, fromMonth - 1);
+        const toDate = new Date(toYear, toMonth - 1);
+
+        if (fromDate >= toDate) {
+          toast.error(
+            `Entry #${i + 1}: 'Worked from' date must be earlier than 'Worked till' date.`
+          );
+          return; // Stop submission
+        }
+      }
     }
 
-    // Build final payload for POST
+    // Build final payload
     const experienceData = {
-      // Aggregated data for MySQL; note that user_id is not sent here
+      firebase_uid: user.uid,
       mysqlDB: {
+        firebase_uid: user.uid,
         total_experience_years: workExperience.total.years,
         total_experience_months: workExperience.total.months,
         teaching_experience_years: workExperience.teaching.years,
@@ -212,37 +386,34 @@ const Experience = ({
         teaching_exp_fulltime_months: workExperience.details.teaching.fullTime.months,
         teaching_exp_partime_years: workExperience.details.teaching.partTime.years,
         teaching_exp_partime_months: workExperience.details.teaching.partTime.months,
-
-        administration_fulltime_years:workExperience.details.administration.fullTime.years,
-        administration_fulltime_months:workExperience.details.administration.fullTime.months,
-        administration_partime_years:workExperience.details.administration.partTime.years,
-        administration_parttime_months:workExperience.details.administration.partTime.months,
-
-        anyrole_fulltime_years:workExperience.details.nonEducation.fullTime.years,
-        anyrole_fulltime_months:workExperience.details.nonEducation.fullTime.months,
-        anyrole_partime_years:workExperience.details.nonEducation.partTime.years,
-        anyrole_parttime_months:workExperience.details.nonEducation.partTime.months,
-
-        // Booleans for Other Teaching Experiences; converting to "1"/"0" strings
-        Ed_Tech_Company: otherTeachingExp.edTechCompany,
-        on_line: otherTeachingExp.online,
-        coaching_tuitions_center: otherTeachingExp.coachingTuition,
-        group_tuitions: otherTeachingExp.groupTuitions,
-        private_tuitions: otherTeachingExp.privateTuitions,
-        home_tuitions: otherTeachingExp.homeTuitions
+        administration_fulltime_years:
+          workExperience.details.administration.fullTime.years,
+        administration_fulltime_months:
+          workExperience.details.administration.fullTime.months,
+        administration_partime_years:
+          workExperience.details.administration.partTime.years,
+        administration_parttime_months:
+          workExperience.details.administration.partTime.months,
+        anyrole_fulltime_years: workExperience.details.nonEducation.fullTime.years,
+        anyrole_fulltime_months: workExperience.details.nonEducation.fullTime.months,
+        anyrole_partime_years: workExperience.details.nonEducation.partTime.years,
+        anyrole_parttime_months: workExperience.details.nonEducation.partTime.months,
+        // Convert boolean => 1 or 0
+        Ed_Tech_Company: otherTeachingExp.edTechCompany ? 1 : 0,
+        on_line: otherTeachingExp.online ? 1 : 0,
+        coaching_tuitions_center: otherTeachingExp.coachingTuition ? 1 : 0,
+        group_tuitions: otherTeachingExp.groupTuitions ? 1 : 0,
+        private_tuitions: otherTeachingExp.privateTuitions ? 1 : 0,
+        home_tuitions: otherTeachingExp.homeTuitions ? 1 : 0
       },
-      // For DynamoDB, send the transformed experiences array
       dynamoDB: transformExperienceEntries(experienceEntries)
     };
 
-    // POST to your backend
     try {
       const response = await axios.post(
         "https://2pn2aaw6f8.execute-api.ap-south-1.amazonaws.com/dev/workExperience",
         experienceData,
-        {
-          headers: { "Content-Type": "application/json" }
-        }
+        { headers: { "Content-Type": "application/json" } }
       );
       console.log("Data submitted successfully:", response.data);
       toast.success("Experience data submitted successfully");
@@ -251,15 +422,101 @@ const Experience = ({
       toast.error("Error submitting data");
     }
   };
+  
+  // Add validation function
+  const validateExperience = () => {
+    // 1. Validate total and teaching experience
+    const isTotalExperienceValid = workExperience.total.years !== "" && 
+                                 workExperience.total.months !== "";
+    const isTeachingExperienceValid = workExperience.teaching.years !== "" && 
+                                    workExperience.teaching.months !== "";
+
+    // 2. Validate experience entries if they exist
+    const areEntriesValid = experienceEntries.every(exp => {
+      const baseFieldsValid = exp.organizationName && 
+                            exp.jobCategory && 
+                            exp.jobType && 
+                            exp.currentlyWorking !== null && 
+                            exp.work_from_month && 
+                            exp.work_from_year && 
+                            exp.salary && 
+                            exp.country && 
+                            exp.state && 
+                            exp.jobProcess;
+
+      // If not currently working, check work_till dates
+      if (exp.currentlyWorking === false) {
+        if (!exp.work_till_month || !exp.work_till_year) return false;
+      }
+
+      // Additional validation based on job type
+      switch (exp.jobType) {
+        case 'teaching':
+          return baseFieldsValid && exp.teachingDesignation && 
+                 exp.teachingSubjects.length > 0 && 
+                 exp.teachingGrades.length > 0;
+        case 'administration':
+          return baseFieldsValid && exp.adminDesignation;
+        case 'teachingAndAdministration':
+          return baseFieldsValid && 
+                 exp.teachingAdminDesignations.length > 0 && 
+                 exp.teachingAdminSubjects.length > 0 && 
+                 exp.teachingAdminGrades.length > 0;
+        case 'nonEducation':
+          return baseFieldsValid && exp.designation && 
+                 exp.industryType && exp.workProfile;
+        default:
+          return baseFieldsValid;
+      }
+    });
+
+    // 3. Validate other teaching experiences (all radio buttons should be selected)
+    const isOtherTeachingExpValid = Object.values(otherTeachingExp)
+      .every(value => value !== null);
+
+    return isTotalExperienceValid && 
+           isTeachingExperienceValid && 
+           (experienceEntries.length === 0 || areEntriesValid) && 
+           isOtherTeachingExpValid;
+  };
+
+  // Modify state update handlers to include validation
+  const handleExperienceChange = (newExperienceEntries) => {
+    setExperienceEntries(newExperienceEntries);
+    const isValid = validateExperience();
+    updateFormData({
+      workExperience,
+      experienceEntries: newExperienceEntries,
+      otherTeachingExp
+    }, isValid);
+  };
+
+  const handleWorkExperienceChange = (newWorkExperience) => {
+    setWorkExperience(newWorkExperience);
+    const isValid = validateExperience();
+    updateFormData({
+      workExperience: newWorkExperience,
+      experienceEntries,
+      otherTeachingExp
+    }, isValid);
+  };
+
+  const handleOtherTeachingExpChange = (newOtherTeachingExp) => {
+    setOtherTeachingExp(newOtherTeachingExp);
+    const isValid = validateExperience();
+    updateFormData({
+      workExperience,
+      experienceEntries,
+      otherTeachingExp: newOtherTeachingExp
+    }, isValid);
+  };
 
   return (
     <div className="work-experience-section">
-      <h3>Work Experience</h3>
-
       {/* Total and Teaching Experience */}
       <div className="experience-row">
         <div className="experience-col">
-          <h4>Total Experience (Full Time + Part Time)</h4>
+          <h4 style={{color:"brown"}}>Total Experience (Full Time + Part Time)</h4>
           <div className="duration-selector">
             <select
               value={workExperience.total.years}
@@ -295,7 +552,7 @@ const Experience = ({
         </div>
 
         <div className="experience-col">
-          <h4>Teaching Experience (Full Time + Part Time)</h4>
+          <h4 style={{color:"brown"}}>Total Teaching Exp (Full Time + Part Time)</h4>
           <div className="duration-selector">
             <select
               value={workExperience.teaching.years}
@@ -333,8 +590,8 @@ const Experience = ({
 
       {/* Additional Details */}
       {excludeAdditionalDetails && (
-        <div className="experience-details">
-          <h4>Additional Details</h4>
+        <div className="experience-details form-group col-md-12 col-lg-12">
+          <h4 style={{color:"brown"}}>Additional Details</h4>
           <table className="experience-table">
             <thead>
               <tr>
@@ -350,8 +607,8 @@ const Experience = ({
                 nonEducation: "Non-Education (Any Role)"
               }).map(([key, label]) => (
                 <tr key={key}>
-                  <td>{label}</td>
-                  <td>
+                  <td data-label="Job Category">{label}</td>
+                  <td data-label="Full Time">
                     <div className="duration-selector">
                       <select
                         value={workExperience.details[key].fullTime.years}
@@ -399,7 +656,7 @@ const Experience = ({
                       </select>
                     </div>
                   </td>
-                  <td>
+                  <td data-label="Part Time">
                     <div className="duration-selector">
                       <select
                         value={workExperience.details[key].partTime.years}
@@ -454,9 +711,8 @@ const Experience = ({
         </div>
       )}
 
-      {/* Map each experience entry */}
+      {/* Experience entries */}
       {experienceEntries.map((experience, index) => {
-        // Compute states and cities for each entry if available
         const statesInCountry = experience.country
           ? csc.getStatesOfCountry(experience.country.value).map((st) => ({
               value: st.id,
@@ -473,7 +729,7 @@ const Experience = ({
         return (
           <div key={index} className="experience-entry">
             <div className="d-flex justify-content-between align-items-center">
-              <h4>Experience Details {index + 1}</h4>
+              <h5 style={{color:"brown"}}>Experience Details {index + 1}</h5>
               {experienceEntries.length > 1 && (
                 <button
                   type="button"
@@ -488,6 +744,7 @@ const Experience = ({
             <div className="row">
               {/* Organization Name */}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <input
                   type="text"
                   className="form-control"
@@ -501,12 +758,15 @@ const Experience = ({
                   placeholder="Name of the organization"
                   required
                 />
+                <span className="custom-tooltip">Name of the organization</span>
+                </div>
               </div>
 
               {/* Job Category */}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <select
-                  className="custom-select required"
+                  className="custom-select"
                   value={experience.jobCategory || ""}
                   onChange={(e) => {
                     const newArr = [...experienceEntries];
@@ -515,16 +775,19 @@ const Experience = ({
                   }}
                   required
                 >
-                  <option value="">Job Category</option>
+                  <option value="" disabled>Job Category</option>
                   <option value="fullTime">Full Time</option>
                   <option value="partTime">Part Time</option>
                 </select>
+                <span className="custom-tooltip">Job Category</span>
+                </div>
               </div>
 
               {/* Job Type */}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <select
-                  className="custom-select required"
+                  className="form-select"
                   value={experience.jobType}
                   onChange={(e) => {
                     const newArr = [...experienceEntries];
@@ -533,7 +796,7 @@ const Experience = ({
                   }}
                   required
                 >
-                  <option value="">Job Type</option>
+                  <option value="" disabled>Job Type</option>
                   <option value="teaching">Education - Teaching</option>
                   <option value="administration">Education - Administration</option>
                   <option value="teachingAndAdministration">
@@ -541,13 +804,22 @@ const Experience = ({
                   </option>
                   <option value="nonEducation">Non-Education (Any Role)</option>
                 </select>
+                <span className="custom-tooltip">Job Type</span>
+                </div>
               </div>
 
               {/* Currently Working */}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <select
-                  className="custom-select required"
-                  value={experience.currentlyWorking === null ? "" : experience.currentlyWorking ? "yes" : "no"}
+                  className="custom-select"
+                  value={
+                    experience.currentlyWorking === null
+                      ? ""
+                      : experience.currentlyWorking
+                      ? "yes"
+                      : "no"
+                  }
                   onChange={(e) => {
                     const newArr = [...experienceEntries];
                     newArr[index].currentlyWorking = e.target.value === "yes";
@@ -555,14 +827,17 @@ const Experience = ({
                   }}
                   required
                 >
-                  <option value="">Are you currently working here?</option>
+                  <option value="" disabled>Are you currently working here?</option>
                   <option value="yes">Yes</option>
                   <option value="no">No</option>
                 </select>
+                <span className="custom-tooltip">Are you currently working here?</span>
+                </div>
               </div>
 
               {/* Work Period: From */}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <label>Worked from</label>
                 <div className="date-selector" style={{ display: "flex", gap: 5 }}>
                   <select
@@ -603,11 +878,14 @@ const Experience = ({
                     })}
                   </select>
                 </div>
+                <span className="custom-tooltip">Worked from</span>
+                </div>
               </div>
 
               {/* Work Period: Till */}
               {!experience.currentlyWorking && (
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <label>Worked till</label>
                   <div className="date-selector" style={{ display: "flex", gap: 5 }}>
                     <select
@@ -648,16 +926,19 @@ const Experience = ({
                       })}
                     </select>
                   </div>
+                  <span className="custom-tooltip">Worked till</span>
+                  </div>
                 </div>
               )}
 
               {/* Salary */}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <label>Salary</label>
                 <div className="salary-input d-flex align-items-center">
                   <span>Rs.</span>
                   <input
-                  required
+                    required
                     type="number"
                     className="form-control"
                     step="0.1"
@@ -673,39 +954,15 @@ const Experience = ({
                   />
                   {experience.jobCategory === "fullTime" ? "in LPA" : "per hour"}
                 </div>
-              </div>
-
-              {/* Pay Slip Upload */}
-              <div className="form-group col-lg-6 col-md-12">
-                <label>Upload Pay Slip</label>
-                <input
-                type="file"
-                className="form-control"
-                onChange={async (e) => {
-                  const file = e.target.files[0];
-                  if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (ev) => {
-                      const base64String = ev.target.result.split(",")[1];
-                      console.log("Base64 length:", base64String.length); // Log to confirm non-zero length
-                      const newArr = [...experienceEntries];
-                      newArr[index].paySlip = base64String;
-                      setExperienceEntries(newArr);
-                    };
-                    reader.readAsDataURL(file);
-                  } else {
-                    const newArr = [...experienceEntries];
-                    newArr[index].paySlip = null;
-                    setExperienceEntries(newArr);
-                  }
-                }}
-              />
+                <span className="custom-tooltip">Salary</span>
+                </div>
               </div>
 
               {/* TEACHING FIELDS */}
               {experience.jobType === "teaching" && (
                 <div className="row">
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <Select
                       options={teachingDesignations}
                       value={teachingDesignations.find(
@@ -713,34 +970,40 @@ const Experience = ({
                       )}
                       onChange={(selected) => {
                         const newArr = [...experienceEntries];
-                        newArr[index].teachingDesignation =
-                          selected?.value || "";
+                        newArr[index].teachingDesignation = selected?.value || "";
                         setExperienceEntries(newArr);
                       }}
                       placeholder="Teaching designation"
                       isClearable
-                      className="custom-select required"
+                      className={`custom-select ${
+                        !experience.teachingDesignation ? "required" : ""
+                      }`}
                     />
+                    <span className="custom-tooltip">Teaching designation</span>
+                    </div>
                   </div>
                   {experience.teachingDesignation === "Others" && (
                     <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                       <input
                         type="text"
                         value={experience.otherTeachingDesignation}
                         onChange={(e) => {
                           const newArr = [...experienceEntries];
-                          newArr[index].otherTeachingDesignation =
-                            e.target.value;
+                          newArr[index].otherTeachingDesignation = e.target.value;
                           setExperienceEntries(newArr);
                         }}
                         placeholder="Specify other designation"
                         required
                       />
+                      <span className="custom-tooltip">Specify other designation</span>
+                    </div>
                     </div>
                   )}
 
                   {excludeTeachingCurriculum && (
                     <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                       <Select
                         options={curriculum}
                         value={curriculum.find(
@@ -748,33 +1011,36 @@ const Experience = ({
                         )}
                         onChange={(selected) => {
                           const newArr = [...experienceEntries];
-                          newArr[index].teachingCurriculum =
-                            selected?.value || "";
+                          newArr[index].teachingCurriculum = selected?.value || "";
                           setExperienceEntries(newArr);
                         }}
                         placeholder="Curriculum"
                         isClearable
                       />
+                      <span className="custom-tooltip">Curriculum</span>
+                      </div>
                     </div>
                   )}
                   {experience.teachingCurriculum === "Others" && (
                     <div className="form-group col-lg-6 col-md-12">
+                      <div className="input-wrapper">
                       <input
                         type="text"
                         value={experience.otherTeachingCurriculum}
                         onChange={(e) => {
                           const newArr = [...experienceEntries];
-                          newArr[index].otherTeachingCurriculum =
-                            e.target.value;
+                          newArr[index].otherTeachingCurriculum = e.target.value;
                           setExperienceEntries(newArr);
                         }}
                         placeholder="Specify other curriculum"
                       />
+                      <span className="custom-tooltip">Specify other curriculum</span>
+                      </div>
                     </div>
                   )}
 
-                  {/* Teaching Subjects */}
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <Select
                       isMulti
                       options={subjectsOptions}
@@ -790,11 +1056,18 @@ const Experience = ({
                       }}
                       placeholder="Subjects you handled"
                       isClearable
-                      className="custom-select required"
+                      className={`custom-select ${
+                        experience.teachingSubjects && experience.teachingSubjects.length
+                          ? ""
+                          : "required"
+                      }`}
                     />
+                    <span className="custom-tooltip">Subjects you handled</span>
+                    </div>
                   </div>
                   {experience.teachingSubjects.includes("Others") && (
                     <div className="form-group col-lg-6 col-md-12">
+                      <div className="input-wrapper">
                       <input
                         type="text"
                         value={experience.otherTeachingSubjects}
@@ -806,11 +1079,13 @@ const Experience = ({
                         placeholder="Specify other subjects"
                         required
                       />
+                      <span className="custom-tooltip">Specify other subjects</span>
+                      </div>
                     </div>
                   )}
 
-                  {/* Teaching Grades */}
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <Select
                       isMulti
                       options={grades}
@@ -826,12 +1101,18 @@ const Experience = ({
                       }}
                       placeholder="Grades you handled"
                       isClearable
-                      className="custom-select required"
+                      className={`custom-select ${
+                        experience.teachingGrades && experience.teachingGrades.length
+                          ? ""
+                          : "required"
+                      }`}
                     />
+                    <span className="custom-tooltip">Grades you handled</span>
+                    </div>
                   </div>
 
-                  {/* Teaching Core Expertise */}
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <Select
                       isMulti
                       options={coreExpertise}
@@ -847,11 +1128,19 @@ const Experience = ({
                       }}
                       placeholder="Core Expertise"
                       isClearable
-                      className="custom-select required"
+                      className={`custom-select ${
+                        experience.teachingCoreExpertise &&
+                        experience.teachingCoreExpertise.length
+                          ? ""
+                          : "required"
+                      }`}
                     />
+                    <span className="custom-tooltip">Core Expertise</span>
+                    </div>
                   </div>
                   {experience.teachingCoreExpertise.includes("Others") && (
                     <div className="form-group col-lg-6 col-md-12">
+                      <div className="input-wrapper">
                       <input
                         type="text"
                         value={experience.otherTeachingCoreExpertise}
@@ -864,17 +1153,19 @@ const Experience = ({
                         placeholder="Specify other core expertise"
                         required
                       />
+                      <span className="custom-tooltip">Specify other core expertise</span>
+                      </div>
                     </div>
                   )}
                 </div>
               )}
 
-              {/* ADMINISTRATION FIELDS */}
+              {/* ADMIN FIELDS */}
               {experience.jobType === "administration" && (
                 <div className="row">
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <Select
-                    
                       options={adminDesignations}
                       value={adminDesignations.find(
                         (opt) => opt.value === experience.adminDesignation
@@ -886,11 +1177,16 @@ const Experience = ({
                       }}
                       placeholder="Designation"
                       isClearable
-                      className="custom-select required"
+                      className={`custom-select ${
+                        !experience.adminDesignation ? "required" : ""
+                      }`}
                     />
+                    <span className="custom-tooltip">Designation</span>
+                    </div>
                   </div>
                   {experience.adminDesignation === "Others" && (
                     <div className="form-group col-lg-6 col-md-12">
+                      <div className="input-wrapper">
                       <input
                         type="text"
                         value={experience.otherAdminDesignation}
@@ -902,11 +1198,14 @@ const Experience = ({
                         placeholder="Specify other designation"
                         required
                       />
+                      <span className="custom-tooltip">Specify other designation</span>
+                      </div>
                     </div>
                   )}
 
                   {excludeAdminCurriculum && (
                     <div className="form-group col-lg-6 col-md-12">
+                      <div className="input-wrapper">
                       <Select
                         options={curriculum}
                         value={curriculum.find(
@@ -914,17 +1213,19 @@ const Experience = ({
                         )}
                         onChange={(selected) => {
                           const newArr = [...experienceEntries];
-                          newArr[index].adminCurriculum =
-                            selected?.value || "";
+                          newArr[index].adminCurriculum = selected?.value || "";
                           setExperienceEntries(newArr);
                         }}
                         placeholder="Curriculum/Board/University"
                         isClearable
                       />
+                      <span className="custom-tooltip">Curriculum/Board/University</span>
+                      </div>
                     </div>
                   )}
                   {experience.adminCurriculum === "Others" && (
                     <div className="form-group col-lg-6 col-md-12">
+                      <div className="input-wrapper">
                       <input
                         type="text"
                         value={experience.otherAdminCurriculum}
@@ -935,15 +1236,18 @@ const Experience = ({
                         }}
                         placeholder="Specify other curriculum"
                       />
+                      <span className="custom-tooltip">Specify other curriculum</span>
+                      </div>
                     </div>
                   )}
                 </div>
               )}
 
-              {/* TEACHING + ADMIN */}
+              {/* TEACHING + ADMIN FIELDS */}
               {experience.jobType === "teachingAndAdministration" && (
                 <div className="row">
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <Select
                       isMulti
                       options={teachingAdminDesignations}
@@ -959,33 +1263,42 @@ const Experience = ({
                       }}
                       placeholder="Designation"
                       isClearable
-                      className="custom-select required"
+                      className={`custom-select ${
+                        experience.teachingAdminDesignations &&
+                        experience.teachingAdminDesignations.length
+                          ? ""
+                          : "required"
+                      }`}
                     />
+                    <span className="custom-tooltip">Designation</span>
+                    </div>
                   </div>
                   {experience.teachingAdminDesignations.includes("Others") && (
                     <div className="form-group col-lg-6 col-md-12">
+                      <div className="input-wrapper">
                       <input
                         type="text"
                         value={experience.otherTeachingAdminDesignation}
                         onChange={(e) => {
                           const newArr = [...experienceEntries];
-                          newArr[index].otherTeachingAdminDesignation =
-                            e.target.value;
+                          newArr[index].otherTeachingAdminDesignation = e.target.value;
                           setExperienceEntries(newArr);
                         }}
                         placeholder="Specify other designation"
                         required
                       />
+                      <span className="custom-tooltip">Specify other designation</span>
+                      </div>
                     </div>
                   )}
 
                   {excludeTeachingAdminCurriculum && (
                     <div className="form-group col-lg-6 col-md-12">
+                      <div className="input-wrapper">
                       <Select
                         options={curriculum}
                         value={curriculum.find(
-                          (opt) =>
-                            opt.value === experience.teachingAdminCurriculum
+                          (opt) => opt.value === experience.teachingAdminCurriculum
                         )}
                         onChange={(selected) => {
                           const newArr = [...experienceEntries];
@@ -996,26 +1309,30 @@ const Experience = ({
                         placeholder="Curriculum"
                         isClearable
                       />
+                      <span className="custom-tooltip">Curriculum</span>
+                      </div>
                     </div>
                   )}
                   {experience.teachingAdminCurriculum === "Others" && (
                     <div className="form-group col-lg-6 col-md-12">
+                      <div className="input-wrapper">
                       <input
                         type="text"
                         value={experience.otherTeachingAdminCurriculum}
                         onChange={(e) => {
                           const newArr = [...experienceEntries];
-                          newArr[index].otherTeachingAdminCurriculum =
-                            e.target.value;
+                          newArr[index].otherTeachingAdminCurriculum = e.target.value;
                           setExperienceEntries(newArr);
                         }}
                         placeholder="Specify other curriculum"
                       />
+                      <span className="custom-tooltip">Specify other curriculum</span>
+                      </div>
                     </div>
                   )}
 
-                  {/* Teaching + Admin Subjects */}
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <Select
                       isMulti
                       options={subjectsOptions}
@@ -1031,11 +1348,19 @@ const Experience = ({
                       }}
                       placeholder="Subjects you handled"
                       isClearable
-                      className="custom-select required"
+                      className={`custom-select ${
+                        experience.teachingAdminSubjects &&
+                        experience.teachingAdminSubjects.length
+                          ? ""
+                          : "required"
+                      }`}
                     />
+                    <span className="custom-tooltip">Subjects you handled</span>
+                    </div>
                   </div>
                   {experience.teachingAdminSubjects.includes("Others") && (
                     <div className="form-group col-lg-6 col-md-12">
+                      <div className="input-wrapper">
                       <input
                         type="text"
                         value={experience.otherTeachingAdminSubjects}
@@ -1046,10 +1371,13 @@ const Experience = ({
                         }}
                         placeholder="Specify other subjects"
                       />
+                      <span className="custom-tooltip">Specify other subjects</span>
+                      </div>
                     </div>
                   )}
 
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <Select
                       isMulti
                       options={grades}
@@ -1065,12 +1393,19 @@ const Experience = ({
                       }}
                       placeholder="Grades you handled"
                       isClearable
-                      className="custom-select required"
+                      className={`custom-select ${
+                        experience.teachingAdminGrades &&
+                        experience.teachingAdminGrades.length
+                          ? ""
+                          : "required"
+                      }`}
                     />
+                    <span className="custom-tooltip">Grades you handled</span>
+                    </div>
                   </div>
 
-                  {/* Teaching + Admin Core Expertise */}
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <Select
                       isMulti
                       options={coreExpertise}
@@ -1086,11 +1421,20 @@ const Experience = ({
                       }}
                       placeholder="Core Expertise"
                       isClearable
-                      className="custom-select required"
+                      className={`custom-select ${
+                        experience.teachingAdminCoreExpertise &&
+                        experience.teachingAdminCoreExpertise.length
+                          ? ""
+                          : "required"
+                      }`}
                     />
+                    <span className="custom-tooltip">Core Expertise</span>
+                    </div>
                   </div>
+
                   {experience.teachingAdminCoreExpertise.includes("Others") && (
                     <div className="form-group col-lg-6 col-md-12">
+                      <div className="input-wrapper">
                       <input
                         type="text"
                         value={experience.otherTeachingAdminCoreExpertise}
@@ -1103,6 +1447,8 @@ const Experience = ({
                         placeholder="Specify other core expertise"
                         required
                       />
+                      <span className="custom-tooltip">Specify other core expertise</span>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -1112,6 +1458,7 @@ const Experience = ({
               {experience.jobType === "nonEducation" && (
                 <div className="row">
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <input
                       type="text"
                       placeholder="Designation"
@@ -1125,8 +1472,11 @@ const Experience = ({
                       }}
                       required
                     />
+                    <span className="custom-tooltip">Designation</span>
+                    </div>
                   </div>
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <input
                       type="text"
                       placeholder="Industry Type"
@@ -1140,8 +1490,11 @@ const Experience = ({
                       }}
                       required
                     />
+                    <span className="custom-tooltip">Industry Type</span>
+                    </div>
                   </div>
                   <div className="form-group col-lg-12 col-md-12">
+                    <div className="input-wrapper">
                     <input
                       type="text"
                       placeholder="Work Profile"
@@ -1155,12 +1508,15 @@ const Experience = ({
                       }}
                       required
                     />
+                    <span className="custom-tooltip">Work Profile</span>
+                    </div>
                   </div>
                 </div>
               )}
 
-              {/* Country / State / City */}
+              {/* Country */}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <Select
                   placeholder="Country"
                   options={allCountries}
@@ -1168,25 +1524,22 @@ const Experience = ({
                   onChange={(option) => {
                     const newArr = [...experienceEntries];
                     newArr[index].country = option;
-                    // Reset state & city
                     newArr[index].state = null;
                     newArr[index].city = null;
                     setExperienceEntries(newArr);
                   }}
-                  className="custom-select required"
+                  className={`custom-select ${!experience.country ? "required" : ""}`}
                 />
+                <span className="custom-tooltip">Country</span>
+                </div>
               </div>
+
+              {/* State */}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <Select
                   placeholder="State / UT"
-                  options={
-                    experience.country
-                      ? csc.getStatesOfCountry(experience.country.value).map((st) => ({
-                          value: st.id,
-                          label: st.name
-                        }))
-                      : []
-                  }
+                  options={statesInCountry}
                   value={experience.state}
                   onChange={(option) => {
                     const newArr = [...experienceEntries];
@@ -1194,32 +1547,33 @@ const Experience = ({
                     newArr[index].city = null;
                     setExperienceEntries(newArr);
                   }}
-                  className="custom-select required"
+                  className={`custom-select ${!experience.state ? "required" : ""}`}
                 />
+                <span className="custom-tooltip">State / UT</span>
+                </div>
               </div>
+
+              {/* City */}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <Select
                   placeholder="City"
-                  options={
-                    experience.state
-                      ? csc.getCitiesOfState(experience.state.value).map((ct) => ({
-                          value: ct.id,
-                          label: ct.name
-                        }))
-                      : []
-                  }
+                  options={citiesInState}
                   value={experience.city}
                   onChange={(option) => {
                     const newArr = [...experienceEntries];
                     newArr[index].city = option;
                     setExperienceEntries(newArr);
                   }}
-                  className="custom-select required"
+                  className={`custom-select ${!experience.city ? "required" : ""}`}
                 />
+                <span className="custom-tooltip">City</span>
+                </div>
               </div>
 
               {/* Job Process */}
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <select
                   className="form-select"
                   value={experience.jobProcess}
@@ -1230,18 +1584,19 @@ const Experience = ({
                   }}
                   required
                 >
-                  <option value="">Job Process</option>
+                  <option value="" disabled>Job Process</option>
                   <option value="regular">Regular (Offline)</option>
                   <option value="online">Online</option>
                   <option value="hybrid">Hybrid</option>
                 </select>
+                <span className="custom-tooltip">Job Process</span>
+                </div>
               </div>
             </div>
           </div>
         );
       })}
 
-      {/* Button to Add More Experiences */}
       <div className="add-experience-btn-wrapper">
         <button
           type="button"
@@ -1252,9 +1607,9 @@ const Experience = ({
         </button>
       </div>
 
-      {/* Other Teaching Experiences Table */}
+      {/* Other Teaching Experiences */}
       <div className="other-teaching-experience mt-4">
-        <h4>Other Teaching Experiences</h4>
+        <h5 style={{color:"brown",paddingLeft:"10px"}}>Other Teaching Experiences</h5>
         <div className="table-responsive">
           <table className="table">
             <thead>
@@ -1265,12 +1620,11 @@ const Experience = ({
             </thead>
             <tbody>
               {[
-                { key: "edTechCompany", label: "Ed. Tech company" },
-                { key: "online", label: "Online" },
-                { key: "coachingTuition", label: "Coaching / Tuition Centers" },
-                { key: "groupTuitions", label: "Group Tuitions" },
-                { key: "privateTuitions", label: "Private Tuitions" },
-                { key: "homeTuitions", label: "Home Tuitions" }
+                { key: "edTechCompany", label: "Worked in Edu tech.companies ?" },
+                { key: "online", label: "Experience of content preparation ?" },
+                { key: "coachingTuition", label: "Expertise of handling online classes ?" },
+                { key: "groupTuitions", label: "Experience of working in Coaching / Tuition Centers ?" },
+                { key: "privateTuitions", label: "Experience of handling Personal / Home tuitions ? " },
               ].map(({ key, label }) => (
                 <tr key={key}>
                   <td>{label}</td>
@@ -1315,11 +1669,7 @@ const Experience = ({
         </div>
       </div>
 
-      {/* Submit Button */}
-      <button
-        className="theme-btn btn-style-three"
-        onClick={submitExperienceData}
-      >
+      <button className="theme-btn btn-style-three" onClick={submitExperienceData}>
         Save Experience Details
       </button>
     </div>

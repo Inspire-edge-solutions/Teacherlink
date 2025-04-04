@@ -18,7 +18,7 @@ const index = () => {
             >
               <div className="title-box" style={{ width: '50%' }}>
                 <h3>Looking For a Teaching Job?</h3>
-                <strong><h2>Or Providing Job to Teachers?</h2></strong>
+                <h3>Or Providing Job to Teachers?</h3>
                 <div className="text">
                   You are at the right place !
                 </div>

@@ -455,7 +455,7 @@ input:checked + .slider:before {
   position: relative;
   width: 100%;
   display: block;
-  height: 60px;
+  height: 60px !important;
   line-height: 30px;
   padding: 15px 20px;
   font-size: 15px;
