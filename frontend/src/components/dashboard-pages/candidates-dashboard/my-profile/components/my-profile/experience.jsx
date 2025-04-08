@@ -11,6 +11,7 @@ const Experience = ({
   excludeTeachingCurriculum,
   excludeAdminCurriculum,
   excludeTeachingAdminCurriculum,
+  excludeOtherTeaching,
   formData,
   updateFormData
 }) => {
@@ -1608,6 +1609,7 @@ const Experience = ({
       </div>
 
       {/* Other Teaching Experiences */}
+      {(excludeOtherTeaching && 
       <div className="other-teaching-experience mt-4">
         <h5 style={{color:"brown",paddingLeft:"10px"}}>Other Teaching Experiences</h5>
         <div className="table-responsive">
@@ -1668,6 +1670,7 @@ const Experience = ({
           </table>
         </div>
       </div>
+      )}
 
       <button className="theme-btn btn-style-three" onClick={submitExperienceData}>
         Save Experience Details

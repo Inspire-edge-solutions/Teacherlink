@@ -12,18 +12,38 @@ const SliderImages = () => {
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 2000,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    arrows: false,
+                    dots: true
+                }
+            }
+        ]
     };
 
     return (
-        <Slider {...settings}>
-            <div>
-                <img src="/images/teacherlink_images/slider3.png" alt="teacher" />
-            </div>
-            <div>
-                <img src="/images/teacherlink_images/slider4.png" alt="teacher" />
-            </div>
-            
-        </Slider>
+        <div className="slider-wrapper">
+            <Slider {...settings}>
+                <div className="slide-item">
+                    <img 
+                        src="/images/teacherlink_images/slider3.png" 
+                        alt="teacher" 
+                        className="img-fluid"
+                        style={{maxWidth: '100%', height: 'auto'}}
+                    />
+                </div>
+                <div className="slide-item">
+                    <img 
+                        src="/images/teacherlink_images/slider4.png" 
+                        alt="teacher" 
+                        className="img-fluid"
+                        style={{maxWidth: '100%', height: 'auto'}}
+                    />
+                </div>
+            </Slider>
+        </div>
     );
 };
 

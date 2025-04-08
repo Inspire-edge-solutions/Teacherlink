@@ -17,28 +17,47 @@ const Education = ({
   // Booleans to control which fields render in each section
   isEasyMode,
   grade12syllabus,
+  grade12courseStatus,
   grade12school,
+  grade12year,
+  grade12coreSubjects,
   grade12percentage,
   grade12mode,
+  degreeCourseStatus,
+  degreeName,
   degreeCollege,
+  degreeYear,
   degreePlace,
   degreeUniversity,
+  degreeCoreSubjects,
   degreePercentage,
   degreeMode,
+  masterCourseStatus,
+  masterName,
   masterCollege,
+  masterYear,
   masterPlace,
   masterUniversity,
   masterPercentage,
+  masterCoreSubjects,
   masterMode,
+  doctorateCourseStatus,
   doctorateCollege,
+  doctorateYear,
   doctorateUniversity,
+  doctorateCoreSubjects,
   doctorateMode,
+  bEdCourseStatus,
   bEdCollege,
+  bEdYear,
   bEdPlace,
   bEdAffiliated,
   bEdCourseDuration,
   bEdPercentage,
+  bEdCoreSubjects,
   bEdMode,
+  certificateCourseStatus,
+  certificateName,
   certificatePlace,
   certificateCourseDuration,
   certificateSpecialization,
@@ -483,6 +502,7 @@ const Education = ({
       case "grade12":
         return (
           <div className="row">
+            {grade12courseStatus && (
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-wrapper">
               <select
@@ -499,6 +519,7 @@ const Education = ({
               <span className="custom-tooltip">Course Status</span>
               </div>
             </div>
+            )}
             {grade12syllabus && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
@@ -532,6 +553,7 @@ const Education = ({
               </div>
               </div>
             )}
+            {grade12year && (
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-wrapper">
               <select
@@ -545,6 +567,8 @@ const Education = ({
               <span className="custom-tooltip">Year of Passing</span>
               </div>
             </div>
+            )}
+            {grade12coreSubjects && (
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-wrapper">
               <Select
@@ -562,6 +586,7 @@ const Education = ({
               <span className="custom-tooltip">Core Subjects</span>
               </div>
             </div>
+            )}
             {data.coreSubjects.includes("Others") && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
@@ -615,6 +640,7 @@ const Education = ({
         return (
           <div className="degree-section">
             <div className="row">
+              {degreeCourseStatus && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <select
@@ -631,6 +657,8 @@ const Education = ({
                 <span className="custom-tooltip">Course Status</span>
               </div>
               </div>
+              )}
+              {degreeName && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <Select
@@ -644,6 +672,7 @@ const Education = ({
                 <span className="custom-tooltip">Degree Name</span>
               </div>
               </div>
+              )}
               {degreeCollege && (
                 <div className="form-group col-lg-6 col-md-12">
                   <div className="input-wrapper">
@@ -688,6 +717,7 @@ const Education = ({
                 </div>
                 </div>
               )}
+              {degreeYear && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <select
@@ -700,7 +730,9 @@ const Education = ({
                 </select>
                 <span className="custom-tooltip">Year of Passing</span>
               </div>
-              </div>
+                </div>
+              )}
+              {degreeCoreSubjects && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <Select
@@ -718,6 +750,7 @@ const Education = ({
                 <span className="custom-tooltip">Core Subjects</span>
               </div>
               </div>
+              )}
               {data.coreSubjects.includes("Others") && (
                 <div className="form-group col-lg-6 col-md-12">
                   <div className="input-wrapper">
@@ -742,6 +775,7 @@ const Education = ({
                     placeholder="Grade / Percentage"
                     pattern="[a-zA-Z0-9+%]*"
                     maxLength={5}
+                    required
                   />
                   <span className="custom-tooltip">Grade / Percentage</span>
                 </div>
@@ -772,6 +806,7 @@ const Education = ({
         return (
           <div className="master-degree-section">
             <div className="row">
+              {masterCourseStatus && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <select
@@ -788,6 +823,8 @@ const Education = ({
                 <span className="custom-tooltip">Course Status</span>
               </div>
               </div>
+              )}
+              {masterName && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <Select
@@ -801,6 +838,7 @@ const Education = ({
                 <span className="custom-tooltip">Master Degree Name</span>
               </div>
               </div>
+              )}
               {masterCollege && (
                 <div className="form-group col-lg-6 col-md-12">
                   <div className="input-wrapper">
@@ -843,6 +881,7 @@ const Education = ({
                 </div>
                 </div>
               )}
+              {masterYear && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <select
@@ -856,6 +895,8 @@ const Education = ({
                 <span className="custom-tooltip">Year of Passing</span>
               </div>
               </div>
+              )}
+              {masterCoreSubjects && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <Select
@@ -873,6 +914,7 @@ const Education = ({
                 <span className="custom-tooltip">Core Subjects</span>
               </div>
               </div>
+              )}
               {data.coreSubjects.includes("Others") && (
                 <div className="form-group col-lg-6 col-md-12">
                   <div className="input-wrapper">
@@ -928,6 +970,7 @@ const Education = ({
         return (
           <div className="doctorate-section">
             <div className="row">
+              {doctorateCourseStatus && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <select
@@ -944,6 +987,7 @@ const Education = ({
                 <span className="custom-tooltip">Course Status</span>
               </div>
               </div>
+              )}
               {doctorateCollege && (
                 <div className="form-group col-lg-6 col-md-12">
                   <div className="input-wrapper">
@@ -972,6 +1016,7 @@ const Education = ({
                 </div>
                 </div>
               )}
+              {doctorateYear && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <select
@@ -985,6 +1030,8 @@ const Education = ({
                 <span className="custom-tooltip">Year of Completion</span>
               </div>
               </div>
+              )}
+              {doctorateCoreSubjects && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <Select
@@ -1002,6 +1049,7 @@ const Education = ({
                 <span className="custom-tooltip">Core Subjects</span>
               </div>
               </div>
+              )}
               {data.coreSubjects.includes("Others") && (
                 <div className="form-group col-lg-6 col-md-12">
                   <div className="input-wrapper">
@@ -1173,6 +1221,7 @@ const Education = ({
         return (
           <div className="bed-section">
             <div className="row">
+              {bEdCourseStatus && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <select
@@ -1189,6 +1238,7 @@ const Education = ({
                 <span className="custom-tooltip">Course Status</span>
               </div>
               </div>
+              )}
               {bEdCollege && (
                 <div className="form-group col-lg-6 col-md-12">
                   <div className="input-wrapper">
@@ -1203,7 +1253,7 @@ const Education = ({
                   <span className="custom-tooltip">Institute / College name</span>
                 </div>
                 </div>
-              )}
+                )}
               {bEdPlace && (
                 <div className="form-group col-lg-6 col-md-12">
                   <div className="input-wrapper">
@@ -1246,6 +1296,7 @@ const Education = ({
                 </div>
                 </div>
               )}
+              {bEdYear && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <select
@@ -1259,6 +1310,8 @@ const Education = ({
                 <span className="custom-tooltip">Year of Passing</span>
               </div>
               </div>
+              )}
+              {bEdCoreSubjects && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <Select
@@ -1274,8 +1327,9 @@ const Education = ({
                   required
                 />
                 <span className="custom-tooltip">Core Subjects</span>
-              </div>
-              </div>
+                </div>
+                </div>
+              )}
               {data.coreSubjects.includes("Others") && (
                 <div className="form-group col-lg-6 col-md-12">
                   <div className="input-wrapper">
@@ -1330,6 +1384,7 @@ const Education = ({
         return (
           <div className="certificate-section">
             <div className="row">
+              {certificateCourseStatus && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <select
@@ -1346,6 +1401,8 @@ const Education = ({
                 <span className="custom-tooltip">Course Status</span>
               </div>
               </div>
+              )}
+              {certificateName && (
               <div className="form-group col-lg-6 col-md-12">
                 <div className="input-wrapper">
                 <input
@@ -1358,8 +1415,9 @@ const Education = ({
                   required
                 />
                 <span className="custom-tooltip">Course Name</span>
-              </div>
-              </div>
+                </div>
+                </div>
+              )}
               {certificatePlace && (
                 <div className="form-group col-lg-6 col-md-12">
                   <div className="input-wrapper">

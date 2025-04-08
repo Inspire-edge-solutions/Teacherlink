@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../../../../../contexts/AuthContext";
+import { toast } from "react-toastify";
 import './subscription.css';
 
 const Subscription = () => {
@@ -108,7 +109,6 @@ const Subscription = () => {
       const data = await response.json();
       
       if (data.success) {
-        console.log("Fetched contacts:", data); // Debug log
         setContacts(data.contacts || []);
         setRegisteredContacts(data.registeredContacts || []);
       }
@@ -157,24 +157,45 @@ const Subscription = () => {
   const handleCouponSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://v0trs9tt4k.execute-api.ap-south-1.amazonaws.com/staging/RedeemCoupon', {
-        method: 'POST',
-        route: 'RedeemCoupon',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ coupon_code: couponCode })
-      });
+      // Build the payload including coupon_code, firebase_uid, and route.
+      const payload = {
+        coupon_code: couponCode,
+        firebase_uid: firebase_uid,  // Ensure firebase_uid is defined in your component state or props
+        route: "RedeemCoupon"
+      };
+  
+      const response = await fetch(
+        "https://2u7ec1e22c.execute-api.ap-south-1.amazonaws.com/staging/RedeemCoupon",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        }
+      );
       const data = await response.json();
+      
       if (data.success) {
-        //fetchSubscription();
         console.log("Coupon applied successfully");
+        toast.success("Coupon applied successfully");
+        
+        // Clear coupon input
+        setCouponCode('');
+        
+        // Fetch updated subscription status
+        await fetchSubscription();
+        
+        // Show success message
+        toast.success("Premium subscription activated successfully!");
+        
+        // Switch to subscription details view
+        setActiveTab('subscription-details');
       } else {
-        setError("Invalid coupon code");
+        toast.error(data.message || "Invalid coupon code");
       }
     } catch (err) {
-      setError("Failed to verify coupon");
+      toast.error("Failed to verify coupon");
     }
   };
-
   // Handle adding a referral contact locally.
   const handleAddContact = async (e) => {
     e.preventDefault();
@@ -445,6 +466,62 @@ const Subscription = () => {
     </div>
   );
 
+  const SubscriptionDetailsView = ({ subscription }) => {
+    return (
+      <div className="subscription-details-view">
+        <div className="success-header">
+          <div className="success-icon">✓</div>
+          <h3>Premium Subscription Activated!</h3>
+        </div>
+
+        <div className="details-card">
+          <div className="detail-row">
+            <span className="label">Status</span>
+            <span className="value status-active">Active</span>
+          </div>
+          <div className="detail-row">
+            <span className="label">Start Date</span>
+            <span className="value">{new Date(subscription.start_date).toLocaleDateString()}</span>
+          </div>
+          <div className="detail-row">
+            <span className="label">Valid Until</span>
+            <span className="value">{new Date(subscription.end_date).toLocaleDateString()}</span>
+          </div>
+          <div className="detail-row">
+            <span className="label">Plan Type</span>
+            <span className="value">Premium Job Seeker</span>
+          </div>
+          <div className="detail-row">
+            <span className="label">Coins Balance</span>
+            <span className="value coins">{subscription.coins_balance} coins</span>
+          </div>
+        </div>
+
+        <div className="premium-features">
+          <h4>Premium Benefits Unlocked</h4>
+          <div className="features-grid">
+            <div className="feature-item">
+              <span className="feature-icon">🎯</span>
+              <span className="feature-text">Priority Job Applications</span>
+            </div>
+            <div className="feature-item">
+              <span className="feature-icon">💼</span>
+              <span className="feature-text">Access to Premium Jobs</span>
+            </div>
+            <div className="feature-item">
+              <span className="feature-icon">📊</span>
+              <span className="feature-text">Advanced Analytics</span>
+            </div>
+            <div className="feature-item">
+              <span className="feature-icon">🌟</span>
+              <span className="feature-text">Featured Profile</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="subscription-container">
       <h3 className="main-title">Premium Subscription</h3>
@@ -517,6 +594,9 @@ const Subscription = () => {
               </form>
             </div>
           </div>
+        )}
+        {activeTab === 'subscription-details' && subscription && (
+          <SubscriptionDetailsView subscription={subscription} />
         )}
       </div>
     </div>

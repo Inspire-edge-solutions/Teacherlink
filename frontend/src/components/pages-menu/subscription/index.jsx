@@ -18,13 +18,13 @@ const Subscription = () => {
         <MobileMenu />
         {/* End MobileMenu */}
             <div className="container mt-50">
-            <h2 className="text-center">Subscription plans for Employer(Institutions)</h2>
-            <img src="public/images/teacherlink_images/1.png" alt="Subscription plans for Employer(Institutions)" />
+            <h3 className="text-center">Subscription plans for Employer(Institutions)</h3>
+            <img src="/images/teacherlink_images/1.png" alt="Subscription plans for Employer(Institutions)" />
             </div>
             <hr />
             <div className="container mt-30">
-               <h2 className="text-center">Subscription plans for Candidates(Teachers)</h2>
-               <img src="public/images/teacherlink_images/2.png" alt="Subscription plans for Candidates" />
+               <h3 className="text-center">Subscription plans for Candidates(Teachers)</h3>
+               <img src="/images/teacherlink_images/2.png" alt="Subscription plans for Candidates" />
             </div>
             <FooterDefault />
             </>

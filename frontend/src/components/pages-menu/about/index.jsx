@@ -31,23 +31,16 @@ const index = () => {
       {/* <Breadcrumb title="About Us" meta="About Us" /> */}
       {/* <!--End Page Title--> */}
           
-        <section className="about-section-three">
-        <div className="auto-container" style={{ 
-          display: 'flex', 
-          gap: '2rem', 
-          alignItems: 'center',
-        }}>
-           <div style={{ flex: 1 }}>
-            <IntroDescriptions />
+      <section className="about-section-three py-4 py-md-5">
+        <div className="auto-container">
+          <div className="row flex-column flex-md-row align-items-center">
+            <div className="col-12 col-md-6 mb-4 mb-md-0">
+              <IntroDescriptions />
+            </div>
+            <div className="col-12 col-md-6">
+              <ImageBox />
+            </div>
           </div>
-          <div style={{ 
-            flex: 1,
-            width: '100%',
-            height: '100%'
-          }}>
-            <ImageBox />
-          </div>
-         
         </div>
       </section>
            {/* <!-- Fun Fact Section --> */}

@@ -1,5 +1,3 @@
-
-
 const ImgBox = () => {
   // const imgContent = [
   //   {
@@ -43,12 +41,16 @@ const ImgBox = () => {
 // };
 
 return (
-    
-            <div >
-                <figure className="image">
-                    <img src="/images/teacherlink_images/About-us-image.png" alt="about image" />
-                </figure>
-            </div>
+    <div className="img-box-container p-3 p-md-4">
+      <figure className="image mb-0">
+        <img 
+          src="/images/teacherlink_images/About-us-image.png" 
+          alt="about image" 
+          className="img-fluid rounded shadow-sm"
+          style={{maxWidth: '100%', height: 'auto'}}
+        />
+      </figure>
+    </div>
 );
 
 }

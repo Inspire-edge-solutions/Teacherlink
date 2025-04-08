@@ -497,6 +497,7 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
 
           {/* Full Name */}
           <div className="form-group col-lg-6 col-md-12">
+            <div className="input-wrapper">
             <input
               type="text"
               name="fullName"
@@ -506,6 +507,8 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
               required
               maxLength="50"
             />
+            <span className="custom-tooltip">Full Name</span>
+            </div>
           </div>
 
           {/* Profile Image Upload */}
@@ -534,11 +537,13 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
                   <span className="file-button">Browse</span>
                 </label>
               </div>
+             
             </div>
           )}
 
           {/* Email with verification */}
           <div className="form-group col-lg-6 col-md-12">
+            <div className="input-wrapper">
             <div className="input-with-verification">
               <input
                 type="email"
@@ -583,10 +588,13 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
                 </button>
               </div>
             )}
+            <span className="custom-tooltip">Email</span>
+            </div>
           </div>
 
           {/* Gender */}
           <div className="form-group col-lg-6 col-md-12">
+            <div className="input-wrapper">
             <select
               name="gender"
               value={formData.gender}
@@ -601,11 +609,14 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
               <option value="female">Female</option>
               <option value="transgender">Transgender</option>
             </select>
+            <span className="custom-tooltip">Gender</span>
+            </div>
           </div>
 
           {/* Date of Birth */}
           {dateOfBirth && (
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <input
                 type={dateType}
                 name="dateOfBirth"
@@ -620,11 +631,14 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
                 onBlur={handleBlurDate}
                 max={new Date().toISOString().split("T")[0]}
               />
+              <span className="custom-tooltip">Date of Birth</span>
+              </div>
             </div>
           )}
 
           {/* Calling Number */}
           <div className="form-group col-lg-6 col-md-12">
+            <div className="input-wrapper">
             <input
               type="text"
               name="callingNumber"
@@ -639,10 +653,13 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
               required
               disabled={phoneVerified}
             />
+            <span className="custom-tooltip">Mobile Number (calling)</span>
+            </div>
           </div>
 
           {/* WhatsApp Number */}
           <div className="form-group col-lg-6 col-md-12">
+            <div className="input-wrapper">
             <input
               type={whatsappType}
               name="whatsappNumber"
@@ -658,6 +675,8 @@ const PersonalDetails = ({ className, dateOfBirth, photo }) => {
               }}
               required
             />
+            <span className="custom-tooltip">Mobile Number (WhatsApp)</span>
+            </div>
           </div>
 
           {showWhatsappHint && (

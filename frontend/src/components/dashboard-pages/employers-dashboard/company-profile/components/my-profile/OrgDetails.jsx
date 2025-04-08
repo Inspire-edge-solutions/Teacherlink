@@ -10,9 +10,18 @@ import { FaCheckCircle } from "react-icons/fa";
 import { useAuth } from "../../../../../../contexts/AuthContext"; // Import auth context
 
 const OrgDetails = () => {
-  const { user } = useAuth();
-  const firebase_uid = user?.uid;
+  // -------------- AUTH & BASIC FLAGS --------------
+  const { user, loading } = useAuth();
+  
+  // Wait for auth state to resolve
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
+  const firebase_uid = user?.uid;
+  const isGoogleAccount = user?.is_google_account === 1;
+
+  // -------------- TYPE & ORG DETAILS --------------
   const [selectedType, setSelectedType] = useState("");
   const [originalType, setOriginalType] = useState("");
 
@@ -46,6 +55,7 @@ const OrgDetails = () => {
     country: "",
   });
 
+  // -------------- IMAGES & SOCIAL --------------
   const [images, setImages] = useState([]);
   const [socialData, setSocialData] = useState({
     facebook: "",
@@ -54,55 +64,46 @@ const OrgDetails = () => {
     instagram: "",
   });
 
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
-
+  // -------------- DESIGNATIONS --------------
   const [designations, setDesignations] = useState([]);
   const [isOwner, setIsOwner] = useState(""); // "yes" or "no"
 
-  // Reporting Authority (for the first 3 types if isOwner === "no")
+  // Reporting Authority
   const [reporting_authority, setReportingAuthority] = useState({
-    name: user?.name || "",
+    name: "",
     gender: "",
     designation: [],
-    phone1: user?.phone_number || "",
+    phone1: "",
     phone2: "",
-    email: user?.email || "",
+    email: "",
   });
 
   const [otherContactPersonDesignation, setOtherContactPersonDesignation] = useState("");
   const [otherReportingAuthorityDesignation, setOtherReportingAuthorityDesignation] =
     useState("");
 
-  // ============ OTP STATES FOR CONTACT PERSON ============
-  // Email
+  // -------------- VERIFICATION STATES (EMAIL ONLY) --------------
   const [emailVerified, setEmailVerified] = useState(false);
   const [showEmailOtpInput, setShowEmailOtpInput] = useState(false);
   const [emailOtp, setEmailOtp] = useState("");
   const [isEmailVerifying, setIsEmailVerifying] = useState(false);
 
-  // --- Mobile OTP logic is commented out for now ---
-  // const [phone1Verified, setPhone1Verified] = useState(false);
-  // const [showPhone1OtpInput, setShowPhone1OtpInput] = useState(false);
-  // const [phone1Otp, setPhone1Otp] = useState("");
-  // const [isPhone1Verifying, setIsPhone1Verifying] = useState(false);
-  //
-  // const [phone2Verified, setPhone2Verified] = useState(false);
-  // const [showPhone2OtpInput, setShowPhone2OtpInput] = useState(false);
-  // const [phone2Otp, setPhone2Otp] = useState("");
-  // const [isPhone2Verifying, setIsPhone2Verifying] = useState(false);
-  // -----------------------------------------------------
-
-  // For now, assume mobile numbers are verified (since OTP is not implemented)
+  // -------------- PHONE OTP LOGIC (for now, treat as verified) --------------
   const phone1Verified = true;
   const phone2Verified = true;
 
+  // -------------- COUNTRY/STATE/CITY LISTS --------------
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+
+  // -------------- LOAD COUNTRIES ONCE --------------
   useEffect(() => {
     const allCountries = Country.getAllCountries();
     setCountries(allCountries);
   }, []);
 
+  // -------------- WATCH orgDetails.country -> LOAD STATES --------------
   useEffect(() => {
     if (orgDetails.country) {
       const countryStates = State.getStatesOfCountry(orgDetails.country);
@@ -112,6 +113,7 @@ const OrgDetails = () => {
     }
   }, [orgDetails.country]);
 
+  // -------------- WATCH orgDetails.state -> LOAD CITIES --------------
   useEffect(() => {
     if (orgDetails.state && orgDetails.country) {
       let stateCities = City.getCitiesOfState(orgDetails.country, orgDetails.state);
@@ -123,6 +125,7 @@ const OrgDetails = () => {
     }
   }, [orgDetails.state, orgDetails.country, orgDetails.city]);
 
+  // -------------- FETCH DESIGNATIONS --------------
   const fetchDesignations = async () => {
     try {
       const response = await fetch(import.meta.env.VITE_DEV1_API + "/constants");
@@ -144,7 +147,14 @@ const OrgDetails = () => {
     fetchDesignations();
   }, []);
 
-  // ============ PREFILL EXISTING DATA ============
+  // -------------- ON LOAD: if google user => email verified --------------
+  useEffect(() => {
+    if (isGoogleAccount) {
+      setEmailVerified(true);
+    }
+  }, [isGoogleAccount]);
+
+  // -------------- LOAD ORG DETAILS FROM BACKEND --------------
   useEffect(() => {
     if (firebase_uid) {
       const url = `${import.meta.env.VITE_DEV1_API}/organization/${firebase_uid}`;
@@ -181,6 +191,13 @@ const OrgDetails = () => {
                   email: "",
                 },
               });
+            } else {
+              if (data.account_operated_by) {
+                setOrgDetails((prev) => ({
+                  ...prev,
+                  contactPerson: data.account_operated_by,
+                }));
+              }
             }
             if (data.parent_details) {
               setParentDetails({
@@ -206,6 +223,9 @@ const OrgDetails = () => {
               linkedin: data.linkedin || "",
               instagram: data.instagram || "",
             });
+            if (data.account_operated_by?.is_email_verified) {
+              setEmailVerified(true);
+            }
           }
         })
         .catch((error) => {
@@ -213,11 +233,8 @@ const OrgDetails = () => {
         });
     }
   }, [firebase_uid]);
-  // =======================================
 
-  const isNonParentType = () =>
-    selectedType && selectedType !== "Parent/ Guardian looking for Tuitions";
-
+  // -------------- RESET DESIGNATIONS WHEN TYPE CHANGES --------------
   useEffect(() => {
     setOrgDetails((prev) => ({
       ...prev,
@@ -228,6 +245,7 @@ const OrgDetails = () => {
     }));
   }, [selectedType]);
 
+  // -------------- HANDLERS --------------
   const handleTypeChange = (e) => {
     const newType = e.target.value;
     setSelectedType(newType);
@@ -266,12 +284,12 @@ const OrgDetails = () => {
         });
         setIsOwner("");
         setReportingAuthority({
-          name: user?.name || "",
+          name: "",
           gender: "",
           designation: [],
-          phone1: user?.phone_number || "",
+          phone1: "",
           phone2: "",
-          email: user?.email || "",
+          email: "",
         });
       }
     }
@@ -318,9 +336,10 @@ const OrgDetails = () => {
     setSocialData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Contact Person
+  // Contact Person handlers
   const handleContactPersonChange = (e) => {
     const { name, value } = e.target;
+    if (isGoogleAccount && name === "email") return;
     if (name === "email" && value !== orgDetails.contactPerson.email) {
       setEmailVerified(false);
       setShowEmailOtpInput(false);
@@ -342,7 +361,7 @@ const OrgDetails = () => {
     }));
   };
 
-  // Reporting Authority
+  // Reporting Authority handlers
   const handleReportingAuthorityChange = (e) => {
     const { name, value } = e.target;
     if (name === "reportingAuthorityGender") {
@@ -359,8 +378,7 @@ const OrgDetails = () => {
     }));
   };
 
-  // ================= OTP LOGIC (Contact Person) =================
-  // Email OTP (kept active)
+  // Email OTP handlers
   const sendEmailOtp = async () => {
     try {
       setIsEmailVerifying(true);
@@ -395,49 +413,44 @@ const OrgDetails = () => {
         toast.success("Contact person's email verified successfully!");
         setEmailVerified(true);
         setShowEmailOtpInput(false);
+        setOrgDetails((prev) => ({
+          ...prev,
+          contactPerson: { ...prev.contactPerson },
+        }));
+        if (!isGoogleAccount) {
+          try {
+            await axios.post(`${import.meta.env.VITE_DEV1_API}/organization/update-verification`, {
+              firebase_uid,
+              is_email_verified: true,
+            });
+          } catch (dbError) {
+            console.error("Failed to store 'is_email_verified' in DB:", dbError);
+          }
+        }
       }
     } catch (error) {
       toast.error(`Failed to verify email: ${error.message}`);
     }
   };
 
-  // --- Mobile OTP logic for phone numbers is commented out ---
-  // const sendPhone1Otp = async () => { ... }
-  // const verifyPhone1Otp = async () => { ... }
-  // const sendPhone2Otp = async () => { ... }
-  // const verifyPhone2Otp = async () => { ... }
-  // -------------------------------------------------------------
-
-  // For now, assume mobile numbers are verified
-  // (All OTP buttons and related UI for phone numbers remain visible, but you may choose to hide them if desired)
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!firebase_uid) {
       toast.error("User is not authenticated. Please log in.");
       return;
     }
+
     if (originalType && selectedType !== originalType) {
       toast.error("You cannot change the organization type once submitted.");
       return;
     }
 
-    // --- Mobile verification checks are commented out ---
-    // if (!phone1Verified) {
-    //   toast.error("Please verify the calling number before submitting.");
-    //   return;
-    // }
-    // if (
-    //   orgDetails.contactPerson.phone2 &&
-    //   orgDetails.contactPerson.phone2 !== orgDetails.contactPerson.phone1 &&
-    //   !phone2Verified
-    // ) {
-    //   toast.error("Please verify the WhatsApp number before submitting.");
-    //   return;
-    // }
-    // -----------------------------------------------------
+    if (!isGoogleAccount && !emailVerified) {
+      toast.error("Please verify the email before submitting.");
+      return;
+    }
 
-    // If calling and WhatsApp numbers are the same, clear phone2
     const updatedContactPerson = { ...orgDetails.contactPerson };
     if (
       updatedContactPerson.phone1 &&
@@ -450,33 +463,38 @@ const OrgDetails = () => {
       route: "CreateOrganization",
       firebase_uid,
       type: selectedType,
-      organization_details: isNonParentType()
-        ? {
-            name: orgDetails.name,
-            websiteUrl: orgDetails.websiteUrl,
-            panNumber: orgDetails.panNumber,
-            panName: orgDetails.panName,
-            gstin: orgDetails.gstin,
-            address: orgDetails.address,
-            city: orgDetails.city,
-            state: orgDetails.state,
-            pincode: orgDetails.pincode,
-            country: orgDetails.country,
-            institution_photos: images,
-            video: orgDetails.video,
-          }
-        : null,
-      parent_details: !isNonParentType()
-        ? {
-            address: parentDetails.address,
-            city: parentDetails.city,
-            state: parentDetails.state,
-            pincode: parentDetails.pincode,
-            country: parentDetails.country,
-          }
-        : null,
+      organization_details:
+        selectedType !== "Parent/ Guardian looking for Tuitions"
+          ? {
+              name: orgDetails.name,
+              websiteUrl: orgDetails.websiteUrl,
+              panNumber: orgDetails.panNumber,
+              panName: orgDetails.panName,
+              gstin: orgDetails.gstin,
+              address: orgDetails.address,
+              city: orgDetails.city,
+              state: orgDetails.state,
+              pincode: orgDetails.pincode,
+              country: orgDetails.country,
+              institution_photos: images,
+              video: orgDetails.video,
+            }
+          : null,
+      parent_details:
+        selectedType === "Parent/ Guardian looking for Tuitions"
+          ? {
+              address: parentDetails.address,
+              city: parentDetails.city,
+              state: parentDetails.state,
+              pincode: parentDetails.pincode,
+              country: parentDetails.country,
+            }
+          : null,
       account_operated_by: {
         ...updatedContactPerson,
+        is_phone1_verified: phone1Verified,
+        is_phone2_verified: phone2Verified,
+        is_email_verified: emailVerified || isGoogleAccount,
         other_designation: (orgDetails.contactPerson.designation || []).includes("Others")
           ? otherContactPersonDesignation
           : null,
@@ -495,55 +513,63 @@ const OrgDetails = () => {
       additional_owner: null,
     };
 
+    if (
+      payload.organization_details &&
+      (!payload.organization_details.pincode || payload.organization_details.pincode === "")
+    ) {
+      payload.organization_details.pincode = "0";
+    }
+    if (
+      payload.parent_details &&
+      (!payload.parent_details.pincode || payload.parent_details.pincode === "")
+    ) {
+      payload.parent_details.pincode = "0";
+    }
+
     console.log("Submitting payload:", payload);
     const result = await createOrganization(payload);
     if (result) {
-      toast.success("Organization created successfully!");
+      toast.success("Organization created or updated successfully!");
       console.log("API response:", result);
+      if (window.opener) {
+        setTimeout(() => {
+          window.close();
+        }, 1000);
+      }
     } else {
-      toast.error("Failed to create organization.");
+      toast.error("Failed to create/update organization.");
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      setReportingAuthority((prevData) => ({
-        ...prevData,
-        name: user.name || prevData.name,
-      }));
-    }
-  }, [user]);
+  const isNonParentType = () =>
+    selectedType && selectedType !== "Parent/ Guardian looking for Tuitions";
 
   return (
     <div className="default-form">
       <div className="row">
-        {/* Organization/Entity Type */}
+        {/* Organization Type */}
         <div className="form-group col-lg-6 col-md-12">
-          <div className="input-wrapper">
           <select
             className="form-control"
             value={selectedType}
             onChange={handleTypeChange}
             required
           >
-            <option value="" disabled>Select Organization/Entity Type</option>
-            <option value="School / College/ University">School / College/ University </option>
+            <option value="">Select Organization/Entity Type</option>
+            <option value="School / College/ University">School / College/ University</option>
             <option value="Coaching Centers/ Institutes">Coaching Centers/ Institutes</option>
             <option value="Ed Tech company">Ed Tech company</option>
-            <option value="Parent/ Guardian looking for Tuitions">Parent/ Guardian looking for Tuitions</option>
+            <option value="Parent/ Guardian looking for Tuitions">
+              Parent/ Guardian looking for Tuitions
+            </option>
           </select>
-          <span className="custom-tooltip">
-            Select the type of organization/entity you are registering with.
-        </span>
-        </div>
         </div>
 
         {/* NON-PARENT BLOCK */}
         {isNonParentType() && selectedType && (
           <div className="row">
-            {/* Basic Organization Details */}
+            {/* Organization Details */}
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <input
                 type="text"
                 placeholder="Name of the Organization/ Entity"
@@ -552,11 +578,8 @@ const OrgDetails = () => {
                 value={orgDetails.name}
                 onChange={handleInputChange}
               />
-              <span className="custom-tooltip">Name</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <input
                 type="url"
                 placeholder="Website URL"
@@ -565,11 +588,8 @@ const OrgDetails = () => {
                 value={orgDetails.websiteUrl}
                 onChange={handleInputChange}
               />
-              <span className="custom-tooltip">Website URL</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <label>Institution Photos</label>
               <input
                 type="file"
@@ -579,11 +599,8 @@ const OrgDetails = () => {
                 multiple
                 onChange={handleFileChangeFiles}
               />
-              <span className="custom-tooltip">Institution Photos</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <input
                 type="url"
                 className="form-control"
@@ -592,11 +609,8 @@ const OrgDetails = () => {
                 value={orgDetails.video}
                 onChange={handleInputChange}
               />
-              <span className="custom-tooltip">YouTube video URL</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <input
                 type="text"
                 placeholder="PAN Number"
@@ -605,11 +619,8 @@ const OrgDetails = () => {
                 value={orgDetails.panNumber}
                 onChange={handleInputChange}
               />
-              <span className="custom-tooltip">PAN Number</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <input
                 type="text"
                 placeholder="Name on PAN Card"
@@ -618,11 +629,8 @@ const OrgDetails = () => {
                 value={orgDetails.panName}
                 onChange={handleInputChange}
               />
-              <span className="custom-tooltip">Name on PAN Card</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <input
                 type="text"
                 placeholder="GSTIN"
@@ -631,11 +639,8 @@ const OrgDetails = () => {
                 value={orgDetails.gstin}
                 onChange={handleInputChange}
               />
-              <span className="custom-tooltip">GSTIN</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <input
                 type="text"
                 placeholder="Address"
@@ -645,11 +650,8 @@ const OrgDetails = () => {
                 onChange={handleInputChange}
                 required
               />
-              <span className="custom-tooltip">Address</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <select
                 className="form-control"
                 name="country"
@@ -657,18 +659,15 @@ const OrgDetails = () => {
                 onChange={handleInputChange}
                 required
               >
-                <option value="" disabled>Country</option>
+                <option value="">Country</option>
                 {countries.map((country) => (
                   <option key={country.isoCode} value={country.isoCode}>
                     {country.name}
                   </option>
                 ))}
               </select>
-              <span className="custom-tooltip">Country</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <select
                 className="form-control"
                 name="state"
@@ -677,18 +676,15 @@ const OrgDetails = () => {
                 disabled={!orgDetails.country}
                 required
               >
-                <option value="" disabled>State</option>
+                <option value="">State</option>
                 {states.map((st) => (
                   <option key={st.isoCode} value={st.isoCode}>
                     {st.name}
                   </option>
                 ))}
               </select>
-              <span className="custom-tooltip">State</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <select
                 className="form-control"
                 name="city"
@@ -697,18 +693,15 @@ const OrgDetails = () => {
                 disabled={!orgDetails.state}
                 required
               >
-                <option value="" disabled>City</option>
+                <option value="">City</option>
                 {cities.map((c) => (
                   <option key={c.name} value={c.name}>
                     {c.name}
                   </option>
                 ))}
               </select>
-              <span className="custom-tooltip">City</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <input
                 type="text"
                 placeholder="Pin code"
@@ -724,16 +717,13 @@ const OrgDetails = () => {
                 maxLength="6"
                 required
               />
-              <span className="custom-tooltip">Pin code</span>
-            </div>
             </div>
 
-            {/* Account operated by (Contact Person) */}
+            {/* Contact Person */}
             <div className="col-12">
               <h4>Account operated by (Contact Person)</h4>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <input
                 type="text"
                 className="form-control"
@@ -743,8 +733,6 @@ const OrgDetails = () => {
                 placeholder="Contact Person Name"
                 required
               />
-              <span className="custom-tooltip">Contact Person Name</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
               <div className="radio-group">
@@ -788,7 +776,6 @@ const OrgDetails = () => {
               </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <Select
                 isMulti
                 options={designations}
@@ -802,12 +789,9 @@ const OrgDetails = () => {
                 placeholder="Designation"
                 isClearable
               />
-              <span className="custom-tooltip">Designation</span>
-            </div>
             </div>
             {(orgDetails.contactPerson.designation || []).includes("Others") && (
               <div className="form-group col-lg-6 col-md-12">
-                <div className="input-wrapper">
                 <input
                   type="text"
                   placeholder="Specify other designation"
@@ -815,12 +799,9 @@ const OrgDetails = () => {
                   onChange={(e) => setOtherContactPersonDesignation(e.target.value)}
                   required
                 />
-                <span className="custom-tooltip">Specify other designation</span>
-              </div>
               </div>
             )}
 
-            {/* phone1 (Calling) with OTP */}
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-with-verification">
                 <input
@@ -828,55 +809,16 @@ const OrgDetails = () => {
                   className="form-control"
                   name="phone1"
                   value={orgDetails.contactPerson.phone1}
-                  onChange={(e) =>
-                    setOrgDetails((prev) => ({
-                      ...prev,
-                      contactPerson: {
-                        ...prev.contactPerson,
-                        phone1: e.target.value.replace(/[^0-9]/g, ""),
-                      },
-                    }))
-                  }
+                  onChange={handleContactPersonChange}
                   placeholder="Contact Number-1 (Calling)"
                   maxLength="10"
                   required
-                  // Mobile OTP is commented out so disable verification check
-                  disabled={false}
                 />
-                {/* OTP button for phone1 is commented out; if needed, enable later */}
-                {/* {phone1Verified ? (
-                  <span className="verification-icon verified">
-                    <FaCheckCircle color="green" />
-                  </span>
-                ) : (
-                  <button
-                    type="button"
-                    className="verify-btn"
-                    onClick={sendPhone1Otp}
-                    disabled={isPhone1Verifying}
-                  >
-                    {isPhone1Verifying ? "Sending..." : "Verify"}
-                  </button>
-                )} */}
+                <span className="verification-icon verified">
+                  <FaCheckCircle />
+                </span>
               </div>
-              {/* OTP input block commented out */}
-              {/* {showPhone1OtpInput && !phone1Verified && (
-                <div className="otp-verification">
-                  <input
-                    type="text"
-                    placeholder="Enter OTP sent to calling number"
-                    value={phone1Otp}
-                    onChange={(e) => setPhone1Otp(e.target.value)}
-                    maxLength="6"
-                  />
-                  <button type="button" className="verify-otp-btn" onClick={verifyPhone1Otp}>
-                    Submit
-                  </button>
-                </div>
-              )} */}
             </div>
-
-            {/* phone2 (WhatsApp) with OTP */}
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-with-verification">
                 <input
@@ -884,58 +826,20 @@ const OrgDetails = () => {
                   className="form-control"
                   name="phone2"
                   value={orgDetails.contactPerson.phone2}
-                  onChange={(e) =>
-                    setOrgDetails((prev) => ({
-                      ...prev,
-                      contactPerson: {
-                        ...prev.contactPerson,
-                        phone2: e.target.value.replace(/[^0-9]/g, ""),
-                      },
-                    }))
-                  }
+                  onChange={handleContactPersonChange}
                   placeholder="Contact Number-2 (WhatsApp)"
                   maxLength="10"
                   required
-                  disabled={false}
                 />
-                {orgDetails.contactPerson.phone2 !== orgDetails.contactPerson.phone1 ? (
-                  // Mobile OTP for phone2 is commented out
-                  /* phone2Verified ? (
-                    <span className="verification-icon verified">
-                      <FaCheckCircle color="green" />
-                    </span>
-                  ) : ( */
-                  <button
-                    type="button"
-                    className="verify-btn"
-                    // onClick={sendPhone2Otp}
-                    disabled={false}
-                  >
-                    Verify
-                  </button>
-                  /* ) */
+                {orgDetails.contactPerson.phone2 &&
+                orgDetails.contactPerson.phone2 !== orgDetails.contactPerson.phone1 ? (
+                  <span className="verification-icon verified">
+                    <FaCheckCircle />
+                  </span>
                 ) : null}
               </div>
-              {/* OTP input block for phone2 commented out */}
-              {/* {orgDetails.contactPerson.phone2 !== orgDetails.contactPerson.phone1 &&
-                showPhone2OtpInput &&
-                !phone2Verified && (
-                  <div className="otp-verification">
-                    <input
-                      type="text"
-                      placeholder="Enter OTP sent to WhatsApp"
-                      value={phone2Otp}
-                      onChange={(e) => setPhone2Otp(e.target.value)}
-                      maxLength="6"
-                    />
-                    <button type="button" className="verify-otp-btn" onClick={verifyPhone2Otp}>
-                      Submit
-                    </button>
-                  </div>
-                )} */}
             </div>
 
-            {/* Email with OTP (active) */}
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-with-verification">
                 <input
@@ -946,13 +850,9 @@ const OrgDetails = () => {
                   onChange={handleContactPersonChange}
                   placeholder="Contact Person Email"
                   required
-                  disabled={emailVerified}
+                  disabled={isGoogleAccount || emailVerified}
                 />
-                {emailVerified ? (
-                  <span className="verification-icon verified">
-                    <FaCheckCircle color="green" />
-                  </span>
-                ) : (
+                {!isGoogleAccount && !emailVerified && (
                   <button
                     type="button"
                     className="verify-btn"
@@ -962,8 +862,18 @@ const OrgDetails = () => {
                     {isEmailVerifying ? "Sending..." : "Verify"}
                   </button>
                 )}
+                {(!isGoogleAccount && emailVerified) && (
+                  <span className="verification-icon verified">
+                    <FaCheckCircle />
+                  </span>
+                )}
+                {isGoogleAccount && (
+                  <span className="verification-icon verified">
+                    <FaCheckCircle />
+                  </span>
+                )}
               </div>
-              {showEmailOtpInput && !emailVerified && (
+              {showEmailOtpInput && !emailVerified && !isGoogleAccount && (
                 <div className="otp-verification">
                   <input
                     type="text"
@@ -979,7 +889,6 @@ const OrgDetails = () => {
               )}
             </div>
 
-            {/* "Are you the owner..." block */}
             <div className="form-group col-lg-6 col-md-12">
               <h6>Are you the owner or the main head of the organization?</h6>
               <div className="radio-group">
@@ -1008,14 +917,12 @@ const OrgDetails = () => {
               </div>
             </div>
 
-            {/* Reporting Authority (only if isOwner === "no") */}
             {isOwner === "no" && (
               <div className="row">
                 <div className="col-12">
                   <h4>Your Reporting Authority</h4>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
-                  <div className="input-wrapper">
                   <input
                     type="text"
                     className="form-control"
@@ -1025,8 +932,6 @@ const OrgDetails = () => {
                     placeholder="Name"
                     required
                   />
-                  <span className="custom-tooltip">Name</span>
-                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
                   <div className="radio-group">
@@ -1067,7 +972,6 @@ const OrgDetails = () => {
                   </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
-                  <div className="input-wrapper">
                   <Select
                     isMulti
                     options={designations}
@@ -1081,12 +985,9 @@ const OrgDetails = () => {
                     placeholder="Designation"
                     isClearable
                   />
-                  <span className="custom-tooltip">Designation</span>
-                </div>
                 </div>
                 {(reporting_authority.designation || []).includes("Others") && (
                   <div className="form-group col-lg-6 col-md-12">
-                    <div className="input-wrapper">
                     <input
                       type="text"
                       placeholder="Specify other designation"
@@ -1094,12 +995,9 @@ const OrgDetails = () => {
                       onChange={(e) => setOtherReportingAuthorityDesignation(e.target.value)}
                       required
                     />
-                    <span className="custom-tooltip">Specify other designation</span>
-                  </div>
                   </div>
                 )}
                 <div className="form-group col-lg-6 col-md-12">
-                  <div className="input-wrapper">
                   <input
                     type="text"
                     className="form-control"
@@ -1115,11 +1013,8 @@ const OrgDetails = () => {
                     maxLength="10"
                     required
                   />
-                  <span className="custom-tooltip">Contact Number-1 (Calling)</span>
-                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
-                  <div className="input-wrapper">
                   <input
                     type="text"
                     className="form-control"
@@ -1135,11 +1030,8 @@ const OrgDetails = () => {
                     maxLength="10"
                     required
                   />
-                  <span className="custom-tooltip">Contact Number-2 (WhatsApp)</span>
-                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
-                  <div className="input-wrapper">
                   <input
                     type="email"
                     className="form-control"
@@ -1149,19 +1041,16 @@ const OrgDetails = () => {
                     placeholder="Email"
                     required
                   />
-                  <span className="custom-tooltip">Email</span>
-                </div>
                 </div>
               </div>
             )}
           </div>
         )}
 
-        {/* =========== PARENT/GUARDIAN BLOCK =========== */}
+        {/* PARENT/GUARDIAN BLOCK */}
         {selectedType === "Parent/ Guardian looking for Tuitions" && (
           <div className="row">
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <input
                 type="text"
                 className="form-control"
@@ -1171,11 +1060,8 @@ const OrgDetails = () => {
                 placeholder="Address: No./ Lane / Area"
                 required
               />
-              <span className="custom-tooltip">Address: No./ Lane / Area</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <select
                 className="form-control"
                 name="country"
@@ -1183,18 +1069,15 @@ const OrgDetails = () => {
                 onChange={handleParentInputChange}
                 required
               >
-                <option value="" disabled>Country</option>
+                <option value="">Country</option>
                 {countries.map((country) => (
                   <option key={country.isoCode} value={country.isoCode}>
                     {country.name}
                   </option>
                 ))}
               </select>
-              <span className="custom-tooltip">Country</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <select
                 className="form-control"
                 name="state"
@@ -1203,18 +1086,15 @@ const OrgDetails = () => {
                 disabled={!parentDetails.country}
                 required
               >
-                <option value="" disabled>State</option>
+                <option value="">State</option>
                 {states.map((st) => (
                   <option key={st.isoCode} value={st.isoCode}>
                     {st.name}
                   </option>
                 ))}
               </select>
-              <span className="custom-tooltip">State</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <select
                 className="form-control"
                 name="city"
@@ -1223,18 +1103,15 @@ const OrgDetails = () => {
                 disabled={!parentDetails.state}
                 required
               >
-                <option value="" disabled>City</option>
+                <option value="">City</option>
                 {cities.map((c) => (
                   <option key={c.name} value={c.name}>
                     {c.name}
                   </option>
                 ))}
               </select>
-              <span className="custom-tooltip">City</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <input
                 type="text"
                 className="form-control"
@@ -1250,16 +1127,12 @@ const OrgDetails = () => {
                 placeholder="Pin code"
                 required
               />
-              <span className="custom-tooltip">Pin code</span>
-            </div>
             </div>
 
-            {/* Single Account operated by block for Parent/Guardian */}
             <div className="col-12">
               <h4>Account operated by (Contact Person)</h4>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <input
                 type="text"
                 className="form-control"
@@ -1269,8 +1142,6 @@ const OrgDetails = () => {
                 placeholder="Contact Person Name"
                 required
               />
-              <span className="custom-tooltip">Contact Person Name</span>
-            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
               <div className="radio-group">
@@ -1314,7 +1185,6 @@ const OrgDetails = () => {
               </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="input-wrapper">
               <Select
                 isMulti
                 options={designations}
@@ -1328,12 +1198,9 @@ const OrgDetails = () => {
                 placeholder="Designation"
                 isClearable
               />
-              <span className="custom-tooltip">Designation</span>
-            </div>
             </div>
             {(orgDetails.contactPerson.designation || []).includes("Others") && (
               <div className="form-group col-lg-6 col-md-12">
-                <div className="input-wrapper">
                 <input
                   type="text"
                   placeholder="Specify other designation"
@@ -1341,12 +1208,9 @@ const OrgDetails = () => {
                   onChange={(e) => setOtherContactPersonDesignation(e.target.value)}
                   required
                 />
-                <span className="custom-tooltip">Specify other designation</span>
-                </div>
               </div>
             )}
 
-            {/* phone1 (Calling) with OTP */}
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-with-verification">
                 <input
@@ -1354,55 +1218,16 @@ const OrgDetails = () => {
                   className="form-control"
                   name="phone1"
                   value={orgDetails.contactPerson.phone1}
-                  onChange={(e) =>
-                    setOrgDetails((prev) => ({
-                      ...prev,
-                      contactPerson: {
-                        ...prev.contactPerson,
-                        phone1: e.target.value.replace(/[^0-9]/g, ""),
-                      },
-                    }))
-                  }
+                  onChange={handleContactPersonChange}
                   placeholder="Contact Number-1 (Calling)"
                   maxLength="10"
                   required
-                  // Mobile OTP commented out; input is enabled
-                  disabled={false}
                 />
-                {/* Mobile OTP button commented out */}
-                {/* {phone1Verified ? (
-                  <span className="verification-icon verified">
-                    <FaCheckCircle color="green" />
-                  </span>
-                ) : (
-                  <button
-                    type="button"
-                    className="verify-btn"
-                    onClick={sendPhone1Otp}
-                    disabled={isPhone1Verifying}
-                  >
-                    {isPhone1Verifying ? "Sending..." : "Verify"}
-                  </button>
-                )} */}
+                <span className="verification-icon verified">
+                  <FaCheckCircle />
+                </span>
               </div>
-              {/* OTP input block commented out */}
-              {/* {showPhone1OtpInput && !phone1Verified && (
-                <div className="otp-verification">
-                  <input
-                    type="text"
-                    placeholder="Enter OTP sent to calling number"
-                    value={phone1Otp}
-                    onChange={(e) => setPhone1Otp(e.target.value)}
-                    maxLength="6"
-                  />
-                  <button type="button" className="verify-otp-btn" onClick={verifyPhone1Otp}>
-                    Submit
-                  </button>
-                </div>
-              )} */}
             </div>
-
-            {/* phone2 (WhatsApp) with OTP */}
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-with-verification">
                 <input
@@ -1410,58 +1235,20 @@ const OrgDetails = () => {
                   className="form-control"
                   name="phone2"
                   value={orgDetails.contactPerson.phone2}
-                  onChange={(e) =>
-                    setOrgDetails((prev) => ({
-                      ...prev,
-                      contactPerson: {
-                        ...prev.contactPerson,
-                        phone2: e.target.value.replace(/[^0-9]/g, ""),
-                      },
-                    }))
-                  }
+                  onChange={handleContactPersonChange}
                   placeholder="Contact Number-2 (WhatsApp)"
                   maxLength="10"
                   required
-                  disabled={false}
                 />
-                {orgDetails.contactPerson.phone2 !== orgDetails.contactPerson.phone1 ? (
-                  // Mobile OTP for phone2 is commented out
-                  /* phone2Verified ? (
-                    <span className="verification-icon verified">
-                      <FaCheckCircle color="green" />
-                    </span>
-                  ) : ( */
-                  <button
-                    type="button"
-                    className="verify-btn"
-                    // onClick={sendPhone2Otp}
-                    disabled={false}
-                  >
-                    Verify
-                  </button>
-                  /* ) */
+                {orgDetails.contactPerson.phone2 &&
+                orgDetails.contactPerson.phone2 !== orgDetails.contactPerson.phone1 ? (
+                  <span className="verification-icon verified">
+                    <FaCheckCircle />
+                  </span>
                 ) : null}
               </div>
-              {/* OTP input block commented out */}
-              {/* {orgDetails.contactPerson.phone2 !== orgDetails.contactPerson.phone1 &&
-                showPhone2OtpInput &&
-                !phone2Verified && (
-                  <div className="otp-verification">
-                    <input
-                      type="text"
-                      placeholder="Enter OTP sent to WhatsApp"
-                      value={phone2Otp}
-                      onChange={(e) => setPhone2Otp(e.target.value)}
-                      maxLength="6"
-                    />
-                    <button type="button" className="verify-otp-btn" onClick={verifyPhone2Otp}>
-                      Submit
-                    </button>
-                  </div>
-                )} */}
             </div>
 
-            {/* Email with OTP (active) */}
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-with-verification">
                 <input
@@ -1472,13 +1259,9 @@ const OrgDetails = () => {
                   onChange={handleContactPersonChange}
                   placeholder="Contact Person Email"
                   required
-                  disabled={emailVerified}
+                  disabled={isGoogleAccount || emailVerified}
                 />
-                {emailVerified ? (
-                  <span className="verification-icon verified">
-                    <FaCheckCircle color="green" />
-                  </span>
-                ) : (
+                {!isGoogleAccount && !emailVerified && (
                   <button
                     type="button"
                     className="verify-btn"
@@ -1488,8 +1271,18 @@ const OrgDetails = () => {
                     {isEmailVerifying ? "Sending..." : "Verify"}
                   </button>
                 )}
+                {(!isGoogleAccount && emailVerified) && (
+                  <span className="verification-icon verified">
+                    <FaCheckCircle />
+                  </span>
+                )}
+                {isGoogleAccount && (
+                  <span className="verification-icon verified">
+                    <FaCheckCircle />
+                  </span>
+                )}
               </div>
-              {showEmailOtpInput && !emailVerified && (
+              {showEmailOtpInput && !emailVerified && !isGoogleAccount && (
                 <div className="otp-verification">
                   <input
                     type="text"
@@ -1507,34 +1300,27 @@ const OrgDetails = () => {
           </div>
         )}
 
-        {/* Social Fields */}
+        {/* SOCIAL FIELDS */}
         <div className="row">
           <div className="form-group col-lg-6 col-md-12">
-            <div className="input-wrapper">
             <input
               type="text"
               name="facebook"
               placeholder="Facebook"
               value={socialData.facebook}
               onChange={handleSocialChange}
-              />
-            <span className="custom-tooltip">Facebook</span>
-            </div>
+            />
           </div>
           <div className="form-group col-lg-6 col-md-12">
-            <div className="input-wrapper">
             <input
               type="text"
               name="twitter"
               placeholder="Twitter"
               value={socialData.twitter}
               onChange={handleSocialChange}
-            />  
-            <span className="custom-tooltip">Twitter</span>
-            </div>
+            />
           </div>
           <div className="form-group col-lg-6 col-md-12">
-            <div className="input-wrapper">
             <input
               type="text"
               name="linkedin"
@@ -1542,11 +1328,8 @@ const OrgDetails = () => {
               value={socialData.linkedin}
               onChange={handleSocialChange}
             />
-            <span className="custom-tooltip">LinkedIn</span>
-            </div>
           </div>
           <div className="form-group col-lg-6 col-md-12">
-            <div className="input-wrapper">
             <input
               type="text"
               name="instagram"
@@ -1554,12 +1337,10 @@ const OrgDetails = () => {
               value={socialData.instagram}
               onChange={handleSocialChange}
             />
-            <span className="custom-tooltip">Instagram</span>
-            </div>
           </div>
         </div>
 
-        {/* Submit Button */}
+        {/* SUBMIT BUTTON */}
         <div className="form-group col-12" style={{ marginTop: "20px" }}>
           <button className="theme-btn btn-style-one" onClick={handleSubmit}>
             Submit

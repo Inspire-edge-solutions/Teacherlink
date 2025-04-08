@@ -6,31 +6,30 @@ import SliderImages from "./SliderImages";
 
 const index = () => {
   return (
-    <section className="banner-section -type-13">
+    <section className="banner-section -type-13 py-1 py-md-3">
       <div className="auto-container">
         <div className="row">
           <div className="content-column col-lg-12 col-md-12 col-sm-12">
             <div
-              className="inner-column"
+              className="inner-column position-relative"
               data-aos="fade-up"
               data-aos-delay="500"
-              style={{ position: 'relative' }}
             >
-              <div className="title-box" style={{ width: '50%' }}>
-                <h3>Looking For a Teaching Job?</h3>
-                <h3>Or Providing Job to Teachers?</h3>
-                <div className="text">
-                  You are at the right place !
+              <div className="row align-items-center">
+                <div className="col-lg-6 col-md-12 mb-2 mb-lg-0">
+                  <div className="title-box">
+                    <h3 className="mb-2">Looking For a Teaching Job?</h3>
+                    <h3 className="mb-3">Or Providing Job to Teachers?</h3>
+                    <div className="text mb-4">
+                      You are at the right place !
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div style={{
-                position: 'absolute',
-                right: '0',
-                top: '60%',
-                transform: 'translateY(-50%)',
-                width: '45%'
-              }}>
-                <SliderImages />
+                <div className="col-lg-6 col-md-12">
+                  <div className="slider-container">
+                    <SliderImages />
+                  </div>
+                </div>
               </div>
 
               {/* <!-- Job Search Form --> */}
