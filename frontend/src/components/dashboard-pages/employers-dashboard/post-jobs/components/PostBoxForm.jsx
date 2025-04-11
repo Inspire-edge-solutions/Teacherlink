@@ -552,29 +552,25 @@ const subjectList = async () => {
   return (
     <div className="default-form">
     <div className="row">
-      <div className="form-group col-lg-12">
-      
-        <div className="form-check form-check-inline d-flex justify-content-between flex-wrap">
-        <h6>Job Category:</h6>
-          {jobCategoryOptions.map((option) => (
-            <div key={option.value} className="form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                id={option.value}
-                name="jobCategory"
-                value={option.value}
-                checked={selectedJobCategory === option.value}
-                onChange={(e) => handleJobCategoryChange(e.target.value)}
-                required
-              />
-              <label className="form-check-label" htmlFor={option.value}>
+      <div className="form-group col-lg-6 col-md-12">
+        <div className="input-wrapper">
+          <select
+            className="form-control"
+            name="jobCategory"
+            value={selectedJobCategory}
+            onChange={(e) => handleJobCategoryChange(e.target.value)}
+            required
+          >
+            <option value="" disabled selected>Job Category</option>
+            {jobCategoryOptions.map((option) => (
+              <option key={option.value} value={option.value}>
                 {option.label}
-              </label>
-            </div>
-          ))}
+              </option>
+            ))}
+          </select>
+          <span className="custom-tooltip">Job Category</span>
         </div>
-        </div>
+      </div>
        {/* ---------- Basic Job Info Section ---------- */}
           <div className="row" onSubmit={handleSubmit}>
               <div className="form-group col-lg-6 col-md-12">
@@ -1376,7 +1372,7 @@ const subjectList = async () => {
                     value={gender}
                     onChange={(e) => setGender(e.target.value)}
                   >
-                    <option value="">Gender</option>
+                    <option value="" disabled selected>Gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
@@ -1505,35 +1501,21 @@ const subjectList = async () => {
                 </div>
 
           <div className="form-group col-lg-6 col-md-12">
-                <div className="radio-group">
-                  <h6>Knowledge of Accounting Process?</h6>
-                    <input
-                      type="radio"
-                      className="radio-option"
-                      name="accProcess"
-                      id="accYes"
-                      value="Yes"
-                      checked={knowledgeOfAccProcess === "Yes"}
-                      onChange={(e) => setKnowledgeOfAccProcess(e.target.value)}
-                    />
-                    <label className="form-check-label" htmlFor="accYes">
-                      Yes
-                    </label>
-                  
-                  <input
-                    type="radio"
-                    className="radio-option"
+                <div className="input-wrapper">
+                  <select
+                    className="form-control"
                     name="accProcess"
-                    id="accNo"
-                      value="No"
-                      checked={knowledgeOfAccProcess === "No"}
-                      onChange={(e) => setKnowledgeOfAccProcess(e.target.value)}
-                    />
-                    <label className="form-check-label" htmlFor="accNo">
-                      No
-                    </label>
-                  </div>
+                    value={knowledgeOfAccProcess}
+                    onChange={(e) => setKnowledgeOfAccProcess(e.target.value)}
+                    required
+                  >
+                    <option value="" disabled selected>Knowledge of Accounting Process</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                  <span className="custom-tooltip">Knowledge of Accounting Process</span>
                 </div>
+              </div>
                 <div className="form-group col-lg-6 col-md-12">
                   <div className="input-wrapper">
                   <select

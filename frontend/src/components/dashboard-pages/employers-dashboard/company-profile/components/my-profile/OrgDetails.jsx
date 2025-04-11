@@ -549,11 +549,12 @@ const OrgDetails = () => {
       <div className="row">
         {/* Organization Type */}
         <div className="form-group col-lg-6 col-md-12">
-          <select
-            className="form-control"
-            value={selectedType}
-            onChange={handleTypeChange}
-            required
+          <div className="input-wrapper">
+            <select
+              className="form-control"
+              value={selectedType}
+              onChange={handleTypeChange}
+              required
           >
             <option value="">Select Organization/Entity Type</option>
             <option value="School / College/ University">School / College/ University</option>
@@ -563,6 +564,8 @@ const OrgDetails = () => {
               Parent/ Guardian looking for Tuitions
             </option>
           </select>
+            <span className="custom-tooltip">Organization/Entity Type</span>
+          </div>
         </div>
 
         {/* NON-PARENT BLOCK */}
@@ -570,6 +573,7 @@ const OrgDetails = () => {
           <div className="row">
             {/* Organization Details */}
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <input
                 type="text"
                 placeholder="Name of the Organization/ Entity"
@@ -578,8 +582,12 @@ const OrgDetails = () => {
                 value={orgDetails.name}
                 onChange={handleInputChange}
               />
+              <span className="custom-tooltip">Name of the Organization/ Entity</span>
             </div>
+            </div>
+        
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <input
                 type="url"
                 placeholder="Website URL"
@@ -588,6 +596,8 @@ const OrgDetails = () => {
                 value={orgDetails.websiteUrl}
                 onChange={handleInputChange}
               />
+              <span className="custom-tooltip">Website URL</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
               <label>Institution Photos</label>
@@ -601,6 +611,7 @@ const OrgDetails = () => {
               />
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <input
                 type="url"
                 className="form-control"
@@ -609,8 +620,11 @@ const OrgDetails = () => {
                 value={orgDetails.video}
                 onChange={handleInputChange}
               />
+              <span className="custom-tooltip">YouTube video URL</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <input
                 type="text"
                 placeholder="PAN Number"
@@ -619,8 +633,11 @@ const OrgDetails = () => {
                 value={orgDetails.panNumber}
                 onChange={handleInputChange}
               />
+              <span className="custom-tooltip">PAN Number</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <input
                 type="text"
                 placeholder="Name on PAN Card"
@@ -629,8 +646,11 @@ const OrgDetails = () => {
                 value={orgDetails.panName}
                 onChange={handleInputChange}
               />
+              <span className="custom-tooltip">Name on PAN Card</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <input
                 type="text"
                 placeholder="GSTIN"
@@ -639,8 +659,11 @@ const OrgDetails = () => {
                 value={orgDetails.gstin}
                 onChange={handleInputChange}
               />
+              <span className="custom-tooltip">GSTIN</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <input
                 type="text"
                 placeholder="Address"
@@ -650,8 +673,11 @@ const OrgDetails = () => {
                 onChange={handleInputChange}
                 required
               />
+              <span className="custom-tooltip">Address</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <select
                 className="form-control"
                 name="country"
@@ -666,8 +692,11 @@ const OrgDetails = () => {
                   </option>
                 ))}
               </select>
+              <span className="custom-tooltip">Country</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <select
                 className="form-control"
                 name="state"
@@ -683,8 +712,11 @@ const OrgDetails = () => {
                   </option>
                 ))}
               </select>
+              <span className="custom-tooltip">State</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <select
                 className="form-control"
                 name="city"
@@ -700,8 +732,11 @@ const OrgDetails = () => {
                   </option>
                 ))}
               </select>
+              <span className="custom-tooltip">City</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <input
                 type="text"
                 placeholder="Pin code"
@@ -717,6 +752,8 @@ const OrgDetails = () => {
                 maxLength="6"
                 required
               />
+              <span className="custom-tooltip">Pin code</span>
+            </div>
             </div>
 
             {/* Contact Person */}
@@ -724,6 +761,7 @@ const OrgDetails = () => {
               <h4>Account operated by (Contact Person)</h4>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <input
                 type="text"
                 className="form-control"
@@ -733,49 +771,28 @@ const OrgDetails = () => {
                 placeholder="Contact Person Name"
                 required
               />
+              <span className="custom-tooltip">Contact Person Name</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="radio-group">
-                <h6>Gender</h6>
-                <div className="radio-option">
-                  <input
-                    type="radio"
-                    id="male"
-                    name="gender"
-                    value="male"
-                    checked={orgDetails.contactPerson.gender === "male"}
-                    onChange={handleContactPersonChange}
-                    required
-                  />
-                  <label htmlFor="male">Male</label>
-                </div>
-                <div className="radio-option">
-                  <input
-                    type="radio"
-                    id="female"
-                    name="gender"
-                    value="female"
-                    checked={orgDetails.contactPerson.gender === "female"}
-                    onChange={handleContactPersonChange}
-                    required
-                  />
-                  <label htmlFor="female">Female</label>
-                </div>
-                <div className="radio-option">
-                  <input
-                    type="radio"
-                    id="transgender"
-                    name="gender"
-                    value="transgender"
-                    checked={orgDetails.contactPerson.gender === "transgender"}
-                    onChange={handleContactPersonChange}
-                    required
-                  />
-                  <label htmlFor="transgender">Transgender</label>
-                </div>
+              <div className="input-wrapper">
+                <select
+                  className="form-control"
+                  name="gender"
+                  value={orgDetails.contactPerson.gender}
+                  onChange={handleContactPersonChange}
+                  required
+                >
+                  <option value="">Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="transgender">Transgender</option>
+                </select>
+                <span className="custom-tooltip">Gender</span>
               </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <Select
                 isMulti
                 options={designations}
@@ -789,9 +806,12 @@ const OrgDetails = () => {
                 placeholder="Designation"
                 isClearable
               />
+              <span className="custom-tooltip">Designation</span>
+              </div>
             </div>
             {(orgDetails.contactPerson.designation || []).includes("Others") && (
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <input
                   type="text"
                   placeholder="Specify other designation"
@@ -799,11 +819,14 @@ const OrgDetails = () => {
                   onChange={(e) => setOtherContactPersonDesignation(e.target.value)}
                   required
                 />
+                <span className="custom-tooltip">Specify other designation</span>
+              </div>
               </div>
             )}
 
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-with-verification">
+                <div className="input-wrapper">
                 <input
                   type="text"
                   className="form-control"
@@ -817,10 +840,13 @@ const OrgDetails = () => {
                 <span className="verification-icon verified">
                   <FaCheckCircle />
                 </span>
+                <span className="custom-tooltip">Contact Number-1 (Calling)</span>
               </div>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-with-verification">
+                <div className="input-wrapper">
                 <input
                   type="text"
                   className="form-control"
@@ -837,11 +863,14 @@ const OrgDetails = () => {
                     <FaCheckCircle />
                   </span>
                 ) : null}
+                <span className="custom-tooltip">Contact Number-2 (WhatsApp)</span>
               </div>
+            </div>
             </div>
 
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-with-verification">
+                <div className="input-wrapper">
                 <input
                   type="email"
                   className="form-control"
@@ -872,7 +901,9 @@ const OrgDetails = () => {
                     <FaCheckCircle />
                   </span>
                 )}
+                <span className="custom-tooltip">Contact Person Email</span>
               </div>
+            </div>
               {showEmailOtpInput && !emailVerified && !isGoogleAccount && (
                 <div className="otp-verification">
                   <input
@@ -923,6 +954,7 @@ const OrgDetails = () => {
                   <h4>Your Reporting Authority</h4>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     className="form-control"
@@ -932,43 +964,24 @@ const OrgDetails = () => {
                     placeholder="Name"
                     required
                   />
+                  <span className="custom-tooltip">Name</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
-                  <div className="radio-group">
-                    <h6>Gender</h6>
-                    <div className="radio-option">
-                      <input
-                        type="radio"
-                        id="raMale"
-                        name="reportingAuthorityGender"
-                        value="male"
-                        checked={reporting_authority.gender === "male"}
-                        onChange={handleReportingAuthorityChange}
-                      />
-                      <label htmlFor="raMale">Male</label>
-                    </div>
-                    <div className="radio-option">
-                      <input
-                        type="radio"
-                        id="raFemale"
-                        name="reportingAuthorityGender"
-                        value="female"
-                        checked={reporting_authority.gender === "female"}
-                        onChange={handleReportingAuthorityChange}
-                      />
-                      <label htmlFor="raFemale">Female</label>
-                    </div>
-                    <div className="radio-option">
-                      <input
-                        type="radio"
-                        id="raTransgender"
-                        name="reportingAuthorityGender"
-                        value="transgender"
-                        checked={reporting_authority.gender === "transgender"}
-                        onChange={handleReportingAuthorityChange}
-                      />
-                      <label htmlFor="raTransgender">Transgender</label>
-                    </div>
+                  <div className="input-wrapper">
+                    <select
+                    required
+                      className="form-control"
+                      name="reportingAuthorityGender"
+                      value={reporting_authority.gender}
+                      onChange={handleReportingAuthorityChange}
+                    >
+                      <option value="">Gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="transgender">Transgender</option>
+                    </select>
+                    <span className="custom-tooltip">Gender</span>
                   </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
@@ -988,6 +1001,7 @@ const OrgDetails = () => {
                 </div>
                 {(reporting_authority.designation || []).includes("Others") && (
                   <div className="form-group col-lg-6 col-md-12">
+                    <div className="input-wrapper">
                     <input
                       type="text"
                       placeholder="Specify other designation"
@@ -995,9 +1009,12 @@ const OrgDetails = () => {
                       onChange={(e) => setOtherReportingAuthorityDesignation(e.target.value)}
                       required
                     />
+                    <span className="custom-tooltip">Specify other designation</span>
                   </div>
+                </div>
                 )}
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     className="form-control"
@@ -1013,8 +1030,11 @@ const OrgDetails = () => {
                     maxLength="10"
                     required
                   />
+                  <span className="custom-tooltip">Contact Number-1 (Calling)</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="text"
                     className="form-control"
@@ -1030,8 +1050,11 @@ const OrgDetails = () => {
                     maxLength="10"
                     required
                   />
+                  <span className="custom-tooltip">Contact Number-2 (WhatsApp)</span>
+                </div>
                 </div>
                 <div className="form-group col-lg-6 col-md-12">
+                  <div className="input-wrapper">
                   <input
                     type="email"
                     className="form-control"
@@ -1041,6 +1064,8 @@ const OrgDetails = () => {
                     placeholder="Email"
                     required
                   />
+                  <span className="custom-tooltip">Email</span>
+                  </div>
                 </div>
               </div>
             )}
@@ -1051,6 +1076,7 @@ const OrgDetails = () => {
         {selectedType === "Parent/ Guardian looking for Tuitions" && (
           <div className="row">
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <input
                 type="text"
                 className="form-control"
@@ -1060,8 +1086,11 @@ const OrgDetails = () => {
                 placeholder="Address: No./ Lane / Area"
                 required
               />
+              <span className="custom-tooltip">Address: No./ Lane / Area</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <select
                 className="form-control"
                 name="country"
@@ -1076,8 +1105,11 @@ const OrgDetails = () => {
                   </option>
                 ))}
               </select>
+              <span className="custom-tooltip">Country</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <select
                 className="form-control"
                 name="state"
@@ -1093,8 +1125,11 @@ const OrgDetails = () => {
                   </option>
                 ))}
               </select>
+              <span className="custom-tooltip">State</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <select
                 className="form-control"
                 name="city"
@@ -1110,8 +1145,11 @@ const OrgDetails = () => {
                   </option>
                 ))}
               </select>
+              <span className="custom-tooltip">City</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <input
                 type="text"
                 className="form-control"
@@ -1127,12 +1165,15 @@ const OrgDetails = () => {
                 placeholder="Pin code"
                 required
               />
+              <span className="custom-tooltip">Pin code</span>
+            </div>
             </div>
 
             <div className="col-12">
               <h4>Account operated by (Contact Person)</h4>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <input
                 type="text"
                 className="form-control"
@@ -1142,49 +1183,28 @@ const OrgDetails = () => {
                 placeholder="Contact Person Name"
                 required
               />
+              <span className="custom-tooltip">Contact Person Name</span>
+            </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
-              <div className="radio-group">
-                <h6>Gender</h6>
-                <div className="radio-option">
-                  <input
-                    type="radio"
-                    id="parentGenderMale"
-                    name="gender"
-                    value="male"
-                    checked={orgDetails.contactPerson.gender === "male"}
-                    onChange={handleContactPersonChange}
-                    required
-                  />
-                  <label htmlFor="parentGenderMale">Male</label>
-                </div>
-                <div className="radio-option">
-                  <input
-                    type="radio"
-                    id="parentGenderFemale"
-                    name="gender"
-                    value="female"
-                    checked={orgDetails.contactPerson.gender === "female"}
-                    onChange={handleContactPersonChange}
-                    required
-                  />
-                  <label htmlFor="parentGenderFemale">Female</label>
-                </div>
-                <div className="radio-option">
-                  <input
-                    type="radio"
-                    id="parentGenderTransgender"
-                    name="gender"
-                    value="transgender"
-                    checked={orgDetails.contactPerson.gender === "transgender"}
-                    onChange={handleContactPersonChange}
-                    required
-                  />
-                  <label htmlFor="parentGenderTransgender">Transgender</label>
-                </div>
+              <div className="input-wrapper">
+                <select
+                  className="form-control"
+                  name="gender"
+                  value={orgDetails.contactPerson.gender}
+                  onChange={handleContactPersonChange}
+                  required
+                >
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="transgender">Transgender</option>
+                </select>
+                <span className="custom-tooltip">Gender</span>
               </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
+              <div className="input-wrapper">
               <Select
                 isMulti
                 options={designations}
@@ -1198,9 +1218,12 @@ const OrgDetails = () => {
                 placeholder="Designation"
                 isClearable
               />
+              <span className="custom-tooltip">Designation</span>
+              </div>
             </div>
             {(orgDetails.contactPerson.designation || []).includes("Others") && (
               <div className="form-group col-lg-6 col-md-12">
+                <div className="input-wrapper">
                 <input
                   type="text"
                   placeholder="Specify other designation"
@@ -1208,11 +1231,14 @@ const OrgDetails = () => {
                   onChange={(e) => setOtherContactPersonDesignation(e.target.value)}
                   required
                 />
+                <span className="custom-tooltip">Specify other designation</span>
+              </div>
               </div>
             )}
 
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-with-verification">
+                <div className="input-wrapper">
                 <input
                   type="text"
                   className="form-control"
@@ -1226,10 +1252,13 @@ const OrgDetails = () => {
                 <span className="verification-icon verified">
                   <FaCheckCircle />
                 </span>
+                <span className="custom-tooltip">Contact Number-1 (Calling)</span>
+              </div>
               </div>
             </div>
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-with-verification">
+                <div className="input-wrapper">
                 <input
                   type="text"
                   className="form-control"
@@ -1246,11 +1275,14 @@ const OrgDetails = () => {
                     <FaCheckCircle />
                   </span>
                 ) : null}
+                <span className="custom-tooltip">Contact Number-2 (WhatsApp)</span>
+              </div>
               </div>
             </div>
 
             <div className="form-group col-lg-6 col-md-12">
               <div className="input-with-verification">
+                <div className="input-wrapper">
                 <input
                   type="email"
                   className="form-control"
@@ -1281,6 +1313,8 @@ const OrgDetails = () => {
                     <FaCheckCircle />
                   </span>
                 )}
+                <span className="custom-tooltip">Contact Person Email</span>
+              </div>
               </div>
               {showEmailOtpInput && !emailVerified && !isGoogleAccount && (
                 <div className="otp-verification">
@@ -1303,15 +1337,19 @@ const OrgDetails = () => {
         {/* SOCIAL FIELDS */}
         <div className="row">
           <div className="form-group col-lg-6 col-md-12">
+            <div className="input-wrapper">
             <input
               type="text"
               name="facebook"
               placeholder="Facebook"
               value={socialData.facebook}
               onChange={handleSocialChange}
-            />
+              />
+            <span className="custom-tooltip">Facebook</span>
+            </div>
           </div>
           <div className="form-group col-lg-6 col-md-12">
+            <div className="input-wrapper">
             <input
               type="text"
               name="twitter"
@@ -1319,8 +1357,11 @@ const OrgDetails = () => {
               value={socialData.twitter}
               onChange={handleSocialChange}
             />
+            <span className="custom-tooltip">Twitter</span>
+            </div>
           </div>
           <div className="form-group col-lg-6 col-md-12">
+            <div className="input-wrapper">
             <input
               type="text"
               name="linkedin"
@@ -1328,8 +1369,11 @@ const OrgDetails = () => {
               value={socialData.linkedin}
               onChange={handleSocialChange}
             />
+            <span className="custom-tooltip">LinkedIn</span>
+            </div>
           </div>
           <div className="form-group col-lg-6 col-md-12">
+            <div className="input-wrapper">
             <input
               type="text"
               name="instagram"
@@ -1337,6 +1381,8 @@ const OrgDetails = () => {
               value={socialData.instagram}
               onChange={handleSocialChange}
             />
+            <span className="custom-tooltip">Instagram</span>
+            </div>
           </div>
         </div>
 
